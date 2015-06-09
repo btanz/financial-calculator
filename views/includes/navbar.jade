@@ -1,0 +1,25 @@
+//
+   Created by benjamintanz on 09.06.15.
+
+//- page navigation
+ul(id='dropdown1', class='dropdown-content')
+  li
+    a(href='#!') Erster Link
+nav
+  div.nav-wrapper
+    a(href='#!', class='brand-logo')= appTitle
+    a(href='#!', data-activates='mobile-demo' class='button-collapse')
+      i.mdi-navigation-menu
+    ul.right.hide-on-med-and-down
+      li
+        a(href='#!') Sass
+      li
+        a(href='#!') Less
+      li
+        a(class='dropdown-button', href='#!', data-activates='dropdown1') Finanzen
+          i.mdi-navigation-arrow-drop-down.right
+    ul.side-nav#mobile-demo
+      li
+        a(href='#!') Sass
+      li
+        a(href='#!') Less
