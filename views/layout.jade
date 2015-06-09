@@ -1,27 +1,42 @@
 //- This is the layout file that wraps around any content of the app
 doctype html
-html
+html(lang='de')
   head
-    title= title
+    //- Meta tags
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='msapplication-tap-highlight', content='no')
+    meta(name='description', content='Materialize is a modern responsive CSS framework based on Material Design by Google.')
+
+    title Documentation - Materialize
+    //- favicons
+    link(rel='apple-touch-icon-precomposed', href='/images/favicon/apple-touch-icon-152x152.png')
+    meta(name='msapplication-TileColor', content='#FFFFFF')
+    meta(name='msapplication-TileImage', content='/images/favicon/mstile-144x144.png')
+    link(rel='icon', href='/images/favicon-32x32.png', sizes='32x32')
+    //- Android 5 Chrome Color
+    meta(name='theme-color', content='#EE6E73')
+
     //- Import vendor css
     link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/css/materialize.min.css')
+    link(rel='stylesheet', type='text/css', href='http://fonts.googleapis.com/css?family=Inconsolata')
 
     //- Import app css
     link(rel='stylesheet', href='/stylesheets/style.css')
 
-    //- Import client vendor js
-    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
-    script(src='https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js')
-
-
-    //- Import client app js
-    script(src='/javascripts/script.js')
-
-    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
-
   body
-    include includes/navbar
+    header
+      //- add navigation
+      include includes/navbar
 
-    div.container
-      //- add page content
+    main
+      //- add main content
       block content
+
+    footer.page-footer
+      //- add footer
+      include includes/footer
+
+    //- include scripts
+    include includes/scripts

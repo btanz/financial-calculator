@@ -2,24 +2,64 @@
    Created by benjamintanz on 09.06.15.
 
 //- page navigation
-ul(id='dropdown1', class='dropdown-content')
-  li
-    a(href='#!') Erster Link
-nav
-  div.nav-wrapper
-    a(href='#!', class='brand-logo')= appTitle
-    a(href='#!', data-activates='mobile-demo' class='button-collapse')
-      i.mdi-navigation-menu
-    ul.right.hide-on-med-and-down
-      li
-        a(href='#!') Sass
-      li
-        a(href='#!') Less
-      li
-        a(class='dropdown-button', href='#!', data-activates='dropdown1') Finanzen
-          i.mdi-navigation-arrow-drop-down.right
-    ul.side-nav#mobile-demo
-      li
-        a(href='#!') Sass
-      li
-        a(href='#!') Less
+
+
+div.container
+  a(href='#', data-activates='nav-mobile', class='button-collapse top-nav waves-effect waves-light circle')
+    i.mdi-navigation-menu
+ul(id='nav-mobile', class='side-nav fixed')
+  li.logo
+    a(id='logo-container', href='/', class='brand-logo')
+      object(id='front-page-logo', type='image/svg+xml', data='/images/materialize.svg') Der Browser unterstützt kein SVG
+  li.bold
+    a(href='#!', class='waves-effect waves-teal') Erste Schritte
+  li.bold
+    a(href='#!', class='waves-effect waves-teal') Blog
+  li.divider
+  li.no-padding
+    ul.collapsible.collapsible-accordion
+      li.bold
+        a(class='collapsible-header waves-effect waves-teal') Finanzplanung
+        div(class='collapsible-body')
+          ul
+            li
+              a(href='#!') Risikopräferenzen
+            li
+              a(href='#!') Asset-Mix
+            li
+              a(href='#!') Sparziele
+            li
+              a(href='#!') Budgetierung
+      li.bold
+        a(class='collapsible-header waves-effect waves-teal') Börse
+        div(class='collapsible-body')
+          ul
+            li
+              a(href='#!') Optionspreisrechner
+            li
+              a(href='#!') Aktienrenditerechner
+            li
+              a(href='#!') Währungsrechner
+      li.bold
+        a(class='collapsible-header waves-effect waves-teal') Festgeld
+        div(class='collapsible-body')
+          ul
+            li
+              a(href='/sparrechner') Sparrechner
+            li
+              a(href='#!') Zinsrechner
+      li.bold
+        a(class='collapsible-header waves-effect waves-teal') Immobilien
+        div(class='collapsible-body')
+          ul
+            li
+              a(href='#!') Immobilienrenditerechner
+      li.bold
+        a(class='collapsible-header waves-effect waves-teal') Kredit & Finanzierung
+        div(class='collapsible-body')
+          ul
+            li
+              a(href='#!') Tilgungsrechner Annuitätendarlehen
+  li.divider
+  li.bold
+    a(href='#!', class='waves-effect waves-teal') Über uns

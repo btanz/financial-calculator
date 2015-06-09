@@ -1,5 +1,14 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  div.section.no-pad-bot#index-banner
+    div.container
+      h1.header.center-align #{appTitle}
+      div.row.center
+        h4.header.col.s12.light.center Die Plattform für Finanzberater
+      div.row.center
+        a(href='http://materializecss.com/getting-started.html', id='download-button', class='btn-large waves-effect waves-light') Erste Schritte
+    div.container
+      div.section
+        div.row
+          div.col.s12
