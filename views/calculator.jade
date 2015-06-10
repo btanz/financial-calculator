@@ -17,15 +17,68 @@ block content
   div.row
     //-input component
     div.col.s12.m6
-      div.card.blue.lighten-4
+      div.card.blue.lighten-5
         div.card-content.black-text
-          span.card-title.black-text Eingaben
+          i.mdi-action-input.small
+          span.card-title.black-text &nbsp Eingaben
+
           p Deine Eingaben
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix.active
+              select
+                option Call-Option
+                option Put-Option
+              label Art der Option
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix
+              input(placeholder="Preis der Aktie in €", id="boerse-options-price", type="text", class="validate", value="50.00")
+              label(for="boerse-options-price") Preis der Aktie (€)
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix
+              input(placeholder="Strike/Basispreis in €", id="boerse-options-strike", type="text", class="validate", value="50.00")
+              label(for="boerse-options-strike") Basispreis/Strike (€)
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix
+              input(placeholder="Zinssatz in %", id="boerse-options-interest", type="text", class="validate", value="3.00")
+              label(for="boerse-options-interest") Zinssatz (%)
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix
+              input(placeholder="Restlaufzeit in Tagen", id="boerse-options-maturity", type="text", class="validate", value="60")
+              label(for="boerse-options-maturity") Restlaufzeit der Option (Tage)
+          div.row.input
+            div.input-field.col.s12
+              i.mdi-action-help.prefix
+              input(placeholder="Volatilität in %", id="boerse-options-vola", type="text", class="validate", value="12")
+              label(for="boerse-options-vola") Volatilität (%)
+          div.row.input.center-align
+            a.waves-effect.waves-light.btn
+              i.mdi-content-send.right
+              | Berechnen
+
+    //- results component
+    div.col.s12.m6
+      div.card.blue.lighten-5
+        div.card-content.black-text
+          span.card-title.black-text Ergebnisse
+          p Raum für Ergebnisse
+
+
+  div.row
+    //- explanation component
+    div.col.s12.m6
+      div.card.blue.lighten-5
+        div.card-content.black-text
+          span.card-title.black-text Detailergebnisse
+          p Raum für Detailergebnisse
+
     //- explanation component
     div.col.s12.m6
       div.card.blue.lighten-5
         div.card-content.black-text
           span.card-title.black-text Details zu diesem Rechner
-          p Erläuterungstext, welcher sich diesmal über zwei zeieln erstrecken sollte
-
-
+          p Raum für Erklärungen
