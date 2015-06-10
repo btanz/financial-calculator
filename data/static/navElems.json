@@ -1,0 +1,71 @@
+{
+  "1": {
+    "name": "Finanzplanung",
+    "values": {
+      "1": {
+        "name": "Risikopräferenzen",
+        "url": "/"
+      },
+      "2": {
+        "name": "Asset-Mix",
+        "url": "/"
+      },
+      "3": {
+        "name": "Sparziele",
+        "url": "/"
+      },
+      "4": {
+        "name": "Budgetierung",
+        "url": "/"
+      }
+    }
+  },
+  "2": {
+    "name": "Börse",
+    "values": {
+      "1": {
+        "name": "Optionspreisrechner",
+        "url": "/"
+      },
+      "2": {
+        "name": "Aktienrenditerechner",
+        "url": "/"
+      },
+      "3": {
+        "name": "Währungsrechner",
+        "url": "/"
+      }
+    }
+  },
+  "3": {
+    "name": "Festgeld",
+    "values": {
+      "1": {
+        "name": "Sparrechner",
+        "url": "/"
+      },
+      "2": {
+        "name": "Zinsrechner",
+        "url": "/"
+      }
+    }
+  },
+  "4": {
+    "name": "Immobilien",
+    "values": {
+      "1": {
+        "name": "Immobilienrenditerechner",
+        "url": "/"
+      }
+    }
+  },
+  "5": {
+    "name": "Kredit & Finanzierung",
+    "values": {
+      "1": {
+        "name": "Tilgungsrechner Annuitätendarlehen",
+        "url": "/"
+      }
+    }
+  }
+}

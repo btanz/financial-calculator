@@ -2,6 +2,7 @@
    Created by benjamintanz on 09.06.15.
 
 //- page navigation
+//- the navigation values are retrieved form app.local.navElems
 
 
 div.container
@@ -18,48 +19,15 @@ ul(id='nav-mobile', class='side-nav fixed')
   li.divider
   li.no-padding
     ul.collapsible.collapsible-accordion
-      li.bold
-        a(class='collapsible-header waves-effect waves-teal') Finanzplanung
-        div(class='collapsible-body')
-          ul
-            li
-              a(href='#!') Risikopräferenzen
-            li
-              a(href='#!') Asset-Mix
-            li
-              a(href='#!') Sparziele
-            li
-              a(href='#!') Budgetierung
-      li.bold
-        a(class='collapsible-header waves-effect waves-teal') Börse
-        div(class='collapsible-body')
-          ul
-            li
-              a(href='#!') Optionspreisrechner
-            li
-              a(href='#!') Aktienrenditerechner
-            li
-              a(href='#!') Währungsrechner
-      li.bold
-        a(class='collapsible-header waves-effect waves-teal') Festgeld
-        div(class='collapsible-body')
-          ul
-            li
-              a(href='/sparrechner') Sparrechner
-            li
-              a(href='#!') Zinsrechner
-      li.bold
-        a(class='collapsible-header waves-effect waves-teal') Immobilien
-        div(class='collapsible-body')
-          ul
-            li
-              a(href='#!') Immobilienrenditerechner
-      li.bold
-        a(class='collapsible-header waves-effect waves-teal') Kredit & Finanzierung
-        div(class='collapsible-body')
-          ul
-            li
-              a(href='#!') Tilgungsrechner Annuitätendarlehen
+      //-var layoutObj = [{'name': 'Finanzplaung','values':{1:{name:'Risikopräferenzen', url:'/'},2:{name:'Zinsrechner', url:'/'}}},{'name': 'Kredit','values':{1:{name:'Kredit1', url:'/'},2:{name:'Kredit2', url:'/'}}}];
+      each category in navElems
+        li.bold
+          a(class='collapsible-header waves-effect waves-teal')= category.name
+          div(class='collapsible-body')
+            ul
+              each item in category.values
+                li
+                  a(href=item.url)= item.name
   li.divider
   li.bold
     a(href='#!', class='waves-effect waves-teal') Über uns

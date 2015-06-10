@@ -1,4 +1,6 @@
 // *** 1. Require dependencies ***
+
+// A. External dependencies
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -6,9 +8,13 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// B. Internal dependencies
 var routes = require('./routes/routes');
+var navElems = require('./data/static/navElems.json');
 
+// C. Init
 var app = express();
+
 
 // *** 2. Configure settings ***
 // view engine setup
@@ -24,19 +30,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
+
 // *** 3. Connect to database ***
 
 
 
-// *** 4. Define middleware ***
+// *** 4. Define app-level local vars
+app.locals.navElems = navElems;
+
+
+// *** 5. Define middleware ***
 
 
 
-// *** 5. Define routes ***
+// *** 6. Define routes ***
 app.use('/', routes);
 
 
-// *** 6. Do error handling ***
+// *** 7. Do error handling ***
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -69,5 +80,5 @@ app.use(function(err, req, res, next) {
 });
 
 
-// *** 7. Export the app and start server ***
+// *** 8. Export the app and start server ***
 module.exports = app;
