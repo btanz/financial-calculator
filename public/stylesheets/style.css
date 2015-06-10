@@ -5,12 +5,14 @@ body {
   background-color: #fcfcfc; }
 
 p.box {
-  padding: 20px; }
+  padding: 20px;
+}
 
 p {
   color: rgba(0, 0, 0, 0.71);
   padding: 0;
-  -webkit-font-smoothing: antialiased; }
+  -webkit-font-smoothing: antialiased;
+}
 
 h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased; }
@@ -18,11 +20,15 @@ h1, h2, h3, h4, h5, h6 {
 nav a {
   -webkit-font-smoothing: antialiased; }
 nav ul li:hover, nav ul li.active {
-  background-color: #ea454b; }
+  /*background-color: #ea454b;*/
+  background-color: #2196f3;
+}
 
 .header {
-  color: #ee6e73;
-  font-weight: 300; }
+ /* color: #ee6e73;*/
+  color: #64b5f6;
+  font-weight: 300;
+}
 
 .caption {
   font-size: 1.25rem;
@@ -36,9 +42,6 @@ nav ul li:hover, nav ul li.active {
 
 header, main, footer {
   padding-left: 240px; }
-
-.parallax-demo header, .parallax-demo main, .parallax-demo footer {
-  padding-left: 0; }
 
 footer.example {
   padding-left: 0; }
@@ -137,6 +140,8 @@ a.button-collapse.top-nav.full {
   display: block;
   margin: 0 auto; }
 
+/* index-banner-styles */
+
 #index-banner {
   background-color: #ee6e73; }
 #index-banner .container {
@@ -157,6 +162,31 @@ a.button-collapse.top-nav.full {
 @media only screen and (max-width : 600px) {
   #index-banner h4 {
     margin-bottom: 0; } }
+
+
+/* calculator-banner-styles */
+#calculator-banner {
+  background-color: #ee6e73; }
+#calculator-banner .container {
+  position: relative; }
+#calculator-banner .header {
+  color: #FFF; }
+#calculator-banner h5 {
+  margin-bottom: 15px; }
+#calculator-banner h4 {
+  margin-top: 16px; }
+
+@media only screen and (max-width : 992px) {
+  #calculator-banner h4 {
+    margin-top: 60px; }
+  #calculator-banner h5 {
+    margin-bottom: 15px; } }
+
+@media only screen and (max-width : 600px) {
+  #calculator-banner h5 {
+    margin-bottom: 0; } }
+
+
 
 .github-commit {
   padding: 14px 0;
@@ -552,6 +582,10 @@ body.parallax-demo footer {
 
 .card-panel span, .card-content p {
   -webkit-font-smoothing: antialiased; }
+
+.card .card-content .card-title{
+  line-height: 130%;
+}
 
 #images .card-panel .row {
   margin-bottom: 0; }

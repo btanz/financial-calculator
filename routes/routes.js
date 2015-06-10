@@ -7,8 +7,9 @@ router.get('/', function(req, res, next) {
 });
 
 
-router.get('/sparrechner', function(req, res, next) {
+router.get('/optionspreisrechner', function(req, res, next) {
   res.render('calculator', { title: 'Sparrechner' });
 });
+
 
 module.exports = router;
