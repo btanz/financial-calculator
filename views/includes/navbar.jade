@@ -13,16 +13,16 @@ ul(id='nav-mobile', class='side-nav fixed')
     a(id='logo-container', href='/', class='brand-logo')
       object(id='front-page-logo', type='image/svg+xml', data='/images/materialize.svg') Der Browser unterstützt kein SVG
   li.bold
-    a(href='#!', class='waves-effect waves-teal') Erste Schritte
+    a(href='#!', class='waves-effect waves-blue') Erste Schritte
   li.bold
-    a(href='#!', class='waves-effect waves-teal') Blog
+    a(href='#!', class='waves-effect waves-blue') Blog
   li.divider
   li.no-padding
     ul.collapsible.collapsible-accordion
       //-var layoutObj = [{'name': 'Finanzplaung','values':{1:{name:'Risikopräferenzen', url:'/'},2:{name:'Zinsrechner', url:'/'}}},{'name': 'Kredit','values':{1:{name:'Kredit1', url:'/'},2:{name:'Kredit2', url:'/'}}}];
       each category in navElems
         li.bold
-          a(class='collapsible-header waves-effect waves-teal')= category.name
+          a(class='collapsible-header waves-effect waves-blue')= category.name
           div(class='collapsible-body')
             ul
               each item in category.values
@@ -30,4 +30,4 @@ ul(id='nav-mobile', class='side-nav fixed')
                   a(href=item.url)= item.name
   li.divider
   li.bold
-    a(href='#!', class='waves-effect waves-teal') Über uns
+    a(href='#!', class='waves-effect waves-blue') Über uns
