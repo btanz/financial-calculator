@@ -42,7 +42,6 @@ app.locals.navElems = navElems;
 // *** 5. Define middleware ***
 
 
-
 // *** 6. Define routes ***
 app.use('/', routes);
 

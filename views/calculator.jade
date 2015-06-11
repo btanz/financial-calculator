@@ -1,6 +1,10 @@
 //
    Created by benjamintanz on 09.06.15.
 
+   Layout conventions:
+      Format for ids of input-fields should always be like this: module-subfunction-type-value
+      Example: boerse-options-text-strike or boerse-options-select-optiontype
+
 extends layout
 
 block content
@@ -19,16 +23,16 @@ block content
     div.col.s12.m6
       div.card.blue.lighten-5
         div.card-content.black-text
-          i.mdi-action-input.small
+          i.mdi-image-edit.small
           span.card-title.black-text &nbsp Eingaben
 
           p Deine Eingaben
           div.row.input
             div.input-field.col.s12
               i.mdi-action-help.prefix.active
-              select
-                option Call-Option
-                option Put-Option
+              select#boerse-options-select-optiontype
+                option(value="1") Call-Option
+                option(value="2") Put-Option
               label Art der Option
           div.row.input
             div.input-field.col.s12
@@ -56,7 +60,7 @@ block content
               input(placeholder="Volatilität in %", id="boerse-options-vola", type="text", class="validate", value="12")
               label(for="boerse-options-vola") Volatilität (%)
           div.row.input.center-align
-            a.waves-effect.waves-light.btn
+            a.waves-effect.waves-light.btn#btn-calculate
               i.mdi-content-send.right
               | Berechnen
 
@@ -64,7 +68,8 @@ block content
     div.col.s12.m6
       div.card.blue.lighten-5
         div.card-content.black-text
-          span.card-title.black-text Ergebnisse
+          i.mdi-action-done-all.small
+          span.card-title.black-text &nbsp Ergebnisse
           p Raum für Ergebnisse
 
 
