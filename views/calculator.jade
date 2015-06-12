@@ -13,8 +13,8 @@ block content
     div.container
       div.row
         div.col.s12.m9
-          h4.header.center-on-small-only Optionspreisrechner
-          h5.light.blue-text.text-lighten-4.center-on-small-only Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.
+          h4.header.center-on-small-only= obj.name
+          h5.light.blue-text.text-lighten-4.center-on-small-only= obj.description
 
 
   //div.container
@@ -26,39 +26,26 @@ block content
           i.mdi-image-edit.small
           span.card-title.black-text &nbsp Eingaben
 
-          p Deine Eingaben
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix.active
-              select#boerse-options-select-optiontype
-                option(value="1") Call-Option
-                option(value="2") Put-Option
-              label Art der Option
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix
-              input(placeholder="Preis der Aktie in €", id="boerse-options-price", type="text", class="validate", value="50.00")
-              label(for="boerse-options-price") Preis der Aktie (€)
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix
-              input(placeholder="Strike/Basispreis in €", id="boerse-options-strike", type="text", class="validate", value="50.00")
-              label(for="boerse-options-strike") Basispreis/Strike (€)
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix
-              input(placeholder="Zinssatz in %", id="boerse-options-interest", type="text", class="validate", value="3.00")
-              label(for="boerse-options-interest") Zinssatz (%)
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix
-              input(placeholder="Restlaufzeit in Tagen", id="boerse-options-maturity", type="text", class="validate", value="60")
-              label(for="boerse-options-maturity") Restlaufzeit der Option (Tage)
-          div.row.input
-            div.input-field.col.s12
-              i.mdi-action-help.prefix
-              input(placeholder="Volatilität in %", id="boerse-options-vola", type="text", class="validate", value="12")
-              label(for="boerse-options-vola") Volatilität (%)
+          p
+
+          each input in obj.inputs
+            //- template for text input fields
+            if input.type === 'text'
+              div.row.input
+                div.input-field.col.s12
+                  i(class='mdi-action-help prefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                  input(placeholder=input.placeholder, id=input.id, type=input.type, class="validate", value=input.value)
+                  label(for=input.id)= input.label
+            //- template for select input fields
+            if input.type === 'select'
+              div.row.input
+                div.input-field.col.s12
+                  i(class='mdi-action-help prefix tooltipped active', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                  select(id=input.id)
+                    each option, index in input.options
+                      option(value=index)= option
+                  label= input.label
+
           div.row.input.center-align
             a.waves-effect.waves-light.btn#btn-calculate
               i.mdi-content-send.right
@@ -70,10 +57,9 @@ block content
         div.card-content.black-text
           i.mdi-action-done-all.small
           span.card-title.black-text &nbsp Ergebnisse
-          p Raum für Ergebnisse
+          div#main-results
 
-
-  div.row
+  div(class='row', style='display:none;')
     //- explanation component
     div.col.s12.m6
       div.card.blue.lighten-5
@@ -87,3 +73,15 @@ block content
         div.card-content.black-text
           span.card-title.black-text Details zu diesem Rechner
           p Raum für Erklärungen
+
+  //- handlebars templates to be used on the client for output
+  script(id='main-results-template', type='text/x-handlebars-template')
+    table.bordered
+      tbody
+        | {{#each obj}}
+        tr
+          td
+            i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
+            | &nbsp {{this.description}}
+          td(style='text-align: right') {{this.value}} {{this.unit}}
+        | {{/each}}

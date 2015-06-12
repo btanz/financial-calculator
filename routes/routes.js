@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var boerse = require('../modules/boerse');
+var calcElems = require('../data/static/calcElems.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/optionspreisrechner', function(req, res, next) {
-  res.render('calculator', { title: 'Sparrechner' });
+  res.render('calculator', {obj: calcElems.options });
 });
 
 router.get('/optionspreisrechner/inputs',function(req,res,next){

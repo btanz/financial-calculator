@@ -1,0 +1,85 @@
+{
+  "options": {
+    "name": "Optionspreisrechner",
+    "description": "Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.",
+    "inputs": {
+      "optiontype": {
+        "id": "boerse-options-optiontype",
+        "label": "Art der Option",
+        "placeholder": "Art der Option",
+        "tooltip": "Gebe hier ein, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.",
+        "type": "select",
+        "options": {
+          "1": "Call-Option",
+          "2": "Put-Option"
+        }
+      },
+      "price": {
+        "id": "boerse-options-price",
+        "label": "Preis der Aktie (€)",
+        "placeholder": "Preis der Aktie in €",
+        "value": "50.00",
+        "tooltip": "Gebe hier den Preis der Aktien bzw. des Underlyings ein.",
+        "type": "text"
+      },
+      "strike": {
+        "id": "boerse-options-strike",
+        "label": "Basispreis/Strike (€)",
+        "placeholder": "Strike/Basispreis in €",
+        "value": "50.00",
+        "tooltip": "Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.",
+        "type": "text"
+      },
+      "interest": {
+        "id": "boerse-options-interest",
+        "label": "Zinssatz (%)",
+        "placeholder": "Zinssatz in %",
+        "value": "3.00",
+        "tooltip": "Gebe hier den annualisierten risikolosen Zinssatz in % an.",
+        "type": "text"
+      },
+      "maturity": {
+        "id": "boerse-options-maturity",
+        "label": "Restlaufzeit der Option (Tage)",
+        "placeholder": "Restlaufzeit in Tagen",
+        "value": "60",
+        "tooltip": "Gebe hier die Restlaufzeit der Option in Tagen an.",
+        "type": "text"
+      },
+      "vola": {
+        "id": "boerse-options-vola",
+        "label": "Volatilität (%)",
+        "placeholder": "Volatilität in %",
+        "value": "12.00",
+        "tooltip": "Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.",
+        "type": "text"
+      }
+    },
+    "outputs": {
+      "value": {
+        "tooltip": "Der theoretische Optionspreis ist der Modellpreis der Option berechnet auf Basis des Black-Scholes-Optionspreismodells. Der theoretische Optionspreis kann vom Marktpreis abweichen, da der Marktpreis durch Angebot und Nachfrage am Optionsmarkt bestimmt wird. Allerdings ist der theoretische Preis meist - abgesehen von geringen Abweichungen - identisch dem Marktpreis. Lediglich bei selten gehandelten illiquiden Produkten können nennenswerte Abweichungen entstehen."
+      },
+      "delta": {
+        "tooltip": "Das Optionsdelta beschreibt die Veränderung des Optionspreises im Verhältnis zur Veränderung des Preises der Aktie. Für eine Call-Option zum Beispiel bedeutet ein Delta von 0,5, dass bei einer Preissteigerung der Aktie der Optionspreis um 50% des Preises der Aktie steigt. Steigt die Aktie also um 0,10€, so steigt der Wert der Option um 0,05€. Für Put-Optionen, welche negative Deltas haben, kehrt sich dieses Verhältnis entsprechend um. Eine Put-Option mit Delta von -0,5 fällt um 0,05€ im Wert, wenn die Aktien um 0,10€ steigt. Mathematisch entspricht Delta der ersten Ableitung des Optionspreises nach dem Preis der Aktie."
+      },
+      "gamma": {
+        "tooltip": "Gamma beschreibt die Veränderung des Optionsdeltas im Verhältnis zur Veränderung des Preises der Aktie. Gamma ist ein wichtiges Maß der Konvexität des Wertes einer Option im Verhältnis zum Wert der Aktie. Mathematisch entspricht Gamma der zweiten Ableitung des theoretischen Optionspreises nach dem Aktienpreis bzw. der ersten Ableitung des Deltas nach dem Aktienpreis. In Delta-Hedging-Strategien wird Gamma häufig genutzt, um ein lineares Hedging über ein großes Preisintervall zu erzielen. Gamma ist vergleichsweise klein, wenn die Option weit im oder aus dem Geld ist. Am größten ist Gamma, wenn die Option nahe Geld ist (d.h. der Strike-Preis dem Aktienpreis entspricht)."
+      },
+      "theta": {
+        "tooltip": "Theta ist ein Maß für die Veränderung (Verringerung) des Optionswertes über die Zeit, oft auch bezeichnet als Zeitwertverfall. Ceteris paribus wird eine Option an Wert verlieren, wenn sie dem Verfallsdatum näher kommt. Daher ist Theta immer negativ. Eine Option mit einem aktuellen Theta von -0,10 wird mit Ablauf eines Tages 0,10€ an Wert verlieren. Theta reflekiert das Optionsrisiko begründet durch den Ablauf der Zeit, bzw. das Risiko reultierend aus dem schwindenden Zeitfenster für die Ausübung der Option."
+      },
+      "vega": {
+        "tooltip": "Vega misst die Sensitivität des Optionspreises im Verhältnis zum Preis der Aktie. Es repräsentiert die Veränderung des Optionspreises bei einer 1%-tigen Veränderung der Volatilität der Aktie. Die Volatilität einer Aktie misst allgemein Größe und Häufigkeit von Preisänderungen. Vega steigt in Phasen hoher Marktvolatilität und fällt mit der Restlaufzeit der Option."
+      },
+      "rho": {
+        "tooltip": "Rho ist ein Maß für die Sensitivität des Preises der Option im Verhältnis zu Zinsänderungen. Für eine Option mit Rho von 0,1 gilt, dass der Optionspreis um 0,10€ steigt, wenn der Zinssatz um einen Prozentpunkt steigt."
+      },
+      "intrinsicValue": {
+        "tooltip": "Der innere Wert ist der Teil des Optionswertes, welcher alleine auf die Abweichung zwischen Preis der Aktie und Strike zurückzuführen ist (und nicht auf die Zeit). Für eine Call-Option entspricht der innere Wert dem Maximum aus der Differenz von Preis minus Strike und null. Für eine Put-Option dagegen entspricht der innere Wert dem Maximum aus der Differenz von Strike minus Preis und Null."
+      },
+      "timeValue": {
+        "tooltip": "Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu null, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht."
+      }
+    }
+  }
+}

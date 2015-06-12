@@ -1,4 +1,5 @@
 var helpers = require('./helpers');
+var calcElems = require('../data/static/calcElems.json');
 
 var cumNormalHelper, cumNormalPrimeHelper;
 
@@ -19,15 +20,15 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *   none
  *
  * RETURNS
- *   object result
- *     value                    number; BS-value of the option
- *     delta                    number; option delta
- *     gamma                    number; option gamma
- *     vega                     number; option vega
- *     theta                    number; option theta
- *     rho                      number; option rho
- *     intrinsicValue           number; intrinsic value of the option
- *     timeValue                number; time value of the option
+ *   object result.main.
+ *     value                    object, containing description, value and unit of BS-value of the option
+ *     delta                    object, containing description, value and unit of option delta
+ *     gamma                    object, containing description, value and unit of option gamma
+ *     vega                     object, containing description, value and unit of option vega
+ *     theta                    object, containing description, value and unit of option theta
+ *     rho                      object, containing description, value and unit of option rho
+ *     intrinsicValue           object, containing description, value and unit of intrinsic value of the option
+ *     timeValue                object, containing description, value and unit of time value of the option
  *
  *     On calculation error, the function will return null;
  */
@@ -36,6 +37,8 @@ exports.blackScholes = function (inputs) {
 
   // init and assign
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
+  var result = {}; result.main = {};
+  var localElems = calcElems.options.outputs;
 
   var expectedInputs = {
     optiontype: 'String',
@@ -80,16 +83,18 @@ exports.blackScholes = function (inputs) {
     return null;
   }
 
-  return{
-    value: value,
-    delta: delta,
-    gamma: gamma,
-    vega: vega,
-    theta: theta,
-    rho: rho,
-    intrinsicValue: intrinsicValue,
-    timeValue: timeValue
-  }
+  // construct result object
+  result.main.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'tooltip': localElems.value.tooltip};
+  result.main.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'tooltip': localElems.delta.tooltip};
+  result.main.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'tooltip': localElems.gamma.tooltip};
+  result.main.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'tooltip': localElems.theta.tooltip};
+  result.main.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'tooltip': localElems.vega.tooltip};
+  result.main.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'tooltip': localElems.rho.tooltip};
+  result.main.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'tooltip': localElems.intrinsicValue.tooltip};
+  result.main.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'tooltip': localElems.timeValue.tooltip};
+
+  return result;
+
 };
 
 /* ************************ END BOERSE MODULE PUBLIC FUNCTIONS *********************************/

@@ -413,3 +413,7 @@ input[type=text] input[type=select]{
   color: #1565c0;
   font-size: 25px;
 }
+
+tbody i {
+  color: #1565c0;
+}
