@@ -75,6 +75,8 @@ block content
           p Raum für Erklärungen
 
   //- handlebars templates to be used on the client for output
+
+  //- main results template
   script(id='main-results-template', type='text/x-handlebars-template')
     table.bordered
       tbody
@@ -85,3 +87,14 @@ block content
             | &nbsp {{this.description}}
           td(style='text-align: right') {{this.value}} {{this.unit}}
         | {{/each}}
+
+  //- main results error template
+  script(id='main-results-error-template', type='text/x-handlebars-template')
+    p
+    h5.red-text.darken-2 Berechnungsfehler
+    p.red-text.darken-2 Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
+
+  //- main results input template
+  script(id='main-results-input-template', type='text/x-handlebars-template')
+    p
+    p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.

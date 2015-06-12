@@ -23,6 +23,10 @@ app.controller = (function() {
     // calculate document once onLoad such that users can see first results
     $('#btn-calculate').trigger('click');
 
+    // invalidate calculations if any of the input fields changes
+    $('input, select').on('keyup change', function(e){ invalidateResults(e) })
+    //$('select').on('change', function(e){ invalidateResults(e) })
+
   });
   /*********************** END DOCUMENT READY TASKS *************************/
 
@@ -42,15 +46,25 @@ app.controller = (function() {
     // make Ajax request to server
     $.getJSON('/optionspreisrechner/inputs',inputs)
         .done(function(data){
+
           // get, compile and fill results template
-          app.helpers.compileTemplate('#main-results','#main-results-template',data.main);
-          // intialize tooltips
-          $('.tooltipped').tooltip({delay: 50});
+          if(!(data === null)) {
+            app.helpers.compileTemplate('#main-results','#main-results-template',data.main);
+            $('.tooltipped').tooltip({delay: 50});  // initalize tooltips
+          } else {
+            app.helpers.compileTemplate('#main-results','#main-results-error-template',{});
+          }
         })
         .fail(function(){
-          // todo: error handling
           console.log('Leider ist ein Fehler aufgetreten');
+          app.helpers.compileTemplate('#main-results','#main-results-error-template',{});
         });
+  }
+
+  // handler that invalidates result (used for example if one of the inputs changes
+  function invalidateResults(e){
+    app.helpers.compileTemplate('#main-results','#main-results-input-template',{});
+    console.log('changed');
   }
 
 
