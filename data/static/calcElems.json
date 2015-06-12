@@ -81,5 +81,54 @@
         "tooltip": "Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu null, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht."
       }
     }
+  },
+
+
+  "fx": {
+    "name": "Währungsrechner",
+    "description": "Mit dem Währungsrechner kannst du beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.",
+    "inputs": {
+      "from": {
+        "id": "boerse-fx-from",
+        "label": "Ausgangswährung",
+        "placeholder": "Ausgangswährung",
+        "tooltip": "Dies ist die Währungseinheit des Betrages, welcher umgerechnet werden soll. Falls du Geld umtauschen möchtest entspricht die Ausgangswährung die Währung in deinem Besitz.",
+        "type": "select",
+        "options": {
+          "EUR": "Euro - EUR",
+          "USD": "US-Dollar - USD"
+        }
+      },
+      "principal": {
+        "id": "boerse-fx-principal",
+        "label": "Betrag",
+        "placeholder": "Betrag",
+        "value": "100.00",
+        "tooltip": "Gebe hier den Betrag in der Ausgangswährung ein. Falls du Geld umtauschen möchtest ist dies das umzutauschende Geld in deinem Besitz.",
+        "type": "text"
+      },
+      "to": {
+        "id": "boerse-fx-to",
+        "label": "Zielwährung",
+        "placeholder": "Zielwährung",
+        "tooltip": "Dies ist die Währungseinheit des Betrages, welchen du nach der Umrechnung bekommst. Beim Geldumtausch entspricht dies der Währung, welche du nach dem Umtausch haben möchtest.",
+        "type": "select",
+        "options": {
+          "EUR": "Euro - EUR",
+          "USD": "US-Dollar - USD"
+        }
+      },
+      "result": {
+        "id": "boerse-fx-result",
+        "label": "Betrag/Ergebnis",
+        "placeholder": "Betrag/Ergebnis",
+        "value": "",
+        "tooltip": "Dieses Ergebnisfeld gibt den in die Zielwährung umgerechneten Betrag wieder. Beim Geldumtausch ist dies der Betrag, welchen du nach dem Umtausch in der Zielwährung zur Verfügung hast.",
+        "type": "text"
+      }
+    },
+    "outputs": {
+
+    }
   }
 }

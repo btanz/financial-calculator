@@ -44,7 +44,7 @@ app.controller = (function() {
     });
 
     // make Ajax request to server
-    $.getJSON('/optionspreisrechner/inputs',inputs)
+    $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data){
 
           // get, compile and fill results template
