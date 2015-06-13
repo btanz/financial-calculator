@@ -1,3 +1,5 @@
+var request = require('request');
+var fx = require('money');
 var helpers = require('./helpers');
 var calcElems = require('../data/static/calcElems.json');
 
@@ -32,7 +34,6 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *
  *     On calculation error, the function will return null;
  */
-
 exports.blackScholes = function (inputs) {
 
   // init and assign
@@ -96,6 +97,57 @@ exports.blackScholes = function (inputs) {
   return result;
 
 };
+
+// query exchange rates using the fixer.io API (ECB exchange rates)
+// todo: documentation
+exports.fxConvert = function (inputs,callback) {
+
+  // init and assign
+  var value, returnResults;
+  var localElems = calcElems.fx.outputs;
+  var result = {}; result.main = {}; result.table = {};
+
+  var expectedInputs = {
+    principal: 'Number',
+    from: 'String',
+    to: 'String'
+  };
+
+  // check validity of inputs and do number conversions
+  if (!helpers.validateInputs(inputs,expectedInputs)) return null;
+
+  request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
+    if (!error && response.statusCode == 200) {
+      var fxData = JSON.parse(body);
+      fx.rates = fxData.rates;
+      fx.base = fxData.base;
+      value = fx.convert(inputs.principal, {from: inputs.from, to: inputs.to});
+      returnResults(value);
+    } else {
+      return null;
+    }
+  });
+
+  returnResults = function(value){
+  // construct result object
+    // main result
+    result.main.value =          {'description': 'Betrag in Zielwährung',  'value': value,         'unit': inputs.to, 'tooltip': localElems.value.tooltip};
+    // currency conversion table
+    result.table.title = 'Umrechnungstabelle';
+    result.table.header = [inputs.from, inputs.to, inputs.from, inputs.to];
+    result.table.body = [];
+    [1,2,3,4,5,10,15,20,25,50,100,250,500,1000].forEach(function(element, index){
+      result.table.body.push([element, element*(value/inputs.principal), element, element/(value/inputs.principal)]);
+    });
+  callback(result);
+  }
+
+};
+
+
+
+
+
 
 /* ************************ END BOERSE MODULE PUBLIC FUNCTIONS *********************************/
 

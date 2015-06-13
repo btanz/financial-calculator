@@ -46,6 +46,7 @@ app.controller = (function() {
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
+    console.log(inputs);
 
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
@@ -55,6 +56,7 @@ app.controller = (function() {
           if(!(data === null)) {
             app.helpers.compileTemplate('#main-results','#main-results-template',data.main);
             $('.tooltipped').tooltip({delay: 50});  // initalize tooltips
+            console.log(data);
           } else {
             app.helpers.compileTemplate('#main-results','#main-results-error-template',{});
           }

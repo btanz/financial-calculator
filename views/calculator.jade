@@ -48,7 +48,11 @@ block content
                     label(for=input.id)= input.label
                     select(id=input.id, class="form-control")
                       each option, index in input.options
-                        option(value=index)= option
+                        - var optgroup = (option === '_OPTGROUP')
+                          if optgroup
+                            optgroup(label=index)
+                          else
+                            option(value=index)= option
 
           div.row.input.center-align
             a.waves-effect.waves-light.btn#btn-calculate
@@ -63,16 +67,16 @@ block content
           span.card-title.black-text &nbsp Ergebnisse
           div#main-results
 
-  div(class='row', style='display:none;')
+  div.row
     //- explanation component
-    div.col.s12.m6
+    div(class='col s12 m6', style='display:none', id='result-row2-left')
       div.card.blue.lighten-5
         div.card-content.black-text
           span.card-title.black-text Detailergebnisse
           p Raum für Detailergebnisse
 
     //- explanation component
-    div.col.s12.m6
+    div(class='col s12 m6', style='display:none', id='result-row2-right')
       div.card.blue.lighten-5
         div.card-content.black-text
           span.card-title.black-text Details zu diesem Rechner
@@ -102,3 +106,8 @@ block content
   script(id='main-results-input-template', type='text/x-handlebars-template')
     p
     p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
+
+  //- fx conversion table template
+  script(id='fx-table-results', type='text/x-handlebars-template')
+    p
+    p Dies ist ein Test

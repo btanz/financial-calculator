@@ -26,21 +26,11 @@ router.get('/waehrungsrechner',function(req, res, next){
 
 router.get('/waehrungsrechner/inputs',function(req,res,next){
   var obj = req.query;
-  console.log(obj);
-  //var results = boerse.blackScholes(obj);
-  //res.json(results);
+  boerse.fxConvert(obj,function(results){ res.json(results); });
 });
 
 
 
-
-/*
-app.get("/users/:format?", function(req, res, next){
-  if (req.params.format) { res.json(...); }
-  else {
-    res.render(...); //jade template
-  }
-});*/
 
 
 module.exports = router;
