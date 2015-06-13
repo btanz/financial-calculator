@@ -19,55 +19,65 @@ block content
 
   //div.container
   div.row
-    //-input component
-    div.col.s12.m6
-      div.card.blue.lighten-5
-        div.card-content.black-text
-          i.mdi-image-edit.small
-          span.card-title.black-text &nbsp Eingaben
+    //- left hand side components
+    div.col.s12.m9.l10
+      div.col.s12
+        div.card.blue.lighten-5
+          div.col.l10.offset-l1.m12.s12
+            div.card-content.black-text
+              i.mdi-image-edit.small
+              span.card-title.black-text &nbsp Eingaben
+              p
+              each input in obj.inputs
+                //- template for text input fields
+                if input.type === 'text'
+                  div.row.input
+                    div.col.s1.m1.l1.prefix
+                      i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                    div.col.s11.m11.l11
+                      div.form-group
+                        label(for=input.id)= input.label
+                        input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                //- template for select input fields
+                if input.type === 'select'
+                  div.row.input
+                    div.col.s1.m1.l1.prefix
+                      i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                    div.col.s11.m11.l11
+                      div.form-group
+                        label(for=input.id)= input.label
+                        select(id=input.id, class="form-control")
+                          each option, index in input.options
+                            - var optgroup = (option === '_OPTGROUP')
+                              if optgroup
+                                optgroup(label=index)
+                              else
+                                option(value=index)= option
 
-          p
+              div.row.input.center-align
+                a.waves-effect.waves-light.btn#btn-calculate
+                  i.mdi-content-send.right
+                  | Berechnen
 
-          each input in obj.inputs
-            //- template for text input fields
-            if input.type === 'text'
-              div.row.input
-                div.col.s1.m1.l1.prefix
-                  i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                div.col.s11.m11.l11
-                  div.form-group
-                    label(for=input.id)= input.label
-                    input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
-            //- template for select input fields
-            if input.type === 'select'
-              div.row.input
-                div.col.s1.m1.l1.prefix
-                  i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                div.col.s11.m11.l11
-                  div.form-group
-                    label(for=input.id)= input.label
-                    select(id=input.id, class="form-control")
-                      each option, index in input.options
-                        - var optgroup = (option === '_OPTGROUP')
-                          if optgroup
-                            optgroup(label=index)
-                          else
-                            option(value=index)= option
 
-          div.row.input.center-align
-            a.waves-effect.waves-light.btn#btn-calculate
-              i.mdi-content-send.right
-              | Berechnen
+      //- results component
+      div.col.s12
+        div.card.blue.lighten-5
+          div.col.l10.offset-l1.m12.s12
+            div.card-content.black-text
+              i.mdi-action-done-all.small
+              span.card-title.black-text &nbsp Ergebnisse
+              div#main-results
 
-    //- results component
-    div.col.s12.m6
-      div.card.blue.lighten-5
-        div.card-content.black-text
-          i.mdi-action-done-all.small
-          span.card-title.black-text &nbsp Ergebnisse
-          div#main-results
+    //- right hand side components
+    div.col.m3.l2.hide-on-small-only#sidebar-right
+      p Hier ist Platz für ads etc
 
-  div.row
+
+
+
+
+  //div.row
     //- explanation component
     div(class='col s12 m6', style='display:none', id='result-row2-left')
       div.card.blue.lighten-5
