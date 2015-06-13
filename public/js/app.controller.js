@@ -12,7 +12,6 @@ app.controller = (function() {
 
     // initialize materializecss select buttons
     $('.button-collapse').sideNav({'edge': 'left'});
-    $('select').material_select2();
 
     // initialie materializecss tooltips
     $('.tooltipped').tooltip({delay: 50});
@@ -25,7 +24,6 @@ app.controller = (function() {
 
     // invalidate calculations if any of the input fields changes
     $('input, select').on('keyup change', function(e){ invalidateResults(e) })
-    //$('select').on('change', function(e){ invalidateResults(e) })
 
   });
   /*********************** END DOCUMENT READY TASKS *************************/
@@ -42,6 +40,12 @@ app.controller = (function() {
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
     });
+
+    $('select').each( function(){
+      var id = $(this).attr('id');
+      inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
+    });
+
 
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
@@ -64,7 +68,6 @@ app.controller = (function() {
   // handler that invalidates result (used for example if one of the inputs changes
   function invalidateResults(e){
     app.helpers.compileTemplate('#main-results','#main-results-input-template',{});
-    console.log('changed');
   }
 
 

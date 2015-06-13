@@ -356,16 +356,22 @@ footer.page-footer{
 #images .card-panel .row {
   margin-bottom: 0; }
 
+
 /********* INPUT FIELDS ************/
 .input-field label {
   color: #000;
 }
 
-.input .btn{
+.input-field .input .btn{
   background-color: #1565c0;
 }
 
-.input .btn:hover{
+#btn-calculate{
+  background-color: #1565c0;
+}
+
+
+.input-field .input .btn:hover{
   background-color: #1e88e5;
 }
 
@@ -378,7 +384,7 @@ footer.page-footer{
 }
 
 
-input[type=text] input[type=select]{
+.inputfield input[type=text] input[type=select]{
   /* margin: 0 15px 0 0; */
   height: 2rem;
 }

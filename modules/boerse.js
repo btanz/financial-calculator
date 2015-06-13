@@ -9,7 +9,7 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *
  * ARGUMENTS
  *   object inputs with the following properties
- *     optiontype               string in {'Call-Option','Put-Option'} that holds the option type
+ *     optiontype               number {1 = 'Call-Option',2 = 'Put-Option'} that holds the option type
  *     price                    number containing the current price of the underlying
  *     strike                   number containing the strike price of the option
  *     interest                 number containing the current interest rate in percent
@@ -41,7 +41,7 @@ exports.blackScholes = function (inputs) {
   var localElems = calcElems.options.outputs;
 
   var expectedInputs = {
-    optiontype: 'String',
+    optiontype: 'Number',
     price: 'Number',
     strike: 'Number',
     interest: 'Number',
@@ -61,7 +61,7 @@ exports.blackScholes = function (inputs) {
   d1 = (Math.log(inputs.price / inputs.strike) + (inputs.interest + inputs.vola * inputs.vola / 2.0) * inputs.maturity) / (inputs.vola * Math.sqrt(inputs.maturity));
   d2 = d1 - inputs.vola * Math.sqrt(inputs.maturity);
   // return value based on PutCallFlag
-  if (inputs.optiontype === 'Call-Option'){ // call
+  if (inputs.optiontype === 1){ // call
     value =  inputs.price * cumNormalHelper(d1)-inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(d2);
     delta = cumNormalHelper(d1);
     gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));
@@ -70,7 +70,7 @@ exports.blackScholes = function (inputs) {
     rho = 0.01 * inputs.strike * inputs.maturity * Math.exp(- inputs.interest * inputs.maturity) * cumNormalHelper(d2);
     intrinsicValue = Math.max(inputs.price - inputs.strike,0);
     timeValue = value - intrinsicValue;
-  } else if (inputs.optiontype === 'Put-Option') { // put
+  } else if (inputs.optiontype === 2) { // put
     value = inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(-d2) - inputs.price * cumNormalHelper(-d1);
     delta = cumNormalHelper(d1) - 1;
     gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));

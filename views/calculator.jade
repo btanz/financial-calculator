@@ -32,19 +32,23 @@ block content
             //- template for text input fields
             if input.type === 'text'
               div.row.input
-                div.input-field.col.s12
-                  i(class='mdi-action-help prefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                  input(placeholder=input.placeholder, id=input.id, type=input.type, class="validate", value=input.value)
-                  label(for=input.id)= input.label
+                div.col.s1.m1.l1.prefix
+                  i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                div.col.s11.m11.l11
+                  div.form-group
+                    label(for=input.id)= input.label
+                    input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
             //- template for select input fields
             if input.type === 'select'
               div.row.input
-                div.input-field.col.s12
-                  i(class='mdi-action-help prefix tooltipped active', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                  select(id=input.id)
-                    each option, index in input.options
-                      option(value=index)= option
-                  label= input.label
+                div.col.s1.m1.l1.prefix
+                  i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                div.col.s11.m11.l11
+                  div.form-group
+                    label(for=input.id)= input.label
+                    select(id=input.id, class="form-control")
+                      each option, index in input.options
+                        option(value=index)= option
 
           div.row.input.center-align
             a.waves-effect.waves-light.btn#btn-calculate
