@@ -60,7 +60,7 @@ block content
                   | Berechnen
 
 
-      //- results component
+      //- results components
       div.col.s12
         div.card.blue.lighten-5
           div.col.l10.offset-l1.m12.s12
@@ -68,6 +68,17 @@ block content
               i.mdi-action-done-all.small
               span.card-title.black-text &nbsp Ergebnisse
               div#main-results
+
+      div.col.s12#results-2
+
+      div.col.s12#results-3
+
+      div.col.s12#results-4
+
+      div.col.s12#results-5
+
+      div.col.s12#results-6
+
 
     //- right hand side components
     div.col.m3.l2.hide-on-small-only#sidebar-right
@@ -117,7 +128,12 @@ block content
     p
     p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
-  //- fx conversion table template
-  script(id='fx-table-results', type='text/x-handlebars-template')
-    p
-    p Dies ist ein Test
+  //- test full card template
+  script(id='test-template', type='text/x-handlebars-template')
+    div.card.blue.lighten-5
+      div.col.l10.offset-l1.m12.s12
+        div.card-content.black-text
+          i.mdi-action-done-all.small
+          span.card-title.black-text &nbsp Ergebnisse
+          p Hallo Ben. Es funktioniert
+

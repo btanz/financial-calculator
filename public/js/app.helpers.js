@@ -9,12 +9,12 @@ app.helpers = (function($) {
 
   // This function reads the Handlebars template with templateId and compiles it to html using the dataObj
   // Then, it removes all childs from the containerId and appends the compiled template as child to containerId
-  compileTemplate = function(containerId,templateId,dataObj){
-    var templateSource = $(templateId).text();
+  compileTemplate = function(containerSelector,templateSelector,dataObj){
+    var templateSource = $(templateSelector).text();
     var template = Handlebars.compile(templateSource);
     var HTML = template({obj: dataObj});
-    $(containerId).children().remove();
-    $(containerId).append(HTML);
+    $(containerSelector).children().remove();
+    $(containerSelector).append(HTML);
   };
 
   return {
