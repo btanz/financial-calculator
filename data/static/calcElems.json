@@ -490,6 +490,42 @@
         "tooltip": "Dieses Ergebnisfeld gibt den in die Zielwährung umgerechneten Betrag wieder. Beim Geldumtausch ist dies der Betrag, welchen du nach dem Umtausch in der Zielwährung zur Verfügung hast."
       }
     }
+  },
+
+
+  "equityreturn": {
+    "id": "boerse-equityreturn",
+    "name": "Aktienrenditerechner",
+    "description": "Mit dem Aktienrenditerechner kannst du die annualisierte Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.",
+    "inputs": {
+      "quantity": {
+        "id": "boerse-equityreturn-quantity",
+        "label": "Anzahl Aktien",
+        "placeholder": "Anzahl Aktien",
+        "value": "1",
+        "tooltip": "Gebe hier die Gesamtzahl der gekauften Aktien ein.",
+        "type": "text"
+      },
+      "buy": {
+        "id": "boerse-equityreturn-buy",
+        "label": "Kaufkurs",
+        "placeholder": "Kaufkurs",
+        "value": "68.12",
+        "tooltip": "Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.",
+        "type": "text"
+      },
+      "sell": {
+        "id": "boerse-equityreturn-sell",
+        "label": "Verkaufskurs",
+        "placeholder": "Verkaufskurs",
+        "value": "92.65",
+        "tooltip": "Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.",
+        "type": "text"
+      }
+    },
+    "outputs": {
+
+    }
   }
 }
 

@@ -29,7 +29,10 @@ router.get('/waehrungsrechner/inputs',function(req,res,next){
   boerse.fxConvert(obj,function(results){ res.json(results); });
 });
 
-
+/* ******* boerse-equityreturn routes ****** */
+router.get('/aktienrenditerechner',function(req,res,next){
+  res.render('calculator', {obj: calcElems.equityreturn});
+});
 
 
 
