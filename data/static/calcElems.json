@@ -17,31 +17,35 @@
       },
       "price": {
         "id": "boerse-options-price",
-        "label": "Preis der Aktie (€)",
-        "placeholder": "Preis der Aktie in €",
+        "label": "Preis der Aktie",
+        "addon": "EUR",
+        "placeholder": "Preis der Aktie",
         "value": "50.00",
         "tooltip": "Gebe hier den Preis der Aktien bzw. des Underlyings ein.",
         "type": "text"
       },
       "strike": {
         "id": "boerse-options-strike",
-        "label": "Basispreis/Strike (€)",
-        "placeholder": "Strike/Basispreis in €",
+        "label": "Basispreis/Strike",
+        "addon": "EUR",
+        "placeholder": "Strike/Basispreis",
         "value": "50.00",
         "tooltip": "Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.",
         "type": "text"
       },
       "interest": {
         "id": "boerse-options-interest",
-        "label": "Zinssatz (%)",
-        "placeholder": "Zinssatz in %",
+        "label": "Zinssatz",
+        "addon": "%",
+        "placeholder": "Zinssatz",
         "value": "3.00",
         "tooltip": "Gebe hier den annualisierten risikolosen Zinssatz in % an.",
         "type": "text"
       },
       "maturity": {
         "id": "boerse-options-maturity",
-        "label": "Restlaufzeit der Option (Tage)",
+        "label": "Restlaufzeit der Option",
+        "addon": "Tage",
         "placeholder": "Restlaufzeit in Tagen",
         "value": "60",
         "tooltip": "Gebe hier die Restlaufzeit der Option in Tagen an.",
@@ -49,8 +53,9 @@
       },
       "vola": {
         "id": "boerse-options-vola",
-        "label": "Volatilität (%)",
-        "placeholder": "Volatilität in %",
+        "label": "Volatilität",
+        "addon": "%",
+        "placeholder": "Volatilität",
         "value": "12.00",
         "tooltip": "Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.",
         "type": "text"
@@ -501,6 +506,7 @@
       "quantity": {
         "id": "boerse-equityreturn-quantity",
         "label": "Anzahl Aktien",
+        "addon": "Stück",
         "placeholder": "Anzahl Aktien",
         "value": "1",
         "tooltip": "Gebe hier die Gesamtzahl der gekauften Aktien ein.",
@@ -509,6 +515,7 @@
       "buy": {
         "id": "boerse-equityreturn-buy",
         "label": "Kaufkurs",
+        "addon": "EUR",
         "placeholder": "Kaufkurs",
         "value": "68.12",
         "tooltip": "Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.",
@@ -517,10 +524,18 @@
       "sell": {
         "id": "boerse-equityreturn-sell",
         "label": "Verkaufskurs",
+        "addon": "EUR",
         "placeholder": "Verkaufskurs",
         "value": "92.65",
         "tooltip": "Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.",
         "type": "text"
+      },
+      "buydate": {
+        "id": "boerse-equityreturn-buydate",
+        "label": "Kaufdatum",
+        "addon": "Datum",
+        "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
+        "type": "date"
       }
     },
     "outputs": {

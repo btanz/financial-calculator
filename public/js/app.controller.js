@@ -16,6 +16,19 @@ app.controller = (function() {
     // initialize materializecss tooltips
     $('.tooltipped').tooltip({delay: 50});
 
+    // initialize materializecss datepicker
+    $('.datepicker').pickadate({
+      monthsFull: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
+      weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
+      today: 'heute',
+      clear: 'löschen',
+      close: 'fertig',
+      formatSubmit: 'yyyy/mm/dd',
+
+      selectMonths: true, // Creates a dropdown to control month
+      selectYears: 15 // Creates a dropdown of 15 years to control year
+    });
+
     // run initialization steps
     app.init();
 
