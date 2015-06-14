@@ -16,7 +16,7 @@ app.controller = (function() {
     // initialize materializecss tooltips
     $('.tooltipped').tooltip({delay: 50});
 
-    // initialize materializecss datepicker
+    // initialize materializecss datepicker XXX abstract
     $('.datepicker').pickadate({
       monthsFull: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'],
       weekdaysShort: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
@@ -28,6 +28,9 @@ app.controller = (function() {
       selectMonths: true, // Creates a dropdown to control month
       selectYears: 15 // Creates a dropdown of 15 years to control year
     });
+
+    //XXX Temp
+    $('.modal-trigger').leanModal();
 
     // run initialization steps
     app.init();
@@ -89,8 +92,8 @@ app.controller = (function() {
 
   // handler that invalidates result (used for example if one of the inputs changes
   function invalidateResults(e){
+    e.preventDefault();
     app.helpers.clearAllResultsTemplates();
-    //app.helpers.compileTemplate('#results-1','#main-results-input-template',{});
   }
 
 
