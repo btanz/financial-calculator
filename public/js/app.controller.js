@@ -10,12 +10,8 @@ app.controller = (function() {
   /*********************** BEGIN DOCUMENT READY TASKS ***********************/
   $(document).ready(function(){
 
-    // initialize materializecss select buttons
-    $('.button-collapse').sideNav({'edge': 'left'});
-
-    // initialize materializecss tooltips
-    $('.tooltipped').tooltip({delay: 50});
-
+    // MetisMenu
+    $('#side-menu').metisMenu();
 
     // run initialization steps
     app.init();

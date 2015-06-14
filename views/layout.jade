@@ -14,9 +14,14 @@ html(lang='de')
 
 
     //- Import vendor css
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
 
     //- Import app css
-
+    link(rel='stylesheet' href='../stylesheets/main.css')
+    link(rel='stylesheet' href='../stylesheets/navbar.css')
+    link(rel='stylesheet' href='../stylesheets/box.css')
+    link(rel='stylesheet' href='../stylesheets/components.css')
 
 
   body
@@ -24,7 +29,7 @@ html(lang='de')
       //- add navigation
       include includes/navbar
 
-    main
+    main#page-wrapper.gray-bg
       //- add main content
       block content
 

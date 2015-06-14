@@ -9,88 +9,90 @@ extends layout
 
 block content
   //- top banner
-  div.section#calculator-banner
-    div.container
-      div.row
-        div.col.s12.m9
-          h4.header.center-on-small-only= obj.name
-          h5.light.blue-text.text-lighten-4.center-on-small-only= obj.description
+  div.row.white-bg.border-bottom.dashboard-header
+    h4= obj.name
+    h5= obj.description
 
 
   //div.container
   div.row
     //- left hand side components
-    div.col.s12.m9.l10
-      div.col.s12
-        div.card.blue.lighten-5
-          div.col.l10.offset-l1.m12.s12
-            div.card-content.black-text
-              i.mdi-image-edit.small
-              span.card-title.black-text &nbsp Eingaben
-              p
+    div.col-lg-12
+      div.wrapper.wrapper-content
+        div.row
+          div.col-lg-12
 
-              each input in obj.inputs
-                //- template for text input fields
-                if input.type === 'text'
-                  div.row.input
-                    div.col.s1.m1.l1.prefix
-                      i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                    div.col.s11.m11.l11
-                      div.form-group
-                        label(for=input.id)= input.label
-                        if input.addon
-                          div.input-group
+            div.ibox
+              div.ibox-title
+                h5 Eingaben
+
+              div.ibox-content
+
+                each input in obj.inputs
+                  //- template for text input fields
+                  if input.type === 'text'
+                    div.row.input
+                      div.col.s1.m1.l1.prefix
+                        i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                      div.col.s11.m11.l11
+                        div.form-group
+                          label(for=input.id)= input.label
+                          if input.addon
+                            div.input-group
+                              input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                              span.input-group-addon= input.addon
+                          else
                             input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
-                            span.input-group-addon= input.addon
-                        else
-                          input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
-                //- template for select input fields
-                if input.type === 'select'
-                  div.row.input
-                    div.col.s1.m1.l1.prefix
-                      i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                    div.col.s11.m11.l11
-                      div.form-group
-                        label(for=input.id)= input.label
-                        select(id=input.id, class="form-control")
-                          each option, index in input.options
-                            - var optgroup = (option === '_OPTGROUP')
-                              if optgroup
-                                optgroup(label=index)
-                              else
-                                option(value=index)= option
-                //- template for date input fields
-                //- TODO add datepicker that works across browsers
-                if input.type === 'date'
-                  div.row.input
-                    div.col.s1.m1.l1.prefix
-                      i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
-                    div.col.s11.m11.l11
-                      div.form-group
-                        label(for=input.id)= input.label
-                        if input.addon
-                          div.input-group
+                  //- template for select input fields
+                  if input.type === 'select'
+                    div.row.input
+                      div.col.s1.m1.l1.prefix
+                        i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                      div.col.s11.m11.l11
+                        div.form-group
+                          label(for=input.id)= input.label
+                          select(id=input.id, class="form-control")
+                            each option, index in input.options
+                              - var optgroup = (option === '_OPTGROUP')
+                                if optgroup
+                                  optgroup(label=index)
+                                else
+                                  option(value=index)= option
+                  //- template for date input fields
+                  //- TODO add datepicker that works across browsers
+                  if input.type === 'date'
+                    div.row.input
+                      div.col.s1.m1.l1.prefix
+                        i(class='mdi-action-help inputprefix tooltipped', data-position='bottom', data-delay='50', data-tooltip=input.tooltip)
+                      div.col.s11.m11.l11
+                        div.form-group
+                          label(for=input.id)= input.label
+                          if input.addon
+                            div.input-group
+                              input(type='date', class='form-control')
+                              span.input-group-addon= input.addon
+                          else
                             input(type='date', class='form-control')
-                            span.input-group-addon= input.addon
-                        else
-                          input(type='date', class='form-control')
 
-              div.row.input.center-align
-                a.waves-effect.waves-light.btn#btn-calculate
-                  i.mdi-content-send.right
-                  | Berechnen
+                button.btn.btn-primary.btn-block.m-t#btn-calculate Berechnen
 
-      div.col.s12#results-1
+        div.row
+          div.col-lg-12#results-1
 
-      div.col.s12#results-2
+        div.row
+          div.col-lg-12#results-2
 
-      div.col.s12#results-3
+        div.row
+          div.col-lg-12#results-3
 
-      div.col.s12#results-4
+        div.row
+          div.col-lg-12#results-4
 
-      div.col.s12#results-5
+        div.row
+          div.col-lg-12#results-5
 
-      div.col.s12#results-6
+        div.row
+          div.col-lg-12#results-6
 
 
     //- right hand side components
@@ -102,40 +104,38 @@ block content
 
   //- main results template
   script(id='main-results-template', type='text/x-handlebars-template')
-    div.card.blue.lighten-5
-      div.col.l10.offset-l1.m12.s12
-        div.card-content.black-text
-          i.mdi-action-done-all.small
-          span.card-title.black-text &nbsp Ergebnisse
-          table.bordered
-            tbody
-              | {{#each obj}}
-              tr
-                td
-                  i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
-                  | &nbsp {{this.description}}
-                td(style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
-              | {{/each}}
+    div.ibox
+      div.ibox-title
+        h5 Ergebnisse
+
+      div.ibox-content
+        table.bordered
+          tbody
+            | {{#each obj}}
+            tr
+              td
+                i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
+                | &nbsp {{this.description}}
+              td(style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
+            | {{/each}}
 
   //- main results error template
   script(id='main-results-error-template', type='text/x-handlebars-template')
-    div.card.blue.lighten-5
-      div.col.l10.offset-l1.m12.s12
-        div.card-content.black-text
-          i.mdi-action-done-all.small
-          span.card-title.black-text &nbsp Ergebnisse
-          p
-          h5.red-text.darken-2 Berechnungsfehler
-          p.red-text.darken-2 Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
+    div.ibox
+      div.ibox-title
+        h5 Ergebnisse
+
+      div.ibox-content
+        h5 Berechnungsfehler
+        p Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
 
   //- main results input template
   script(id='main-results-input-template', type='text/x-handlebars-template')
-    div.card.blue.lighten-5
-      div.col.l10.offset-l1.m12.s12
-        div.card-content.black-text
-          i.mdi-action-done-all.small
-          span.card-title.black-text &nbsp Ergebnisse
-          p
+    div.ibox
+      div.ibox-title
+        h5 Ergebnisse
+
+      div.ibox-content
           p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
   //- include calculator specific templates
