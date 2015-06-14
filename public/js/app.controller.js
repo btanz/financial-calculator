@@ -13,8 +13,11 @@ app.controller = (function() {
     // initialize materializecss select buttons
     $('.button-collapse').sideNav({'edge': 'left'});
 
-    // initialie materializecss tooltips
+    // initialize materializecss tooltips
     $('.tooltipped').tooltip({delay: 50});
+
+    // run initialization steps
+    app.init();
 
     // initialize global event handlers
     $('#btn-calculate').on('click',function(e){submitBtnCalculate(e)});
@@ -46,6 +49,7 @@ app.controller = (function() {
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
+
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data){
@@ -72,7 +76,8 @@ app.controller = (function() {
 
   // handler that invalidates result (used for example if one of the inputs changes
   function invalidateResults(e){
-    app.helpers.compileTemplate('#results-1','#main-results-input-template',{});
+    app.helpers.clearAllResultsTemplates();
+    //app.helpers.compileTemplate('#results-1','#main-results-input-template',{});
   }
 
 

@@ -93,7 +93,7 @@ block content
                 td
                   i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
                   | &nbsp {{this.description}}
-                td(style='text-align: right') {{this.value}} {{this.unit}}
+                td(style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
               | {{/each}}
 
   //- main results error template

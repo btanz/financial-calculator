@@ -17,8 +17,8 @@ script(id='boerse-fx-results-2-template', type='text/x-handlebars-template')
           tbody
             | {{#each obj.body}}
             tr
-              td(style='text-align: right; padding-right: 30px;') {{this.[0]}}
-              td(style='text-align: left; padding-left: 30px; border-right: 1px solid #d0d0d0;') {{this.[1]}}
-              td(style='text-align: right; padding-right: 30px;') {{this.[2]}}
-              td(style='text-align: left; padding-left: 30px;') {{this.[3]}}
+              td(style='text-align: right; padding-right: 30px;') {{numFormat this.[0] this.digits}}
+              td(style='text-align: left; padding-left: 30px; border-right: 1px solid #d0d0d0;') {{numFormat this.[1] this.digits}}
+              td(style='text-align: right; padding-right: 30px;') {{numFormat this.[2] this.digits}}
+              td(style='text-align: left; padding-left: 30px;') {{numFormat this.[3] this.digits}}
             | {{/each}}

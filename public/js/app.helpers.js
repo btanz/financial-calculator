@@ -5,7 +5,7 @@
 
 app.helpers = (function($) {
 
-  var compileTemplate;
+  var compileTemplate, numeralInit;
 
   // This function reads the Handlebars template with templateId and compiles it to html using the dataObj
   // Then, it removes all childs from the containerId and appends the compiled template as child to containerId
@@ -17,8 +17,23 @@ app.helpers = (function($) {
     $(containerSelector).append(HTML);
   };
 
+  clearResultsTemplate = function(containerSelector){
+    $(containerSelector).children().remove();
+  };
+
+  clearAllResultsTemplates = function(){
+    compileTemplate('#results-1','#main-results-input-template',{});
+    clearResultsTemplate('#results-2');
+    clearResultsTemplate('#results-3');
+    clearResultsTemplate('#results-4');
+    clearResultsTemplate('#results-5');
+    clearResultsTemplate('#results-6');
+  };
+
   return {
-    compileTemplate: compileTemplate
+    compileTemplate: compileTemplate,
+    clearResultsTemplate: clearResultsTemplate,
+    clearAllResultsTemplates: clearAllResultsTemplates
   }
 
 

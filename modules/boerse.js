@@ -86,14 +86,14 @@ exports.blackScholes = function (inputs) {
 
   // construct result object
   result.id = calcElems.options.id;
-  result._1.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'tooltip': localElems.value.tooltip};
-  result._1.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'tooltip': localElems.delta.tooltip};
-  result._1.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'tooltip': localElems.gamma.tooltip};
-  result._1.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'tooltip': localElems.theta.tooltip};
-  result._1.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'tooltip': localElems.vega.tooltip};
-  result._1.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'tooltip': localElems.rho.tooltip};
-  result._1.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'tooltip': localElems.intrinsicValue.tooltip};
-  result._1.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'tooltip': localElems.timeValue.tooltip};
+  result._1.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'digits': 4, 'tooltip': localElems.value.tooltip};
+  result._1.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'digits': 4, 'tooltip': localElems.delta.tooltip};
+  result._1.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'digits': 4, 'tooltip': localElems.gamma.tooltip};
+  result._1.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'digits': 4, 'tooltip': localElems.theta.tooltip};
+  result._1.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'digits': 4, 'tooltip': localElems.vega.tooltip};
+  result._1.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'digits': 4, 'tooltip': localElems.rho.tooltip};
+  result._1.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'digits': 4, 'tooltip': localElems.intrinsicValue.tooltip};
+  result._1.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'digits': 4, 'tooltip': localElems.timeValue.tooltip};
 
   return result;
 
