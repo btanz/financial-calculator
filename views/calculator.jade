@@ -59,15 +59,7 @@ block content
                   i.mdi-content-send.right
                   | Berechnen
 
-
-      //- results components
-      div.col.s12
-        div.card.blue.lighten-5
-          div.col.l10.offset-l1.m12.s12
-            div.card-content.black-text
-              i.mdi-action-done-all.small
-              span.card-title.black-text &nbsp Ergebnisse
-              div#main-results
+      div.col.s12#results-1
 
       div.col.s12#results-2
 
@@ -107,26 +99,41 @@ block content
 
   //- main results template
   script(id='main-results-template', type='text/x-handlebars-template')
-    table.bordered
-      tbody
-        | {{#each obj}}
-        tr
-          td
-            i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
-            | &nbsp {{this.description}}
-          td(style='text-align: right') {{this.value}} {{this.unit}}
-        | {{/each}}
+    div.card.blue.lighten-5
+      div.col.l10.offset-l1.m12.s12
+        div.card-content.black-text
+          i.mdi-action-done-all.small
+          span.card-title.black-text &nbsp Ergebnisse
+          table.bordered
+            tbody
+              | {{#each obj}}
+              tr
+                td
+                  i(class='mdi-action-help prefix tooltipped', style='font-size:1.65rem',data-position='bottom', data-delay='50', data-tooltip='{{this.tooltip}}')
+                  | &nbsp {{this.description}}
+                td(style='text-align: right') {{this.value}} {{this.unit}}
+              | {{/each}}
 
   //- main results error template
   script(id='main-results-error-template', type='text/x-handlebars-template')
-    p
-    h5.red-text.darken-2 Berechnungsfehler
-    p.red-text.darken-2 Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
+    div.card.blue.lighten-5
+      div.col.l10.offset-l1.m12.s12
+        div.card-content.black-text
+          i.mdi-action-done-all.small
+          span.card-title.black-text &nbsp Ergebnisse
+          p
+          h5.red-text.darken-2 Berechnungsfehler
+          p.red-text.darken-2 Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
 
   //- main results input template
   script(id='main-results-input-template', type='text/x-handlebars-template')
-    p
-    p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
+    div.card.blue.lighten-5
+      div.col.l10.offset-l1.m12.s12
+        div.card-content.black-text
+          i.mdi-action-done-all.small
+          span.card-title.black-text &nbsp Ergebnisse
+          p
+          p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
   //- test full card template
   script(id='test-template', type='text/x-handlebars-template')
@@ -135,5 +142,6 @@ block content
         div.card-content.black-text
           i.mdi-action-done-all.small
           span.card-title.black-text &nbsp Ergebnisse
+          p
           p Hallo Ben. Es funktioniert
 

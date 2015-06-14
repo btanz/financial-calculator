@@ -54,22 +54,22 @@ app.controller = (function() {
 
           // get, compile and fill results template
           if(!(data === null)) {
-            app.helpers.compileTemplate('#main-results','#main-results-template',data.main);
+            app.helpers.compileTemplate('#results-1','#main-results-template',data.main);
             $('.tooltipped').tooltip({delay: 50});  // initalize tooltips
             console.log(data);
           } else {
-            app.helpers.compileTemplate('#main-results','#main-results-error-template',{});
+            app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
           }
         })
         .fail(function(){
           console.log('Leider ist ein Fehler aufgetreten');
-          app.helpers.compileTemplate('#main-results','#main-results-error-template',{});
+          app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
         });
   }
 
   // handler that invalidates result (used for example if one of the inputs changes
   function invalidateResults(e){
-    app.helpers.compileTemplate('#main-results','#main-results-input-template',{});
+    app.helpers.compileTemplate('#results-1','#main-results-input-template',{});
   }
 
 
