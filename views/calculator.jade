@@ -60,6 +60,7 @@ block content
                               else
                                 option(value=index)= option
                 //- template for date input fields
+                //- TODO add datepicker that works across browsers
                 if input.type === 'date'
                   div.row.input
                     div.col.s1.m1.l1.prefix
@@ -69,10 +70,10 @@ block content
                         label(for=input.id)= input.label
                         if input.addon
                           div.input-group
-                            input(type='date', class='datepicker form-control')
+                            input(type='date', class='form-control')
                             span.input-group-addon= input.addon
                         else
-                          input(type='date', class='datepicker form-control')
+                          input(type='date', class='form-control')
 
               div.row.input.center-align
                 a.waves-effect.waves-light.btn#btn-calculate

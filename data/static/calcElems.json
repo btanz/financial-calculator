@@ -536,6 +536,13 @@
         "addon": "Datum",
         "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
         "type": "date"
+      },
+      "selldate": {
+        "id": "boerse-equityreturn-selldate",
+        "label": "Verkaufsdatum",
+        "addon": "Datum",
+        "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
+        "type": "date"
       }
     },
     "outputs": {
