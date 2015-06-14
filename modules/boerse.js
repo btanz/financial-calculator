@@ -22,7 +22,7 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *   none
  *
  * RETURNS
- *   object result.main.
+ *   object result._1.
  *     value                    object, containing description, value and unit of BS-value of the option
  *     delta                    object, containing description, value and unit of option delta
  *     gamma                    object, containing description, value and unit of option gamma
@@ -38,7 +38,7 @@ exports.blackScholes = function (inputs) {
 
   // init and assign
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
-  var result = {}; result.main = {};
+  var result = {}; result._1 = {};
   var localElems = calcElems.options.outputs;
 
   var expectedInputs = {
@@ -85,14 +85,15 @@ exports.blackScholes = function (inputs) {
   }
 
   // construct result object
-  result.main.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'tooltip': localElems.value.tooltip};
-  result.main.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'tooltip': localElems.delta.tooltip};
-  result.main.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'tooltip': localElems.gamma.tooltip};
-  result.main.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'tooltip': localElems.theta.tooltip};
-  result.main.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'tooltip': localElems.vega.tooltip};
-  result.main.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'tooltip': localElems.rho.tooltip};
-  result.main.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'tooltip': localElems.intrinsicValue.tooltip};
-  result.main.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'tooltip': localElems.timeValue.tooltip};
+  result.id = calcElems.options.id;
+  result._1.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'tooltip': localElems.value.tooltip};
+  result._1.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'tooltip': localElems.delta.tooltip};
+  result._1.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'tooltip': localElems.gamma.tooltip};
+  result._1.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'tooltip': localElems.theta.tooltip};
+  result._1.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'tooltip': localElems.vega.tooltip};
+  result._1.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'tooltip': localElems.rho.tooltip};
+  result._1.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'tooltip': localElems.intrinsicValue.tooltip};
+  result._1.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'tooltip': localElems.timeValue.tooltip};
 
   return result;
 
@@ -105,7 +106,7 @@ exports.fxConvert = function (inputs,callback) {
   // init and assign
   var value, returnResults;
   var localElems = calcElems.fx.outputs;
-  var result = {}; result.main = {}; result.table = {};
+  var result = {}; result._1 = {}; result._2 = {};
 
   var expectedInputs = {
     principal: 'Number',
@@ -130,14 +131,18 @@ exports.fxConvert = function (inputs,callback) {
 
   returnResults = function(value){
   // construct result object
-    // main result
-    result.main.value =          {'description': 'Betrag in Zielwährung',  'value': value,         'unit': inputs.to, 'tooltip': localElems.value.tooltip};
-    // currency conversion table
-    result.table.title = 'Umrechnungstabelle';
-    result.table.header = [inputs.from, inputs.to, inputs.from, inputs.to];
-    result.table.body = [];
+    // calc_id
+    result.id = calcElems.fx.id;
+
+    // first result container
+    result._1.value =          {'description': 'Betrag in Zielwährung',  'value': value,         'unit': inputs.to, 'tooltip': localElems.value.tooltip};
+
+    // second result container
+    result._2.title = 'Umrechnungstabelle';
+    result._2.header = [inputs.from, inputs.to, inputs.from, inputs.to];
+    result._2.body = [];
     [1,2,3,4,5,10,15,20,25,50,100,250,500,1000].forEach(function(element, index){
-      result.table.body.push([element, element*(value/inputs.principal), element, element/(value/inputs.principal)]);
+      result._2.body.push([element, element*(value/inputs.principal), element, element/(value/inputs.principal)]);
     });
   callback(result);
   }

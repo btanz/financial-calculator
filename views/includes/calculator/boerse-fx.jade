@@ -1,0 +1,24 @@
+//- boerse-fx-template
+script(id='boerse-fx-results-2-template', type='text/x-handlebars-template')
+  div.card.blue.lighten-5
+    div.col.l10.offset-l1.m12.s12
+      div.card-content.black-text
+        i.mdi-notification-event-available.small
+        span.card-title.black-text &nbsp {{obj.title}}
+        table.bordered
+          thead
+            tr
+              | {{#with obj.header}}
+              th(style='text-align: right; padding-right: 30px;') {{this.[0]}}
+              th(style='text-align: left; padding-left: 30px; border-right: 1px solid #d0d0d0;') {{this.[1]}}
+              th(style='text-align: right; padding-right: 30px;') {{this.[2]}}
+              th(style='text-align: left; padding-left: 30px;') {{this.[3]}}
+              | {{/with}}
+          tbody
+            | {{#each obj.body}}
+            tr
+              td(style='text-align: right; padding-right: 30px;') {{this.[0]}}
+              td(style='text-align: left; padding-left: 30px; border-right: 1px solid #d0d0d0;') {{this.[1]}}
+              td(style='text-align: right; padding-right: 30px;') {{this.[2]}}
+              td(style='text-align: left; padding-left: 30px;') {{this.[3]}}
+            | {{/each}}

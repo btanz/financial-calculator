@@ -1,5 +1,6 @@
 {
   "options": {
+    "id": "boerse-options",
     "name": "Optionspreisrechner",
     "description": "Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.",
     "inputs": {
@@ -85,6 +86,7 @@
 
 
   "fx": {
+    "id": "boerse-fx",
     "name": "Währungsrechner",
     "description": "Mit dem Währungsrechner kannst du beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.",
     "inputs": {

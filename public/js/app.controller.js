@@ -46,15 +46,18 @@ app.controller = (function() {
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
-    console.log(inputs);
-
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data){
 
           // get, compile and fill results template
-          if(!(data === null)) {
-            app.helpers.compileTemplate('#results-1','#main-results-template',data.main);
+          if(!(data === null) && (typeof data.id === 'string')) {
+            if(data._1)
+              app.helpers.compileTemplate('#results-1','#main-results-template',data._1);
+
+            if(data._2)
+              app.helpers.compileTemplate('#results-2','#' + data.id + '-results-2-template',data._2);
+
             $('.tooltipped').tooltip({delay: 50});  // initalize tooltips
             console.log(data);
           } else {

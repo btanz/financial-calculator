@@ -77,24 +77,6 @@ block content
       p Hier ist Platz für ads etc
 
 
-
-
-
-  //div.row
-    //- explanation component
-    div(class='col s12 m6', style='display:none', id='result-row2-left')
-      div.card.blue.lighten-5
-        div.card-content.black-text
-          span.card-title.black-text Detailergebnisse
-          p Raum für Detailergebnisse
-
-    //- explanation component
-    div(class='col s12 m6', style='display:none', id='result-row2-right')
-      div.card.blue.lighten-5
-        div.card-content.black-text
-          span.card-title.black-text Details zu diesem Rechner
-          p Raum für Erklärungen
-
   //- handlebars templates to be used on the client for output
 
   //- main results template
@@ -135,13 +117,19 @@ block content
           p
           p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
-  //- test full card template
-  script(id='test-template', type='text/x-handlebars-template')
-    div.card.blue.lighten-5
-      div.col.l10.offset-l1.m12.s12
-        div.card-content.black-text
-          i.mdi-action-done-all.small
-          span.card-title.black-text &nbsp Ergebnisse
-          p
-          p Hallo Ben. Es funktioniert
+  //- include calculator specific templates
+  - var boerse_fx = (obj.id === 'boerse-fx')
+  if boerse_fx
+    include ./includes/calculator/boerse-fx
+
+
+
+
+
+
+
+
+
+
+
 
