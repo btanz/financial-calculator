@@ -25,17 +25,18 @@ html(lang='de')
 
 
   body
-    header
-      //- add navigation
-      include includes/navbar
+    div#wrapper
+      header
+        //- add navigation
+        include includes/navbar
 
-    main#page-wrapper.gray-bg
-      //- add main content
-      block content
+      main#page-wrapper.gray-bg.sidebar-content
+        //- add main content
+        block content
 
-    footer.page-footer
-      //- add footer
-      include includes/footer
+      footer.page-footer
+        //- add footer
+        include includes/footer
 
     //- include scripts
     include includes/scripts

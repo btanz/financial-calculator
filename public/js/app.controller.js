@@ -10,9 +10,6 @@ app.controller = (function() {
   /*********************** BEGIN DOCUMENT READY TASKS ***********************/
   $(document).ready(function(){
 
-    // MetisMenu
-    $('#side-menu').metisMenu();
-
     // run initialization steps
     app.init();
 
@@ -27,6 +24,17 @@ app.controller = (function() {
 
   });
   /*********************** END DOCUMENT READY TASKS *************************/
+
+  // XXX
+    // Minimalize menu when screen is less than 768px
+  $(window).bind("resize", function () {
+    if ($(this).width() < 769) {
+      $('body').addClass('body-small')
+    } else {
+      $('body').removeClass('body-small')
+    }
+  });
+
 
 
   /*********************** BEGIN GLOBAL EVENT HANDLERS ***********************/

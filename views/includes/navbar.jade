@@ -4,7 +4,6 @@
 //- page navigation
 //- the navigation values are retrieved form app.local.navElems
 
-
 nav(class='navbar-default navbar-static-side', role='navigation')
   div.sidebar-collapse
     ul.nav#side-menu
@@ -50,37 +49,3 @@ nav(class='navbar-default navbar-static-side', role='navigation')
           i.fa.fa-th-large
           span.nav-label
             | Über uns
-
-
-
-
-
-
-
-//
-  div.container
-    a(href='#', data-activates='nav-mobile', class='button-collapse top-nav waves-effect waves-light circle')
-      i.mdi-navigation-menu
-  ul(id='nav-mobile', class='side-nav fixed')
-    li.logo
-      a(id='logo-container', href='/', class='brand-logo')
-        object(id='front-page-logo', type='image/svg+xml', data='/images/materialize.svg') Der Browser unterstützt kein SVG
-    li.bold
-      a(href='#!', class='waves-effect waves-blue') Erste Schritte
-    li.bold
-      a(href='#!', class='waves-effect waves-blue') Blog
-    li.divider
-    li.no-padding
-      ul.collapsible.collapsible-accordion
-        //-var layoutObj = [{'name': 'Finanzplaung','values':{1:{name:'Risikopräferenzen', url:'/'},2:{name:'Zinsrechner', url:'/'}}},{'name': 'Kredit','values':{1:{name:'Kredit1', url:'/'},2:{name:'Kredit2', url:'/'}}}];
-        each category in navElems
-          li.bold
-            a(class='collapsible-header waves-effect waves-blue')= category.name
-            div(class='collapsible-body')
-              ul
-                each item in category.values
-                  li
-                    a(href=item.url)= item.name
-    li.divider
-    li.bold
-      a(href='#!', class='waves-effect waves-blue') Über uns

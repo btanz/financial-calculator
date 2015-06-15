@@ -1,0 +1,11 @@
+body.body-small.fixed-sidebar.mini-navbar #page-wrapper {
+  margin: 0 0 0 220px;
+}
+body.body-small.fixed-sidebar.mini-navbar .navbar-static-side {
+  width: 220px;
+}
+
+.body-small .sidebar-content .wrapper,
+.body-small .wrapper.sidebar-content {
+  padding-right: 20px !important;
+}
