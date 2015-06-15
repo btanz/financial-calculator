@@ -6,6 +6,17 @@
 
 app.init = function(){
 
+
+  // initialize datepicker
+  $('.input-group.date').datepicker({
+    language: 'de',
+    todayBtn: "linked",
+    keyboardNavigation: false,
+    forceParse: false,
+    calendarWeeks: true,
+    autoclose: true
+  });
+
   // initialize numeral.js package for number formatting
   (function(){
 

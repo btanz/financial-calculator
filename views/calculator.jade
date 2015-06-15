@@ -39,9 +39,13 @@ block content
           div.ibox-content
             form
               each input in obj.inputs
+                - var rank = input.secondary ? 'm-l-lg' : ''
+                - var hide = input.hide ? 'hide' : ''
                 //- template for text input fields
                 if input.type === 'text'
-                  div.form-group
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
                     label(for=input.id)
                       i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
                       | #{input.label}
@@ -54,7 +58,9 @@ block content
 
                 //- template for select input fields
                 if input.type === 'select'
-                  div.form-group
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
                     label(for=input.id)
                       i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
                       | #{input.label}
@@ -68,7 +74,9 @@ block content
 
                 //- template for date input fields
                 if input.type === 'date'
-                  div.form-group
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
                     label(for=input.id)
                       i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
                       | #{input.label}

@@ -1,0 +1,14 @@
+/*************************************/
+/* Individual Elements
+/*************************************/
+.hr-line-dashed {
+  border-top: 1px dashed #aaadaf;
+  color: #40dfff;
+  background-color: #ffffff;
+  height: 1px;
+  margin: 15px 0;
+}
+
+.hide {
+  display: none;
+}

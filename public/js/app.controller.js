@@ -7,17 +7,8 @@
 app.controller = (function() {
   "use strict";
 
-  /*********************** BEGIN DOCUMENT READY TASKS ***********************/
+  /*********************** BEGIN GLOBAL DOCUMENT READY TASKS ***********************/
   $(document).ready(function(){
-
-    $('.input-group.date').datepicker({
-      language: 'de',
-      todayBtn: "linked",
-      keyboardNavigation: false,
-      forceParse: false,
-      calendarWeeks: true,
-      autoclose: true
-    });
 
     // run initialization steps
     app.init();
@@ -32,7 +23,7 @@ app.controller = (function() {
     $('input, select').on('keyup change', function(e){ invalidateResults(e) })
 
   });
-  /*********************** END DOCUMENT READY TASKS *************************/
+  /*********************** END GLOBAL DOCUMENT READY TASKS *************************/
 
 
   /*********************** BEGIN GLOBAL EVENT HANDLERS ***********************/

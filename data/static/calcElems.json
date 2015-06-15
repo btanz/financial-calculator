@@ -532,6 +532,7 @@
       },
       "buydate": {
         "id": "boerse-equityreturn-buydate",
+        "linetop": "true",
         "label": "Kaufdatum",
         "addon": "Datum",
         "value": "08.01.2013",
@@ -545,7 +546,54 @@
         "value": "28.04.2015",
         "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
         "type": "date"
+      },
+      "fees": {
+        "id": "boerse-equityreturn-fees",
+        "linetop": "true",
+        "label": "Sind Gebühren angefallen?",
+        "placeholer": "Gebühren",
+        "tooltip": "Gebe hier ja an, falls bei Kauf oder Verlauf der Aktie Gebühren angefallen sind. Du kannst dann die Gebühren in den entsprechenden Feldern eingeben. Diese Gebühren werden in der Berechnung der Rendite berücksichtigt. Dabei wird angenommen, dass die Gebühren entsprechend am Kauf- bzw. Verkaufsdatum anfielen. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
+        "type": "select",
+        "options": {
+          "1": "NEIN",
+          "2": "JA"
+        }
+      },
+      "feebuy": {
+        "id": "boerse-equityreturn-feebuy",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Kaufgebühren",
+        "addon": "EUR",
+        "placeholder": "Kaufgebühren",
+        "value": "",
+        "tooltip": "Gebe hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
+        "type": "text"
+      },
+      "feesell": {
+        "id": "boerse-equityreturn-feesell",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Verkaufsgebühren",
+        "addon": "EUR",
+        "placeholder": "Verkaufsgebühren",
+        "value": "",
+        "tooltip": "Gebe hier die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
+        "type": "text"
+      },
+      "dividends": {
+        "id": "boerse-equityreturn-dividends",
+        "linetop": "true",
+        "label": "Wie viele Dividendenzahlungen fanden statt?",
+        "placeholer": "Dividendenzahlungen",
+        "tooltip": "Gebe hier die Anzahl der Dividendenzahlungen an, die während der Halteperiode der Aktie/Aktien erfolgten. Falls keine Dividendenzahlungen erfolgten bzw. Dividenden nicht in der Berechnung berücksichtigt werden sollen, so setze den Wert auf 0. Falls Zahlungen erfolgten, kannst du in den folgenden Feldern für jede Zahlung jeweils das Datum sowie den Dividendenbetrag eingeben. Falls ein freier Wert für das Datum in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Dividendenzahlung pro Aktie an.",
+        "type": "select",
+        "options": {
+          "0": "0", "1": "1", "2": "2", "3": "3", "4": "4",  "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
+          "11": "11", "12": "12", "13": "13", "14": "14",  "15": "15", "16": "16", "17": "17", "18": "18", "19": "19", "20": "20"
+        }
       }
+
     },
     "outputs": {
 
