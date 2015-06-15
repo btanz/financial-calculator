@@ -10,6 +10,15 @@ app.controller = (function() {
   /*********************** BEGIN DOCUMENT READY TASKS ***********************/
   $(document).ready(function(){
 
+    $('.input-group.date').datepicker({
+      language: 'de',
+      todayBtn: "linked",
+      keyboardNavigation: false,
+      forceParse: false,
+      calendarWeeks: true,
+      autoclose: true
+    });
+
     // run initialization steps
     app.init();
 
@@ -24,17 +33,6 @@ app.controller = (function() {
 
   });
   /*********************** END DOCUMENT READY TASKS *************************/
-
-  // XXX
-    // Minimalize menu when screen is less than 768px
-  $(window).bind("resize", function () {
-    if ($(this).width() < 769) {
-      $('body').addClass('body-small')
-    } else {
-      $('body').removeClass('body-small')
-    }
-  });
-
 
 
   /*********************** BEGIN GLOBAL EVENT HANDLERS ***********************/
@@ -67,8 +65,9 @@ app.controller = (function() {
             if(data._2)
               app.helpers.compileTemplate('#results-2','#' + data.id + '-results-2-template',data._2);
 
-            $('.tooltipped').tooltip({delay: 50});  // initalize tooltips
-            console.log(data);
+            // initialize new tooltips
+            $('[data-toggle="tooltip"]').tooltip();
+
           } else {
             app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
           }

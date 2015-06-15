@@ -6,45 +6,6 @@
 
 app.init = function(){
 
-  // *** run scripts for responsive view ***
-
-  // Add body-small class if window less than 768px
-  if ($(document).width() < 769) {
-    $('body').addClass('body-small')
-  } else {
-    $('body').removeClass('body-small')
-  }
-
-  // lhs menu
-  $('#side-menu').metisMenu();
-
-  // Full height of sidebar
-  function fix_height() {
-    var heightWithoutNavbar = $("body > #wrapper").height() - 61;
-    $(".sidebar-panel").css("min-height", heightWithoutNavbar + "px");
-
-    console.log(heightWithoutNavbar);
-
-    var navbarHeigh = $('nav.navbar-default').height();
-    var wrapperHeigh = $('#page-wrapper').height();
-
-    if(navbarHeigh > wrapperHeigh){
-      $('#page-wrapper').css("min-height", navbarHeigh + "px");
-    }
-
-    if(navbarHeigh < wrapperHeigh){
-      $('#page-wrapper').css("min-height", $(window).height()  + "px");
-    }
-  }
-  fix_height();
-
-  $(document).bind("load resize scroll", function() {
-    if(!$("body").hasClass('body-small')) {
-      fix_height();
-    }
-  });
-
-
   // initialize numeral.js package for number formatting
   (function(){
 

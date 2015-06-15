@@ -12,31 +12,29 @@ html(lang='de')
     title SimplyFi
     //- favicons
 
-
     //- Import vendor css
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
     link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+    link(rel='stylesheet' href='../css/vendor/bootstrap_datepicker/bootstrap-datepicker3.css')
 
     //- Import app css
-    link(rel='stylesheet' href='../stylesheets/main.css')
-    link(rel='stylesheet' href='../stylesheets/navbar.css')
-    link(rel='stylesheet' href='../stylesheets/box.css')
-    link(rel='stylesheet' href='../stylesheets/components.css')
+    link(rel='stylesheet' href='../css/inspinia.css')
 
-
-  body
+  body.skin
     div#wrapper
-      header
-        //- add navigation
-        include includes/navbar
+      //- add side navigation
+      include includes/navbar
 
-      main#page-wrapper.gray-bg.sidebar-content
+      div#page-wrapper.gray-bg.sidebar-content
+
+        //- add top navbar
+        include ./includes/navtop.jade
         //- add main content
         block content
 
-      footer.page-footer
-        //- add footer
-        include includes/footer
+        div.footer
+          //- add footer
+          include includes/footer
 
     //- include scripts
     include includes/scripts

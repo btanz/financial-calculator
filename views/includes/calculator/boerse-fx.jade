@@ -1,11 +1,13 @@
 //- boerse-fx-template
 script(id='boerse-fx-results-2-template', type='text/x-handlebars-template')
-  div.ibox
+  div.ibox.float-e-margins
     div.ibox-title
-      h5 {{obj.title}}
+      h5
+        i.fa.fa-bar-chart-o.fa-lg.text-navy &nbsp
+        | {{obj.title}}
 
     div.ibox-content
-      table.bordered
+      table.table.table-striped
         thead
           tr
             | {{#with obj.header}}

@@ -534,6 +534,7 @@
         "id": "boerse-equityreturn-buydate",
         "label": "Kaufdatum",
         "addon": "Datum",
+        "value": "08.01.2013",
         "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
         "type": "date"
       },
@@ -541,6 +542,7 @@
         "id": "boerse-equityreturn-selldate",
         "label": "Verkaufsdatum",
         "addon": "Datum",
+        "value": "28.04.2015",
         "tooltip": "Gebe hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.",
         "type": "date"
       }
