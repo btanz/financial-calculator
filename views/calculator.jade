@@ -22,10 +22,6 @@ block content
           a(href='/') Home
           a(href='/') Home again
 
-
-
-
-
   div.wrapper.wrapper-content
     div.row
       div.col-lg-12
@@ -151,8 +147,14 @@ block content
       div.ibox-content
           p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
+
+  //- todo: Rework to switch / find more elegant solution
   //- include calculator specific templates
   - var boerse_fx = (obj.id === 'boerse-fx')
   if boerse_fx
     include ./includes/calculator/boerse-fx
+
+  - var boerse_equityreturn = (obj.id === 'boerse-equityreturn')
+  if boerse_equityreturn
+    include ./includes/calculator/boerse-equityreturn
 

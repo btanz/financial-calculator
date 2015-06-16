@@ -1,0 +1,18 @@
+//
+   Created by benjamintanz on 15.06.15.
+
+script(id='boerse-equityreturn-dividendsInput-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-md-3
+        h4 {{obj.count}}
+      div.col-md-5
+        div.input-group.date
+          span.input-group-addon
+            i.fa.fa-calendar
+          input(type='text', id='{{obj.id1}}', class='form-control')
+      div.col-md-4
+        div.input-group
+          input(placeholder='', id='{{obj.id2}}', type='text', value='', class="form-control")
+          span.input-group-addon EUR
+
