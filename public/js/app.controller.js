@@ -46,18 +46,22 @@ app.controller = (function() {
 
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
-        .done(function(data){
+        .done(function(data) {
+          console.log(data);
 
           // get, compile and fill results template
-          if(!(data === null) && (typeof data.id === 'string')) {
-            if(data._1)
-              app.helpers.compileTemplate('#results-1','#main-results-template',data._1);
+          if (!(data === null) && (typeof data.id === 'string')) {  // case where everything is alright
+            if (data._1)
+              app.helpers.compileTemplate('#results-1', '#main-results-template', data._1);
 
-            if(data._2)
-              app.helpers.compileTemplate('#results-2','#' + data.id + '-results-2-template',data._2);
+            if (data._2)
+              app.helpers.compileTemplate('#results-2', '#' + data.id + '-results-2-template', data._2);
 
             // initialize new tooltips
             $('[data-toggle="tooltip"]').tooltip();
+
+          } else if (!(data === null) && Array.isArray(data)){  // case where an errorMap is returned
+            app.helpers.compileTemplate('#results-1','#main-results-error-template',{errors: data});
 
           } else {
             app.helpers.compileTemplate('#results-1','#main-results-error-template',{});

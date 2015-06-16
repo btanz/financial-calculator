@@ -10,6 +10,8 @@
         "placeholder": "Art der Option",
         "tooltip": "Gebe hier ein, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.",
         "type": "select",
+        "vtype": "number",
+        "args": [1,2],
         "options": {
           "1": "Call-Option",
           "2": "Put-Option"
@@ -22,7 +24,9 @@
         "placeholder": "Preis der Aktie",
         "value": "50.00",
         "tooltip": "Gebe hier den Preis der Aktien bzw. des Underlyings ein.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,1000000000]
       },
       "strike": {
         "id": "boerse-options-strike",
@@ -31,7 +35,9 @@
         "placeholder": "Strike/Basispreis",
         "value": "50.00",
         "tooltip": "Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,1000000000]
       },
       "interest": {
         "id": "boerse-options-interest",
@@ -40,7 +46,9 @@
         "placeholder": "Zinssatz",
         "value": "3.00",
         "tooltip": "Gebe hier den annualisierten risikolosen Zinssatz in % an.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,1000]
       },
       "maturity": {
         "id": "boerse-options-maturity",
@@ -49,7 +57,9 @@
         "placeholder": "Restlaufzeit in Tagen",
         "value": "60",
         "tooltip": "Gebe hier die Restlaufzeit der Option in Tagen an.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,100000]
       },
       "vola": {
         "id": "boerse-options-vola",
@@ -58,7 +68,9 @@
         "placeholder": "Volatilität",
         "value": "12.00",
         "tooltip": "Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,1000]
       }
     },
     "outputs": {
@@ -101,6 +113,7 @@
         "placeholder": "Ausgangswährung",
         "tooltip": "Dies ist die Währungseinheit des Betrages, welcher umgerechnet werden soll. Falls du Geld umtauschen möchtest entspricht die Ausgangswährung die Währung in deinem Besitz.",
         "type": "select",
+        "vtype": "string",
         "options": {
           "Favoriten": "_OPTGROUP",
           "EUR ":"Euro - EUR",
@@ -294,7 +307,9 @@
         "placeholder": "Betrag",
         "value": "100.00",
         "tooltip": "Gebe hier den Betrag in der Ausgangswährung ein. Falls du Geld umtauschen möchtest ist dies das umzutauschende Geld in deinem Besitz.",
-        "type": "text"
+        "type": "text",
+        "vtype": "number",
+        "args": [0,1000000000000]
       },
       "to": {
         "id": "boerse-fx-to",
@@ -302,6 +317,7 @@
         "placeholder": "Zielwährung",
         "tooltip": "Dies ist die Währungseinheit des Betrages, welchen du nach der Umrechnung bekommst. Beim Geldumtausch entspricht dies der Währung, welche du nach dem Umtausch haben möchtest.",
         "type": "select",
+        "vtype": "string",
         "options": {
           "Favoriten": "_OPTGROUP",
           "EUR ":"Euro - EUR",
@@ -555,8 +571,8 @@
         "tooltip": "Gebe hier ja an, falls bei Kauf oder Verlauf der Aktie Gebühren angefallen sind. Du kannst dann die Gebühren in den entsprechenden Feldern eingeben. Diese Gebühren werden in der Berechnung der Rendite berücksichtigt. Dabei wird angenommen, dass die Gebühren entsprechend am Kauf- bzw. Verkaufsdatum anfielen. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
         "type": "select",
         "options": {
-          "1": "NEIN",
-          "2": "JA"
+          "false": "NEIN",
+          "true": "JA"
         }
       },
       "feebuy": {

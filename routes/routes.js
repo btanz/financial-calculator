@@ -3,12 +3,18 @@ var router = express.Router();
 var boerse = require('../modules/boerse');
 var calcElems = require('../data/static/calcElems.json');
 
-/* ******* landing-route ****** */
+
+/* **********************************
+** landing page route route
+*********************************** */
 router.get('/', function(req, res, next) {
   res.render('index', {title: 'Express', appTitle: 'SimplyFi'});
 });
 
-/* ******* boerse-options routes ****** */
+
+/* **********************************
+** boerse-options routes
+*********************************** */
 router.get('/optionspreisrechner', function(req, res, next) {
   res.render('calculator', {obj: calcElems.options });
 });
@@ -19,21 +25,43 @@ router.get('/optionspreisrechner/inputs',function(req,res,next){
   res.json(results);
 });
 
-/* ******* boerse-fx routes ****** */
+
+/* **********************************
+ ** boerse-fx routes
+ *********************************** */
 router.get('/waehrungsrechner',function(req, res, next){
   res.render('calculator', {obj: calcElems.fx});
 });
 
 router.get('/waehrungsrechner/inputs',function(req,res,next){
   var obj = req.query;
-  boerse.fxConvert(obj,function(results){ res.json(results); });
+  boerse.fxConvert(obj,function(err, results){
+    if(results) {res.json(results);}
+    if(err) {res.json(err)}
+  });
 });
 
-/* ******* boerse-equityreturn routes ****** */
+
+/* **********************************
+ ** boerse-equityreturn routes
+ *********************************** */
 router.get('/aktienrenditerechner',function(req,res,next){
   res.render('calculator', {obj: calcElems.equityreturn});
 });
 
+router.get('/aktienrenditerechner/inputs',function(req,res,next){
+  var obj = req.query;
+  console.log(obj);
+  var results = boerse.equityReturn(obj);
+
+});
 
 
+
+
+
+
+/* **********************************
+ ** expose routes
+ *********************************** */
 module.exports = router;

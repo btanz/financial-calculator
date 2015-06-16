@@ -133,8 +133,16 @@ block content
           | Ergebnisse
 
       div.ibox-content
-        h5 Berechnungsfehler
+        h4.text-danger
+          i.fa.fa-frown-o.fa-lg &nbsp
+          | Berechnungsfehler
         p Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
+        | {{#if obj}}
+        p Folgende Meldungen helfen bei der Fehlersuche:
+        | {{#each obj.errors}}
+        p.text-danger  - {{this.errorMessage}}
+        | {{/each}}
+        | {{/if}}
 
   //- main results input template
   script(id='main-results-input-template', type='text/x-handlebars-template')

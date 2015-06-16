@@ -40,18 +40,15 @@ exports.blackScholes = function (inputs) {
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
   var result = {}; result._1 = {};
   var localElems = calcElems.options.outputs;
+  var expectedInputs = calcElems.options.inputs;
+  var errorMap;
 
-  var expectedInputs = {
-    optiontype: 'Number',
-    price: 'Number',
-    strike: 'Number',
-    interest: 'Number',
-    maturity: 'Number',
-    vola: 'Number'
-  };
+  // check for input errors
+  errorMap = helpers.validate(inputs, expectedInputs);
 
-  // check validity of inputs and do number conversions
-  if (!helpers.validateInputs(inputs,expectedInputs)) return null;
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
 
   // do unit conversions
   inputs.interest = inputs.interest/100;
@@ -107,15 +104,16 @@ exports.fxConvert = function (inputs,callback) {
   var value, returnResults;
   var localElems = calcElems.fx.outputs;
   var result = {}; result._1 = {}; result._2 = {};
+  var expectedInputs = calcElems.fx.inputs;
+  var errorMap;
 
-  var expectedInputs = {
-    principal: 'Number',
-    from: 'String',
-    to: 'String'
-  };
+  // check for input errors
+  errorMap = helpers.validate(inputs, expectedInputs);
 
-  // check validity of inputs and do number conversions
-  if (!helpers.validateInputs(inputs,expectedInputs)) return null;
+  if (errorMap.length !== 0){
+    callback(errorMap);
+    return;
+  }
 
   request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
     if (!error && response.statusCode == 200) {
@@ -144,12 +142,130 @@ exports.fxConvert = function (inputs,callback) {
     [1,2,3,4,5,10,15,20,25,50,100,250,500,1000].forEach(function(element, index){
       result._2.body.push([element, element*(value/inputs.principal), element, element/(value/inputs.principal)]);
     });
-  callback(result);
+  callback(null, result);
   }
 
 };
 
 
+
+// compute return from equity investment
+exports.equityReturn = function(inputs, callback) {
+
+  // init and assign
+
+  // validate inputs and do conversions
+
+  console.log(inputs);
+
+  var expectedInputs ={
+    'quantity': {
+      'type': 'Number',
+      'args': [0,1000000000],
+      'error': 'Die Menge muss größer als 0 und kleiner als 1000000000 sein.'
+      },
+    'buy': {
+      'type': 'Number',
+      'args': [0,1000000000],
+      'error': 'Der Kaufpreis muss größer als 0 und kleiner als 1000000000 sein.'
+    }
+
+
+  };
+
+
+
+  /*
+  var expectedInputs = [
+    quantity: 'Number',
+    buy: 'Number',
+    sell: 'Number',
+    buydate: 'Date',
+    selldate: 'Date',
+    fees: 'Bool',
+    dividends: 'Number'
+  ];*/
+
+  if (!helpers.validateInputs(inputs,expectedInputs)) return null;
+
+};
+
+
+
+
+
+/*
+equityReturn = function(qty,buy,sell,buyDate,sellDate,buyFee, sellFee, dividends){
+  var result = {}, holding, i;
+  var delt = 0.0000001; // numerical deviation
+  var y1,x1,x2, iter=0;
+  var val;
+
+  // check for fees and adjust buy and sell
+  if (isFinite(buyFee) && isFinite(sellFee)){
+    sell = sell - sellFee;
+    buy = buy + buyFee;
+  }
+
+  // function to compute NPV for guess; function is 0 at the correct discount rate
+  function NPV(discountRate){
+    var npv = 0;
+    for(var t = 0; t < dividends.length; t++) {
+      npv += dividends[t][1] / Math.pow((1+ discountRate),dividends[t][2]/365);
+    }
+    return npv-buy;
+  }
+
+  // convert date sequence in holding time sequence
+  var ONE_DAY = 1000 * 60 * 60 * 24;
+  holding = (sellDate-buyDate)/ONE_DAY;
+
+  // attach holding time to dividend array + plus check for invalid dividend dates
+  for(i=0; i < dividends.length; i++){
+    if (dividends[i][0] < buyDate || dividends[i][0] > sellDate){return null;}
+    dividends[i].push((dividends[i][0] - buyDate)/ONE_DAY);
+  }
+  // attach final payment to dividend array and make it a paymens array
+  dividends.push([sellDate,sell,holding]);
+  /*
+   console.log(dividends);
+   console.log(NPV(0.03));*/
+
+  /* derivative of NPV
+  var dNPV = function(x){ return (NPV(x+delt)-NPV(x))/delt;};
+
+  /* newtown iterations
+  x1 = 0.03 // intial guess
+  do{
+    /*
+     console.log(x1);
+    y1 = NPV(x1);
+    x2 = x1 - y1/dNPV(x1);
+    x1 = x2;
+    iter++;
+    if (iter > 1000){
+
+      return null;
+    }
+    if (x1<-1){
+      x1 = -0.999999;
+    }
+    /*
+     console.log(y1);*/
+  /*} while(Math.abs(y1) > 0.0000000001)
+  result.irr = x1;
+  result.holding = holding;
+  // check for fees
+  /* reactivate later
+   if (isFinite(buyFee) && isFinite(sellFee)){
+   result.irr = (Math.pow((sell-sellFee)/(buy+buyFee),365/holding)-1)*100;
+   } else {
+   result.irr = (Math.pow(sell/buy,365/holding)-1)*100;
+   }*/
+
+  /*return result;
+
+};
 
 
 
