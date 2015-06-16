@@ -51,9 +51,8 @@ router.get('/aktienrenditerechner',function(req,res,next){
 
 router.get('/aktienrenditerechner/inputs',function(req,res,next){
   var obj = req.query;
-  console.log(obj);
   var results = boerse.equityReturn(obj);
-
+  res.json(results);
 });
 
 

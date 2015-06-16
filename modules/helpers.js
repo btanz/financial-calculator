@@ -16,7 +16,9 @@ var _ = require('underscore');
  *                            or if a Number can not be cast to a number
  *   true                     otherwise
  */
-exports.validate = function(inputs, expectedInputs){
+exports.validate = function(inputs, _expectedInputs){
+
+  var expectedInputs = _.clone(_expectedInputs);
 
   // initialize error object
   var error = {
@@ -53,13 +55,15 @@ exports.validate = function(inputs, expectedInputs){
 
       // attach array keys to main obj
       for (var i = 0; i < inputs[elem.arrayParent]; i++ ){
-        expectedInputs[key + i] = expectedInputs[key];
+        expectedInputs[String(key) + String(i)] = _.omit(expectedInputs[key],'array');
       }
 
       // remove original array
       delete expectedInputs[key];
     }
   });
+
+
 
   // *** check whether the input object is in correct shape regaring number of arguments and the like ***
 
@@ -75,6 +79,8 @@ exports.validate = function(inputs, expectedInputs){
 
   // check whether expectedInputproperty is in inputs and not empty
   _.each(expectedInputs, function(elem, key){
+
+
     if(!inputs.hasOwnProperty(key)){
       if(!(elem.optional === 'true') && !(elem.optional === true)){
         error.setError('Die Eingabe ' + key + ' ist notwendig, fehlt jedoch.', key, false);
@@ -146,6 +152,7 @@ exports.validate = function(inputs, expectedInputs){
 
   });
 
+  expectedInputs = null;
   return error.errorMap;
 
 };

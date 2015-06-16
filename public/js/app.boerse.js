@@ -22,10 +22,10 @@ app.boerse = (function() {
   /*********************** BEGIN BOERSE EVENT HANDLERS ***********************/
   function toggleInputsFees (e){
     e.preventDefault();
-    var state = parseInt($('#boerse-equityreturn-fees').val());
-    if (state === 2){
+    var state = $('#boerse-equityreturn-fees').val();
+    if (state === 'true'){
       $('#boerse-equityreturn-feebuy, #boerse-equityreturn-feesell').closest('div[class^="form-group"]').removeClass('hide')
-    } else if (state === 1){
+    } else if (state === 'false'){
       $('#boerse-equityreturn-feebuy, #boerse-equityreturn-feesell').closest('div[class^="form-group"]').addClass('hide')
     }
   }
@@ -35,8 +35,8 @@ app.boerse = (function() {
     var state = parseInt($('#boerse-equityreturn-dividends').val());
     if (state !== 0){
       $('.dividendsInput').children().remove();
-      for(var i = 1; i<= state; i++){
-        app.helpers.compileTemplate('.dividendsInput','#boerse-equityreturn-dividendsInput-template', {count: i + '. Dividende', id1: 'boerse-equityreturn-dividendDate' + i, id2: 'boerse-equityreturn-dividendAmount'+i}, true);
+      for(var i = 0; i< state; i++){
+        app.helpers.compileTemplate('.dividendsInput','#boerse-equityreturn-dividendsInput-template', {count: String(i+1) + '. Dividende', id1: 'boerse-equityreturn-dividendDate' + i, id2: 'boerse-equityreturn-dividendAmount'+i}, true);
       }
       // initialize datepicker
       $('.input-group.date').datepicker({

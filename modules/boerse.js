@@ -1,7 +1,9 @@
 var request = require('request');
 var fx = require('money');
+var math = require('./math');
 var helpers = require('./helpers');
 var calcElems = require('../data/static/calcElems.json');
+
 
 var cumNormalHelper, cumNormalPrimeHelper;
 
@@ -36,25 +38,26 @@ var cumNormalHelper, cumNormalPrimeHelper;
  */
 exports.blackScholes = function (inputs) {
 
-  // init and assign
+  /* ******** 1. INIT AND ASSIGN ******** */
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
   var result = {}; result._1 = {};
   var localElems = calcElems.options.outputs;
   var expectedInputs = calcElems.options.inputs;
   var errorMap;
 
-  // check for input errors
-  errorMap = helpers.validate(inputs, expectedInputs);
 
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
   if (errorMap.length !== 0){
     return errorMap;
   }
-
   // do unit conversions
   inputs.interest = inputs.interest/100;
   inputs.maturity = inputs.maturity/365;
   inputs.vola = inputs.vola/100;
 
+
+  /* ******** 3. COMPUTATIONS ******** */
   // compute d1 and d2 parameters
   d1 = (Math.log(inputs.price / inputs.strike) + (inputs.interest + inputs.vola * inputs.vola / 2.0) * inputs.maturity) / (inputs.vola * Math.sqrt(inputs.maturity));
   d2 = d1 - inputs.vola * Math.sqrt(inputs.maturity);
@@ -81,7 +84,8 @@ exports.blackScholes = function (inputs) {
     return null;
   }
 
-  // construct result object
+
+  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.options.id;
   result._1.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'digits': 4, 'tooltip': localElems.value.tooltip};
   result._1.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'digits': 4, 'tooltip': localElems.delta.tooltip};
@@ -100,14 +104,16 @@ exports.blackScholes = function (inputs) {
 // todo: documentation
 exports.fxConvert = function (inputs,callback) {
 
-  // init and assign
+  /* ******** 1. INIT AND ASSIGN ******** */
   var value, returnResults;
   var localElems = calcElems.fx.outputs;
   var result = {}; result._1 = {}; result._2 = {};
   var expectedInputs = calcElems.fx.inputs;
   var errorMap;
+  var adjustment = 1, rate;
 
-  // check for input errors
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
 
   if (errorMap.length !== 0){
@@ -115,6 +121,7 @@ exports.fxConvert = function (inputs,callback) {
     return;
   }
 
+  /* ******** 3. COMPUTATIONS ******** */
   request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
     if (!error && response.statusCode == 200) {
       var fxData = JSON.parse(body);
@@ -128,19 +135,24 @@ exports.fxConvert = function (inputs,callback) {
   });
 
   returnResults = function(value){
-  // construct result object
+    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+
     // calc_id
     result.id = calcElems.fx.id;
+
+    rate = value/inputs.principal;
+    while(Math.abs(rate/adjustment)>10){adjustment *= 10;}
+    while(Math.abs(rate/adjustment)<0.1){adjustment /= 10;}
 
     // first result container
     result._1.value =          {'description': 'Betrag in Zielwährung',  'value': value,         'unit': inputs.to, 'tooltip': localElems.value.tooltip};
 
     // second result container
     result._2.title = 'Umrechnungstabelle';
-    result._2.header = [inputs.from, inputs.to, inputs.from, inputs.to];
+    result._2.header = [inputs.from, inputs.to, inputs.to, inputs.from];
     result._2.body = [];
-    [1,2,3,4,5,10,15,20,25,50,100,250,500,1000].forEach(function(element, index){
-      result._2.body.push([element, element*(value/inputs.principal), element, element/(value/inputs.principal)]);
+    [1,2,3,4,5,10,15,20,25,50,100,250,500,1000,10000,100000].forEach(function(element, index){
+      result._2.body.push([(element/adjustment), (element/adjustment)*(value/inputs.principal), (element*adjustment), (element*adjustment)/(value/inputs.principal)]);
     });
   callback(null, result);
   }
@@ -150,124 +162,71 @@ exports.fxConvert = function (inputs,callback) {
 
 
 // compute return from equity investment
+// todo: documentation
 exports.equityReturn = function(inputs, callback) {
 
-  // init and assign
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var result = {}; result._1 = {}; result._2 = {};
+  var i, dividendData = [], helper, holding, irr;
+  var expectedInputs = calcElems.equityreturn.inputs;
+  var errorMap;
+  var localElems = calcElems.equityreturn.outputs;
 
-  // validate inputs and do conversions
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
 
-  console.log(inputs);
-
-  var expectedInputs ={
-    'quantity': {
-      'type': 'Number',
-      'args': [0,1000000000],
-      'error': 'Die Menge muss größer als 0 und kleiner als 1000000000 sein.'
-      },
-    'buy': {
-      'type': 'Number',
-      'args': [0,1000000000],
-      'error': 'Der Kaufpreis muss größer als 0 und kleiner als 1000000000 sein.'
-    }
-
-
-  };
-
-
-
-  /*
-  var expectedInputs = [
-    quantity: 'Number',
-    buy: 'Number',
-    sell: 'Number',
-    buydate: 'Date',
-    selldate: 'Date',
-    fees: 'Bool',
-    dividends: 'Number'
-  ];*/
-
-  if (!helpers.validateInputs(inputs,expectedInputs)) return null;
-
-};
-
-
-
-
-
-/*
-equityReturn = function(qty,buy,sell,buyDate,sellDate,buyFee, sellFee, dividends){
-  var result = {}, holding, i;
-  var delt = 0.0000001; // numerical deviation
-  var y1,x1,x2, iter=0;
-  var val;
-
-  // check for fees and adjust buy and sell
-  if (isFinite(buyFee) && isFinite(sellFee)){
-    sell = sell - sellFee;
-    buy = buy + buyFee;
+  if (errorMap.length !== 0){
+    return errorMap;
   }
 
-  // function to compute NPV for guess; function is 0 at the correct discount rate
+  // write dividendData to array dividends array
+  for (i = 0; i < inputs.dividends; i++){
+    helper = ['dividendDate'.concat(i),'dividendAmount'.concat(i)];
+    dividendData.push([inputs[helper[0]],inputs[helper[1]]]);
+  }
+
+
+  /* ******** 3. COMPUTATIONS ******** */
+  // check for fees and adjust buy and sell
+  if (isFinite(inputs.feebuy)){inputs.buy += inputs.feebuy};
+  if (isFinite(inputs.feesell)){inputs.sell -= inputs.feesell};
+
+
+  // function to compute NPV for guess; function is 0 at the correct discount rate XXX
   function NPV(discountRate){
     var npv = 0;
-    for(var t = 0; t < dividends.length; t++) {
-      npv += dividends[t][1] / Math.pow((1+ discountRate),dividends[t][2]/365);
+    for(var t = 0; t < dividendData.length; t++) {
+      npv += dividendData[t][1] / Math.pow((1+ discountRate),dividendData[t][2]/365);
     }
-    return npv-buy;
+    return npv-inputs.buy;
   }
 
   // convert date sequence in holding time sequence
   var ONE_DAY = 1000 * 60 * 60 * 24;
-  holding = (sellDate-buyDate)/ONE_DAY;
+  holding = (inputs.selldate-inputs.buydate)/ONE_DAY;
 
   // attach holding time to dividend array + plus check for invalid dividend dates
-  for(i=0; i < dividends.length; i++){
-    if (dividends[i][0] < buyDate || dividends[i][0] > sellDate){return null;}
-    dividends[i].push((dividends[i][0] - buyDate)/ONE_DAY);
+  for(i=0; i < inputs.dividends; i++){
+    if (dividendData[i][0] < inputs.buyDate || dividendData[i][0] > inputs.sellDate){return null;}
+    dividendData[i].push((dividendData[i][0] - inputs.buydate)/ONE_DAY);
   }
-  // attach final payment to dividend array and make it a paymens array
-  dividends.push([sellDate,sell,holding]);
-  /*
-   console.log(dividends);
-   console.log(NPV(0.03));*/
 
-  /* derivative of NPV
-  var dNPV = function(x){ return (NPV(x+delt)-NPV(x))/delt;};
+  // attach final payment to dividend array and make it a payments array
+  dividendData.push([inputs.selldate,inputs.sell,holding]);
 
-  /* newtown iterations
-  x1 = 0.03 // intial guess
-  do{
-    /*
-     console.log(x1);
-    y1 = NPV(x1);
-    x2 = x1 - y1/dNPV(x1);
-    x1 = x2;
-    iter++;
-    if (iter > 1000){
+  // compute irr
+  irr = math.roots(NPV,0.1,1500) * 100;
 
-      return null;
-    }
-    if (x1<-1){
-      x1 = -0.999999;
-    }
-    /*
-     console.log(y1);*/
-  /*} while(Math.abs(y1) > 0.0000000001)
-  result.irr = x1;
-  result.holding = holding;
-  // check for fees
-  /* reactivate later
-   if (isFinite(buyFee) && isFinite(sellFee)){
-   result.irr = (Math.pow((sell-sellFee)/(buy+buyFee),365/holding)-1)*100;
-   } else {
-   result.irr = (Math.pow(sell/buy,365/holding)-1)*100;
-   }*/
+  if(!isFinite(irr)){ return false; }
 
-  /*return result;
+  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.equityreturn.id;
+  result._1.irr =          {'description': 'Rendite/IRR',  'value': irr,             'unit': '% p. a.', 'digits': 3, 'tooltip': localElems.irr.tooltip};
+  result._1.holding =      {'description': 'Haltedauer in Tagen',         'value': holding,         'unit': ' '      , 'digits': 1, 'tooltip': localElems.holding.tooltip};
+
+  return result;
 
 };
-
-
 
 
 /* ************************ END BOERSE MODULE PUBLIC FUNCTIONS *********************************/

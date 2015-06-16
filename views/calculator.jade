@@ -137,10 +137,13 @@ block content
           i.fa.fa-frown-o.fa-lg &nbsp
           | Berechnungsfehler
         p Das Ergebnis konnte leider nicht berechnet werden. Fehlt eine Angabe oder sind Angaben nicht korrrekt?
-        | {{#if obj}}
+        | {{#if obj.errors}}
         p Folgende Meldungen helfen bei der Fehlersuche:
         | {{#each obj.errors}}
+        //- XXX when in Production, switch true to this.errorPrint
+        | {{#if true}}
         p.text-danger  - {{this.errorMessage}}
+        | {{/if}}
         | {{/each}}
         | {{/if}}
 
