@@ -47,10 +47,10 @@ block content
                       | #{input.label}
                     if input.addon
                       div.input-group
-                        input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
                         span.input-group-addon= input.addon
                     else
-                      input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
 
                 //- template for number input fields
                 if input.type === 'number'
@@ -62,10 +62,10 @@ block content
                       | #{input.label}
                     if input.addon
                       div.input-group
-                        input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
                         span.input-group-addon= input.addon
                     else
-                      input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
 
                 //- template for select input fields
                 if input.type === 'select'

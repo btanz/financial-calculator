@@ -85,6 +85,14 @@ router.get('/immobilienrenditerechner/inputs',function(req,res,next){
 });
 
 
+/* **********************************
+ ** deposit-depinterest routes
+ *********************************** */
+router.get('/zinsrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.depinterest});
+});
+
+
 
 
 /* **********************************

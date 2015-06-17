@@ -868,7 +868,88 @@
     },
     "outputs": {
     }
+  },
+
+  "depinterest": {
+    "id": "deposits-interest",
+    "name": "Zinsrechner",
+    "description": "Mit dem Zinsrechner kann wahlweise der Zinssatz, das Anfangskapital, das Endkapital oder die Laufzeit einer einmaligen Festgeldanlage oder Investition berechnet werden.",
+    "inputs": {
+      "select": {
+        "id": "deposits-interest-select",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "Wähle hier, welche der Größen Anfangskapital, Endkapital, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "type": "select",
+        "vtype": "number",
+        "args": [0,1,2,3],
+        "options": {
+          "0": "Endkapital",
+          "1": "Anfangskapital",
+          "2": "Zinssatz",
+          "3": "Laufzeit"
+        }
+      },
+      "start": {
+        "id": "deposits-interest-start",
+        "label": "Anfangskapital",
+        "addon": "EUR",
+        "placeholder": "Anfangskapital",
+        "value": "15000.00",
+        "tooltip": "Das Anfangskapital ist der anfängliche Anlagebetrag bzw. der Betrag der Investition. Wenn man also 1.000 € bei der Bank zur Anlage bringt, so entspricht dies dem Anfangskapital.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "period": {
+        "id": "deposits-interest-period",
+        "label": "Laufzeit",
+        "addon": "Jahre",
+        "placeholder": "Laufzeit",
+        "value": "6",
+        "tooltip": "Die Laufzeit ist der Zeitraum zwischen Beginn und Ende der Geldanlage oder Investition. Wenn man also 1.000 € vom 01.03.2015 bis zum 01.03.2017 anlegt, dann beträgt die Laufzeit 2 Jahre.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,200]
+      },
+      "rate": {
+        "id": "deposits-interest-rate",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.00",
+        "tooltip": "Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "rate": {
+        "id": "deposits-interest-rate",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.00",
+        "tooltip": "Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "end": {
+        "id": "deposits-interest-end",
+        "label": "Endkapital",
+        "addon": "EUR",
+        "placeholder": "Endkapital",
+        "value": "",
+        "disabled": true,
+        "tooltip": "Das Endkapital ist das gesamte Kapital am Ende der Laufzeit der Geldanlage.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      }
+    },
+    "outputs": {
+    }
   }
+
 }
 
 
