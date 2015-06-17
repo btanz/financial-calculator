@@ -8,7 +8,7 @@
 exports.roots = function(f,initX,iterBound,devY,delt){
   var delt = delt || 0.000001;  // set default
   var Y, X_new, X = initX || 0; // initial guess
-  var iterBound = iterBound || 1000;
+  var iterBound = iterBound || 1500;
   var devY = devY || 0.0000001;
   var iter = 0;
 

@@ -756,16 +756,117 @@
       },
       "annuityMthLifeend": {
         "tooltip": "Der heutige reale Wert des monatlichen Einkommens zum Alter der Lebenserwartung. Dies ist die Antwort auf folgende Frage: Wie viel Wert, in heutigen Geldeinheiten, ist das monatliche Einkommen zum Zeitpunkt der Lebenserwartung/am erwarteten Lebensende."
-      },
-      "rho": {
-        "tooltip": "Rho ist ein Maß für die Sensitivität des Preises der Option im Verhältnis zu Zinsänderungen. Für eine Option mit Rho von 0,1 gilt, dass der Optionspreis um 0,10€ steigt, wenn der Zinssatz um einen Prozentpunkt steigt."
-      },
-      "intrinsicValue": {
-        "tooltip": "Der innere Wert ist der Teil des Optionswertes, welcher alleine auf die Abweichung zwischen Preis der Aktie und Strike zurückzuführen ist (und nicht auf die Zeit). Für eine Call-Option entspricht der innere Wert dem Maximum aus der Differenz von Preis minus Strike und null. Für eine Put-Option dagegen entspricht der innere Wert dem Maximum aus der Differenz von Strike minus Preis und Null."
-      },
-      "timeValue": {
-        "tooltip": "Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu null, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht."
       }
+    }
+  },
+
+
+  "propertyreturn": {
+    "id": "property-propertyreturn",
+    "name": "Immobilienrenditerechner",
+    "description": "Mit dem Immobilienrenditerechner können Rendite und Zahlungsströme einer Investition in Immobilien errechnet und dargestellt werden.",
+    "inputs": {
+      "equity": {
+        "id": "property-propertyreturn-equity",
+        "label": "Investition aus Eigenkapital",
+        "placeholder": "Investition",
+        "addon": "EUR",
+        "value": "180000.00",
+        "tooltip": "Gebe hier den Betrag der Anfangsinvestition aus Eigenkapital ein. Dieser Betrag setzt sich zusammen aus allen Kosten, die durch den Erwerb der Immobilien entstehen und nicht durch ein Darlehen gezahlt werden. Kostet eine Immobilien zum Beispiel 400.000 € inkl. aller Anschaffungsnebenkosten und du zahlst am Anfang aus deinem Vermögen 50.000 €, dann sind diese 50.000 € die Investition aus Eigenkapital.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "repay": {
+        "id": "property-propertyreturn-repay",
+        "label": "Rückzahlungsrate Darlehen",
+        "placeholder": "Rückzahlungsrate",
+        "addon": "EUR/Monat",
+        "value": "600.00",
+        "tooltip": "Sofern du ein Darlehen zur Finanzierung der Immobilien eingesetzt hast, gebe hier bitte die monatliche Rückzahlungsrate für das Darlehen ein. Diese Rückzahlungsrate sollte alle monatlichen Zahlungen zur Rückzahlung des Darlehens enthalten und setzt sich meist aus Zins- und Tilgungszahlungen zusammen. Im Falle der Zahlung einer Immobilien zum Preis von 400.000 € mit 50.000 € Eigenkapital und 350.000 € Fremdkapital aus einem Darlehen ist dies die monatliche Rate, welche für die Rückzahlung des Darlehens zu 350.000 € anfällt. Falls du kein Darlehen eingesetzt hast gebe als Darlehensrate null ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "termLoan": {
+        "id": "property-propertyreturn-termLoan",
+        "label": "Darlehenslaufzeit",
+        "placeholder": "Darlehenslaufzeit",
+        "addon": "Jahre",
+        "value": "10",
+        "tooltip": "Gebe hier die Laufzeit des Darlehens in Jahren oder Monaten ein, welches zur Finanzierung der Immobilie aufgenommen wurde. Die Laufzeit ist die Zeit bis zur kompletten Rückzahlung des Darlehens unter der angegebenen Rückzahlungsrate. Falls du kein Darlehen eingesetzt hast gebe hier null ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,150]
+      },
+      "maintenance": {
+        "id": "property-propertyreturn-maintenance",
+        "label": "Monatliche Instandhaltungskosten",
+        "placeholder": "Instandhaltungskosten",
+        "addon": "EUR/Monat",
+        "value": "200.00",
+        "tooltip": "Die monatlichen Instandhaltungskosten sind alle laufenden Kosten, welche monatlich über die gesamte Anlagedauer zur Pflege und zum Erhalt der Immobilien anfallen. Dies sind etwa Kosten für Reparaturen der Heizung oder für die Modernisierung von Bädern.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "costDynamic": {
+        "id": "property-propertyreturn-costDynamic",
+        "label": "Kostendynamik",
+        "placeholder": "Kostendynamik",
+        "addon": "% p. a.",
+        "value": "0.0",
+        "tooltip": "Gebe hier die jährliche prozentale Steigerungsrate der Instandhaltungskosten an. Diese wird jeweils am Jahresende den angegebenen Instandhaltungskosten zugeschlagen. Belaufen sich die Instandhaltungskosten im ersten Jahr zum Beispiel auf 300 € und die Kostendynamik ist 10 %, dann werden im zweiten Jahr Instandhaltungskosten von 330 € angesetz. Auch in den folgenden Jahren wachsen die Instandhaltungskosten jeweils um 10 %. Den Prozentsatz für die Kostendynamik kann man nutzen, um etwa erwartete Preissteigerungen für Instandhaltungsdienstleistungen oder höhere Kosten durch eine alternde Immobilie abzubilden. Sollen die Instandhaltungskosten nicht jedes Jahr ansteigen, dann gebe hier eine null ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "revenue": {
+        "id": "property-propertyreturn-revenue",
+        "label": "Monatliche Mieteinnahmen",
+        "addon": "EUR/Monat",
+        "placeholder": "Mieteinnahmen",
+        "value": "900.00",
+        "tooltip": "Hier kannst du alle laufenden monatlichen Einnahmen aus der Immobilie eingeben. Hauptkomponente dieser Einnahmen sind meist Zuflüsse aus der Vermietung der Immobilie.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "revDynamic": {
+        "id": "property-propertyreturn-revDynamic",
+        "label": "Einnahmedynamik",
+        "addon": "% p. a.",
+        "placeholder": "Einnahmedynamik",
+        "value": "1.0",
+        "tooltip": "Gebe hier die jährliche prozentale Steigerungsrate der monatlichen Einnahmen aus der Immobilie an. Diese wird jeweils am Jahresende den angegebenen Einnahmen zugeschlagen. Belaufen sich die Einnahmen im ersten Jahr zum Beispiel auf 2000 € und die Kostendynamik ist 1 %, dann werden im zweiten Jahr Einnahmen von 2020 € angesetz. Auch in den folgenden Jahren wachsen die Einnahmen jeweils um 1 %. Sollen die Einnahmen nicht jedes Jahr ansteigen, dann gebe hier eine null ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "term": {
+        "id": "property-propertyreturn-term",
+        "label": "Anlagedauer",
+        "addon": "Jahre",
+        "placeholder": "Anlagedauer",
+        "value": "30",
+        "tooltip": "Gebe hier die Gesamtlaufzeit der Immobilieninvestition in Jahren oder Monaten an. Diese Laufzeit beginnt mit der Anfangsinvestition und endet in der Regel mit dem Verkauf oder der weitern Verwertung der Immobilie zum definierten Verkaufs-/Endwert.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "terminal": {
+        "id": "property-propertyreturn-terminal",
+        "label": "Verkaufs-/Endwert",
+        "addon": "EUR",
+        "placeholder": "Verkaufs-/Endwert",
+        "value": "240000.00",
+        "tooltip": "Gebe hier den Wert der Immobilie zum Ende der Anlagedauer ein. Im Falle eines Verkaufs entspricht dieser Wert dem Verkaufspreis der Immobilie. Ansonsten ist der Endwert derjenige Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      }
+    },
+    "outputs": {
     }
   }
 }
