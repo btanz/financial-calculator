@@ -4,6 +4,7 @@
  *   INSPINIA - Responsive Admin Theme
  *   version 2.0
  *
+ *    SIMPLYFI ADJUSTED VALUES MARKED WITH XXX
 */
 h1,
 h2,
@@ -371,7 +372,8 @@ body.canvas-menu.mini-navbar .footer {
 body.fixed-sidebar .navbar-static-side,
 body.canvas-menu .navbar-static-side {
   position: fixed;
-  width: 220px;
+  /*width: 220px; XXX*/
+  width: 200px;
   z-index: 2001;
   height: 100%;
 }
@@ -382,10 +384,12 @@ body.fixed-sidebar.mini-navbar #page-wrapper {
   margin: 0 0 0 0px;
 }
 body.body-small.fixed-sidebar.mini-navbar #page-wrapper {
-  margin: 0 0 0 220px;
+  /*margin: 0 0 0 220px; XXX */
+  margin: 0 0 0 200px;
 }
 body.body-small.fixed-sidebar.mini-navbar .navbar-static-side {
-  width: 220px;
+  /*width: 220px; XXX*/
+  width: 200px;
 }
 .fixed-sidebar.mini-navbar .nav li:focus > .nav-second-level,
 .canvas-menu.mini-navbar .nav li:focus > .nav-second-level {
@@ -444,7 +448,8 @@ body.canvas-menu nav.navbar-static-side {
 }
 body.canvas-menu.mini-navbar nav.navbar-static-side {
   display: block;
-  width: 220px;
+  /*width: 220px; XXX*/
+  width: 200px;
 }
 .top-navigation #page-wrapper {
   margin-left: 0;
@@ -2746,7 +2751,8 @@ a.forum-item-title:hover {
   }
 }
 .sidebard-panel {
-  width: 220px;
+  /*width: 220px; XXX*/
+  width: 200px;
   background: #ebebed;
   padding: 10px 20px;
   position: absolute;
@@ -2775,7 +2781,8 @@ a.forum-item-title:hover {
 }
 .sidebar-content .wrapper,
 .wrapper.sidebar-content {
-  padding-right: 230px !important;
+  /* padding-right: 230px !important; XXX */
+  padding-right: 210px !important;
 }
 .body-small .sidebar-content .wrapper,
 .body-small .wrapper.sidebar-content {
@@ -3097,7 +3104,8 @@ ol.unstyled {
   padding: 10px 20px;
   background: white;
   border-top: 1px solid #e7eaec;
-  margin-left: 220px;
+  /* margin-left: 220px; XXX */
+  margin-left: 200px;
 }
 body.mini-navbar .footer.fixed,
 body.body-small.mini-navbar .footer.fixed {
@@ -3108,7 +3116,8 @@ body.canvas-menu .footer.fixed {
   margin: 0 !important;
 }
 body.fixed-sidebar.body-small.mini-navbar .footer.fixed {
-  margin: 0 0 0 220px;
+  /* margin: 0 0 0 220px; */
+  margin: 0 0 0 200px;
 }
 body.body-small .footer.fixed {
   margin-left: 0px;
@@ -4124,7 +4133,8 @@ ul.notes li div {
 /* FILE MANAGER */
 .file-box {
   float: left;
-  width: 220px;
+  /* width: 220px; XXX */
+  width: 200px;
 }
 .file-manager h5 {
   text-transform: uppercase;
@@ -5655,7 +5665,8 @@ body.rtls {
   /* Theme config */
 }
 body.rtls #page-wrapper {
-  margin: 0 220px 0 0;
+  /* margin: 0 220px 0 0; XXX */
+  margin: 0 200px 0 0;
 }
 body.rtls .nav-second-level li a {
   padding: 7px 35px 7px 10px;
@@ -5753,7 +5764,8 @@ body.rtls .dd-item > button {
   float: right;
 }
 body.rtls .theme-config-box {
-  margin-left: -220px;
+  /*margin-left: -220px; XXX */
+  margin-left: -200px;
   margin-right: 0;
 }
 body.rtls .theme-config-box.show {
@@ -5772,7 +5784,8 @@ body.rtls .skin-setttings {
   direction: ltr;
 }
 body.rtls .footer.fixed {
-  margin-right: 220px;
+  /* margin-right: 220px; */
+  margin-right: 200px;
   margin-left: 0;
 }
 @media (max-width: 992px) {
@@ -5807,10 +5820,12 @@ body.rtls.mini-navbar.fixed-sidebar #page-wrapper {
   margin: 0 0 0 0;
 }
 body.rtls.body-small.fixed-sidebar.mini-navbar #page-wrapper {
-  margin: 0 220px 0 0;
+  /*margin: 0 220px 0 0; XXX */
+  margin: 0 200px 0 0;
 }
 body.rtls.body-small.fixed-sidebar.mini-navbar .navbar-static-side {
-  width: 220px;
+  /* width: 220px; */
+  width: 200px;
 }
 .body-small.rtls .navbar-fixed-top {
   margin-right: 0px;
@@ -5852,7 +5867,8 @@ body.rtls.top-navigation .footer.fixed {
     display: none;
     z-index: 2001;
     position: fixed;
-    width: 220px;
+    /* width: 220px; XXX */
+    width: 200px;
   }
   .rtls.fixed-sidebar.body-small.mini-navbar .navbar-static-side {
     display: block;
@@ -5874,7 +5890,8 @@ body.rtls.top-navigation .footer.fixed {
   overflow: hidden;
 }
 .theme-config-box {
-  margin-right: -220px;
+  /*margin-right: -220px; XXX */
+  margin-right: -200px;
   position: relative;
   z-index: 2000;
   transition-duration: 0.8s;
@@ -5895,7 +5912,8 @@ body.rtls.top-navigation .footer.fixed {
   cursor: pointer;
 }
 .skin-setttings {
-  width: 220px;
+  /* width: 220px; XXX */
+  width: 200px;
   margin-left: 40px;
   background: #f3f3f4;
 }
@@ -6316,13 +6334,15 @@ body.skin-3 {
 @media (min-width: 768px) {
   #page-wrapper {
     position: inherit;
-    margin: 0 0 0 220px;
+    /* margin: 0 0 0 220px; XXX */
+    margin: 0 0 0 200px;
     min-height: 1200px;
   }
   .navbar-static-side {
     z-index: 2001;
     position: absolute;
-    width: 220px;
+    /* width: 220px; */
+    width: 200px;
   }
   .navbar-top-links .dropdown-messages,
   .navbar-top-links .dropdown-tasks,
@@ -6369,7 +6389,8 @@ body.skin-3 {
     display: none;
     z-index: 2001;
     position: fixed;
-    width: 220px;
+    /* width: 220px; */
+    width: 200px;
   }
   .fixed-sidebar.body-small.mini-navbar .navbar-static-side {
     display: block;
