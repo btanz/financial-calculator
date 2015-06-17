@@ -24,7 +24,7 @@
         "placeholder": "Preis der Aktie",
         "value": "50.00",
         "tooltip": "Gebe hier den Preis der Aktien bzw. des Underlyings ein.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000]
       },
@@ -35,7 +35,7 @@
         "placeholder": "Strike/Basispreis",
         "value": "50.00",
         "tooltip": "Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000]
       },
@@ -46,7 +46,7 @@
         "placeholder": "Zinssatz",
         "value": "3.00",
         "tooltip": "Gebe hier den annualisierten risikolosen Zinssatz in % an.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000]
       },
@@ -57,7 +57,7 @@
         "placeholder": "Restlaufzeit in Tagen",
         "value": "60",
         "tooltip": "Gebe hier die Restlaufzeit der Option in Tagen an.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,100000]
       },
@@ -68,7 +68,7 @@
         "placeholder": "Volatilität",
         "value": "12.00",
         "tooltip": "Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000]
       }
@@ -307,7 +307,7 @@
         "placeholder": "Betrag",
         "value": "100.00",
         "tooltip": "Gebe hier den Betrag in der Ausgangswährung ein. Falls du Geld umtauschen möchtest ist dies das umzutauschende Geld in deinem Besitz.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000000]
       },
@@ -526,7 +526,7 @@
         "placeholder": "Anzahl Aktien",
         "value": "1",
         "tooltip": "Gebe hier die Gesamtzahl der gekauften Aktien ein.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000]
       },
@@ -537,7 +537,7 @@
         "placeholder": "Kaufkurs",
         "value": "68.12",
         "tooltip": "Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000]
       },
@@ -548,7 +548,7 @@
         "placeholder": "Verkaufskurs",
         "value": "92.65",
         "tooltip": "Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000]
       },
@@ -593,7 +593,7 @@
         "placeholder": "Kaufgebühren",
         "value": "",
         "tooltip": "Gebe hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000],
         "optional": true
@@ -607,7 +607,7 @@
         "placeholder": "Verkaufsgebühren",
         "value": "",
         "tooltip": "Gebe hier die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
-        "type": "text",
+        "type": "number",
         "vtype": "number",
         "args": [0,1000000000],
         "optional": true

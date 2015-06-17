@@ -52,6 +52,21 @@ block content
                     else
                       input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
 
+                //- template for number input fields
+                if input.type === 'number'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
+                      | #{input.label}
+                    if input.addon
+                      div.input-group
+                        input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+                        span.input-group-addon= input.addon
+                    else
+                      input(placeholder=input.placeholder, id=input.id, type=input.type, value=input.value, class="form-control")
+
                 //- template for select input fields
                 if input.type === 'select'
                   if input.linetop
