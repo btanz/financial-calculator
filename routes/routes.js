@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var boerse = require('../modules/boerse');
+var planning = require('../modules/planning');
 var calcElems = require('../data/static/calcElems.json');
+
 
 
 /* **********************************
@@ -55,8 +57,21 @@ router.get('/aktienrenditerechner/inputs',function(req,res,next){
   res.json(results);
 });
 
+/* **********************************
+ ** planning-retire routes
+ *********************************** */
+router.get('/altersvorsorgerechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.retire});
+});
 
-
+router.get('/altersvorsorgerechner/inputs',function(req,res,next){
+  var obj = req.query;
+  var results = planning.retire(obj);
+  res.json(results);
+  /*
+  var results = boerse.equityReturn(obj);
+  res.json(results);*/
+});
 
 
 

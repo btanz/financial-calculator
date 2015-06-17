@@ -655,6 +655,118 @@
         "tooltip": "Dieses Feld gibt die aus den Eingaben berechnete Haltedauer in Tagen wieder."
       }
     }
+  },
+
+
+  "retire": {
+    "id": "planning-retire",
+    "name": "Altersvorsorgerechner",
+    "description": "Dieser Rechner kalkuliert dein monatliches Einkommen ab Eintritt des Ruhestandes auf Basis deiner Ersparnisse, deiner Lebenserwartung und aktuellen Kapitalmarktparametern. Der Rechner berücksichtigt nur deine private Altersversorge, evenutelle Bezüge aus der gesetzlichen Rentenversicherung sind nicht berücksichtigt und würden dein monatliches Ruhestandseinkommen entsprechend erhöhen.",
+    "inputs": {
+      "age": {
+        "id": "planning-retire-age",
+        "label": "Aktuelles Lebensalter",
+        "placeholder": "Alter",
+        "addon": "Jahre",
+        "value": "43",
+        "tooltip": "Gebe hier das aktuelle Alter in Jahren ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,150]
+      },
+      "retireAge": {
+        "id": "planning-retire-retireAge",
+        "label": "Ruhestandsalter",
+        "placeholder": "Ruhestandsalter",
+        "addon": "Jahre",
+        "value": "67",
+        "tooltip": "Gebe hier das geplante Ruhestandsalter in Jahren ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,150]
+      },
+      "lifeExpectancy": {
+        "id": "planning-retire-lifeExpectancy",
+        "label": "Lebenserwartung",
+        "placeholder": "Lebenserwartung",
+        "addon": "Jahre",
+        "value": "80",
+        "tooltip": "Gebe hier die Lebenserwartung in Jahren ein. Um konservative Ergebnisse zu erhalten, ist es sinnvoll, eine eher höhere Lebenserwartung anzugeben. Dies stellt sicher, dass auch am Ende eines sehr langen Lebens hinreichend Kapital zur Verfügung steht.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,150]
+      },
+      "savings": {
+        "id": "planning-retire-savings",
+        "label": "Heutige Ruhestandsersparnisse",
+        "placeholder": "Ruhestandsersparnisse",
+        "addon": "EUR",
+        "value": "25000",
+        "tooltip": "Gebe hier den Betrag an, welchen du bereits für deinen Ruhestand gespart hast. ",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "futureSavings": {
+        "id": "planning-retire-futureSavings",
+        "label": "Zukünftige jährliche Ersparnisse",
+        "placeholder": "Zukünftige jährliche Ersparnisse",
+        "addon": "EUR",
+        "value": "4000",
+        "tooltip": "Gebe hier den Betrag an, welchen du in Zukunft pro Jahr bis zu Eintritt deines Ruhestandsalters für deine Altersvorsorge sparen wirst.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "rate": {
+        "id": "planning-retire-rate",
+        "label": "Erwartete Rendite/Verzinsung",
+        "addon": "% p. a.",
+        "placeholder": "Erwartete Rendite",
+        "value": "4.00",
+        "tooltip": "Hier kannst du die erwartete Rendite auf deine Ersparnisse angeben. Mit dieser Rendite werden deine Ersparnisse verzinst. Der voreingestellte Wert entspricht etwa der langfristigen Rendite für Festgeldanlagen.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "inflation": {
+        "id": "planning-retire-inflation",
+        "label": "Inflationsrate",
+        "addon": "% p. a.",
+        "placeholder": "Inflationsrate",
+        "value": "4.00",
+        "tooltip": "Gebe hier die erwartete Inflationsrate an. Der voreingestellte Wert entspricht etwa der langfristigen Inflationsrate.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      }
+    },
+    "outputs": {
+      "balance": {
+        "tooltip": "Die gesamten Ersparnisse zum Ruhestandsalter unter Berücksichtigung von Zinsen. Diese Zahl wird berechnet auf Basis der heutigen Ruhestandsersparnisse sowie der zuküntigen jährlichen Ersparnisse. Die Ersparnisse werden mit der erwarteten Rendite verzinst."
+      },
+      "balanceInfl": {
+        "tooltip": "Die gesamten realen/inflationsangepassten Ersparnisse zum Ruhestandsalter unter Berücksichtigung von Zinsen."
+      },
+      "annuityMth": {
+        "tooltip": "Das maximale monatliche nominale Einkommen ab dem Ruhestandsalter bis zum Lebenserwartungsalter, welches aus dem Kapitalstock (angespart bis zum Ruhestandsalter) gezahlt werden kann."
+      },
+      "annuityMthRetire": {
+        "tooltip": "Der heutige reale Wert des monatlichen Einkommens zu Beginn des Ruhestandes. Dies ist die Antwort auf folgende Frage: Wie viel Wert, in heutigen Geldeinheiten, ist das monatliche Einkommen am Eintritt des Ruhestandes."
+      },
+      "annuityMthLifeend": {
+        "tooltip": "Der heutige reale Wert des monatlichen Einkommens zum Alter der Lebenserwartung. Dies ist die Antwort auf folgende Frage: Wie viel Wert, in heutigen Geldeinheiten, ist das monatliche Einkommen zum Zeitpunkt der Lebenserwartung/am erwarteten Lebensende."
+      },
+      "rho": {
+        "tooltip": "Rho ist ein Maß für die Sensitivität des Preises der Option im Verhältnis zu Zinsänderungen. Für eine Option mit Rho von 0,1 gilt, dass der Optionspreis um 0,10€ steigt, wenn der Zinssatz um einen Prozentpunkt steigt."
+      },
+      "intrinsicValue": {
+        "tooltip": "Der innere Wert ist der Teil des Optionswertes, welcher alleine auf die Abweichung zwischen Preis der Aktie und Strike zurückzuführen ist (und nicht auf die Zeit). Für eine Call-Option entspricht der innere Wert dem Maximum aus der Differenz von Preis minus Strike und null. Für eine Put-Option dagegen entspricht der innere Wert dem Maximum aus der Differenz von Strike minus Preis und Null."
+      },
+      "timeValue": {
+        "tooltip": "Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu null, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht."
+      }
+    }
   }
 }
 

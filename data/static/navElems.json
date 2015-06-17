@@ -17,6 +17,10 @@
       "4": {
         "name": "Budgetierung",
         "url": "/"
+      },
+      "5": {
+        "name": "Altersvorsorge-Rechner",
+        "url": "/altersvorsorgerechner"
       }
     }
   },

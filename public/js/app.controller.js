@@ -47,7 +47,6 @@ app.controller = (function() {
     // make Ajax request to server
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data) {
-          console.log(data);
 
           // get, compile and fill results template
           if (!(data === null) && (typeof data.id === 'string')) {  // case where everything is alright
