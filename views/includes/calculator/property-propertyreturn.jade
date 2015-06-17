@@ -1,0 +1,62 @@
+//- property-propertyreturn-template
+script(id='property-propertyreturn-results-2-template', type='text/x-handlebars-template')
+  div.ibox.float-e-margins
+    div.ibox-title
+      h5
+        i.fa.fa-bar-chart-o.fa-lg.text-navy &nbsp
+        | {{obj.title}}
+    div.ibox-content(style='overflow:auto;')
+      table.table.table-striped
+        thead
+          tr
+            | {{#with obj.header}}
+            th(style='text-align: left; padding:2px; font-size:11px;') {{{this.[0]}}}
+            th(colspan='2',style='text-align: center; padding:2px; font-size:11px;') {{{this.[1]}}}
+            th(colspan='2',style='text-align: center; padding:2px; font-size:11px;') {{{this.[2]}}}
+            th(colspan='2',style='text-align: center; padding:2px; font-size:11px;') {{{this.[3]}}}
+            | {{/with}}
+          tr
+            | {{#with obj.headersub}}
+            th(style='padding:2px;')
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[0]}}
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[1]}}
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[2]}}
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[3]}}
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[4]}}
+            th(style='text-align: right;padding:2px; font-size:11px;') {{this.[5]}}
+            |  {{/with}}
+        tbody
+          | {{#with obj.firstrow}}
+          tr
+            td(colspan='1', style='text-align: left;   padding:2px; font-size:11px;') 0
+            td(colspan='4', style='text-align: center; padding:2px; font-size:11px; font-weight:600;') {{this.[0]}} {{numFormat this.[2] 2}} {{this.[1]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[3] 2}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[3] 2}}
+          | {{/with}}
+          | {{#each obj.body}}
+          tr
+            td(style='text-align: left;  padding:2px; font-size:11px;') {{numFormat this.[0] 0}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[1] this.digits}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[2] this.digits}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[3] this.digits}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[4] this.digits}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[5] this.digits}}
+            td(style='text-align: right; padding:2px; font-size:11px;') {{numFormat this.[6] this.digits}}
+          | {{/each}}
+          | {{#with obj.lastrow}}
+          tr
+            td(colspan='1', style='text-align: left;   padding:2px; font-size:11px;')
+            td(colspan='4', style='text-align: center; padding:2px; font-size:11px; font-weight:600;') {{this.[0]}} {{numFormat this.[2] 2}} {{this.[1]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[2] 2}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[3] 2}}
+          | {{/with}}
+          | {{#with obj.totalsrow}}
+          tr(style='border-bottom: 2px solid #E7EAEC')
+            td(colspan='1', style='text-align: left;   padding:2px; font-size:11px;font-weight:600;') {{{this.[0]}}}
+            td(colspan='1', style='text-align: right; padding:2px; font-size:11px; font-weight:600;') {{this.[1]}}
+            td(colspan='1', style='text-align: right; padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[2]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{this.[3]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[4]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[5]}}
+            td(colspan='1', style='text-align: right;  padding:2px; font-size:11px; font-weight:600;') {{numFormat this.[6]}}
+          | {{/with}}

@@ -12,3 +12,7 @@
 .hide {
   display: none;
 }
+
+.p-xxxs {
+  padding: 2px;
+}
