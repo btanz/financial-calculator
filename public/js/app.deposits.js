@@ -17,23 +17,16 @@ app.deposits = (function() {
     e.preventDefault();
 
     var state = $('#deposits-interest-select').val();
-    console.log(state);
+    var disabledMap = ['#deposits-interest-end','#deposits-interest-start','#deposits-interest-rate','#deposits-interest-period'];
 
-    // todo: continue here!!
-
-    /*
-    var state = $('#boerse-equityreturn-fees').val();
-    if (state === 'true'){
-      $('#boerse-equityreturn-feebuy, #boerse-equityreturn-feesell').closest('div[class^="form-group"]').removeClass('hide')
-    } else if (state === 'false'){
-      $('#boerse-equityreturn-feebuy, #boerse-equityreturn-feesell').closest('div[class^="form-group"]').addClass('hide')
-    }*/
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
   }
-
-
-
-
-
 
   /*********************** END DEPOSITS EVENT HANDLERS ***********************/
 

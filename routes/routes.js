@@ -3,6 +3,7 @@ var router = express.Router();
 var boerse = require('../modules/boerse');
 var planning = require('../modules/planning');
 var property = require('../modules/property');
+var deposits = require('../modules/deposits');
 var calcElems = require('../data/static/calcElems.json');
 
 
@@ -90,6 +91,12 @@ router.get('/immobilienrenditerechner/inputs',function(req,res,next){
  *********************************** */
 router.get('/zinsrechner', function(req,res,next){
   res.render('calculator', {obj: calcElems.depinterest});
+});
+
+router.get('/zinsrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.interest(obj);
+  res.json(results);
 });
 
 

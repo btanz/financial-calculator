@@ -172,6 +172,7 @@ exports.equityReturn = function(inputs, callback) {
   var errorMap;
   var localElems = calcElems.equityreturn.outputs;
 
+
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
 
