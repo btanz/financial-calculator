@@ -100,6 +100,19 @@ router.get('/zinsrechner/inputs', function(req,res,next){
 });
 
 
+/* **********************************
+ ** deposit-depsaving routes
+ *********************************** */
+router.get('/sparrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.depsaving});
+});
+
+router.get('/sparrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.savings(obj);
+  res.json(results);
+});
+
 
 
 /* **********************************

@@ -967,8 +967,191 @@
         "digits": 2
       }
     }
+  },
+
+  "depsaving": {
+    "id": "deposits-savings",
+    "name": "Sparrechner",
+    "description": "Mit dem Sparrechner kannst du je nach Auswahl verschiedene Parameter wie etwa des Endkapital für einen Sparplan berechnen.",
+    "inputs": {
+      "select": {
+        "id": "deposits-savings-select",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [0,5],
+        "options": {
+          "0": "Endkapital",
+          "1": "Anfangskapital",
+          "2": "Sparrate",
+          "3": "Ansparzeit",
+          "4": "Zinssatz"
+        }
+      },
+      "principal": {
+        "id": "deposits-savings-principal",
+        "label": "Anfangskapital",
+        "addon": "EUR",
+        "placeholder": "Anfangskapital",
+        "value": "10000.00",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "term": {
+        "id": "deposits-savings-term",
+        "label": "Ansparzeitraum",
+        "addon": "Jahre",
+        "placeholder": "Ansparzeitraum",
+        "value": "6",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,200]
+      },
+      "termfix": {
+        "id": "deposits-savings-termfix",
+        "label": "Anlagezeitraum",
+        "addon": "Jahre",
+        "placeholder": "Anlagezeitraum",
+        "value": "4",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,200]
+      },
+      "inflow": {
+        "id": "deposits-savings-inflow",
+        "label": "Sparrate",
+        "addon": "EUR",
+        "placeholder": "Sparrate",
+        "value": "100",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "inflowfreq": {
+        "id": "deposits-savings-inflowfreq",
+        "label": "Sparintervall",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 12],
+        "options": {
+          "12": "monatlich",
+          "4": "vierteljährlich",
+          "2": "halbjährlich",
+          "1": "jährlich"
+        }
+      },
+      "inflowtype": {
+        "id": "deposits-savings-inflowtype",
+        "label": "Einzahlungsart",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 2],
+        "options": {
+          "1": "nachschüssig",
+          "2": "vorschüssig"
+        }
+      },
+      "interest": {
+        "id": "deposits-savings-interest",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.50",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "dynamic": {
+        "id": "deposits-savings-dynamic",
+        "label": "Dynamisierung",
+        "addon": "% p. a.",
+        "placeholder": "Dynamisierung",
+        "value": "1.20",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "interestperiod": {
+        "id": "deposits-savings-interestperiod",
+        "label": "Zinsperiode",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 12],
+        "options": {
+          "1": "jährlich",
+          "2": "halbjährlich",
+          "4": "vierteljährlich",
+          "12": "monatlich"
+        }
+      },
+      "compounding": {
+        "id": "deposits-savings-compounding",
+        "label": "Zinseszins",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 12],
+        "options": {
+          "1": "Ja, Zinsansammlung",
+          "2": "Nein, Zinsauszahlung"
+        }
+      },
+      "terminal": {
+        "id": "deposits-savings-terminal",
+        "label": "Endkapital",
+        "addon": "EUR",
+        "placeholder": "Endkapital",
+        "value": "",
+        "disabled": true,
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      }
+    },
+    "outputs": {
+      "terminal": {
+        "tooltip": "TBD",
+        "description": "Endkapital",
+        "unit": "EUR",
+        "digits": 2
+      },
+      "principal": {
+        "tooltip": "TBD",
+        "description": "Anfangskapital",
+        "unit": "EUR",
+        "digits": 2
+      },
+      "inflow": {
+        "tooltip": "TBD",
+        "description": "Sparrate",
+        "unit": "EUR",
+        "digits": 2
+      },
+      "term": {
+        "tooltip": "TBD",
+        "description": "Ansparzeitraum",
+        "unit": "Jahre",
+        "digits": 2
+      },
+      "interest": {
+        "tooltip": "TBD",
+        "description": "Zinssatz",
+        "unit": "% p. a.",
+        "digits": 2
+      }
+
+    }
   }
-
 }
-
-

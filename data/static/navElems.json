@@ -46,7 +46,7 @@
     "values": {
       "1": {
         "name": "Sparrechner",
-        "url": "/"
+        "url": "/sparrechner"
       },
       "2": {
         "name": "Zinsrechner",
