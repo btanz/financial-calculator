@@ -1153,5 +1153,188 @@
       }
 
     }
+  },
+
+
+  "annuity": {
+    "id": "debt-annuity",
+    "name": "Tilgungsrechner Annuitätendarlehen",
+    "description": "Mit dem Tilgungsrechner für Annuitätendarlehen kannst du je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.",
+    "inputs": {
+      "select": {
+        "id": "debt-annuity-select",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [0,5],
+        "options": {
+          "0": "Rate/Annuität",
+          "1": "Restschuld",
+          "2": "Laufzeit",
+          "3": "Zinssatz",
+          "4": "Kreditsumme"
+        }
+      },
+      "principal": {
+        "id": "debt-annuity-principal",
+        "label": "Kreditsumme",
+        "addon": "EUR",
+        "placeholder": "Kreditsumme",
+        "value": "15000.00",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "term": {
+        "id": "debt-annuity-term",
+        "label": "Laufzeit Ratenzahlungen",
+        "addon": "Jahre",
+        "placeholder": "Laufzeit Ratenzahlungen",
+        "value": "3",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,200]
+      },
+      "repay": {
+        "id": "debt-annuity-repay",
+        "label": "Rate/Annuität",
+        "addon": "EUR",
+        "placeholder": "Rate/Annuität",
+        "value": "",
+        "disabled": true,
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,200]
+      },
+      "repayfreq": {
+        "id": "debt-annuity-repayfreq",
+        "label": "Zahlungsintervall für Rate",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 12],
+        "options": {
+          "12": "monatlich",
+          "4": "vierteljährlich",
+          "2": "halbjährlich",
+          "1": "jährlich"
+        }
+      },
+      "rate": {
+        "id": "debt-annuity-rate",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.50",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "residual": {
+        "id": "debt-annuity-residual",
+        "label": "Restschuld",
+        "addon": "EUR",
+        "placeholder": "Restschuld",
+        "value": "4000",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "fees": {
+        "id": "debt-annuity-fees",
+        "linetop": true,
+        "label": "Sind Gebühren angefallen?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 2],
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "feeamount": {
+        "id": "debt-annuity-feeamount",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Gebühren",
+        "addon": "EUR",
+        "placeholder": "Gebühren",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000],
+        "optional": true
+      },
+      "disagio": {
+        "id": "debt-annuity-disagio",
+        "label": "Gab es ein Disagio?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 2],
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "disagioamount": {
+        "id": "debt-annuity-disagioamount",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Disago",
+        "addon": "%",
+        "placeholder": "Disago",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,100],
+        "optional": true
+      },
+      "repaymentfree": {
+        "id": "debt-annuity-repaymentfree",
+        "label": "Gab es eine tilgungsfreie Zeit?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "number",
+        "args": [1, 2],
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "repaymentfreeterm": {
+        "id": "debt-annuity-repaymentfreeterm",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Zeitraum",
+        "addon": "Jahre",
+        "placeholder": "Zeitraum",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000],
+        "optional": true
+      }
+    },
+    "outputs": {
+      "tbd": {
+        "tooltip": "TBD",
+        "description": "tbd",
+        "unit": "EUR",
+        "digits": 2
+      }
+    }
   }
 }

@@ -114,6 +114,20 @@ router.get('/sparrechner/inputs', function(req,res,next){
 });
 
 
+/* **********************************
+ ** debt-annuity routes
+ *********************************** */
+router.get('/annuitaetenrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.annuity});
+});
+
+/*
+router.get('/annuitaetenrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.savings(obj);
+  res.json(results);
+});*/
+
 
 /* **********************************
  ** expose routes
