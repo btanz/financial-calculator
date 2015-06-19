@@ -3,6 +3,11 @@ app.debt = (function() {
   /*********************** BEGIN DEBT DOCUMENT READY TASKS ***********************/
   $(document).ready(function () {
 
+    // attach event handler for calculation selection mode
+    $('#debt-annuity-select').on('change', function (e) {
+      toggleAnnuitySelect(e);
+    });
+
     // attach event handler for fees
     $('#debt-annuity-fees').on('change', function (e) {
       toggleInputsFees(e);
@@ -22,13 +27,29 @@ app.debt = (function() {
   /*********************** END DEBT DOCUMENT READY TASKS *************************/
 
   /*********************** BEGIN DEBT EVENT HANDLERS ***********************/
+  function toggleAnnuitySelect (e){
+    e.preventDefault();
+
+    var state = $('#debt-annuity-select').val();
+    var disabledMap = ['#debt-annuity-repay','#debt-annuity-residual','#debt-annuity-term','#debt-annuity-rate','#debt-annuity-principal'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
+
+
   function toggleInputsFees (e){
     e.preventDefault();
     var state = $('#debt-annuity-fees').val();
     if (state === 'true'){
-      $('#debt-annuity-feeamount').closest('div[class^="form-group"]').removeClass('hide')
+      $('#debt-annuity-feeamount, #debt-annuity-feetype').closest('div[class^="form-group"]').removeClass('hide')
     } else if (state === 'false'){
-      $('#debt-annuity-feeamount').closest('div[class^="form-group"]').addClass('hide')
+      $('#debt-annuity-feeamount, #debt-annuity-feetype').closest('div[class^="form-group"]').addClass('hide')
     }
   }
 
@@ -48,9 +69,9 @@ app.debt = (function() {
     e.preventDefault();
     var state = $('#debt-annuity-repaymentfree').val();
     if (state === 'true'){
-      $('#debt-annuity-repaymentfreeterm').closest('div[class^="form-group"]').removeClass('hide')
+      $('#debt-annuity-repaymentfreeterm, #debt-annuity-repaymentfreetype').closest('div[class^="form-group"]').removeClass('hide')
     } else if (state === 'false'){
-      $('#debt-annuity-repaymentfreeterm').closest('div[class^="form-group"]').addClass('hide')
+      $('#debt-annuity-repaymentfreeterm, #debt-annuity-repaymentfreetype').closest('div[class^="form-group"]').addClass('hide')
     }
   }
 

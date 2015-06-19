@@ -4,6 +4,7 @@ var boerse = require('../modules/boerse');
 var planning = require('../modules/planning');
 var property = require('../modules/property');
 var deposits = require('../modules/deposits');
+var debt = require('../modules/debt');
 var calcElems = require('../data/static/calcElems.json');
 
 
@@ -121,12 +122,12 @@ router.get('/annuitaetenrechner', function(req,res,next){
   res.render('calculator', {obj: calcElems.annuity});
 });
 
-/*
+
 router.get('/annuitaetenrechner/inputs', function(req,res,next){
   var obj = req.query;
-  var results = deposits.savings(obj);
+  var results = debt.annuity(obj);
   res.json(results);
-});*/
+});
 
 
 /* **********************************

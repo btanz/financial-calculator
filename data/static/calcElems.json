@@ -1167,7 +1167,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [0,5],
+        "args": [
+          0,
+          5
+        ],
         "options": {
           "0": "Rate/Annuität",
           "1": "Restschuld",
@@ -1185,7 +1188,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "term": {
         "id": "debt-annuity-term",
@@ -1196,7 +1202,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,200]
+        "args": [
+          0,
+          200
+        ]
       },
       "repay": {
         "id": "debt-annuity-repay",
@@ -1208,7 +1217,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,200]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "repayfreq": {
         "id": "debt-annuity-repayfreq",
@@ -1216,7 +1228,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [1, 12],
+        "args": [
+          1,
+          12
+        ],
         "options": {
           "12": "monatlich",
           "4": "vierteljährlich",
@@ -1233,7 +1248,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "residual": {
         "id": "debt-annuity-residual",
@@ -1244,7 +1262,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "fees": {
         "id": "debt-annuity-fees",
@@ -1252,8 +1273,7 @@
         "label": "Sind Gebühren angefallen?",
         "tooltip": "TBD",
         "type": "select",
-        "vtype": "number",
-        "args": [1, 2],
+        "vtype": "bool",
         "options": {
           "false": "nein",
           "true": "ja"
@@ -1270,8 +1290,30 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000],
+        "args": [
+          0,
+          1000000000
+        ],
         "optional": true
+      },
+      "feetype": {
+        "id": "debt-annuity-feetype",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie sollen die Gebühren verrechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          2,
+          3
+        ],
+        "options": {
+          "2": "Verrechnung mit der Ratenzahlung/Annuität",
+          "3": "keine Verrechnung, sondern gesonderte Zahlung"
+        }
       },
       "disagio": {
         "id": "debt-annuity-disagio",
@@ -1279,8 +1321,7 @@
         "tooltip": "TBD",
         "linetop": true,
         "type": "select",
-        "vtype": "number",
-        "args": [1, 2],
+        "vtype": "bool",
         "options": {
           "false": "nein",
           "true": "ja"
@@ -1297,7 +1338,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,100],
+        "args": [
+          0,
+          100
+        ],
         "optional": true
       },
       "repaymentfree": {
@@ -1306,8 +1350,7 @@
         "tooltip": "TBD",
         "linetop": true,
         "type": "select",
-        "vtype": "number",
-        "args": [1, 2],
+        "vtype": "bool",
         "options": {
           "false": "nein",
           "true": "ja"
@@ -1324,15 +1367,67 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000],
+        "args": [
+          0,
+          1000
+        ],
         "optional": true
+      },
+      "repaymentfreetype": {
+        "id": "debt-annuity-repaymentfreetype",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie sollen die Zinsen für die tilgungsfreie Zeit verrechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          2,
+          3
+        ],
+        "options": {
+          "2": "Verrechnung mit der Ratenzahlung/Annuität",
+          "3": "keine Verrechnung, sondern gesonderte Zahlung"
+        }
       }
     },
     "outputs": {
-      "tbd": {
+      "repay": {
         "tooltip": "TBD",
-        "description": "tbd",
+        "description": "Rate/Annuität",
         "unit": "EUR",
+        "digits": 2
+      },
+      "residual": {
+        "tooltip": "TBD",
+        "description": "Restschuld",
+        "unit": "EUR",
+        "digits": 2
+      },
+      "term": {
+        "tooltip": "TBD",
+        "description": "Laufzeit der Ratenzahlungen",
+        "unit": "Jahre",
+        "digits": 2
+      },
+      "rate": {
+        "tooltip": "TBD",
+        "description": "Zinssatz",
+        "unit": "% p. a.",
+        "digits": 2
+      },
+      "principal": {
+        "tooltip": "TBD",
+        "description": "Kreditsumme",
+        "unit": "EUR",
+        "digits": 2
+      },
+      "irr": {
+        "tooltip": "TBD",
+        "description": "Effektiver Jahreszins / IRR",
+        "unit": "% p. a.",
         "digits": 2
       }
     }
