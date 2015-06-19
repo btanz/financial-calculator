@@ -289,8 +289,24 @@ exports.annuity = function(inputs){
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.annuity.id;
   // first result container
-  result._1.value = {'description': localElems[selectMap[inputs.select]].description,  'value': helper.result,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
-  result._1.irr =   {'description': localElems['irr'].description,                     'value': helper.irr,                       'unit': localElems['irr'].unit,                    'digits': localElems['irr'].digits,                    'tooltip': localElems['irr'].tooltip};
+  result._1.value = {
+    'description': localElems[selectMap[inputs.select]].description,
+    'value': helper.result,
+    'unit': localElems[selectMap[inputs.select]].unit,
+    'digits': localElems[selectMap[inputs.select]].digits,
+    'tooltip': localElems[selectMap[inputs.select]].tooltip,
+    'importance': localElems[selectMap[inputs.select]].importance
+  };
+
+  result._1.irr = {
+    'description': localElems['irr'].description,
+    'value': helper.irr,
+    'unit': localElems['irr'].unit,
+    'digits': localElems['irr'].digits,
+    'tooltip': localElems['irr'].tooltip,
+    'importance': localElems['irr'].importance
+  };
+
   // second result container
   result._2.title = 'Tilgungsplan';
   result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zinsanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];

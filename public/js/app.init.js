@@ -43,7 +43,7 @@ app.init = function(){
     numeral.defaultFormat('0,0.00');
   }());
 
-  // initialize Handlebars helpers
+  // ******* HANDLEBARS HELPER ********
   Handlebars.registerHelper('numFormat', function(value,digits){
     var formatString = '0,0.';
 
@@ -54,6 +54,15 @@ app.init = function(){
     }
 
     return numeral(value).format(formatString);
+  });
+
+
+  Handlebars.registerHelper('tableElemImportance', function(value){
+    if (value === 'second'){
+      return 'table-secondary'
+    } else {
+      return '';
+    }
   });
 
 

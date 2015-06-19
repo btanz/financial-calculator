@@ -130,13 +130,13 @@ block content
 
       div.ibox-content
         table.table.table-striped
-          tbody
+          thead
             | {{#each obj}}
             tr
-              td
+              th(class='{{tableElemImportance this.importance}}')
                 i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title='{{this.tooltip}}') &nbsp
-                | {{this.description}}
-              td(style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
+                | {{this.description}} {{this.importance}}
+              th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
             | {{/each}}
 
   //- main results error template

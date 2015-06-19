@@ -1398,37 +1398,43 @@
         "tooltip": "TBD",
         "description": "Rate/Annuität",
         "unit": "EUR",
-        "digits": 2
+        "digits": 2,
+        "importance": "first"
       },
       "residual": {
         "tooltip": "TBD",
         "description": "Restschuld",
         "unit": "EUR",
-        "digits": 2
+        "digits": 2,
+        "importance": "second"
       },
       "term": {
         "tooltip": "TBD",
         "description": "Laufzeit der Ratenzahlungen",
         "unit": "Jahre",
-        "digits": 2
+        "digits": 2,
+        "importance": "second"
       },
       "rate": {
         "tooltip": "TBD",
         "description": "Zinssatz",
         "unit": "% p. a.",
-        "digits": 2
+        "digits": 2,
+        "importance": "second"
       },
       "principal": {
         "tooltip": "TBD",
         "description": "Kreditsumme",
         "unit": "EUR",
-        "digits": 2
+        "digits": 2,
+        "importance": "second"
       },
       "irr": {
         "tooltip": "TBD",
         "description": "Effektiver Jahreszins / IRR",
         "unit": "% p. a.",
-        "digits": 2
+        "digits": 2,
+        "importance": "second"
       }
     }
   }

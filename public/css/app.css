@@ -16,3 +16,8 @@
 .p-xxxs {
   padding: 2px;
 }
+
+.table-secondary{
+  font-weight: 400;
+  padding-left: 20px !important;
+}
