@@ -12,7 +12,7 @@ exports.annuity = function(inputs){
   /* ******** 1. INIT AND ASSIGN ******** */
   var helper = {}, helper1;
   var result = {}; result._1 = {}; result._2 = {};
-  var localElems = calcElems.annuity.outputs;
+  var localElems = calcElems.annuity.results_1;
   var expectedInputs = calcElems.annuity.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
@@ -289,23 +289,8 @@ exports.annuity = function(inputs){
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.annuity.id;
   // first result container
-  result._1.value = {
-    'description': localElems[selectMap[inputs.select]].description,
-    'value': helper.result,
-    'unit': localElems[selectMap[inputs.select]].unit,
-    'digits': localElems[selectMap[inputs.select]].digits,
-    'tooltip': localElems[selectMap[inputs.select]].tooltip,
-    'importance': localElems[selectMap[inputs.select]].importance
-  };
-
-  result._1.irr = {
-    'description': localElems['irr'].description,
-    'value': helper.irr,
-    'unit': localElems['irr'].unit,
-    'digits': localElems['irr'].digits,
-    'tooltip': localElems['irr'].tooltip,
-    'importance': localElems['irr'].importance
-  };
+  result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper.result});
+  result._1.irr = _.extend(localElems.irr, {"value": helper.irr});
 
   // second result container
   result._2.title = 'Tilgungsplan';

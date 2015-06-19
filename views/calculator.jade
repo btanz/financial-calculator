@@ -135,7 +135,7 @@ block content
             tr
               th(class='{{tableElemImportance this.importance}}')
                 i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title='{{this.tooltip}}') &nbsp
-                | {{this.description}} {{this.importance}}
+                | {{this.description}}
               th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
             | {{/each}}
 

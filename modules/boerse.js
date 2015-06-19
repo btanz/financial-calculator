@@ -1,5 +1,6 @@
 var request = require('request');
 var fx = require('money');
+var _ = require('underscore');
 var math = require('./math');
 var helpers = require('./helpers');
 var calcElems = require('../data/static/calcElems.json');
@@ -41,9 +42,10 @@ exports.blackScholes = function (inputs) {
   /* ******** 1. INIT AND ASSIGN ******** */
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
   var result = {}; result._1 = {};
-  var localElems = calcElems.options.outputs;
+  var localElems = calcElems.options.results_1;
   var expectedInputs = calcElems.options.inputs;
   var errorMap;
+  var helper = {};
 
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -63,42 +65,37 @@ exports.blackScholes = function (inputs) {
   d2 = d1 - inputs.vola * Math.sqrt(inputs.maturity);
   // return value based on PutCallFlag
   if (inputs.optiontype === 1){ // call
-    value =  inputs.price * cumNormalHelper(d1)-inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(d2);
-    delta = cumNormalHelper(d1);
-    gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));
-    vega = 0.01 * inputs.strike * Math.sqrt(inputs.maturity) * cumNormalPrimeHelper(d1);
-    theta = (- (inputs.price * cumNormalPrimeHelper(d1) * inputs.vola/(2*Math.sqrt(inputs.maturity))) - inputs.interest * inputs.strike * Math.exp(-inputs.interest*inputs.maturity) * cumNormalHelper(d2))/365;
-    rho = 0.01 * inputs.strike * inputs.maturity * Math.exp(- inputs.interest * inputs.maturity) * cumNormalHelper(d2);
-    intrinsicValue = Math.max(inputs.price - inputs.strike,0);
-    timeValue = value - intrinsicValue;
+    helper.value =  inputs.price * cumNormalHelper(d1)-inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(d2);
+    helper.delta = cumNormalHelper(d1);
+    helper.gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));
+    helper.vega = 0.01 * inputs.strike * Math.sqrt(inputs.maturity) * cumNormalPrimeHelper(d1);
+    helper.theta = (- (inputs.price * cumNormalPrimeHelper(d1) * inputs.vola/(2*Math.sqrt(inputs.maturity))) - inputs.interest * inputs.strike * Math.exp(-inputs.interest*inputs.maturity) * cumNormalHelper(d2))/365;
+    helper.rho = 0.01 * inputs.strike * inputs.maturity * Math.exp(- inputs.interest * inputs.maturity) * cumNormalHelper(d2);
+    helper.intrinsicValue = Math.max(inputs.price - inputs.strike,0);
+    helper.timeValue = helper.value - helper.intrinsicValue;
   } else if (inputs.optiontype === 2) { // put
-    value = inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(-d2) - inputs.price * cumNormalHelper(-d1);
-    delta = cumNormalHelper(d1) - 1;
-    gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));
-    vega = 0.01 * inputs.price * Math.sqrt(inputs.maturity) * cumNormalPrimeHelper(d1);
-    theta = (- (inputs.price * cumNormalPrimeHelper(d1) * inputs.vola/(2*Math.sqrt(inputs.maturity))) + inputs.interest * inputs.strike * Math.exp(-inputs.interest*inputs.maturity) * cumNormalHelper(-d2))/365;
-    rho = - 0.01 * inputs.strike * inputs.maturity * Math.exp(- inputs.interest * inputs.maturity) * cumNormalHelper(-d2);
-    intrinsicValue = Math.max(inputs.strike-inputs.price,0);
-    timeValue = value - intrinsicValue;
+    helper.value = inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(-d2) - inputs.price * cumNormalHelper(-d1);
+    helper.delta = cumNormalHelper(d1) - 1;
+    helper.gamma = cumNormalPrimeHelper(d1) / (inputs.price*inputs.vola*Math.sqrt(inputs.maturity));
+    helper.vega = 0.01 * inputs.price * Math.sqrt(inputs.maturity) * cumNormalPrimeHelper(d1);
+    helper.theta = (- (inputs.price * cumNormalPrimeHelper(d1) * inputs.vola/(2*Math.sqrt(inputs.maturity))) + inputs.interest * inputs.strike * Math.exp(-inputs.interest*inputs.maturity) * cumNormalHelper(-d2))/365;
+    helper.rho = - 0.01 * inputs.strike * inputs.maturity * Math.exp(- inputs.interest * inputs.maturity) * cumNormalHelper(-d2);
+    helper.intrinsicValue = Math.max(inputs.strike-inputs.price,0);
+    helper.timeValue = helper.value - helper.intrinsicValue;
   } else {
     return null;
   }
 
-
   /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.options.id;
-  result._1.value =          {'description': 'Theoretischer Optionspreis',  'value': value,         'unit': '€', 'digits': 4, 'tooltip': localElems.value.tooltip};
-  result._1.delta =          {'description': 'Delta',                       'value': delta,         'unit': ' ', 'digits': 4, 'tooltip': localElems.delta.tooltip};
-  result._1.gamma =          {'description': 'Gamma',                       'value': gamma,         'unit': ' ', 'digits': 4, 'tooltip': localElems.gamma.tooltip};
-  result._1.theta =          {'description': 'Theta',                       'value': theta,         'unit': ' ', 'digits': 4, 'tooltip': localElems.theta.tooltip};
-  result._1.vega =           {'description': 'Vega',                        'value': vega,          'unit': ' ', 'digits': 4, 'tooltip': localElems.vega.tooltip};
-  result._1.rho =            {'description': 'Rho',                         'value': rho,           'unit': ' ', 'digits': 4, 'tooltip': localElems.rho.tooltip};
-  result._1.intrinsicValue = {'description': 'Innerer Wert',                'value': intrinsicValue,'unit': '€', 'digits': 4, 'tooltip': localElems.intrinsicValue.tooltip};
-  result._1.timeValue =      {'description': 'Zeitwert',                    'value': timeValue,     'unit': '€', 'digits': 4, 'tooltip': localElems.timeValue.tooltip};
+  ['value','delta','gamma','theta','vega','rho','intrinsicValue','timeValue'].forEach(function(val){
+    result._1[val] = _.extend(localElems[val], {"value": helper[val]});
+  });
 
   return result;
 
 };
+
 
 // query exchange rates using the fixer.io API (ECB exchange rates)
 // todo: documentation
@@ -106,7 +103,7 @@ exports.fxConvert = function (inputs,callback) {
 
   /* ******** 1. INIT AND ASSIGN ******** */
   var value, returnResults;
-  var localElems = calcElems.fx.outputs;
+  var localElems = calcElems.fx.results_1;
   var result = {}; result._1 = {}; result._2 = {};
   var expectedInputs = calcElems.fx.inputs;
   var errorMap;
@@ -145,7 +142,7 @@ exports.fxConvert = function (inputs,callback) {
     while(Math.abs(rate/adjustment)<0.1){adjustment /= 10;}
 
     // first result container
-    result._1.value =          {'description': 'Betrag in Zielwährung',  'value': value,         'unit': inputs.to, 'tooltip': localElems.value.tooltip};
+    result._1.value = _.extend(localElems.value, {"value": value, 'unit': inputs.to});
 
     // second result container
     result._2.title = 'Umrechnungstabelle';
@@ -170,7 +167,7 @@ exports.equityReturn = function(inputs, callback) {
   var i, dividendData = [], helper, holding, irr;
   var expectedInputs = calcElems.equityreturn.inputs;
   var errorMap;
-  var localElems = calcElems.equityreturn.outputs;
+  var localElems = calcElems.equityreturn.results_1;
 
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -222,11 +219,9 @@ exports.equityReturn = function(inputs, callback) {
 
   /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.equityreturn.id;
-  result._1.irr =          {'description': 'Rendite/IRR',  'value': irr,             'unit': '% p. a.', 'digits': 3, 'tooltip': localElems.irr.tooltip};
-  result._1.holding =      {'description': 'Haltedauer in Tagen',         'value': holding,         'unit': ' '      , 'digits': 1, 'tooltip': localElems.holding.tooltip};
-
+  result._1.irr = _.extend(localElems.irr, {"value": irr});
+  result._1.holding = _.extend(localElems.holding, {"value": holding});
   return result;
-
 };
 
 

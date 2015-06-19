@@ -1,5 +1,6 @@
 // * MODULE COLLECTING PROPERTY/REAL ESTATE FUNCTIONS
 var helpers = require('./helpers');
+var _ = require('underscore');
 var calcElems = require('../data/static/calcElems.json');
 var math = require('./math');
 
@@ -27,7 +28,7 @@ exports.propertyreturn = function(inputs){
   var revenuePV, goal, irr, helper = {};
   var cash = [], totals = [], cashHelper;
   var result = {}; result._1 = {}; result._2 = {};
-  var localElems = calcElems.propertyreturn.outputs;
+  var localElems = calcElems.propertyreturn.results_1;
   var expectedInputs = calcElems.propertyreturn.inputs;
   var errorMap;
 
@@ -141,15 +142,9 @@ exports.propertyreturn = function(inputs){
 
   // first result container
   result.id = calcElems.propertyreturn.id;
-  result._1.irr =         {'description': 'Rendite (Effektivzins, IRR)',  'value': helper.irr,             'unit': '% p. a.',  'digits': 3,  'tooltip': {}};
-  result._1.profit =      {'description': 'Gewinn',                       'value': helper.profit,          'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.revenue =     {'description': 'Gesamte Einnahmen',            'value': helper.revenue,         'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.rentRevenue = {'description': 'Monatliche Mieteinnahmen',     'value': helper.rentRevenue,     'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.sellRevenue = {'description': 'Endwert',                      'value': helper.sellRevenue,     'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.investment =  {'description':  'Gesamte Ausgaben',            'value': helper.investment,      'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.initialInvestment = {'description':  'Anfangsinvestition',    'value': helper.initialInvestment,'unit': 'EUR',     'digits': 2,  'tooltip': {}};
-  result._1.maintenance = {'description':  'Instandhaltungskosten',       'value': helper.maintenance,     'unit': 'EUR',      'digits': 2,  'tooltip': {}};
-  result._1.loan =        {'description':  'Darlehenszahlungen',          'value': helper.loan,            'unit': 'EUR',      'digits': 2,  'tooltip': {}};
+  ['irr','profit','revenue','rentRevenue','sellRevenue','investment','initialInvestment','maintenance','loan'].forEach(function(val) {
+    result._1[val] = _.extend(localElems[val], {"value": helper[val]});
+  });
 
   // second result container
   result._2.title = 'Zahlungsübersicht';

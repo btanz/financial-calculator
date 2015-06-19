@@ -28,7 +28,7 @@ exports.interest = function(inputs){
   /* ******** 1. INIT AND ASSIGN ******** */
   var result = {}; result._1 = {}; result._2 = {};
   var helper, helperAnnual, helperAnnualT;
-  var localElems = calcElems.depinterest.outputs;
+  var localElems = calcElems.depinterest.results_1;
   var expectedInputs = calcElems.depinterest.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
@@ -77,8 +77,12 @@ exports.interest = function(inputs){
   /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.depinterest.id;
   // first result container
-  result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': inputs.select == 2 ? helper * 100 : helper,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
-  result._1.gain  =          {'description': localElems['gain'].description,                    'value': inputs.end - inputs.start, 'unit': localElems['gain'].unit                  , 'digits': localElems['gain'].digits,                   'tooltip': localElems['gain'].tooltip};
+  result._1.value = _.extend(localElems[selectMap[inputs.select]], {'value': inputs.select == 2 ? helper * 100 : helper});
+  result._1.gain  = _.extend(localElems['gain'], {'value': inputs.end - inputs.start});
+
+
+  //result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': inputs.select == 2 ? helper * 100 : helper,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
+  //result._1.gain  =          {'description': localElems['gain'].description,                    'value': inputs.end - inputs.start, 'unit': localElems['gain'].unit                  , 'digits': localElems['gain'].digits,                   'tooltip': localElems['gain'].tooltip};
   // second result container
   result._2.title = 'Kapitalentwicklung';
   result._2.header = ['Jahr', 'Kapitalwert Beginn', 'Zins', 'Zins akkumuliert', 'Kapitalwert Ende'];
@@ -110,7 +114,7 @@ exports.savings = function(inputs){
   var cash = [], cashT;
   var q, a, principalCompounded;
   var result = {}; result._1 = {}; result._2 = {};
-  var localElems = calcElems.depsaving.outputs;
+  var localElems = calcElems.depsaving.results_1;
   var expectedInputs = calcElems.depsaving.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
@@ -409,15 +413,14 @@ exports.savings = function(inputs){
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.depsaving.id;
   // first result container
-  result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': helper.result,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
+  result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper.result});
+
   // second result container
   result._2.title = 'Sparkontoentwicklung';
   result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
   result._2.body = cashT;
 
-
   return result;
-
 
 };
 
