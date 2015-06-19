@@ -121,7 +121,7 @@ $(document).ready(function () {
     }
 
   }
-  fix_height();
+  //fix_height();
 
   // Fixed Sidebar
   $(window).bind("load", function () {
@@ -144,7 +144,7 @@ $(document).ready(function () {
 
   $(document).bind("load resize scroll", function() {
     if(!$("body").hasClass('body-small')) {
-      fix_height();
+      // fix_height();
     }
   });
 
