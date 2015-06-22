@@ -1,6 +1,5 @@
 The purpose of this file is to collect todos mainly based on feedback and experiences with the app 
 
-
 ***** GLOBAL APP TASKS ******
 * testing sheet for each calculator
 * improved rootfinding algorithm
@@ -13,7 +12,8 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * feeback-field
 * search for calculators / tasks on the landing page
 * landing-page animations
-
+* modals for zoom -> popups for results etc
+* invert question marks + put them at the end
 
 
 
