@@ -88,6 +88,21 @@ router.get('/immobilienrenditerechner/inputs',function(req,res,next){
 
 
 /* **********************************
+ ** property-buyorrent routes
+ *********************************** */
+router.get('/kaufen-oder-mieten', function(req,res,next){
+  res.render('calculator', {obj: calcElems.propertybuyrent});
+});
+
+router.get('/kaufen-oder-mieten/inputs',function(req,res,next){
+ /*
+  var obj = req.query;
+  var results = property.propertyreturn(obj);
+  res.json(results);*/
+});
+
+
+/* **********************************
  ** deposit-depinterest routes
  *********************************** */
 router.get('/zinsrechner', function(req,res,next){

@@ -60,6 +60,10 @@
       "1": {
         "name": "Immobilienrenditerechner",
         "url": "/immobilienrenditerechner"
+      },
+      "2": {
+        "name": "Vergleichsrechner Kaufen-oder-Mieten",
+        "url": "/kaufen-oder-mieten"
       }
     }
   },

@@ -976,6 +976,244 @@
     }
   },
 
+
+  "propertybuyrent": {
+    "id": "property-buyrent",
+    "name": "Vergleichsrechner Immobilien kaufen oder mieten",
+    "description": "Lohnt sich der Kauf einer Immobilie als Eigenheim oder ist es besser, zur Miete zu wohnen und sein Geld anzulegen? Dieser Rechner hilft bei der Entscheidung",
+    "inputs": {
+      "price": {
+        "id": "property-buyrent-price",
+        "label": "Kaufpreis der Immobilie",
+        "placeholder": "Kaufpreis",
+        "addon": "EUR",
+        "value": "200000.00",
+        "tooltip": "Geben Sie hier den (voraussichtlichen) Kaufpreis der Immobilie ohne Kaufnebenkosten an",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "priceaddon": {
+        "id": "property-buyrent-priceaddon",
+        "label": "Kaufnebenkosten",
+        "placeholder": "Kaufnebenkosten",
+        "addon": "EUR",
+        "value": "15000.00",
+        "tooltip": "Geben Sie hier die Nebenkosten an, welche beim Immobilienkauf entstehen würden. Diese enthalten meist Grunderwerbssteuer sowie Notar- und Grundbuchgebühren.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000000
+        ]
+      },
+      "maintenance": {
+        "id": "property-buyrent-maintenance",
+        "label": "Laufende Kosten und Instandhaltungskosten",
+        "placeholder": "Laufende Kosten und Instandhaltungskosten",
+        "addon": "EUR/Monat",
+        "value": "200",
+        "tooltip": "Geben Sie hier die monatlichen laufenden Kosten (Wasserversorgung, Müllentsorgung, Heizung, etc.) sowie die Instandhaltungskosten der Immobilie an.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "rent": {
+        "id": "property-buyrent-rent",
+        "label": "Vergleichsmiete inkl. Nebenkosten",
+        "linetop": true,
+        "placeholder": "Vergleichsmiete",
+        "addon": "EUR/Monat",
+        "value": "700",
+        "tooltip": "Geben Sie die monatliche Warmmiete an, die bei der Anmietung anfallen würde",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "equity": {
+        "id": "property-buyrent-equity",
+        "label": "Eigenkapital",
+        "linetop": true,
+        "placeholder": "Eigenkapital",
+        "addon": "EUR",
+        "value": "50000",
+        "tooltip": "Geben Sie das zum Immobilienerwerb verfügbare Eigenkapital an. Der nicht durch Eigenkapital gedeckte Anteil des Kaufpreises wird entsprechend durch ein Darlehen finanziert. Falls keine Immobilie gekauft wird kann dieser Betrag angelegt werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "income": {
+        "id": "property-buyrent-income",
+        "label": "Verfügbares Einkommen zum Wohnen",
+        "linetop": false,
+        "placeholder": "Einkommen zum Wohnen",
+        "addon": "EUR/Monat",
+        "value": "1500",
+        "tooltip": "Geben Sie hier den monatlichen Betrag an, welchen Sie für Wohnzwecke (Kauf und Unterhaltung einer Immobilie bzw. Anmietung) ausgeben möchten",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000000
+        ]
+      },
+      "equityinterest": {
+        "id": "property-buyrent-equityinterest",
+        "label": "Zinssatz Geldanlage",
+        "linetop": false,
+        "placeholder": "Zinssatz Geldanlage",
+        "addon": "% p. a.",
+        "value": "1.50",
+        "tooltip": "Geben Sie hier den Zinssatz an, zu welchem Kapital angelegt werden kann. Beträge, welche nach Zahlung von Miet- bzw. Finanzierungs- und Entstandhaltungskosten übrig bleiben, werden mit diesem Zinssatz verzinst.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          200
+        ]
+      },
+      "debtinterest": {
+        "id": "property-buyrent-debtinterest",
+        "label": "Zinssatz Darlehen",
+        "linetop": false,
+        "placeholder": "Zinssatz Darlehen",
+        "addon": "% p. a.",
+        "value": "3.00",
+        "tooltip": "Geben Sie hier den jährlichen Kreditzinssatz des Darlehens an",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          200
+        ]
+      },
+      "debtpay": {
+        "id": "property-buyrent-debtpay",
+        "label": "Rückzahlungsrate Darlehen",
+        "linetop": false,
+        "placeholder": "Rückzahlungsrate Darlehen",
+        "addon": "EUR",
+        "value": "1000",
+        "tooltip": "Geben Sie hier die Höhe der monatliche Zahlungen an, die der Rückzahlung des Darlehens dienen. Diese konstante Rate deckt die Zins- und Tilgungsleistungen ab.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "period": {
+        "id": "property-buyrent-period",
+        "label": "Analysezeitraum",
+        "linetop": true,
+        "placeholder": "Analysezeitraum",
+        "addon": "Jahre",
+        "value": "20",
+        "tooltip": "Hier können Sie den Referenzzeitraum für die Vergleichsrechnung angeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          60
+        ]
+      },
+      "dynamics": {
+        "id": "property-buyrent-dynamics",
+        "linetop": true,
+        "label": "Jährliche Steigerungen berücksichtigen?",
+        "tooltip": "Wählen Sie hier JA, um jährliche Steigerungen von Miete, Immobilienwert, Kosten und Einkommen in der Rechnung zu berücksichtigen.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "NEIN",
+          "true": "JA"
+        }
+      },
+      "incomedynamic": {
+        "id": "property-buyrent-incomedynamic",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Einkommenssteigerung",
+        "addon": "% p. a.",
+        "placeholder": "Einkommenssteigerung",
+        "value": "0.00",
+        "tooltip": "Hier können Sie die jährliche Steigerung des zum Wohnen verfügbaren Einkommens angeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          -200,
+          200
+        ],
+        "optional": true
+      },
+      "rentdynamic": {
+        "id": "property-buyrent-rentdynamic",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Mietkostensteigerung",
+        "addon": "% p. a.",
+        "placeholder": "Mietkostensteigerung",
+        "value": "0.00",
+        "tooltip": "Hier können Sie die jährliche Steigerung der Mietkosten angeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          -200,
+          200
+        ],
+        "optional": true
+      },
+      "valuedynamic": {
+        "id": "property-buyrent-valuedynamic",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Wertsteigerung Immobilie",
+        "addon": "% p. a.",
+        "placeholder": "Wertsteigerung Immobilie",
+        "value": "0.00",
+        "tooltip": "Hier können Sie die jährliche Steigerung des Immobilienwertes angeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          -200,
+          200
+        ],
+        "optional": true
+      },
+      "costdynamic": {
+        "id": "property-buyrent-costdynamic",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Steigerung der laufenden Kosten/Instandhaltungskosten",
+        "addon": "% p. a.",
+        "placeholder": "Steigerung der laufenden Kosten/Instandhaltungskosten",
+        "value": "0.00",
+        "tooltip": "Hier können Sie die jährliche Steigerung der laufenden Kosten bzw. der Instandhaltungskosten angeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          -200,
+          200
+        ],
+        "optional": true
+      }
+    },
+    "results_1": {
+    }
+  },
+
   "depinterest": {
     "id": "deposits-interest",
     "name": "Zinsrechner",
