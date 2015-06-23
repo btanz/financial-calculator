@@ -43,8 +43,8 @@ block content
                     div.hr-line-dashed
                   div.form-group(class=rank, class=hide)
                     label(for=input.id)
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
-                      | #{input.label}
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
                     if input.addon
                       div.input-group
                         input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
@@ -58,8 +58,8 @@ block content
                     div.hr-line-dashed
                   div.form-group(class=rank, class=hide)
                     label(for=input.id)
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
-                      | #{input.label}
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
                     if input.addon
                       div.input-group
                         input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
@@ -73,8 +73,8 @@ block content
                     div.hr-line-dashed
                   div.form-group(class=rank, class=hide)
                     label(for=input.id)
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
-                      | #{input.label}
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
                     select(id=input.id, class="form-control")
                       each option, index in input.options
                         - var optgroup = (option === '_OPTGROUP')
@@ -89,8 +89,8 @@ block content
                     div.hr-line-dashed
                   div.form-group(class=rank, class=hide)
                     label(for=input.id)
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip) &nbsp
-                      | #{input.label}
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
                     div.input-group.date
                       span.input-group-addon
                         i.fa.fa-calendar
@@ -134,8 +134,8 @@ block content
             | {{#each obj}}
             tr
               th(class='{{tableElemImportance this.importance}}')
-                i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title='{{this.tooltip}}') &nbsp
-                | {{this.description}}
+                | {{this.description}} &nbsp
+                i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title='{{this.tooltip}}')
               th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
             | {{/each}}
 
