@@ -1786,5 +1786,202 @@
         "importance": "second"
       }
     }
+  },
+
+  "daycount": {
+    "id": "misc-daycount",
+    "name": "Zinstagerechner",
+    "description": "Mit dem Zinsrechner kann die Anzahl der Zinstage und der Zinsfaktor zwischen zwei Daten nach verschiedenen Zinsmethoden berechnet werden. ",
+    "inputs": {
+      "begindate": {
+        "id": "misc-daycount-begindate",
+        "linetop": false,
+        "label": "Anfangsdatum",
+        "addon": "Datum",
+        "value": "08.01.2013",
+        "tooltip": "Geben Sie hier das Anfangsdatum der Zinsperiode ein.",
+        "type": "date",
+        "vtype": "date"
+      },
+      "enddate": {
+        "id": "misc-daycount-enddate",
+        "linetop": false,
+        "label": "Enddatum",
+        "addon": "Datum",
+        "value": "08.05.2015",
+        "tooltip": "Geben Sie hier das Enddatum der Zinsperiode ein.",
+        "type": "date",
+        "vtype": "date"
+      }
+    },
+    "results_1": {
+      "actdays": {
+        "tooltip": "Die Anzahl abgelaufener Kalendertage vom Anfangs- bis zum Endddatum. Bei der Berechnung wird - wie gewöhnlich - das Anfangsdatum als voller Tag mitgezählt, während der Tag des Enddatums nicht gezählt wird. Zum Beispiel wird bei der Berechnung der Kalendertage vom 01.01.2015 bis zum 02.01.2015 der Tag des Enddatums (02.01.2015) nicht gezählt. Die Anzahl abgelaufener Kalendertage ist in diesem Beispiel also 1.",
+        "description": "Anzahl der Kalendertage",
+        "unit": "Tage",
+        "digits": 0,
+        "importance": "first"
+      },
+      "act360": {
+        "tooltip": "Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/360-Konvention, welche auch als französische Zinsmethode bezeichnet wird. Diese Methode wird allgemein häufig für Geldmarktinstrumente angewendet. Man nutzt sie für Bundesanleihen mit variablem Zins, Floating Rate Notes, unverzinslichen Schatzanweisungen und Refinanzierungen sowie Anlagen bei der EZB.",
+        "description": "act / 360",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "type": "string"
+      },
+      "act360interestdays": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinstage",
+        "unit": " Tage",
+        "digits": 0,
+        "importance": "second"
+      },
+      "act360factor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Dezimal)",
+        "unit": "",
+        "digits": 6,
+        "importance": "second"
+      },
+      "act360factorF": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Bruch)",
+        "unit": "",
+        "type": "string",
+        "importance": "second"
+      },
+      "act365": {
+        "tooltip": "Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/365-Konvention, welche auch als englische Zinsmethode bezeichnet wird. Sie kommt zum Beispiel bei englischen oder belgischen Geldmarktpapieren zur Anwendung.",
+        "description": "act / 365",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "type": "string"
+      },
+      "act365interestdays": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinstage",
+        "unit": " Tage",
+        "digits": 0,
+        "importance": "second"
+      },
+      "act365factor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Dezimal)",
+        "unit": "",
+        "digits": 6,
+        "importance": "second"
+      },
+      "act365factorF": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Bruch)",
+        "unit": "",
+        "type": "string",
+        "importance": "second"
+      },
+      "a30E360": {
+        "tooltip": "Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der deutschen Zinsrechnung, welche der Rechnungskonvention nach 30E/360 ISDA entspricht. Bei praktisch allen Zinsberechnungen für deutsche Sparkonten, Festgeldkonten, Kontokorrentkonten, Ratenkredite und langfristigen Darlehen kommt diese Berechnungsmethode zur Anwendung.",
+        "description": "30E / 360 ISDA, Deutsche Zinsmethode",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "type": "string"
+      },
+      "a30E360interestdays": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinstage",
+        "unit": " Tage",
+        "digits": 0,
+        "importance": "second"
+      },
+      "a30E360factor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Dezimal)",
+        "unit": "",
+        "digits": 6,
+        "importance": "second"
+      },
+      "a30E360factorF": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Bruch)",
+        "unit": "",
+        "type": "string",
+        "importance": "second"
+      },
+      "a30360": {
+        "tooltip": "Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der ISDA-30/360-Bond-Basis-Methode. Diese Methode kommt oft bei gehandelten US-amerikanischen Anleihen zur Anwendung.",
+        "description": "30 / 360, ISDA Anleihenbasis",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "type": "string"
+      },
+      "a30360interestdays": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinstage",
+        "unit": " Tage",
+        "digits": 0,
+        "importance": "second"
+      },
+      "a30360factor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Dezimal)",
+        "unit": "",
+        "digits": 6,
+        "importance": "second"
+      },
+      "a30360factorF": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Bruch)",
+        "unit": "",
+        "type": "string",
+        "importance": "second"
+      },
+      "actact": {
+        "tooltip": "Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/act Zinsmethode, auch bezeichnet als tagesgenaue oder Effektivzinsmethode. Diese Methode verwendet man zum Beispiel für Bundesanleihen mit festem Zins, Bundesobligationen, Bundesschatzanweisungen, Bundesschatzbriefe sowie für viele börsennotierte Anleihen.",
+        "description": "act / act, Taggenau",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "type": "string"
+      },
+      "actactinterestdays": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinstage",
+        "unit": " Tage",
+        "digits": 0,
+        "importance": "second"
+      },
+      "actactfactor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Dezimal)",
+        "unit": "",
+        "digits": 6,
+        "importance": "second"
+      },
+      "actactfactorF": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Faktor (Bruch)",
+        "unit": "",
+        "type": "string",
+        "importance": "second"
+      }
+    }
   }
 }

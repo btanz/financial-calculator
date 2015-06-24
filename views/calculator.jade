@@ -135,8 +135,10 @@ block content
             tr
               th(class='{{tableElemImportance this.importance}}')
                 | {{this.description}} &nbsp
+                | {{#unless this.omittooltip}}
                 i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title='{{this.tooltip}}')
-              th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits}}  {{this.unit}}
+                | {{/unless}}
+              th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits this.type}}  {{this.unit}}
             | {{/each}}
 
   //- main results error template

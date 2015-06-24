@@ -75,5 +75,14 @@
         "url": "/annuitaetenrechner"
       }
     }
+  },
+  "6": {
+    "name": "Weitere Rechner",
+    "values": {
+      "1": {
+        "name": "Zinstagerechner",
+        "url": "/zinstagerechner"
+      }
+    }
   }
 }

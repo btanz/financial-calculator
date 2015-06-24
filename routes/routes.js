@@ -5,6 +5,7 @@ var planning = require('../modules/planning');
 var property = require('../modules/property');
 var deposits = require('../modules/deposits');
 var debt = require('../modules/debt');
+var misc = require('../modules/misc');
 var calcElems = require('../data/static/calcElems.json');
 
 
@@ -141,6 +142,21 @@ router.get('/annuitaetenrechner', function(req,res,next){
 router.get('/annuitaetenrechner/inputs', function(req,res,next){
   var obj = req.query;
   var results = debt.annuity(obj);
+  res.json(results);
+});
+
+
+/* **********************************
+ ** misc-daycount routes
+ *********************************** */
+router.get('/zinstagerechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.daycount});
+});
+
+
+router.get('/zinstagerechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = misc.daycount(obj);
   res.json(results);
 });
 

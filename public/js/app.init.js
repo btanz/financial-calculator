@@ -44,16 +44,22 @@ app.init = function(){
   }());
 
   // ******* HANDLEBARS HELPER ********
-  Handlebars.registerHelper('numFormat', function(value,digits){
-    var formatString = '0,0.';
+  Handlebars.registerHelper('numFormat', function(value,digits,type){
+    if(type === "string"){
+      return value.toString();
+    } else {
 
-    if(typeof digits != 'number') digits = 2;
+      var formatString = '0,0.';
 
-    for (var i = 0; i<digits; i++) {
-      formatString += '0';
+      if(typeof digits != 'number') digits = 2;
+
+      for (var i = 0; i<digits; i++) {
+        formatString += '0';
+      }
+
+      return numeral(value).format(formatString);
     }
 
-    return numeral(value).format(formatString);
   });
 
 
