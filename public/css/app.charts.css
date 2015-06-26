@@ -1,0 +1,21 @@
+
+/******* CHARTS GENERAL**********/
+.ct-label {
+  font-size: 1.25rem;
+}
+
+/******* PIE CHARTS **********/
+.ct-series-a .ct-slice-pie {
+  /*fill: #1AB394;*/
+  fill: #DEDEDE;
+  stroke: white;
+  /* outline width */
+  stroke-width: 4px;
+}
+
+.ct-series-b .ct-slice-pie {
+  fill: #A3E1D4;
+  stroke: white;
+  /* outline width */
+  stroke-width: 4px;
+}

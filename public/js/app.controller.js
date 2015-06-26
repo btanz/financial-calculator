@@ -56,6 +56,12 @@ app.controller = (function() {
             if (data._2)
               app.helpers.compileTemplate('#results-2', '#' + data.id + '-results-2-template', data._2);
 
+            // compile charts
+            if (data._chart1){
+              app.helpers.compileTemplate('#results-11', '#main-results-chart1-template', {});
+              new Chartist.Pie('#chart1', data._chart1.data, data._chart1.options);
+            }
+
             // initialize new tooltips
             $('[data-toggle="tooltip"]').tooltip();
 

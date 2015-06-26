@@ -286,7 +286,7 @@ exports.rent = function(inputs){
 exports.transfertax = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
-  var result = {}; result._1 = {};
+  var result = {}; result._1 = {}; result._chart1 = {};
   var tax, totalprice, free, rate;
   var localElems = calcElems.transfertax.results_1;
   var expectedInputs = calcElems.transfertax.inputs;
@@ -353,6 +353,15 @@ exports.transfertax = function(inputs){
   result._1.tax   = _.extend(localElems.tax,      {"value": tax});
   result._1.free   = _.extend(localElems.taxfree, {"value": free});
   result._1.rate   = _.extend(localElems.rate,    {"value": rate * 100});
+
+  // chart 1
+  result._chart1.data = {
+    //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
+    series: [totalprice - tax, tax]
+
+  };
+  result._chart1.options = {showLabel: true, donut: false, labelOffset: 10};
+  result._chart1.type = 'Pie';
 
 
   return result
