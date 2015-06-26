@@ -158,3 +158,119 @@ exports.propertyreturn = function(inputs){
   return result;
 };
 
+
+
+
+/* PROPERTY-RENT function that computes rent over given period
+ * ARGUMENTS XXX todo
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.rent = function(inputs){
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var rootFun, helper, h1, i;
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; var dynT; var dynLast = [];
+  var result = {}; result._1 = {}; result._2 = {};
+  var localElems = calcElems.rent.results_1;
+  var expectedInputs = calcElems.rent.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = ['renttotal','dynamic','term','rent'];
+
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  // drop elems that are to be computed form input and expectedinputs object
+  delete inputs[selectMap[inputs.select]];
+  delete _expectedInputs[selectMap[inputs.select]];
+
+  // run validations
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  inputs.dynamic = inputs.dynamic / 100;
+
+
+  /* ******** 3. HELPER FUNCTIONS ******** */
+  rootFun = function(d){
+    if ((d >= -0.0000000001 && d<= 0.0000000001)){
+      h1 =  inputs.renttotal - 12 * inputs.rent * inputs.term * (1 + Math.log(1 + d));
+    } else {
+      h1 = inputs.renttotal - 12 * inputs.rent * (1 - Math.pow(1 + d, inputs.term)) / (-d);
+    }
+    return h1;
+  };
+
+  /* ******** 4. COMPUTATIONS ******** */
+
+  // single period computations
+  switch(inputs.select){
+    case 0:
+      helper = inputs.dynamic === 0 ? 12 * inputs.rent * inputs.term : 12 * inputs.rent * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic);
+      inputs[selectMap[0]] = helper;
+      break;
+    case 1:
+      helper = math.roots(rootFun,0.1,1500);
+      if(helper === null){
+        return [{errorMessage: 'Leider kann die Mietsteigerung für diese Parameter nicht berechnet werden. Grund dafür ist meist, dass die Mietsteigerung extrem niedrig (kleiner -40% p. a.) oder extrem hoch (größer +40% p. a.) ist', errorInput: '', errorPrint: true}];
+      } else {
+        inputs[selectMap[1]] = helper;
+        helper *= 100;
+      }
+      break;
+    case 2:
+      helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.rent) : Math.log(1 - (inputs.renttotal / (12 * inputs.rent)) * (- inputs.dynamic)) / Math.log(inputs.dynamic + 1);
+      inputs[selectMap[2]] = helper;
+      break;
+    case 3:
+      helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.term) : inputs.renttotal / (12 * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic));
+      inputs[selectMap[3]] = helper;
+      break;
+  }
+
+  // dynamic computations
+  for(i = 1; i <= Math.floor(inputs.term); i++){
+    dyn[0][i-1] = i;
+    dyn[1][i-1] = inputs.rent * Math.pow(1 + inputs.dynamic,i-1);
+    dyn[2][i-1] = dyn[1][i-1] * 12;
+    i === 1 ? dyn[3][i-1] = dyn[2][i-1] : dyn[3][i-1] = dyn[2][i-1] + dyn[3][i-2];
+  }
+
+  // add partial years to end
+  if (inputs.term - Math.floor(inputs.term) > 0.01){
+    dynLast[0] = inputs.term;
+    dynLast[1] = inputs.rent * Math.pow(1 + inputs.dynamic,inputs.term - 1);;
+    inputs.term < 1 ? dynLast[2] = inputs.renttotal  : dynLast[2] = inputs.renttotal - dyn[3][i-2];
+    dynLast[3] = inputs.renttotal;
+  }
+
+
+  // transpose dyn
+  dynT = dyn[0].map(function(col,i){
+    return dyn.map(function(row){
+      return row[i];
+    })
+  });
+
+
+  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.rent.id;
+  // first result container
+  result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper});
+
+  // second result container
+  result._2.title = 'Übersicht Mietentwicklung';
+  result._2.header = ['Jahr', 'Monatsmiete', 'Jahresmiete', 'Summe bisher gezahlte Miete'];
+  result._2.body = dynT;
+  result._2.bodylast = dynLast;
+
+
+  return result;
+
+
+};

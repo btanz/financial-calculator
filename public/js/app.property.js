@@ -8,6 +8,12 @@ app.property = (function() {
       toggleInputsDynamics(e);
     });
 
+    // attach event handler for rent calc choice
+    $('#property-rent-select').on('change', function (e) {
+      toggleRentSelect(e);
+    });
+
+
   });
   /*********************** END PROPERTY DOCUMENT READY TASKS *************************/
 
@@ -22,6 +28,21 @@ app.property = (function() {
     }
   }
 
+
+  function toggleRentSelect(e){
+    e.preventDefault();
+    var state = $('#property-rent-select').val();
+
+    var disabledMap = ['#property-rent-renttotal', '#property-rent-dynamic', '#property-rent-term', '#property-rent-rent'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
 
 
   /*********************** END PROPERTY EVENT HANDLERS ***********************/

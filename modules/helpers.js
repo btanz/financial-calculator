@@ -87,7 +87,7 @@ exports.validate = function(inputs, _expectedInputs){
       }
     } else if (typeof inputs[key] === 'undefined' || inputs[key] === ''){
       if(!(elem.optional === 'true') && !(elem.optional === true)){
-        error.setError('Das Feld ' + elem.label + ' muss ausgefüllt sein.', key, false);
+        error.setError('Das Feld ' + elem.label + ' muss korrekt ausgefüllt sein.', key, false);
       }
     }
 

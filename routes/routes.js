@@ -96,10 +96,25 @@ router.get('/kaufen-oder-mieten', function(req,res,next){
 });
 
 router.get('/kaufen-oder-mieten/inputs',function(req,res,next){
- /*
+ /* todo: complete
   var obj = req.query;
   var results = property.propertyreturn(obj);
   res.json(results);*/
+});
+
+
+/* **********************************
+ ** property-rent routes
+ *********************************** */
+router.get('/mietrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.rent});
+});
+
+
+router.get('/mietrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = property.rent(obj);
+  res.json(results);
 });
 
 
@@ -147,21 +162,6 @@ router.get('/annuitaetenrechner/inputs', function(req,res,next){
 
 
 /* **********************************
- ** misc-daycount routes
- *********************************** */
-router.get('/zinstagerechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.daycount});
-});
-
-
-router.get('/zinstagerechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = misc.daycount(obj);
-  res.json(results);
-});
-
-
-/* **********************************
  ** debt-dispo routes
  *********************************** */
 router.get('/dispozinsrechner', function(req,res,next){
@@ -172,6 +172,21 @@ router.get('/dispozinsrechner', function(req,res,next){
 router.get('/dispozinsrechner/inputs', function(req,res,next){
   var obj = req.query;
   var results = debt.dispo(obj);
+  res.json(results);
+});
+
+
+/* **********************************
+ ** misc-daycount routes
+ *********************************** */
+router.get('/zinstagerechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.daycount});
+});
+
+
+router.get('/zinstagerechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = misc.daycount(obj);
   res.json(results);
 });
 

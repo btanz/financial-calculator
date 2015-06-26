@@ -2117,5 +2117,125 @@
         "importance": "first"
       }
     }
+  },
+
+  "rent": {
+    "id": "property-rent",
+    "name": "Mietrechner",
+    "description": "Mit dem Mietrechner können Sie analysieren, wie viel Miete Sie über einen bestimmten Zeitraum insgesamt zahlen. Der Rechner wird oft zur Berechnung der über die Lebenszeit anfallenden Miete genutzt. ",
+    "inputs": {
+      "select": {
+        "id": "property-rent-select",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "Wähle hier, welche der Größen Monatsmiete, Mietsteigerung, Mietdauer oder Gesamtmiete berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "type": "select",
+        "vtype": "number",
+        "args": [0,3],
+        "options": {
+          "0": "Gesamtmiete",
+          "1": "Mietsteigerung",
+          "2": "Mietdauer",
+          "3": "Monatsmiete"
+        }
+      },
+      "rent": {
+        "id": "property-rent-rent",
+        "linetop": false,
+        "optional": false,
+        "label": "Monatsmiete",
+        "placeholder": "Monatsmiete",
+        "addon": "EUR",
+        "value": "800.00",
+        "tooltip": "Geben Sie hier die aktuelle monatliche Gesamtmiete ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "dynamic": {
+        "id": "property-rent-dynamic",
+        "label": "Jährliche Mietsteigerung",
+        "addon": "% p. a.",
+        "optional": false,
+        "placeholder": "Mietsteigerung",
+        "value": "2.00",
+        "tooltip": "Geben Sie hier die erwartete jährliche Mietsteigerung über die Mietdauer an. Falls keine Mietsteigerung berücksichtigt werden soll, geben Sie bitte 0 ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000
+        ]
+      },
+      "term": {
+        "id": "property-rent-term",
+        "linetop": false,
+        "label": "Mietdauer",
+        "placeholder": "Mietdauer",
+        "optional": false,
+        "addon": "Jahre",
+        "value": "25",
+        "tooltip": "Geben Sie hier die insgesamt zu betrachtende Mietdauer ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "renttotal": {
+        "id": "property-rent-renttotal",
+        "linetop": false,
+        "label": "Gesamte Miete",
+        "placeholder": "Gesamte Miete",
+        "addon": "EUR",
+        "disabled": true,
+        "optional": false,
+        "value": "",
+        "tooltip": "Die Summe aller in der Mietdauer zu zahlenden Monatsmieten.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      }
+    },
+    "results_1": {
+      "renttotal": {
+        "tooltip": "",
+        "omittooltip": true,
+        "description": "Gesamte Miete",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "rent": {
+        "tooltip": "",
+        "omittooltip": true,
+        "description": "Monatsmiete",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "dynamic": {
+        "tooltip": "",
+        "omittooltip": true,
+        "description": "Jährliche Mietsteigerung",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "first"
+      },
+      "term": {
+        "tooltip": "",
+        "omittooltip": true,
+        "description": "Mietdauer",
+        "unit": "Jahre",
+        "digits": 2,
+        "importance": "first"
+      }
+    }
   }
 }

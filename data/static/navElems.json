@@ -64,6 +64,10 @@
       "2": {
         "name": "Vergleichsrechner Kaufen-oder-Mieten",
         "url": "/kaufen-oder-mieten"
+      },
+      "3": {
+        "name": "Mietrechner",
+        "url": "/mietrechner"
       }
     }
   },

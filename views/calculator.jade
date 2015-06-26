@@ -194,6 +194,10 @@ block content
   if property_propertyreturn
     include ./includes/calculator/property-propertyreturn
 
+  - var property_rent = (obj.id === 'property-rent')
+  if property_rent
+    include ./includes/calculator/property-rent
+
   - var deposits_interest = (obj.id === 'deposits-interest')
   if deposits_interest
     include ./includes/calculator/deposits-interest
