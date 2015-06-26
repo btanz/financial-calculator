@@ -73,6 +73,10 @@
       "1": {
         "name": "Tilgungsrechner Annuitätendarlehen",
         "url": "/annuitaetenrechner"
+      },
+      "2": {
+        "name": "Dispozinsrechner",
+        "url": "/dispozinsrechner"
       }
     }
   },

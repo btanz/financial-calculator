@@ -162,6 +162,21 @@ router.get('/zinstagerechner/inputs', function(req,res,next){
 
 
 /* **********************************
+ ** debt-dispo routes
+ *********************************** */
+router.get('/dispozinsrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.dispo});
+});
+
+
+router.get('/dispozinsrechner/inputs', function(req,res,next){
+ // var obj = req.query;
+ // var results = misc.daycount(obj);
+ // res.json(results);
+});
+
+
+/* **********************************
  ** expose routes
  *********************************** */
 module.exports = router;

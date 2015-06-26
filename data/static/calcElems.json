@@ -1983,5 +1983,125 @@
         "importance": "second"
       }
     }
+  },
+
+
+  "dispo": {
+    "id": "debt-dispo",
+    "name": "Dispozinsrechner",
+    "description": "Mit dem Dispozinsrechner können die für einen Dispo anfallenden Dispo- und Überziehungszinsen berechnet werden.",
+    "inputs": {
+      "principal": {
+        "id": "debt-dispo-principal",
+        "linetop": false,
+        "label": "Betrag Kontoüberziehung",
+        "addon": "EUR",
+        "value": "1000.00",
+        "tooltip": "Dies ist der Betrag, um den das Konto 'im Minus' ist.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "limit": {
+        "id": "debt-dispo-limit",
+        "linetop": false,
+        "label": "Kreditlinie Dispo",
+        "addon": "EUR",
+        "value": "2000.00",
+        "tooltip": "Die Kreditlinie für den Dispo ist der Betrag, bis zu dem der Dispositionskredit in Anspruch genommen werden darf. Auf diesen Betrag kommt der Zinssatz für den Dispokredit zur Anwendung. Falls kein Dispositionskredit besteht tragen sie hier eine 0 ein. Der Überziehungsbetrag wird dann direkt mit dem Zinssatz für weitere Überziehungen verzinst.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000000000]
+      },
+      "dispointerest": {
+        "id": "debt-dispo-dispointerest",
+        "label": "Zinssatz Dispo",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "12.50",
+        "tooltip": "Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für die Nutzung des Dispositionskredites berechnet.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "otherinterest": {
+        "id": "debt-dispo-otherinterest",
+        "label": "Zinssatz weitere Überziehung",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "15.50",
+        "tooltip": "Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für Überziehungen berechnet, die über die Kreditlinie des Dispositionskredits hinausgehen ('geduldete Überziehung').",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,1000]
+      },
+      "periodchoice": {
+        "id": "debt-dispo-periodchoice",
+        "linetop": true,
+        "label": "Zeitraum eingeben über...",
+        "tooltip": "Entscheiden Sie hier, ob der Zeitraum als Datumsbereich (von / bis) oder mittels Zinstagen eingegeben werden soll.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "dates": "Datumsbereich",
+          "days": "Zinstage"
+        }
+      },
+      "startdate": {
+        "id": "debt-dispo-startdate",
+        "linetop": false,
+        "optional": true,
+        "label": "Anfangsdatum",
+        "addon": "Datum",
+        "value": "14.04.2015",
+        "tooltip": "Erster Tag der Berechnungsperiode",
+        "secondary": true,
+        "type": "date",
+        "vtype": "date"
+      },
+      "enddate": {
+        "id": "debt-dispo-enddate",
+        "linetop": false,
+        "optional": true,
+        "label": "Enddatum",
+        "addon": "Datum",
+        "value": "10.05.2015",
+        "tooltip": "Letzter Tag der Berechnungsperiode",
+        "secondary": true,
+        "type": "date",
+        "vtype": "date"
+      },
+      "days": {
+        "id": "debt-dispo-days",
+        "linetop": false,
+        "label": "Zinstage",
+        "addon": "Tage",
+        "value": "100",
+        "optional": true,
+        "hide": true,
+        "tooltip": "Die Dauer der Zinsperiode in Tagen nach der gewählten Zinsmethode.",
+        "type": "number",
+        "vtype": "number",
+        "args": [0,10000]
+      },
+      "daycount": {
+        "id": "debt-dispo-daycount",
+        "linetop": true,
+        "label": "Zinsmethode",
+        "tooltip": "Anzuwendendes Verfahren zur Berechnung der Zins- und Basistage.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "a30E360": "30E / 360 ISDA, Deutsche Zinsmethode",
+          "a30360": "30E / 360, ISDA Anleihenbasis",
+          "act360": "act / 360",
+          "act365": "act / 365",
+          "actact": "act / act, Taggenaue Methode"
+        }
+      }
+    },
+    "results_1": {
+
+    }
   }
 }
