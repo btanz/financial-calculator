@@ -149,7 +149,6 @@ exports.validate = function(inputs, _expectedInputs){
     }
 
 
-
   });
 
   expectedInputs = null;

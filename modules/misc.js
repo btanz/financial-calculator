@@ -22,6 +22,7 @@ var daycount, isLeapYear, isdaGerman, isdaBondBasis, yearFrac;
  */
 daycount = function(inputs){
 
+
   /* ******** 1. INIT AND ASSIGN ******** */
   var actDays, start, end, a30E360interestdays, a30360interestdays, actactDenom;
   var result = {}; result._1 = {};
@@ -31,16 +32,18 @@ daycount = function(inputs){
   var oneDay = 24*60*60*1000;
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
-  if (errorMap.length !== 0){
-    console.log(errorMap);
-    return errorMap;
-  }
+  if (inputs.skipvalidation && inputs.skipvalidation === true ){
+  } else {
+    errorMap = helpers.validate(inputs, expectedInputs);
+    if (errorMap.length !== 0){
+      console.log(errorMap);
+      return errorMap;
+    }
 
-  if(inputs.enddate < inputs.begindate){
-    return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
+    if(inputs.enddate < inputs.begindate){
+      return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
+    }
   }
-
 
   /* ******** 3. COMPUTATIONS ******** */
   start = new Date(inputs.begindate);

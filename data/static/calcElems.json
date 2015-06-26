@@ -2041,7 +2041,7 @@
         "label": "Zeitraum eingeben über...",
         "tooltip": "Entscheiden Sie hier, ob der Zeitraum als Datumsbereich (von / bis) oder mittels Zinstagen eingegeben werden soll.",
         "type": "select",
-        "vtype": "bool",
+        "vtype": "string",
         "options": {
           "dates": "Datumsbereich",
           "days": "Zinstage"
@@ -2079,6 +2079,7 @@
         "value": "100",
         "optional": true,
         "hide": true,
+        "secondary": true,
         "tooltip": "Die Dauer der Zinsperiode in Tagen nach der gewählten Zinsmethode.",
         "type": "number",
         "vtype": "number",
@@ -2090,7 +2091,7 @@
         "label": "Zinsmethode",
         "tooltip": "Anzuwendendes Verfahren zur Berechnung der Zins- und Basistage.",
         "type": "select",
-        "vtype": "bool",
+        "vtype": "string",
         "options": {
           "a30E360": "30E / 360 ISDA, Deutsche Zinsmethode",
           "a30360": "30E / 360, ISDA Anleihenbasis",
@@ -2101,7 +2102,20 @@
       }
     },
     "results_1": {
-
+      "interestamount": {
+        "tooltip": "Der aufgrund der Überziehung zu zahlende Zinsbetrag.",
+        "description": "Überziehungszinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "averageinterest": {
+        "tooltip": "Dieser Wert gibt den auf die Überziehung zutreffenden annualisierten Sollzinssatz wieder. Sofern der Betrag der Kontoüberziehung unter der Kreditlinie bleibt entspricht der Sollzinssatz dem Dispozinssatz. Übersteigt die Kontoüberziehung die Kreditlinie, so berechnet sich der Sollzinssatz als entsprechend gewichtetes Mittel aus dem Dispozinssatz und dem Zinssatz für weitere Überziehungen.",
+        "description": "Gewichteter Sollzinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first"
+      }
     }
   }
 }

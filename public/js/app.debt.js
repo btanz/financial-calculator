@@ -23,6 +23,11 @@ app.debt = (function() {
       toggleInputsRepaymentfree(e);
     });
 
+    // attach event handler for calculation selection mode
+    $('#debt-dispo-periodchoice').on('change', function (e) {
+      toggleDispoSelect(e);
+    });
+
   });
   /*********************** END DEBT DOCUMENT READY TASKS *************************/
 
@@ -75,6 +80,20 @@ app.debt = (function() {
     }
   }
 
+  function toggleDispoSelect(e){
+    e.preventDefault();
+    var state = $('#debt-dispo-periodchoice').val();
+    if (state === 'days'){
+      $('#debt-dispo-days').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-dispo-startdate, #debt-dispo-enddate').closest('div[class^="form-group"]').addClass('hide');
+      $('#debt-dispo-daycount option[value="actact"]').remove();
+    } else if (state === 'dates'){
+      $('#debt-dispo-days').closest('div[class^="form-group"]').addClass('hide');
+      $('#debt-dispo-startdate, #debt-dispo-enddate').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-dispo-daycount').append('<option value="actact">act / act, Taggenaue Methode</option>');
+    }
+
+  }
 
   /*********************** END DEBT EVENT HANDLERS ***********************/
 

@@ -170,9 +170,9 @@ router.get('/dispozinsrechner', function(req,res,next){
 
 
 router.get('/dispozinsrechner/inputs', function(req,res,next){
- // var obj = req.query;
- // var results = misc.daycount(obj);
- // res.json(results);
+  var obj = req.query;
+  var results = debt.dispo(obj);
+  res.json(results);
 });
 
 
