@@ -68,6 +68,10 @@
       "3": {
         "name": "Mietrechner",
         "url": "/mietrechner"
+      },
+      "4": {
+        "name": "Grunderwerbssteuer-Rechner",
+        "url": "/grunderwerbssteuerrechner"
       }
     }
   },

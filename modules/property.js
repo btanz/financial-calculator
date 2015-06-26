@@ -269,8 +269,94 @@ exports.rent = function(inputs){
   result._2.body = dynT;
   result._2.bodylast = dynLast;
 
-
   return result;
+
+};
+
+
+
+/* PROPERTY-TRANSFERTAX function that computes "Grunderwerbssteuer" over given period
+ * ARGUMENTS XXX todo
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.transfertax = function(inputs){
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var result = {}; result._1 = {};
+  var tax, totalprice, free, rate;
+  var localElems = calcElems.transfertax.results_1;
+  var expectedInputs = calcElems.transfertax.inputs;
+  var errorMap;
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  /* ******** 4. COMPUTATIONS ******** */
+  switch(inputs.state) {
+    case "BAD":
+      rate = 0.05; break;
+    case "BAY":
+      rate = 0.035; break;
+    case "BER":
+      rate = 0.06; break;
+    case "BRA":
+      rate = 0.065; break;
+    case "BRE":
+      rate = 0.05; break;
+    case "HAM":
+      rate = 0.045; break;
+    case "HES":
+      rate = 0.06; break;
+    case "MEC":
+      rate = 0.05; break;
+    case "NIE":
+      rate = 0.05; break;
+    case "NOR":
+      rate = 0.065; break;
+    case "RHE":
+      rate = 0.05; break;
+    case "SAR":
+      rate = 0.065; break;
+    case "SAC":
+      rate = 0.035; break;
+    case "SAA":
+      rate = 0.05; break;
+    case "SCH":
+      rate = 0.065; break;
+    case "THU":
+      rate = 0.05; break;
+    default:
+      return [{errorMessage: 'Leider ist ein Fehler bei der Berechnung aufgetreten.', errorInput: '', errorPrint: true}];
+  }
+
+  if (inputs.price <= 2500){
+    totalprice = inputs.price;
+    tax = 0;
+    free = "JA";
+  } else {
+    totalprice = inputs.price * (1 + rate);
+    tax = inputs.price * rate;
+    free = "NEIN";
+  }
+
+  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.transfertax.id;
+  // first result container
+  result._1.total = _.extend(localElems.total,    {"value": totalprice});
+  result._1.tax   = _.extend(localElems.tax,      {"value": tax});
+  result._1.free   = _.extend(localElems.taxfree, {"value": free});
+  result._1.rate   = _.extend(localElems.rate,    {"value": rate * 100});
+
+
+  return result
+
 
 
 };

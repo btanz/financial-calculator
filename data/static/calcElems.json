@@ -11,7 +11,10 @@
         "tooltip": "Gebe hier ein, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.",
         "type": "select",
         "vtype": "number",
-        "args": [1,2],
+        "args": [
+          1,
+          2
+        ],
         "options": {
           "1": "Call-Option",
           "2": "Put-Option"
@@ -26,7 +29,10 @@
         "tooltip": "Gebe hier den Preis der Aktien bzw. des Underlyings ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "strike": {
         "id": "boerse-options-strike",
@@ -37,7 +43,10 @@
         "tooltip": "Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "interest": {
         "id": "boerse-options-interest",
@@ -48,7 +57,10 @@
         "tooltip": "Gebe hier den annualisierten risikolosen Zinssatz in % an.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "maturity": {
         "id": "boerse-options-maturity",
@@ -59,7 +71,10 @@
         "tooltip": "Gebe hier die Restlaufzeit der Option in Tagen an.",
         "type": "number",
         "vtype": "number",
-        "args": [0,100000]
+        "args": [
+          0,
+          100000
+        ]
       },
       "vola": {
         "id": "boerse-options-vola",
@@ -70,7 +85,10 @@
         "tooltip": "Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       }
     },
     "results_1": {
@@ -132,8 +150,6 @@
       }
     }
   },
-
-
   "fx": {
     "id": "boerse-fx",
     "name": "Währungsrechner",
@@ -148,189 +164,189 @@
         "vtype": "string",
         "options": {
           "Favoriten": "_OPTGROUP",
-          "EUR ":"Euro - EUR",
-          "USD ":"US Dollar - USD",
-          "GBP ":"Britisches Pfund - GBP",
-          "CNY ":"Chinesischer Renminbi Yuan - CNY",
-          "CAD ":"Kanadischer Dollar - CAD",
-          "AUD ":"Australischer Dollar - AUD",
+          "EUR ": "Euro - EUR",
+          "USD ": "US Dollar - USD",
+          "GBP ": "Britisches Pfund - GBP",
+          "CNY ": "Chinesischer Renminbi Yuan - CNY",
+          "CAD ": "Kanadischer Dollar - CAD",
+          "AUD ": "Australischer Dollar - AUD",
           "A": "_OPTGROUP",
-          "EGP":"Ägyptisches Pfund - EGP",
-          "ALL":"Albanischer Lek - ALL",
-          "DZD":"Algerischer Dinar - DZD",
-          "AOA":"Angolanischer Kwanza - AOA",
-          "ARS":"Argentinischer Peso - ARS",
-          "AMD":"Armenischer Dram - AMD",
-          "AWG":"Aruba Florin - AWG",
-          "AZN":"Aserbaidschanischer Neuer Manat - AZN",
-          "ETB":"Äthiopischer Birr - ETB",
-          "AUD":"Australischer Dollar - AUD",
+          "EGP": "Ägyptisches Pfund - EGP",
+          "ALL": "Albanischer Lek - ALL",
+          "DZD": "Algerischer Dinar - DZD",
+          "AOA": "Angolanischer Kwanza - AOA",
+          "ARS": "Argentinischer Peso - ARS",
+          "AMD": "Armenischer Dram - AMD",
+          "AWG": "Aruba Florin - AWG",
+          "AZN": "Aserbaidschanischer Neuer Manat - AZN",
+          "ETB": "Äthiopischer Birr - ETB",
+          "AUD": "Australischer Dollar - AUD",
           "B": "_OPTGROUP",
-          "BSD":"Bahama-Dollar - BSD",
-          "BHD":"Bahrain-Dinar - BHD",
-          "BDT":"Bangladeschischer Taka - BDT",
-          "BBD":"Barbados-Dollar - BBD",
-          "BZD":"Belize-Dollar - BZD",
-          "BMD":"Bermuda-Dollar - BMD",
-          "BTN":"Bhutanischer Ngultrum - BTN",
-          "BTC":"Bitcoin - BTC",
-          "BOB":"Bolivianischer Boliviano - BOB",
-          "BAM":"Bosnisch Mark - BAM",
-          "BWP":"Botsuanischer Pula - BWP",
-          "BRL":"Brasilianischer Real - BRL",
-          "GBP":"Britisches Pfund - GBP",
-          "BND":"Brunei-Dollar - BND",
-          "BGN":"Bulgarischer Lev - BGN",
-          "BIF":"Burundi-Franc - BIF",
+          "BSD": "Bahama-Dollar - BSD",
+          "BHD": "Bahrain-Dinar - BHD",
+          "BDT": "Bangladeschischer Taka - BDT",
+          "BBD": "Barbados-Dollar - BBD",
+          "BZD": "Belize-Dollar - BZD",
+          "BMD": "Bermuda-Dollar - BMD",
+          "BTN": "Bhutanischer Ngultrum - BTN",
+          "BTC": "Bitcoin - BTC",
+          "BOB": "Bolivianischer Boliviano - BOB",
+          "BAM": "Bosnisch Mark - BAM",
+          "BWP": "Botsuanischer Pula - BWP",
+          "BRL": "Brasilianischer Real - BRL",
+          "GBP": "Britisches Pfund - GBP",
+          "BND": "Brunei-Dollar - BND",
+          "BGN": "Bulgarischer Lev - BGN",
+          "BIF": "Burundi-Franc - BIF",
           "C": "_OPTGROUP",
-          "XOF":"CFA Franc BCEAO - XOF",
-          "XAF":"CFA Franc BEAC - XAF",
-          "CLP":"Chilenischer Peso - CLP",
-          "CNY":"Chinesischer Renminbi Yuan - CNY",
-          "CRC":"Costa-Rica-Colón - CRC",
+          "XOF": "CFA Franc BCEAO - XOF",
+          "XAF": "CFA Franc BEAC - XAF",
+          "CLP": "Chilenischer Peso - CLP",
+          "CNY": "Chinesischer Renminbi Yuan - CNY",
+          "CRC": "Costa-Rica-Colón - CRC",
           "D": "_OPTGROUP",
-          "DOP":"Dominikanischer Peso - DOP",
-          "DJF":"Dschibuti-Franc - DJF",
-          "DKK":"Dänsiche Krone - DKK",
+          "DOP": "Dominikanischer Peso - DOP",
+          "DJF": "Dschibuti-Franc - DJF",
+          "DKK": "Dänsiche Krone - DKK",
           "E": "_OPTGROUP",
-          "XCD":"East Caribeean Dollar - XCD",
-          "ERN":"Eritreischer Nakfa - ERN",
-          "EUR":"Euro - EUR",
+          "XCD": "East Caribeean Dollar - XCD",
+          "ERN": "Eritreischer Nakfa - ERN",
+          "EUR": "Euro - EUR",
           "F": "_OPTGROUP",
-          "FKP":"Falkland-Pfund - FKP",
-          "FJD":"Fidschi-Dollar - FJD",
+          "FKP": "Falkland-Pfund - FKP",
+          "FJD": "Fidschi-Dollar - FJD",
           "G": "_OPTGROUP",
-          "GMD":"Gambischer Dalasi - GMD",
-          "GEL":"Georgischer Lari - GEL",
-          "GHS":"Ghanaischer Neuer Cedi - GHS",
-          "GIP":"Gibraltar-Pfund - GIP",
-          "XAU":"Gold - XAU",
-          "GTQ":"Guatemaltekischer Quetzal - GTQ",
-          "GNF":"Guinea-Franc - GNF",
-          "GYD":"Guyana-Dollar - GYD",
+          "GMD": "Gambischer Dalasi - GMD",
+          "GEL": "Georgischer Lari - GEL",
+          "GHS": "Ghanaischer Neuer Cedi - GHS",
+          "GIP": "Gibraltar-Pfund - GIP",
+          "XAU": "Gold - XAU",
+          "GTQ": "Guatemaltekischer Quetzal - GTQ",
+          "GNF": "Guinea-Franc - GNF",
+          "GYD": "Guyana-Dollar - GYD",
           "H": "_OPTGROUP",
-          "HTG":"Haitianische Gourde - HTG",
-          "HNL":"Honduranische Lempira - HNL",
-          "HKD":"Honkong-Dollar - HKD",
+          "HTG": "Haitianische Gourde - HTG",
+          "HNL": "Honduranische Lempira - HNL",
+          "HKD": "Honkong-Dollar - HKD",
           "I": "_OPTGROUP",
-          "INR":"Indische Rupie - INR",
-          "IDR":"Indonesische Rupiah - IDR",
-          "IQD":"Irakischer Dinar - IQD",
-          "IRR":"Iranischer Rial - IRR",
-          "ISK":"Isländische Krone - ISK",
+          "INR": "Indische Rupie - INR",
+          "IDR": "Indonesische Rupiah - IDR",
+          "IQD": "Irakischer Dinar - IQD",
+          "IRR": "Iranischer Rial - IRR",
+          "ISK": "Isländische Krone - ISK",
           "J": "_OPTGROUP",
-          "JMD":"Jamaikanischer Dollar - JMD",
-          "JPY":"Japanischer Yen - JPY",
-          "JOD":"Jordanischer Dinar - JOD",
+          "JMD": "Jamaikanischer Dollar - JMD",
+          "JPY": "Japanischer Yen - JPY",
+          "JOD": "Jordanischer Dinar - JOD",
           "K": "_OPTGROUP",
-          "KYD":"Kaiman-Dollar - KYD",
-          "KHR":"Kambodschanischer Rial - KHR",
-          "CAD":"Kanadischer Dollar - CAD",
-          "CVE":"Kap-Verde-Escudo - CVE",
-          "KZT":"Kasachstan Tenge - KZT",
-          "QAR":"Katar-Rial - QAR",
-          "KES":"Kenianischer Schilling - KES",
-          "KGS":"Kirgisistan-Som - KGS",
-          "COP":"Kolumbianischer Peso - COP",
-          "KMF":"Komoren-Franc - KMF",
-          "CDF":"Kongo-Franc - CDF",
-          "HRK":"Kroatische Kuna - HRK",
-          "CUC":"Kubanischer umwandelbarer Peso - CUC",
-          "KWD":"Kuwaitischer Dinar - KWD",
+          "KYD": "Kaiman-Dollar - KYD",
+          "KHR": "Kambodschanischer Rial - KHR",
+          "CAD": "Kanadischer Dollar - CAD",
+          "CVE": "Kap-Verde-Escudo - CVE",
+          "KZT": "Kasachstan Tenge - KZT",
+          "QAR": "Katar-Rial - QAR",
+          "KES": "Kenianischer Schilling - KES",
+          "KGS": "Kirgisistan-Som - KGS",
+          "COP": "Kolumbianischer Peso - COP",
+          "KMF": "Komoren-Franc - KMF",
+          "CDF": "Kongo-Franc - CDF",
+          "HRK": "Kroatische Kuna - HRK",
+          "CUC": "Kubanischer umwandelbarer Peso - CUC",
+          "KWD": "Kuwaitischer Dinar - KWD",
           "L": "_OPTGROUP",
-          "LAK":"Laotischer Kip - LAK",
-          "LSL":"Lesothischer Loti - LSL",
-          "LVL":"Lettische Lats - LVL",
-          "LBP":"Libanesisches Pfund - LBP",
-          "LRD":"Liberianischer Dollar - LRD",
-          "LYD":"Libyscher Dinar - LYD",
-          "LTL":"Litauische Litas - LTL",
+          "LAK": "Laotischer Kip - LAK",
+          "LSL": "Lesothischer Loti - LSL",
+          "LVL": "Lettische Lats - LVL",
+          "LBP": "Libanesisches Pfund - LBP",
+          "LRD": "Liberianischer Dollar - LRD",
+          "LYD": "Libyscher Dinar - LYD",
+          "LTL": "Litauische Litas - LTL",
           "M": "_OPTGROUP",
-          "MOP":"Macauische Pataca - MOP",
-          "MGA":"Madagascar-Ariary - MGA",
-          "MWK":"Malawi-Kwacha - MWK",
-          "MYR":"Malaysischer Ringgit - MYR",
-          "MVR":"Maledivische Rufiyaa - MVR",
-          "MAD":"Marokkanischer Dirham - MAD",
-          "MRO":"Mauretanische Ouguiya - MRO",
-          "MUR":"Mauritius-Rupie - MUR",
-          "MKD":"Mazedonischer Denar - MKD",
-          "MXN":"Mexikanischer Peso - MXN",
-          "MDL":"Moldauischer Leu - MDL",
-          "MNT":"Mongolischer Tugrik - MNT",
-          "MZN":"Mosamnikanischer Neuer Metical - MZN",
-          "MMK":"Myanmarischer Kyat - MMK",
+          "MOP": "Macauische Pataca - MOP",
+          "MGA": "Madagascar-Ariary - MGA",
+          "MWK": "Malawi-Kwacha - MWK",
+          "MYR": "Malaysischer Ringgit - MYR",
+          "MVR": "Maledivische Rufiyaa - MVR",
+          "MAD": "Marokkanischer Dirham - MAD",
+          "MRO": "Mauretanische Ouguiya - MRO",
+          "MUR": "Mauritius-Rupie - MUR",
+          "MKD": "Mazedonischer Denar - MKD",
+          "MXN": "Mexikanischer Peso - MXN",
+          "MDL": "Moldauischer Leu - MDL",
+          "MNT": "Mongolischer Tugrik - MNT",
+          "MZN": "Mosamnikanischer Neuer Metical - MZN",
+          "MMK": "Myanmarischer Kyat - MMK",
           "N": "_OPTGROUP",
-          "NAD":"Namibischer Dollar - NAD",
-          "NPR":"Nepalesische Rupie - NPR",
-          "NZD":"Neuseeländischer Dollar - NZD",
-          "NIO":"Nicaraguanischer Córdoba - NIO",
-          "NGN":"Nigerianische Naira - NGN",
-          "ANG":"NL-Antillen-Gulden - ANG",
-          "NOK":"Norwegische Krone - NOK",
+          "NAD": "Namibischer Dollar - NAD",
+          "NPR": "Nepalesische Rupie - NPR",
+          "NZD": "Neuseeländischer Dollar - NZD",
+          "NIO": "Nicaraguanischer Córdoba - NIO",
+          "NGN": "Nigerianische Naira - NGN",
+          "ANG": "NL-Antillen-Gulden - ANG",
+          "NOK": "Norwegische Krone - NOK",
           "O": "_OPTGROUP",
-          "OMR":"Omani Rial - OMR",
+          "OMR": "Omani Rial - OMR",
           "P": "_OPTGROUP",
-          "PKR":"Pakistanische Rupie - PKR",
-          "PAB":"Panamaischer Balboa - PAB",
-          "PGK":"Papua-Neuginea-Kina - PGK",
-          "PYG":"Paraguayischer Guarani - PYG",
-          "PEN":"Peruanischer Sol - PEN",
-          "PHP":"Philippinischer Peso - PHP",
-          "PLN":"Polnischer Zloty - PLN",
+          "PKR": "Pakistanische Rupie - PKR",
+          "PAB": "Panamaischer Balboa - PAB",
+          "PGK": "Papua-Neuginea-Kina - PGK",
+          "PYG": "Paraguayischer Guarani - PYG",
+          "PEN": "Peruanischer Sol - PEN",
+          "PHP": "Philippinischer Peso - PHP",
+          "PLN": "Polnischer Zloty - PLN",
           "R": "_OPTGROUP",
-          "RWF":"Ruanda-Franc - RWF",
-          "RON":"Rumänischer Neue Lei - RON",
-          "RUB":"Russischer Rubel - RUB",
+          "RWF": "Ruanda-Franc - RWF",
+          "RON": "Rumänischer Neue Lei - RON",
+          "RUB": "Russischer Rubel - RUB",
           "S": "_OPTGROUP",
-          "SBD":"Salomonen-Dollar - SBD",
-          "ZMW":"Sambischer Kwacha - ZMW",
-          "WST":"Samoanischer Tala - WST",
-          "SAR":"Saudi Rial - SAR",
-          "SEK":"Schwedische Krone - SEK",
-          "CHF":"Schweizer Franken - CHF",
-          "RSD":"Serbischer Dinar - RSD",
-          "SCR":"Seychellen-Rupie - SCR",
-          "SLL":"Sierraleonische Leone - SLL",
-          "XAG":"Silber (Uz.) - XAG",
-          "SGD":"Singapur-Dollar - SGD",
-          "SOS":"Somalischer Schilling - SOS",
-          "LKR":"Sri-Lanka-Rupie - LKR",
-          "SHP":"St. Helena-Pfund - SHP",
-          "SDG":"Sudanesisches Pfund - SDG",
-          "SRD":"Suriname-Dollar - SRD",
-          "SZL":"Swasiland Lilangeni - SZL",
-          "SYP":"Syrisches Pfund - SYP",
-          "STD":"São Tomé und Príncipe - STD",
-          "ZAR":"Südafrikanischer Rand - ZAR",
-          "KRW":"Südkoreansicher Won - KRW",
+          "SBD": "Salomonen-Dollar - SBD",
+          "ZMW": "Sambischer Kwacha - ZMW",
+          "WST": "Samoanischer Tala - WST",
+          "SAR": "Saudi Rial - SAR",
+          "SEK": "Schwedische Krone - SEK",
+          "CHF": "Schweizer Franken - CHF",
+          "RSD": "Serbischer Dinar - RSD",
+          "SCR": "Seychellen-Rupie - SCR",
+          "SLL": "Sierraleonische Leone - SLL",
+          "XAG": "Silber (Uz.) - XAG",
+          "SGD": "Singapur-Dollar - SGD",
+          "SOS": "Somalischer Schilling - SOS",
+          "LKR": "Sri-Lanka-Rupie - LKR",
+          "SHP": "St. Helena-Pfund - SHP",
+          "SDG": "Sudanesisches Pfund - SDG",
+          "SRD": "Suriname-Dollar - SRD",
+          "SZL": "Swasiland Lilangeni - SZL",
+          "SYP": "Syrisches Pfund - SYP",
+          "STD": "São Tomé und Príncipe - STD",
+          "ZAR": "Südafrikanischer Rand - ZAR",
+          "KRW": "Südkoreansicher Won - KRW",
           "T": "_OPTGROUP",
-          "TJS":"Tadschikistan Somoni - TJS",
-          "TWD":"Taiwanesicher Dollar - TWD",
-          "TZS":"Tansania-Schilling - TZS",
-          "THB":"Thailändischer Baht - THB",
-          "TOP":"Tongaische Pa'Anga - TOP",
-          "TTD":"Trinidad/Tobago-Dollar - TTD",
-          "CZK":"Tschechische Krone - CZK",
-          "TND":"Tunesischer Dinar - TND",
-          "TRY":"Türkische Lira - TRY",
+          "TJS": "Tadschikistan Somoni - TJS",
+          "TWD": "Taiwanesicher Dollar - TWD",
+          "TZS": "Tansania-Schilling - TZS",
+          "THB": "Thailändischer Baht - THB",
+          "TOP": "Tongaische Pa'Anga - TOP",
+          "TTD": "Trinidad/Tobago-Dollar - TTD",
+          "CZK": "Tschechische Krone - CZK",
+          "TND": "Tunesischer Dinar - TND",
+          "TRY": "Türkische Lira - TRY",
           "U": "_OPTGROUP",
-          "UGX":"Uganda-Schilling - UGX",
-          "UAH":"Ukrainische Griwna - UAH",
-          "HUF":"Ungarischer Forint - HUF",
-          "UYU":"Uruguayischer Peso - UYU",
-          "USD":"US Dollar - USD",
-          "UZS":"Uzbekischer Som - UZS",
+          "UGX": "Uganda-Schilling - UGX",
+          "UAH": "Ukrainische Griwna - UAH",
+          "HUF": "Ungarischer Forint - HUF",
+          "UYU": "Uruguayischer Peso - UYU",
+          "USD": "US Dollar - USD",
+          "UZS": "Uzbekischer Som - UZS",
           "V": "_OPTGROUP",
-          "VUV":"Vanuatu-Vatu - VUV",
-          "VEF":"Venezuanischer Bolivar Fuerte - VEF",
-          "AED":"Ver. Arab. Emir.-Dirham - AED",
+          "VUV": "Vanuatu-Vatu - VUV",
+          "VEF": "Venezuanischer Bolivar Fuerte - VEF",
+          "AED": "Ver. Arab. Emir.-Dirham - AED",
           "W": "_OPTGROUP",
-          "BYR":"Weißrussischer Rubel - BYR",
+          "BYR": "Weißrussischer Rubel - BYR",
           "Y": "_OPTGROUP",
-          "YER":"Yemen Rial - YER",
+          "YER": "Yemen Rial - YER",
           "Z": "_OPTGROUP",
-          "XPF":"Zentraler Pazifischer Franc - XPF"
+          "XPF": "Zentraler Pazifischer Franc - XPF"
         }
       },
       "principal": {
@@ -341,7 +357,10 @@
         "tooltip": "Gebe hier den Betrag in der Ausgangswährung ein. Falls du Geld umtauschen möchtest ist dies das umzutauschende Geld in deinem Besitz.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000000]
+        "args": [
+          0,
+          1000000000000
+        ]
       },
       "to": {
         "id": "boerse-fx-to",
@@ -352,189 +371,189 @@
         "vtype": "string",
         "options": {
           "Favoriten": "_OPTGROUP",
-          "EUR ":"Euro - EUR",
-          "USD ":"US Dollar - USD",
-          "GBP ":"Britisches Pfund - GBP",
-          "CNY ":"Chinesischer Renminbi Yuan - CNY",
-          "CAD ":"Kanadischer Dollar - CAD",
-          "AUD ":"Australischer Dollar - AUD",
+          "EUR ": "Euro - EUR",
+          "USD ": "US Dollar - USD",
+          "GBP ": "Britisches Pfund - GBP",
+          "CNY ": "Chinesischer Renminbi Yuan - CNY",
+          "CAD ": "Kanadischer Dollar - CAD",
+          "AUD ": "Australischer Dollar - AUD",
           "A": "_OPTGROUP",
-          "EGP":"Ägyptisches Pfund - EGP",
-          "ALL":"Albanischer Lek - ALL",
-          "DZD":"Algerischer Dinar - DZD",
-          "AOA":"Angolanischer Kwanza - AOA",
-          "ARS":"Argentinischer Peso - ARS",
-          "AMD":"Armenischer Dram - AMD",
-          "AWG":"Aruba Florin - AWG",
-          "AZN":"Aserbaidschanischer Neuer Manat - AZN",
-          "ETB":"Äthiopischer Birr - ETB",
-          "AUD":"Australischer Dollar - AUD",
+          "EGP": "Ägyptisches Pfund - EGP",
+          "ALL": "Albanischer Lek - ALL",
+          "DZD": "Algerischer Dinar - DZD",
+          "AOA": "Angolanischer Kwanza - AOA",
+          "ARS": "Argentinischer Peso - ARS",
+          "AMD": "Armenischer Dram - AMD",
+          "AWG": "Aruba Florin - AWG",
+          "AZN": "Aserbaidschanischer Neuer Manat - AZN",
+          "ETB": "Äthiopischer Birr - ETB",
+          "AUD": "Australischer Dollar - AUD",
           "B": "_OPTGROUP",
-          "BSD":"Bahama-Dollar - BSD",
-          "BHD":"Bahrain-Dinar - BHD",
-          "BDT":"Bangladeschischer Taka - BDT",
-          "BBD":"Barbados-Dollar - BBD",
-          "BZD":"Belize-Dollar - BZD",
-          "BMD":"Bermuda-Dollar - BMD",
-          "BTN":"Bhutanischer Ngultrum - BTN",
-          "BTC":"Bitcoin - BTC",
-          "BOB":"Bolivianischer Boliviano - BOB",
-          "BAM":"Bosnisch Mark - BAM",
-          "BWP":"Botsuanischer Pula - BWP",
-          "BRL":"Brasilianischer Real - BRL",
-          "GBP":"Britisches Pfund - GBP",
-          "BND":"Brunei-Dollar - BND",
-          "BGN":"Bulgarischer Lev - BGN",
-          "BIF":"Burundi-Franc - BIF",
+          "BSD": "Bahama-Dollar - BSD",
+          "BHD": "Bahrain-Dinar - BHD",
+          "BDT": "Bangladeschischer Taka - BDT",
+          "BBD": "Barbados-Dollar - BBD",
+          "BZD": "Belize-Dollar - BZD",
+          "BMD": "Bermuda-Dollar - BMD",
+          "BTN": "Bhutanischer Ngultrum - BTN",
+          "BTC": "Bitcoin - BTC",
+          "BOB": "Bolivianischer Boliviano - BOB",
+          "BAM": "Bosnisch Mark - BAM",
+          "BWP": "Botsuanischer Pula - BWP",
+          "BRL": "Brasilianischer Real - BRL",
+          "GBP": "Britisches Pfund - GBP",
+          "BND": "Brunei-Dollar - BND",
+          "BGN": "Bulgarischer Lev - BGN",
+          "BIF": "Burundi-Franc - BIF",
           "C": "_OPTGROUP",
-          "XOF":"CFA Franc BCEAO - XOF",
-          "XAF":"CFA Franc BEAC - XAF",
-          "CLP":"Chilenischer Peso - CLP",
-          "CNY":"Chinesischer Renminbi Yuan - CNY",
-          "CRC":"Costa-Rica-Colón - CRC",
+          "XOF": "CFA Franc BCEAO - XOF",
+          "XAF": "CFA Franc BEAC - XAF",
+          "CLP": "Chilenischer Peso - CLP",
+          "CNY": "Chinesischer Renminbi Yuan - CNY",
+          "CRC": "Costa-Rica-Colón - CRC",
           "D": "_OPTGROUP",
-          "DOP":"Dominikanischer Peso - DOP",
-          "DJF":"Dschibuti-Franc - DJF",
-          "DKK":"Dänsiche Krone - DKK",
+          "DOP": "Dominikanischer Peso - DOP",
+          "DJF": "Dschibuti-Franc - DJF",
+          "DKK": "Dänsiche Krone - DKK",
           "E": "_OPTGROUP",
-          "XCD":"East Caribeean Dollar - XCD",
-          "ERN":"Eritreischer Nakfa - ERN",
-          "EUR":"Euro - EUR",
+          "XCD": "East Caribeean Dollar - XCD",
+          "ERN": "Eritreischer Nakfa - ERN",
+          "EUR": "Euro - EUR",
           "F": "_OPTGROUP",
-          "FKP":"Falkland-Pfund - FKP",
-          "FJD":"Fidschi-Dollar - FJD",
+          "FKP": "Falkland-Pfund - FKP",
+          "FJD": "Fidschi-Dollar - FJD",
           "G": "_OPTGROUP",
-          "GMD":"Gambischer Dalasi - GMD",
-          "GEL":"Georgischer Lari - GEL",
-          "GHS":"Ghanaischer Neuer Cedi - GHS",
-          "GIP":"Gibraltar-Pfund - GIP",
-          "XAU":"Gold - XAU",
-          "GTQ":"Guatemaltekischer Quetzal - GTQ",
-          "GNF":"Guinea-Franc - GNF",
-          "GYD":"Guyana-Dollar - GYD",
+          "GMD": "Gambischer Dalasi - GMD",
+          "GEL": "Georgischer Lari - GEL",
+          "GHS": "Ghanaischer Neuer Cedi - GHS",
+          "GIP": "Gibraltar-Pfund - GIP",
+          "XAU": "Gold - XAU",
+          "GTQ": "Guatemaltekischer Quetzal - GTQ",
+          "GNF": "Guinea-Franc - GNF",
+          "GYD": "Guyana-Dollar - GYD",
           "H": "_OPTGROUP",
-          "HTG":"Haitianische Gourde - HTG",
-          "HNL":"Honduranische Lempira - HNL",
-          "HKD":"Honkong-Dollar - HKD",
+          "HTG": "Haitianische Gourde - HTG",
+          "HNL": "Honduranische Lempira - HNL",
+          "HKD": "Honkong-Dollar - HKD",
           "I": "_OPTGROUP",
-          "INR":"Indische Rupie - INR",
-          "IDR":"Indonesische Rupiah - IDR",
-          "IQD":"Irakischer Dinar - IQD",
-          "IRR":"Iranischer Rial - IRR",
-          "ISK":"Isländische Krone - ISK",
+          "INR": "Indische Rupie - INR",
+          "IDR": "Indonesische Rupiah - IDR",
+          "IQD": "Irakischer Dinar - IQD",
+          "IRR": "Iranischer Rial - IRR",
+          "ISK": "Isländische Krone - ISK",
           "J": "_OPTGROUP",
-          "JMD":"Jamaikanischer Dollar - JMD",
-          "JPY":"Japanischer Yen - JPY",
-          "JOD":"Jordanischer Dinar - JOD",
+          "JMD": "Jamaikanischer Dollar - JMD",
+          "JPY": "Japanischer Yen - JPY",
+          "JOD": "Jordanischer Dinar - JOD",
           "K": "_OPTGROUP",
-          "KYD":"Kaiman-Dollar - KYD",
-          "KHR":"Kambodschanischer Rial - KHR",
-          "CAD":"Kanadischer Dollar - CAD",
-          "CVE":"Kap-Verde-Escudo - CVE",
-          "KZT":"Kasachstan Tenge - KZT",
-          "QAR":"Katar-Rial - QAR",
-          "KES":"Kenianischer Schilling - KES",
-          "KGS":"Kirgisistan-Som - KGS",
-          "COP":"Kolumbianischer Peso - COP",
-          "KMF":"Komoren-Franc - KMF",
-          "CDF":"Kongo-Franc - CDF",
-          "HRK":"Kroatische Kuna - HRK",
-          "CUC":"Kubanischer umwandelbarer Peso - CUC",
-          "KWD":"Kuwaitischer Dinar - KWD",
+          "KYD": "Kaiman-Dollar - KYD",
+          "KHR": "Kambodschanischer Rial - KHR",
+          "CAD": "Kanadischer Dollar - CAD",
+          "CVE": "Kap-Verde-Escudo - CVE",
+          "KZT": "Kasachstan Tenge - KZT",
+          "QAR": "Katar-Rial - QAR",
+          "KES": "Kenianischer Schilling - KES",
+          "KGS": "Kirgisistan-Som - KGS",
+          "COP": "Kolumbianischer Peso - COP",
+          "KMF": "Komoren-Franc - KMF",
+          "CDF": "Kongo-Franc - CDF",
+          "HRK": "Kroatische Kuna - HRK",
+          "CUC": "Kubanischer umwandelbarer Peso - CUC",
+          "KWD": "Kuwaitischer Dinar - KWD",
           "L": "_OPTGROUP",
-          "LAK":"Laotischer Kip - LAK",
-          "LSL":"Lesothischer Loti - LSL",
-          "LVL":"Lettische Lats - LVL",
-          "LBP":"Libanesisches Pfund - LBP",
-          "LRD":"Liberianischer Dollar - LRD",
-          "LYD":"Libyscher Dinar - LYD",
-          "LTL":"Litauische Litas - LTL",
+          "LAK": "Laotischer Kip - LAK",
+          "LSL": "Lesothischer Loti - LSL",
+          "LVL": "Lettische Lats - LVL",
+          "LBP": "Libanesisches Pfund - LBP",
+          "LRD": "Liberianischer Dollar - LRD",
+          "LYD": "Libyscher Dinar - LYD",
+          "LTL": "Litauische Litas - LTL",
           "M": "_OPTGROUP",
-          "MOP":"Macauische Pataca - MOP",
-          "MGA":"Madagascar-Ariary - MGA",
-          "MWK":"Malawi-Kwacha - MWK",
-          "MYR":"Malaysischer Ringgit - MYR",
-          "MVR":"Maledivische Rufiyaa - MVR",
-          "MAD":"Marokkanischer Dirham - MAD",
-          "MRO":"Mauretanische Ouguiya - MRO",
-          "MUR":"Mauritius-Rupie - MUR",
-          "MKD":"Mazedonischer Denar - MKD",
-          "MXN":"Mexikanischer Peso - MXN",
-          "MDL":"Moldauischer Leu - MDL",
-          "MNT":"Mongolischer Tugrik - MNT",
-          "MZN":"Mosamnikanischer Neuer Metical - MZN",
-          "MMK":"Myanmarischer Kyat - MMK",
+          "MOP": "Macauische Pataca - MOP",
+          "MGA": "Madagascar-Ariary - MGA",
+          "MWK": "Malawi-Kwacha - MWK",
+          "MYR": "Malaysischer Ringgit - MYR",
+          "MVR": "Maledivische Rufiyaa - MVR",
+          "MAD": "Marokkanischer Dirham - MAD",
+          "MRO": "Mauretanische Ouguiya - MRO",
+          "MUR": "Mauritius-Rupie - MUR",
+          "MKD": "Mazedonischer Denar - MKD",
+          "MXN": "Mexikanischer Peso - MXN",
+          "MDL": "Moldauischer Leu - MDL",
+          "MNT": "Mongolischer Tugrik - MNT",
+          "MZN": "Mosamnikanischer Neuer Metical - MZN",
+          "MMK": "Myanmarischer Kyat - MMK",
           "N": "_OPTGROUP",
-          "NAD":"Namibischer Dollar - NAD",
-          "NPR":"Nepalesische Rupie - NPR",
-          "NZD":"Neuseeländischer Dollar - NZD",
-          "NIO":"Nicaraguanischer Córdoba - NIO",
-          "NGN":"Nigerianische Naira - NGN",
-          "ANG":"NL-Antillen-Gulden - ANG",
-          "NOK":"Norwegische Krone - NOK",
+          "NAD": "Namibischer Dollar - NAD",
+          "NPR": "Nepalesische Rupie - NPR",
+          "NZD": "Neuseeländischer Dollar - NZD",
+          "NIO": "Nicaraguanischer Córdoba - NIO",
+          "NGN": "Nigerianische Naira - NGN",
+          "ANG": "NL-Antillen-Gulden - ANG",
+          "NOK": "Norwegische Krone - NOK",
           "O": "_OPTGROUP",
-          "OMR":"Omani Rial - OMR",
+          "OMR": "Omani Rial - OMR",
           "P": "_OPTGROUP",
-          "PKR":"Pakistanische Rupie - PKR",
-          "PAB":"Panamaischer Balboa - PAB",
-          "PGK":"Papua-Neuginea-Kina - PGK",
-          "PYG":"Paraguayischer Guarani - PYG",
-          "PEN":"Peruanischer Sol - PEN",
-          "PHP":"Philippinischer Peso - PHP",
-          "PLN":"Polnischer Zloty - PLN",
+          "PKR": "Pakistanische Rupie - PKR",
+          "PAB": "Panamaischer Balboa - PAB",
+          "PGK": "Papua-Neuginea-Kina - PGK",
+          "PYG": "Paraguayischer Guarani - PYG",
+          "PEN": "Peruanischer Sol - PEN",
+          "PHP": "Philippinischer Peso - PHP",
+          "PLN": "Polnischer Zloty - PLN",
           "R": "_OPTGROUP",
-          "RWF":"Ruanda-Franc - RWF",
-          "RON":"Rumänischer Neue Lei - RON",
-          "RUB":"Russischer Rubel - RUB",
+          "RWF": "Ruanda-Franc - RWF",
+          "RON": "Rumänischer Neue Lei - RON",
+          "RUB": "Russischer Rubel - RUB",
           "S": "_OPTGROUP",
-          "SBD":"Salomonen-Dollar - SBD",
-          "ZMW":"Sambischer Kwacha - ZMW",
-          "WST":"Samoanischer Tala - WST",
-          "SAR":"Saudi Rial - SAR",
-          "SEK":"Schwedische Krone - SEK",
-          "CHF":"Schweizer Franken - CHF",
-          "RSD":"Serbischer Dinar - RSD",
-          "SCR":"Seychellen-Rupie - SCR",
-          "SLL":"Sierraleonische Leone - SLL",
-          "XAG":"Silber (Uz.) - XAG",
-          "SGD":"Singapur-Dollar - SGD",
-          "SOS":"Somalischer Schilling - SOS",
-          "LKR":"Sri-Lanka-Rupie - LKR",
-          "SHP":"St. Helena-Pfund - SHP",
-          "SDG":"Sudanesisches Pfund - SDG",
-          "SRD":"Suriname-Dollar - SRD",
-          "SZL":"Swasiland Lilangeni - SZL",
-          "SYP":"Syrisches Pfund - SYP",
-          "STD":"São Tomé und Príncipe - STD",
-          "ZAR":"Südafrikanischer Rand - ZAR",
-          "KRW":"Südkoreansicher Won - KRW",
+          "SBD": "Salomonen-Dollar - SBD",
+          "ZMW": "Sambischer Kwacha - ZMW",
+          "WST": "Samoanischer Tala - WST",
+          "SAR": "Saudi Rial - SAR",
+          "SEK": "Schwedische Krone - SEK",
+          "CHF": "Schweizer Franken - CHF",
+          "RSD": "Serbischer Dinar - RSD",
+          "SCR": "Seychellen-Rupie - SCR",
+          "SLL": "Sierraleonische Leone - SLL",
+          "XAG": "Silber (Uz.) - XAG",
+          "SGD": "Singapur-Dollar - SGD",
+          "SOS": "Somalischer Schilling - SOS",
+          "LKR": "Sri-Lanka-Rupie - LKR",
+          "SHP": "St. Helena-Pfund - SHP",
+          "SDG": "Sudanesisches Pfund - SDG",
+          "SRD": "Suriname-Dollar - SRD",
+          "SZL": "Swasiland Lilangeni - SZL",
+          "SYP": "Syrisches Pfund - SYP",
+          "STD": "São Tomé und Príncipe - STD",
+          "ZAR": "Südafrikanischer Rand - ZAR",
+          "KRW": "Südkoreansicher Won - KRW",
           "T": "_OPTGROUP",
-          "TJS":"Tadschikistan Somoni - TJS",
-          "TWD":"Taiwanesicher Dollar - TWD",
-          "TZS":"Tansania-Schilling - TZS",
-          "THB":"Thailändischer Baht - THB",
-          "TOP":"Tongaische Pa'Anga - TOP",
-          "TTD":"Trinidad/Tobago-Dollar - TTD",
-          "CZK":"Tschechische Krone - CZK",
-          "TND":"Tunesischer Dinar - TND",
-          "TRY":"Türkische Lira - TRY",
+          "TJS": "Tadschikistan Somoni - TJS",
+          "TWD": "Taiwanesicher Dollar - TWD",
+          "TZS": "Tansania-Schilling - TZS",
+          "THB": "Thailändischer Baht - THB",
+          "TOP": "Tongaische Pa'Anga - TOP",
+          "TTD": "Trinidad/Tobago-Dollar - TTD",
+          "CZK": "Tschechische Krone - CZK",
+          "TND": "Tunesischer Dinar - TND",
+          "TRY": "Türkische Lira - TRY",
           "U": "_OPTGROUP",
-          "UGX":"Uganda-Schilling - UGX",
-          "UAH":"Ukrainische Griwna - UAH",
-          "HUF":"Ungarischer Forint - HUF",
-          "UYU":"Uruguayischer Peso - UYU",
-          "USD":"US Dollar - USD",
-          "UZS":"Uzbekischer Som - UZS",
+          "UGX": "Uganda-Schilling - UGX",
+          "UAH": "Ukrainische Griwna - UAH",
+          "HUF": "Ungarischer Forint - HUF",
+          "UYU": "Uruguayischer Peso - UYU",
+          "USD": "US Dollar - USD",
+          "UZS": "Uzbekischer Som - UZS",
           "V": "_OPTGROUP",
-          "VUV":"Vanuatu-Vatu - VUV",
-          "VEF":"Venezuanischer Bolivar Fuerte - VEF",
-          "AED":"Ver. Arab. Emir.-Dirham - AED",
+          "VUV": "Vanuatu-Vatu - VUV",
+          "VEF": "Venezuanischer Bolivar Fuerte - VEF",
+          "AED": "Ver. Arab. Emir.-Dirham - AED",
           "W": "_OPTGROUP",
-          "BYR":"Weißrussischer Rubel - BYR",
+          "BYR": "Weißrussischer Rubel - BYR",
           "Y": "_OPTGROUP",
-          "YER":"Yemen Rial - YER",
+          "YER": "Yemen Rial - YER",
           "Z": "_OPTGROUP",
-          "XPF":"Zentraler Pazifischer Franc - XPF"
+          "XPF": "Zentraler Pazifischer Franc - XPF"
         }
       }
     },
@@ -547,8 +566,6 @@
       }
     }
   },
-
-
   "equityreturn": {
     "id": "boerse-equityreturn",
     "name": "Aktienrenditerechner",
@@ -563,7 +580,10 @@
         "tooltip": "Gebe hier die Gesamtzahl der gekauften Aktien ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "buy": {
         "id": "boerse-equityreturn-buy",
@@ -574,7 +594,10 @@
         "tooltip": "Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "sell": {
         "id": "boerse-equityreturn-sell",
@@ -585,7 +608,10 @@
         "tooltip": "Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "buydate": {
         "id": "boerse-equityreturn-buydate",
@@ -630,7 +656,10 @@
         "tooltip": "Gebe hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000],
+        "args": [
+          0,
+          1000000000
+        ],
         "optional": true
       },
       "feesell": {
@@ -644,7 +673,10 @@
         "tooltip": "Gebe hier die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000],
+        "args": [
+          0,
+          1000000000
+        ],
         "optional": true
       },
       "dividends": {
@@ -655,10 +687,32 @@
         "tooltip": "Gebe hier die Anzahl der Dividendenzahlungen an, die während der Halteperiode der Aktie/Aktien erfolgten. Falls keine Dividendenzahlungen erfolgten bzw. Dividenden nicht in der Berechnung berücksichtigt werden sollen, so setze den Wert auf 0. Falls Zahlungen erfolgten, kannst du in den folgenden Feldern für jede Zahlung jeweils das Datum sowie den Dividendenbetrag eingeben. Falls ein freier Wert für das Datum in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Dividendenzahlung pro Aktie an.",
         "type": "select",
         "vtype": "number",
-        "args": [0,20],
+        "args": [
+          0,
+          20
+        ],
         "options": {
-          "0": "0", "1": "1", "2": "2", "3": "3", "4": "4",  "5": "5", "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
-          "11": "11", "12": "12", "13": "13", "14": "14",  "15": "15", "16": "16", "17": "17", "18": "18", "19": "19", "20": "20"
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "8": "8",
+          "9": "9",
+          "10": "10",
+          "11": "11",
+          "12": "12",
+          "13": "13",
+          "14": "14",
+          "15": "15",
+          "16": "16",
+          "17": "17",
+          "18": "18",
+          "19": "19",
+          "20": "20"
         }
       },
       "dividendDate": {
@@ -674,13 +728,15 @@
         "id": "boerse-equityreturn-dividendAmount",
         "type": "custom",
         "vtype": "number",
-        "args": [0,1000000000],
+        "args": [
+          0,
+          1000000000
+        ],
         "label": "Dividendenbetrag",
         "optional": "false",
         "array": "true",
         "arrayParent": "dividends"
       }
-
     },
     "results_1": {
       "irr": {
@@ -699,8 +755,6 @@
       }
     }
   },
-
-
   "retire": {
     "id": "planning-retire",
     "name": "Altersvorsorgerechner",
@@ -715,7 +769,10 @@
         "tooltip": "Gebe hier das aktuelle Alter in Jahren ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,150]
+        "args": [
+          0,
+          150
+        ]
       },
       "retireAge": {
         "id": "planning-retire-retireAge",
@@ -726,7 +783,10 @@
         "tooltip": "Gebe hier das geplante Ruhestandsalter in Jahren ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,150]
+        "args": [
+          0,
+          150
+        ]
       },
       "lifeExpectancy": {
         "id": "planning-retire-lifeExpectancy",
@@ -737,7 +797,10 @@
         "tooltip": "Gebe hier die Lebenserwartung in Jahren ein. Um konservative Ergebnisse zu erhalten, ist es sinnvoll, eine eher höhere Lebenserwartung anzugeben. Dies stellt sicher, dass auch am Ende eines sehr langen Lebens hinreichend Kapital zur Verfügung steht.",
         "type": "number",
         "vtype": "number",
-        "args": [0,150]
+        "args": [
+          0,
+          150
+        ]
       },
       "savings": {
         "id": "planning-retire-savings",
@@ -748,7 +811,10 @@
         "tooltip": "Gebe hier den Betrag an, welchen du bereits für deinen Ruhestand gespart hast. ",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "futureSavings": {
         "id": "planning-retire-futureSavings",
@@ -759,7 +825,10 @@
         "tooltip": "Gebe hier den Betrag an, welchen du in Zukunft pro Jahr bis zu Eintritt deines Ruhestandsalters für deine Altersvorsorge sparen wirst.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "rate": {
         "id": "planning-retire-rate",
@@ -770,7 +839,10 @@
         "tooltip": "Hier kannst du die erwartete Rendite auf deine Ersparnisse angeben. Mit dieser Rendite werden deine Ersparnisse verzinst. Der voreingestellte Wert entspricht etwa der langfristigen Rendite für Festgeldanlagen.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "inflation": {
         "id": "planning-retire-inflation",
@@ -781,7 +853,10 @@
         "tooltip": "Gebe hier die erwartete Inflationsrate an. Der voreingestellte Wert entspricht etwa der langfristigen Inflationsrate.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       }
     },
     "outputs": {
@@ -802,8 +877,6 @@
       }
     }
   },
-
-
   "propertyreturn": {
     "id": "property-propertyreturn",
     "name": "Immobilienrenditerechner",
@@ -818,7 +891,10 @@
         "tooltip": "Gebe hier den Betrag der Anfangsinvestition aus Eigenkapital ein. Dieser Betrag setzt sich zusammen aus allen Kosten, die durch den Erwerb der Immobilien entstehen und nicht durch ein Darlehen gezahlt werden. Kostet eine Immobilien zum Beispiel 400.000 € inkl. aller Anschaffungsnebenkosten und du zahlst am Anfang aus deinem Vermögen 50.000 €, dann sind diese 50.000 € die Investition aus Eigenkapital.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "repay": {
         "id": "property-propertyreturn-repay",
@@ -829,7 +905,10 @@
         "tooltip": "Sofern du ein Darlehen zur Finanzierung der Immobilien eingesetzt hast, gebe hier bitte die monatliche Rückzahlungsrate für das Darlehen ein. Diese Rückzahlungsrate sollte alle monatlichen Zahlungen zur Rückzahlung des Darlehens enthalten und setzt sich meist aus Zins- und Tilgungszahlungen zusammen. Im Falle der Zahlung einer Immobilien zum Preis von 400.000 € mit 50.000 € Eigenkapital und 350.000 € Fremdkapital aus einem Darlehen ist dies die monatliche Rate, welche für die Rückzahlung des Darlehens zu 350.000 € anfällt. Falls du kein Darlehen eingesetzt hast gebe als Darlehensrate null ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "termLoan": {
         "id": "property-propertyreturn-termLoan",
@@ -840,7 +919,10 @@
         "tooltip": "Gebe hier die Laufzeit des Darlehens in Jahren oder Monaten ein, welches zur Finanzierung der Immobilie aufgenommen wurde. Die Laufzeit ist die Zeit bis zur kompletten Rückzahlung des Darlehens unter der angegebenen Rückzahlungsrate. Falls du kein Darlehen eingesetzt hast gebe hier null ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,150]
+        "args": [
+          0,
+          150
+        ]
       },
       "maintenance": {
         "id": "property-propertyreturn-maintenance",
@@ -851,7 +933,10 @@
         "tooltip": "Die monatlichen Instandhaltungskosten sind alle laufenden Kosten, welche monatlich über die gesamte Anlagedauer zur Pflege und zum Erhalt der Immobilien anfallen. Dies sind etwa Kosten für Reparaturen der Heizung oder für die Modernisierung von Bädern.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "costDynamic": {
         "id": "property-propertyreturn-costDynamic",
@@ -862,7 +947,10 @@
         "tooltip": "Gebe hier die jährliche prozentale Steigerungsrate der Instandhaltungskosten an. Diese wird jeweils am Jahresende den angegebenen Instandhaltungskosten zugeschlagen. Belaufen sich die Instandhaltungskosten im ersten Jahr zum Beispiel auf 300 € und die Kostendynamik ist 10 %, dann werden im zweiten Jahr Instandhaltungskosten von 330 € angesetz. Auch in den folgenden Jahren wachsen die Instandhaltungskosten jeweils um 10 %. Den Prozentsatz für die Kostendynamik kann man nutzen, um etwa erwartete Preissteigerungen für Instandhaltungsdienstleistungen oder höhere Kosten durch eine alternde Immobilie abzubilden. Sollen die Instandhaltungskosten nicht jedes Jahr ansteigen, dann gebe hier eine null ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "revenue": {
         "id": "property-propertyreturn-revenue",
@@ -873,7 +961,10 @@
         "tooltip": "Hier kannst du alle laufenden monatlichen Einnahmen aus der Immobilie eingeben. Hauptkomponente dieser Einnahmen sind meist Zuflüsse aus der Vermietung der Immobilie.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "revDynamic": {
         "id": "property-propertyreturn-revDynamic",
@@ -884,7 +975,10 @@
         "tooltip": "Gebe hier die jährliche prozentale Steigerungsrate der monatlichen Einnahmen aus der Immobilie an. Diese wird jeweils am Jahresende den angegebenen Einnahmen zugeschlagen. Belaufen sich die Einnahmen im ersten Jahr zum Beispiel auf 2000 € und die Kostendynamik ist 1 %, dann werden im zweiten Jahr Einnahmen von 2020 € angesetz. Auch in den folgenden Jahren wachsen die Einnahmen jeweils um 1 %. Sollen die Einnahmen nicht jedes Jahr ansteigen, dann gebe hier eine null ein.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "term": {
         "id": "property-propertyreturn-term",
@@ -895,7 +989,10 @@
         "tooltip": "Gebe hier die Gesamtlaufzeit der Immobilieninvestition in Jahren oder Monaten an. Diese Laufzeit beginnt mit der Anfangsinvestition und endet in der Regel mit dem Verkauf oder der weitern Verwertung der Immobilie zum definierten Verkaufs-/Endwert.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "terminal": {
         "id": "property-propertyreturn-terminal",
@@ -906,7 +1003,10 @@
         "tooltip": "Gebe hier den Wert der Immobilie zum Ende der Anlagedauer ein. Im Falle eines Verkaufs entspricht dieser Wert dem Verkaufspreis der Immobilie. Ansonsten ist der Endwert derjenige Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       }
     },
     "results_1": {
@@ -975,8 +1075,6 @@
       }
     }
   },
-
-
   "propertybuyrent": {
     "id": "property-buyrent",
     "name": "Vergleichsrechner Immobilien kaufen oder mieten",
@@ -1213,7 +1311,6 @@
     "results_1": {
     }
   },
-
   "depinterest": {
     "id": "deposits-interest",
     "name": "Zinsrechner",
@@ -1225,7 +1322,10 @@
         "tooltip": "Wähle hier, welche der Größen Anfangskapital, Endkapital, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
         "type": "select",
         "vtype": "number",
-        "args": [0,3],
+        "args": [
+          0,
+          3
+        ],
         "options": {
           "0": "Endkapital",
           "1": "Anfangskapital",
@@ -1242,7 +1342,10 @@
         "tooltip": "Das Anfangskapital ist der anfängliche Anlagebetrag bzw. der Betrag der Investition. Wenn man also 1.000 € bei der Bank zur Anlage bringt, so entspricht dies dem Anfangskapital.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "period": {
         "id": "deposits-interest-period",
@@ -1253,7 +1356,10 @@
         "tooltip": "Die Laufzeit ist der Zeitraum zwischen Beginn und Ende der Geldanlage oder Investition. Wenn man also 1.000 € vom 01.03.2015 bis zum 01.03.2017 anlegt, dann beträgt die Laufzeit 2 Jahre.",
         "type": "number",
         "vtype": "number",
-        "args": [0,200]
+        "args": [
+          0,
+          200
+        ]
       },
       "rate": {
         "id": "deposits-interest-rate",
@@ -1264,7 +1370,10 @@
         "tooltip": "Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "end": {
         "id": "deposits-interest-end",
@@ -1276,7 +1385,10 @@
         "tooltip": "Das Endkapital ist das gesamte Kapital am Ende der Laufzeit der Geldanlage.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       }
     },
     "results_1": {
@@ -1312,7 +1424,6 @@
       }
     }
   },
-
   "depsaving": {
     "id": "deposits-savings",
     "name": "Sparrechner",
@@ -1324,7 +1435,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [0,5],
+        "args": [
+          0,
+          5
+        ],
         "options": {
           "0": "Endkapital",
           "1": "Anfangskapital",
@@ -1342,7 +1456,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "term": {
         "id": "deposits-savings-term",
@@ -1353,7 +1470,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,200]
+        "args": [
+          0,
+          200
+        ]
       },
       "termfix": {
         "id": "deposits-savings-termfix",
@@ -1364,7 +1484,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,200]
+        "args": [
+          0,
+          200
+        ]
       },
       "inflow": {
         "id": "deposits-savings-inflow",
@@ -1375,7 +1498,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "inflowfreq": {
         "id": "deposits-savings-inflowfreq",
@@ -1383,7 +1509,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [1, 12],
+        "args": [
+          1,
+          12
+        ],
         "options": {
           "12": "monatlich",
           "4": "vierteljährlich",
@@ -1397,7 +1526,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [1, 2],
+        "args": [
+          1,
+          2
+        ],
         "options": {
           "1": "nachschüssig",
           "2": "vorschüssig"
@@ -1412,7 +1544,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "dynamic": {
         "id": "deposits-savings-dynamic",
@@ -1423,7 +1558,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "interestperiod": {
         "id": "deposits-savings-interestperiod",
@@ -1431,7 +1569,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [1, 12],
+        "args": [
+          1,
+          12
+        ],
         "options": {
           "1": "jährlich",
           "2": "halbjährlich",
@@ -1445,7 +1586,10 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
-        "args": [1, 12],
+        "args": [
+          1,
+          12
+        ],
         "options": {
           "1": "Ja, Zinsansammlung",
           "2": "Nein, Zinsauszahlung"
@@ -1461,7 +1605,10 @@
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       }
     },
     "results_1": {
@@ -1500,11 +1647,8 @@
         "digits": 2,
         "importance": "first"
       }
-
     }
   },
-
-
   "annuity": {
     "id": "debt-annuity",
     "name": "Tilgungsrechner Annuitätendarlehen",
@@ -1787,7 +1931,6 @@
       }
     }
   },
-
   "daycount": {
     "id": "misc-daycount",
     "name": "Zinstagerechner",
@@ -1984,8 +2127,6 @@
       }
     }
   },
-
-
   "dispo": {
     "id": "debt-dispo",
     "name": "Dispozinsrechner",
@@ -2000,7 +2141,10 @@
         "tooltip": "Dies ist der Betrag, um den das Konto 'im Minus' ist.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "limit": {
         "id": "debt-dispo-limit",
@@ -2011,7 +2155,10 @@
         "tooltip": "Die Kreditlinie für den Dispo ist der Betrag, bis zu dem der Dispositionskredit in Anspruch genommen werden darf. Auf diesen Betrag kommt der Zinssatz für den Dispokredit zur Anwendung. Falls kein Dispositionskredit besteht tragen sie hier eine 0 ein. Der Überziehungsbetrag wird dann direkt mit dem Zinssatz für weitere Überziehungen verzinst.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000000000]
+        "args": [
+          0,
+          1000000000
+        ]
       },
       "dispointerest": {
         "id": "debt-dispo-dispointerest",
@@ -2022,7 +2169,10 @@
         "tooltip": "Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für die Nutzung des Dispositionskredites berechnet.",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "otherinterest": {
         "id": "debt-dispo-otherinterest",
@@ -2033,7 +2183,10 @@
         "tooltip": "Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für Überziehungen berechnet, die über die Kreditlinie des Dispositionskredits hinausgehen ('geduldete Überziehung').",
         "type": "number",
         "vtype": "number",
-        "args": [0,1000]
+        "args": [
+          0,
+          1000
+        ]
       },
       "periodchoice": {
         "id": "debt-dispo-periodchoice",
@@ -2083,7 +2236,10 @@
         "tooltip": "Die Dauer der Zinsperiode in Tagen nach der gewählten Zinsmethode.",
         "type": "number",
         "vtype": "number",
-        "args": [0,10000]
+        "args": [
+          0,
+          10000
+        ]
       },
       "daycount": {
         "id": "debt-dispo-daycount",
@@ -2118,7 +2274,6 @@
       }
     }
   },
-
   "rent": {
     "id": "property-rent",
     "name": "Mietrechner",
@@ -2130,7 +2285,10 @@
         "tooltip": "Wähle hier, welche der Größen Monatsmiete, Mietsteigerung, Mietdauer oder Gesamtmiete berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
         "type": "select",
         "vtype": "number",
-        "args": [0,3],
+        "args": [
+          0,
+          3
+        ],
         "options": {
           "0": "Gesamtmiete",
           "1": "Mietsteigerung",
@@ -2235,6 +2393,86 @@
         "unit": "Jahre",
         "digits": 2,
         "importance": "first"
+      }
+    }
+  },
+  "transfertax": {
+    "id": "property-transfertax",
+    "name": "Grunderwerbssteuer-Rechner",
+    "description": "Mit dem Grunderwerbssteuer-Rechner lässt sich die Steuer berechnen, welche beim Erwerb eines Grundstücks oder Grundstücksanteils anfällt. Ökonomisch erhöht die Grunderwerbssteuer den Gesamtpreis beim Kauf einer Immobilie bzw. eines Grundstücks.",
+    "inputs": {
+      "price": {
+        "id": "property-transfertax-price",
+        "linetop": false,
+        "optional": false,
+        "label": "Kaufpreis Immobilie/Grundstück",
+        "placeholder": "Kaufpreis",
+        "addon": "EUR",
+        "value": "350000.00",
+        "tooltip": "Geben Sie hier den Kaufpreis des Grundstücks an. Sofern eine Immobilie auf dem Grundstück steht ist der Kaufpreis zu verstehen als Gesamtpreis aus Grundstück und Immobilien.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000000000
+        ]
+      },
+      "state": {
+        "id": "property-transfertax-state",
+        "label": "Bundesland",
+        "placeholder": "Bundesland",
+        "tooltip": "Geben Sie das Bundesland des Standorts der zu erwerbenden Immobilie an.",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "BAD": "Baden-Württemberg",
+          "BAY": "Bayern",
+          "BER": "Berlin",
+          "BRA": "Brandenburg",
+          "BRE": "Bremen",
+          "HAM": "Hamburg",
+          "HES": "Hessen",
+          "MEC": "Mecklenburg-Vorpommern",
+          "NIE": "Niedersachsen",
+          "NOR": "Nordrhein-Westfalen",
+          "RHE": "Rheinland-Pfalz",
+          "SAR": "Saarland",
+          "SAC": "Sachsen",
+          "SAA": "Sachsen-Anhalt",
+          "SCH": "Schleswig-Holstein",
+          "THU": "Thüringen"
+        }
+      }
+    },
+    "results_1": {
+      "total": {
+        "tooltip": "",
+        "omittooltip": true,
+        "description": "Gesamtbetrag inkl. Steuer",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "tax": {
+        "tooltip": "Bei der Transaktion anfallender Betrag der Grunderwerbssteuer.",
+        "description": "Grunderwerbssteuer",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "rate": {
+        "tooltip": "Der im gewählten Bundesland aktuell anwendbare Steuersatz.",
+        "description": "Anzuwendender Steuersatz",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "second"
+      },
+      "taxfree": {
+        "tooltip": "Es besteht eine Freigrenze von 2500 EUR. Sofern der Kaufpreis darunter liegt, fällt keine Grunderwerbssteuer an.",
+        "description": "Freigrenze anwendbar?",
+        "type": "string",
+        "unit": "",
+        "importance": "second"
       }
     }
   }

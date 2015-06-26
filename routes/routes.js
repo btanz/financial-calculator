@@ -117,6 +117,21 @@ router.get('/mietrechner/inputs', function(req,res,next){
   res.json(results);
 });
 
+/* **********************************
+ ** property-transfertax routes
+ *********************************** */
+router.get('/grunderwerbssteuerrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.transfertax});
+});
+
+
+router.get('/grunderwerbssteuerrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  console.log(obj);
+  var results = property.transfertax(obj);
+  res.json(results);
+});
+
 
 /* **********************************
  ** deposit-depinterest routes
