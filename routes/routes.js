@@ -127,7 +127,6 @@ router.get('/grunderwerbssteuerrechner', function(req,res,next){
 
 router.get('/grunderwerbssteuerrechner/inputs', function(req,res,next){
   var obj = req.query;
-  console.log(obj);
   var results = property.transfertax(obj);
   res.json(results);
 });
@@ -141,10 +140,9 @@ router.get('/bausparrechner', function(req,res,next){
 
 
 router.get('/bausparrechner/inputs', function(req,res,next){
- /* var obj = req.query;
-  console.log(obj);
-  var results = property.transfertax(obj);
-  res.json(results);*/
+  var obj = req.query;
+  var results = property.homesave(obj);
+  res.json(results);
 });
 
 

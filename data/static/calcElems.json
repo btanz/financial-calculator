@@ -2565,8 +2565,8 @@
           100000
         ]
       },
-      "initalpay": {
-        "id": "property-homesave-initalpay",
+      "initialpay": {
+        "id": "property-homesave-initialpay",
         "linetop": false,
         "optional": false,
         "label": "Sondereinzahlung bei Beginn",
@@ -2587,10 +2587,10 @@
         "label": "Wohnungsbauprämie berücksichtigen?",
         "tooltip": "Geben Sie an, ob die Wohnungsbauprämie berücksichtigt werden soll. Falls Sie 'JA' angeben, wird der Rechner mittels weiterer Fragen zunächst feststellen, ob und in welchem Umfang Anspruch auf die Wohnungsbauprämie besteht. Sofern Anspruch besteht wird die entsprechende Prämie automatisch in die Berechnung einbezogen.",
         "type": "select",
-        "vtype": "string",
+        "vtype": "bool",
         "options": {
-          "1": "JA",
-          "2": "NEIN"
+          "true": "JA",
+          "false": "NEIN"
         }
       },
       "marriage": {
@@ -2601,10 +2601,10 @@
         "label": "Familienstand",
         "tooltip": "Geben Sie den Familienstand zur Berechnung von Förderansprüchen an.",
         "type": "select",
-        "vtype": "string",
+        "vtype": "bool",
         "options": {
-          "1": "ledig",
-          "2": "verheiratet"
+          "false": "ledig",
+          "true": "verheiratet"
         }
       },
       "income": {
@@ -2674,7 +2674,111 @@
       }
     },
     "results_1": {
-
+      "numberpays": {
+        "tooltip": "TBD",
+        "description": "Anzahl Sparraten",
+        "unit": "",
+        "digits": 0,
+        "importance": "second"
+      },
+      "finalsavings": {
+        "tooltip": "TBD",
+        "description": "Sparguthaben Ende Ansparphase",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "finalsavingswohnungsbau": {
+        "tooltip": "TBD",
+        "description": "Sparguthaben Ende Ansparphase",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "totalpays": {
+        "tooltip": "TBD",
+        "description": "davon Spareinzahlungen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalinterest": {
+        "tooltip": "TBD",
+        "description": "davon Guthabenzinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "wohnungsbau": {
+        "tooltip": "TBD",
+        "description": "davon Wohnungsbauprämie",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalloanpay": {
+        "tooltip": "TBD",
+        "description": "Gesamter Auszahlungsbetrag bei Zuteilung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "totalloan": {
+        "tooltip": "TBD",
+        "description": "davon Darlehenshöhe",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "termloan": {
+        "tooltip": "TBD",
+        "description": "Laufzeit des Darlehens",
+        "unit": "Jahre",
+        "digits": 2,
+        "importance": "second"
+      },
+      "interestloan": {
+        "tooltip": "TBD",
+        "description": "davon Darlehenszinsaufwand",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalloanwinterest": {
+        "tooltip": "TBD",
+        "description": "Rückzahlungsaufwand insgesamt",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "savingratio": {
+        "tooltip": "TBD",
+        "description": "Ansparquote",
+        "unit": "%",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalloanpays": {
+        "tooltip": "TBD",
+        "description": "Anzahl Darlehensraten",
+        "unit": "",
+        "digits": 1,
+        "importance": "second"
+      },
+      "initialfee": {
+        "tooltip": "TBD",
+        "description": "Verrechnete Abschlussgebühr",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "initialpay": {
+        "tooltip": "TBD",
+        "description": "davon Sondereinzahlung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      }
     }
   }
 }

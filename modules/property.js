@@ -298,7 +298,7 @@ exports.transfertax = function(inputs){
     return errorMap;
   }
 
-  /* ******** 4. COMPUTATIONS ******** */
+  /* ******** 3. COMPUTATIONS ******** */
   switch(inputs.state) {
     case "BAD":
       rate = 0.05; break;
@@ -366,6 +366,110 @@ exports.transfertax = function(inputs){
 
   return result
 
+};
 
 
+
+/* PROPERTY-HOMESAVE function that computes figures for "Bausparvertrag"
+ * ARGUMENTS XXX todo
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.homesave = function(inputs){
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var result = {}; result._1 = {};
+  var helper = {}; var q, replacementrate;
+  var localElems = calcElems.homesave.results_1;
+  var expectedInputs = calcElems.homesave.inputs;
+  var errorMap;
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  inputs.interestsave /= 100;
+  inputs.interestdebt /= 100;
+
+
+  /* ******** 3. COMPUTATIONS ******** */
+
+  // helper vars
+  q = 1 + inputs.interestsave;
+  r = inputs.interestdebt / 12;
+  replacementrate = inputs.saving * (12 + (11/2)*(q-1));
+
+  // number of inflow payments
+  helper.numberpays = inputs.termsave * 12;
+
+  // total available savings w/o wohnungsbauprämie
+  helper.finalsavings = replacementrate * (Math.pow(q,inputs.termsave)-1)/(q-1) + inputs.initialpay * Math.pow(q,inputs.termsave)  - inputs.initialfee * Math.pow(q,inputs.termsave);
+
+  // total payments
+  helper.totalpays = helper.numberpays * inputs.saving;
+
+  // total interest
+  helper.totalinterest = helper.finalsavings - helper.totalpays + inputs.initialfee - inputs.initialpay;
+
+  // entitled to 'Wohnungsbauprämie?'
+  helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 21600 ? true : false;
+
+  // amount of Wohnungsbauprämie
+  helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, inputs.termsave * 45.06 * (1 + Number(inputs.marriage)));
+
+  // total available savings w wohnungsbauprämie
+  helper.finalsavingswohnungsbau = helper.finalsavings + helper.wohnungsbau;
+
+  // total loan payment
+  helper.totalloanpay = (inputs.paypercent / 100) * inputs.principal;
+
+  // amount loan w/o interest
+  helper.totalloan = helper.totalloanpay - helper.finalsavingswohnungsbau;
+
+  // term loan
+  helper.termloan = Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
+
+  // interest loan
+  helper.interestloan = helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
+
+  // amount loan w interest
+  helper.totalloanwinterest = helper.totalloan + helper.interestloan;
+
+  // "Ansparquote"
+  helper.savingratio = (helper.finalsavingswohnungsbau / inputs.principal) * 100;
+
+  // number of loan payments
+  helper.totalloanpays = helper.termloan * 12;
+
+  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.homesave.id;
+  // first result container
+
+  //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
+  result._1.finalsavingswohnungsbau = _.extend(localElems['finalsavingswohnungsbau'], {"value": helper.finalsavingswohnungsbau});
+  result._1.totalpays               = _.extend(localElems['totalpays'],               {"value": helper.totalpays});
+  result._1.totalinterest           = _.extend(localElems['totalinterest'],           {"value": helper.totalinterest});
+  result._1.wohnungsbau             = _.extend(localElems['wohnungsbau'],             {"value": helper.wohnungsbau});
+  if(inputs.initialpay != 0){ result._1.initialpay               = _.extend(localElems['initialpay'],             {"value": inputs.initialpay}); };
+  if(inputs.initialfee != 0){ result._1.initialfee               = _.extend(localElems['initialfee'],             {"value": -inputs.initialfee}); };
+  result._1.numberpays              = _.extend(localElems['numberpays'],              {"value": helper.numberpays});
+  result._1.savingratio             = _.extend(localElems['savingratio'],             {"value": helper.savingratio});
+  result._1.totalloanpay            = _.extend(localElems['totalloanpay'],            {"value": helper.totalloanpay});
+  result._1.totalloanwinterest      = _.extend(localElems['totalloanwinterest'],      {"value": helper.totalloanwinterest});
+  result._1.totalloan               = _.extend(localElems['totalloan'],               {"value": helper.totalloan});
+  result._1.interestloan            = _.extend(localElems['interestloan'],            {"value": helper.interestloan});
+  result._1.totalloanpays           = _.extend(localElems['totalloanpays'],           {"value": helper.totalloanpays});
+  result._1.termloan                = _.extend(localElems['termloan'],                {"value": helper.termloan});
+
+
+
+
+
+
+  return result;
 };

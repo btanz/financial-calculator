@@ -13,6 +13,11 @@ app.property = (function() {
       toggleRentSelect(e);
     });
 
+    // attach event handler for homesave "Wohnungsbauprämie" choice
+    $('#property-homesave-bonus').on('change', function (e) {
+      toggleHomeSaveSelect(e);
+    });
+
 
   });
   /*********************** END PROPERTY DOCUMENT READY TASKS *************************/
@@ -44,6 +49,16 @@ app.property = (function() {
     });
   }
 
+
+  function toggleHomeSaveSelect(e){
+    e.preventDefault();
+    var state = $('#property-homesave-bonus').val();
+    if (state === 'true'){
+      $('#property-homesave-marriage, #property-homesave-income').closest('div[class^="form-group"]').removeClass('hide');
+    } else if (state === 'false'){
+      $('#property-homesave-marriage, #property-homesave-income').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
 
   /*********************** END PROPERTY EVENT HANDLERS ***********************/
 
