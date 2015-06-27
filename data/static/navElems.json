@@ -72,6 +72,10 @@
       "4": {
         "name": "Grunderwerbssteuer-Rechner",
         "url": "/grunderwerbssteuerrechner"
+      },
+      "5": {
+        "name": "Bausparrechner",
+        "url": "/bausparrechner"
       }
     }
   },

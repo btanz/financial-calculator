@@ -132,6 +132,21 @@ router.get('/grunderwerbssteuerrechner/inputs', function(req,res,next){
   res.json(results);
 });
 
+/* **********************************
+ ** property-homesave routes
+ *********************************** */
+router.get('/bausparrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.homesave});
+});
+
+
+router.get('/bausparrechner/inputs', function(req,res,next){
+ /* var obj = req.query;
+  console.log(obj);
+  var results = property.transfertax(obj);
+  res.json(results);*/
+});
+
 
 /* **********************************
  ** deposit-depinterest routes

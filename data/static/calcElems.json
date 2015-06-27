@@ -2396,6 +2396,8 @@
       }
     }
   },
+
+
   "transfertax": {
     "id": "property-transfertax",
     "name": "Grunderwerbssteuer-Rechner",
@@ -2474,6 +2476,205 @@
         "unit": "",
         "importance": "second"
       }
+    }
+  },
+
+
+  "homesave": {
+    "id": "property-homesave",
+    "name": "Bausparrechner",
+    "description": "TBC",
+    "inputs": {
+      "principal": {
+        "id": "property-homesave-principal",
+        "linetop": false,
+        "optional": false,
+        "label": "Bausparsumme",
+        "placeholder": "Bausparsumme",
+        "addon": "EUR",
+        "value": "50000.00",
+        "tooltip": "Geben Sie hier den Gesamtbetrag ein, über den der Bausparvertrag abgeschlossen wird. Dies ist der Betrag, welcher bei Zuteilung des Bausparvertrages ausgezahlt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "interestsave": {
+        "id": "property-homesave-interestsave",
+        "linetop": true,
+        "optional": false,
+        "label": "Guthabenzinssatz",
+        "placeholder": "Guthabenzinssatz",
+        "addon": "% p. a.",
+        "value": "0.50",
+        "tooltip": "Geben Sie den jährlichen Zinssatz ein, welchen Sie laut Bausparvertrag auf das angesparte Kapital erhalten.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "saving": {
+        "id": "property-homesave-saving",
+        "linetop": false,
+        "optional": false,
+        "label": "Sparbeitrag",
+        "placeholder": "Monatlicher Sparbeitrag",
+        "addon": "EUR / Monat",
+        "value": "100.00",
+        "tooltip": "Geben Sie den Beitrag ein, welcher in der Ansparphase monatlich in den Bausparvertrag eingezahlt wird. Es wird unterstellt, dass die Zahlung jeweils am Monatsende (nachschüssig) erfolgt.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "termsave": {
+        "id": "property-homesave-termsave",
+        "linetop": false,
+        "optional": false,
+        "label": "Anspardauer",
+        "placeholder": "Anspardauer",
+        "addon": "Jahre",
+        "value": "10",
+        "tooltip": "Geben Sie die Anspardauer in Jahren ein. Während der Anspardauer erfolgen die monatlichen Sparbeiträge",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "initialfee": {
+        "id": "property-homesave-initialfee",
+        "linetop": false,
+        "optional": false,
+        "label": "Abschlussgebühr",
+        "placeholder": "Abschlussgebühr",
+        "addon": "EUR",
+        "value": "0.00",
+        "tooltip": "Geben Sie hier evenutelle einmalige Gebühren ein, welche beim Abschluss des Vertrages anfallen. Falls keine einmaligen Gebühren anfallen, tragen Sie einfach 0 ein.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "initalpay": {
+        "id": "property-homesave-initalpay",
+        "linetop": false,
+        "optional": false,
+        "label": "Sondereinzahlung bei Beginn",
+        "placeholder": "Sondereinzahlung",
+        "addon": "EUR",
+        "value": "0.00",
+        "tooltip": "Hier können Sie einmalige Sparbeiträge eingeben, welche bei manchen Verträgen zu Beginn der Vertragsperiode möglich sind. Diese Sondereinzahlungen werden entsprechend über die Ansparperiode verzinst.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "bonus": {
+        "id": "property-homesave-bonus",
+        "linetop": true,
+        "label": "Wohnungsbauprämie berücksichtigen?",
+        "tooltip": "Geben Sie an, ob die Wohnungsbauprämie berücksichtigt werden soll. Falls Sie 'JA' angeben, wird der Rechner mittels weiterer Fragen zunächst feststellen, ob und in welchem Umfang Anspruch auf die Wohnungsbauprämie besteht. Sofern Anspruch besteht wird die entsprechende Prämie automatisch in die Berechnung einbezogen.",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "1": "JA",
+          "2": "NEIN"
+        }
+      },
+      "marriage": {
+        "id": "property-homesave-marriage",
+        "linetop": false,
+        "secondary": true,
+        "optional": true,
+        "label": "Familienstand",
+        "tooltip": "Geben Sie den Familienstand zur Berechnung von Förderansprüchen an.",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "1": "ledig",
+          "2": "verheiratet"
+        }
+      },
+      "income": {
+        "id": "property-homesave-income",
+        "linetop": false,
+        "optional": true,
+        "secondary": true,
+        "label": "Bruttoeinkommen",
+        "placeholder": "Bruttoeinkommen",
+        "addon": "EUR",
+        "value": "30000.00",
+        "tooltip": "Geben Sie das Bruttoeinkommen zur Berechnung von Förderansprüchen an. Falls Sie verheiratet sind geben Sie hier bitte die Summe der Einkommen beider Ehepartner an.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000000
+        ]
+      },
+      "interestdebt": {
+        "id": "property-homesave-interestdebt",
+        "linetop": true,
+        "optional": false,
+        "label": "Darlehenszinssatz",
+        "placeholder": "Darlehenszinssatz",
+        "addon": "% p. a.",
+        "value": "2.50",
+        "tooltip": "Geben Sie den jährlichen Zinssatz ein, welchen Sie laut Bausparvertrag für das Bauspardarlehen zahlen.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "repay": {
+        "id": "property-homesave-repay",
+        "linetop": false,
+        "optional": false,
+        "label": "Rückzahlungsrate Darlehen (Zins + Tilgung)",
+        "placeholder": "Rückzahlungsrate",
+        "addon": "EUR / Monat",
+        "value": "300",
+        "tooltip": "Geben Sie den monatlichen Betrag zur Rückzahlung des Darlehens ein. Dieser Betrag fällt nach Zuteilung während der Rückzahlungsphase an und besteht aus Zins und Tilgung. Es wird unterstellt, dass die Zahlung jeweils am Monatsende (nachschüssig) erfolgt.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "paypercent": {
+        "id": "property-homesave-paypercent",
+        "linetop": false,
+        "optional": false,
+        "label": "Auszahlungsprozentsatz der Bausparsumme",
+        "placeholder": "Auszahlungsprozentsatz",
+        "addon": "%",
+        "value": "100",
+        "tooltip": "Bei Standardverträgen ist der Auszahlungsprozentsatz 100% der Bausparsumme. Bei einigen Verträgen kann jedoch davon nach oben oder unten abgewichen werden, was die Auszahlung relativ zur Bausparsumme entsprechend erhöht oder senkt. Im Zweifel sollten Sie hier 100% eingeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          50,
+          300
+        ]
+      }
+    },
+    "results_1": {
+
     }
   }
 }
