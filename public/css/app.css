@@ -25,3 +25,10 @@
 .fa-question-circle{
   color: rgba(170,173,175,0.8);
 }
+
+/* tables */
+.annualval {
+  font-weight: 600;
+  background-color: #ebebeb;
+  border-bottom: 1px solid #bbbbbb;
+}

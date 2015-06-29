@@ -382,7 +382,7 @@ exports.homesave = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
   var result = {}; result._1 = {}; result._2 = {};
-  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; var dynT;
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; var dynT;
   var helper = {}; var q, replacementrate;
   var localElems = calcElems.homesave.results_1;
   var expectedInputs = calcElems.homesave.inputs;
@@ -407,6 +407,7 @@ exports.homesave = function(inputs){
   r = inputs.interestdebt / 12;
   replacementrate = inputs.saving * (12 + (11/2)*(q-1));
   termsaveFullMth = Math.floor(inputs.termsave/(1/12))/12;
+  termsaveFullY = Math.floor(termsaveFullMth);
 
   // number of inflow payments
   helper.numberpays = termsaveFullMth * 12;
@@ -457,19 +458,44 @@ exports.homesave = function(inputs){
 
   // DYNAMIC COMPUTATIONS
   interestaccum = 0;  // accumulator for semiperiodical interest PAngV
-  for(i = 1; i <= termsaveFullMth * 12; i++){
-    dyn[0][i-1] = i;                                                          // month
-    (i === 1) ? dyn[1][i-1] = 0 : dyn[1][i-1] = dyn[5][i-2];                  // balance bop
-    dyn[2][i-1] = inputs.saving;                                              // savings
-    interestaccum += dyn[1][i-1] * (inputs.interestsave / 12);
-    if (i % 12 === 0){ // end of year
-      dyn[3][i-1] = interestaccum; interestaccum = 0;
+  var jumper = 0, terminal = [];
+  terminal[2] = 0; terminal[3] = 0;
+  for(i = 1; i <= termsaveFullMth * 12 + termsaveFullY; i++){
+    if (dyn[6][i-2]){   // if last iteration was full year such that annual vals should be computed
+      dyn[6][i-1] = false;
+      dyn[7][i-1] = true;  // full year view indicator
+      dyn[0][i-1] = String(Math.ceil((i-1) / 13)) + '. Jahr';
+      dyn[1][i-1] = dyn[1][i-13];
+      dyn[2][i-1] = inputs.saving * 12;
+      dyn[3][i-1] = dyn[3][i-2];
+      dyn[4][i-1] = 0;
+      dyn[5][i-1] = dyn[5][i-2];
+
+      jumper = 1;
+
     } else {
-      dyn[3][i-1] = 0;
+      dyn[7][i-1] = false;  // full year view indicator
+      (i === 1) ? dyn[0][i-1] = 1 : dyn[0][i-1] = dyn[0][i-2-jumper] + 1;                                                      // month
+      (i === 1) ? dyn[1][i-1] = 0 - inputs.initialfee + inputs.initialpay : dyn[1][i-1] = dyn[5][i-2-jumper];                  // balance bop
+      dyn[2][i-1] = inputs.saving;                                              // savings
+      interestaccum += dyn[1][i-1] * (inputs.interestsave / 12);
+      if (dyn[0][i-1] % 12 === 0){ // end of year
+        dyn[3][i-1] = interestaccum; interestaccum = 0;                         // interest
+        dyn[6][i-1] = true;                                                     // full year indicator
+      } else {
+        dyn[3][i-1] = 0;
+        dyn[6][i-1] = false;
+      }
+      dyn[4][i-1] = 0;                                                       // other pays / wohnungsbaupr
+      dyn[5][i-1] = dyn[1][i-1] + dyn[2][i-1] + dyn[3][i-1];                    // balance eop
+      terminal[2] += dyn[2][i-1];
+      terminal[3] += dyn[3][i-1];
+      jumper = 0;
     }
-    dyn[4][i-1] = 0;                                                       // other pays / wohnungsbaupr
-    dyn[5][i-1] = dyn[1][i-1] + dyn[2][i-1] + dyn[3][i-1];                    // balance eop
+    terminal[5] = dyn[5][i-1];
   }
+
+  console.log(i);
 
   // transpose dyn
   dynT = dyn[0].map(function(col,i){
@@ -478,7 +504,12 @@ exports.homesave = function(inputs){
     })
   });
 
+  // attach final rows
+  if(helper.wohnungsbau!= 0){
+    dynT.push(['Wohnungsbauprämie', terminal[5],helper.wohnungsbau,,,terminal[5] + helper.wohnungsbau,,]);
+  }
 
+  dynT.push(['Summen', 0 - inputs.initialfee + inputs.initialpay,terminal[2] + helper.wohnungsbau,terminal[3],,terminal[5] + helper.wohnungsbau,,true]);
 
 
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
