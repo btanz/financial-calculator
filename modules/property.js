@@ -383,11 +383,13 @@ exports.homesave = function(inputs){
   /* ******** 1. INIT AND ASSIGN ******** */
   var result = {}; result._1 = {}; result._2 = {};
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; var dynT;
+  var dynloan = []; dynloan[0] = []; dynloan[1] = []; dynloan[2] = []; dynloan[3] = []; dynloan[4] = []; dynloan[5] = []; dynloan[6] = []; dynloan[7] = []; var dynloanT;
   var helper = {}; var q, replacementrate;
   var localElems = calcElems.homesave.results_1;
   var expectedInputs = calcElems.homesave.inputs;
   var errorMap;
-  var termsaveFullMth, partialMth, i, interestaccum = 0;
+  var termsaveFullMth, partialMth, i, j, interestaccum = 0;
+
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
@@ -398,96 +400,59 @@ exports.homesave = function(inputs){
   inputs.interestsave /= 100;
   inputs.interestdebt /= 100;
 
+  /* ******** 3. HELPER FUNCTIONS ******** */
+  // function that returns the month into the full year for any month; example: intoyear(18) = 6, intoyear(12) = 12
+  helper.intoyear = function(month){
+    return (month % 12 === 0) * 12 + month % 12;
+  };
 
-  /* ******** 3. COMPUTATIONS ******** */
 
-  // STATIC COMPUTATIONS
-  // helper vars
+  /* ******** 4. COMPUTATIONS SAVINGS PERIOD ******** */
+
+  // HELPER VARS
   q = 1 + inputs.interestsave;
   r = inputs.interestdebt / 12;
   replacementrate = inputs.saving * (12 + (11/2)*(q-1));
   termsaveFullMth = Math.floor(inputs.termsave/(1/12))/12;
   termsaveFullY = Math.floor(termsaveFullMth);
 
-  // number of inflow payments
-  helper.numberpays = termsaveFullMth * 12;
-
-  // total available savings w/o wohnungsbauprämie
-  helper.accrue = inputs.interestsave === 0 ? inputs.saving * 12 * termsaveFullMth : replacementrate * (Math.pow(q,termsaveFullMth)-1)/(q-1);
-  helper.finalsavings = helper.accrue + inputs.initialpay * Math.pow(q,termsaveFullMth)  - inputs.initialfee * Math.pow(q,termsaveFullMth);
-  partialMth = (inputs.termsave - termsaveFullMth) * inputs.interestsave * helper.finalsavings; // accrue terminal amount for partial month
-  helper.finalsavings += partialMth;
-
-  // total payments
-  helper.totalpays = helper.numberpays * inputs.saving;
-
-  // total interest
-  helper.totalinterest = helper.finalsavings - helper.totalpays + inputs.initialfee - inputs.initialpay;
-
-  // entitled to 'Wohnungsbauprämie?'
-  helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 21600 ? true : false;
-
-  // amount of Wohnungsbauprämie
-  helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, termsaveFullMth * 45.06 * (1 + Number(inputs.marriage)));
-
-  // total available savings w wohnungsbauprämie
-  helper.finalsavingswohnungsbau = helper.finalsavings + helper.wohnungsbau;
-
-  // total loan payment
-  helper.totalloanpay = (inputs.paypercent / 100) * inputs.principal;
-
-  // amount loan w/o interest
-  helper.totalloan = helper.totalloanpay - helper.finalsavingswohnungsbau;
-
-  // term loan
-  helper.termloan = inputs.interestdebt === 0 ? helper.totalloan / (12 * inputs.repay) : Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
-
-  // interest loan
-  helper.interestloan = inputs.interestdebt === 0 ? 0 : helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
-
-  // amount loan w interest
-  helper.totalloanwinterest = helper.totalloan + helper.interestloan;
-
-  // "Ansparquote"
-  helper.savingratio = (helper.finalsavingswohnungsbau / inputs.principal) * 100;
-
-  // number of loan payments
-  helper.totalloanpays = helper.termloan * 12;
-
-
 
   // DYNAMIC COMPUTATIONS
   interestaccum = 0;  // accumulator for semiperiodical interest PAngV
   var jumper = 0, terminal = [];
   terminal[2] = 0; terminal[3] = 0;
-  for(i = 1; i <= termsaveFullMth * 12 + termsaveFullY; i++){
+  helper.wohnungsbau = 0;
+  for(i = 1, y = termsaveFullMth * 12 + termsaveFullY; i <= y; i++){
     if (dyn[6][i-2]){   // if last iteration was full year such that annual vals should be computed
       dyn[6][i-1] = false;
       dyn[7][i-1] = true;  // full year view indicator
-      dyn[0][i-1] = String(Math.ceil((i-1) / 13)) + '. Jahr';
-      dyn[1][i-1] = dyn[1][i-13];
-      dyn[2][i-1] = inputs.saving * 12;
+      dyn[0][i-1] = String(Math.ceil((i) / 13)) + '. Jahr';
+      dyn[1][i-1] = dyn[1][i - helper.intoyear(dyn[0][i-2]) - 1];
+      dyn[2][i-1] = inputs.saving * helper.intoyear(dyn[0][i-2]);
       dyn[3][i-1] = dyn[3][i-2];
       dyn[4][i-1] = 0;
       dyn[5][i-1] = dyn[5][i-2];
-
       jumper = 1;
-
     } else {
       dyn[7][i-1] = false;  // full year view indicator
       (i === 1) ? dyn[0][i-1] = 1 : dyn[0][i-1] = dyn[0][i-2-jumper] + 1;                                                      // month
       (i === 1) ? dyn[1][i-1] = 0 - inputs.initialfee + inputs.initialpay : dyn[1][i-1] = dyn[5][i-2-jumper];                  // balance bop
       dyn[2][i-1] = inputs.saving;                                              // savings
       interestaccum += dyn[1][i-1] * (inputs.interestsave / 12);
-      if (dyn[0][i-1] % 12 === 0){ // end of year
+      if ((dyn[0][i-1] % 12 === 0) || (i === termsaveFullMth * 12 + termsaveFullY)){ // end of year or last period in term
         dyn[3][i-1] = interestaccum; interestaccum = 0;                         // interest
         dyn[6][i-1] = true;                                                     // full year indicator
+        helper.wohnungsbautemp = (i <= 12) ? inputs.initialpay : 0;
+        helper.wohnungsbau += Math.min(((helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) > 50 ? (helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) : 0) * 0.088, 45.06 * (1 + Number(inputs.marriage))); // amount of Wohnungsbauprämie
+        // do one more loop for annual aggregates if we are in the last period of saving term and this period is not a full year
+        !(dyn[0][i-1] % 12 === 0) && (i === termsaveFullMth * 12 + termsaveFullY) ? y += 1 : y = y;
       } else {
         dyn[3][i-1] = 0;
         dyn[6][i-1] = false;
       }
       dyn[4][i-1] = 0;                                                       // other pays / wohnungsbaupr
       dyn[5][i-1] = dyn[1][i-1] + dyn[2][i-1] + dyn[3][i-1];                    // balance eop
+      terminal[0] = dyn[0][i-1];
       terminal[2] += dyn[2][i-1];
       terminal[3] += dyn[3][i-1];
       jumper = 0;
@@ -495,7 +460,16 @@ exports.homesave = function(inputs){
     terminal[5] = dyn[5][i-1];
   }
 
-  console.log(i);
+  // STATIC CALCS
+  helper.finalsavings = terminal[5];  // final w/o Wohnungsbau
+  helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 21600 ? true : false;   // entitled to 'Wohnungsbauprämie?'
+  //helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, termsaveFullY * 45.06 * (1 + Number(inputs.marriage)));  // amount of Wohnungsbauprämie for full year
+  helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * helper.wohnungsbau;
+  // total available savings w wohnungsbauprämie
+  helper.finalsavingswohnungsbau = helper.finalsavings + helper.wohnungsbau;
+  // total loan payment
+  helper.totalloanpay = (inputs.paypercent / 100) * inputs.principal;
+
 
   // transpose dyn
   dynT = dyn[0].map(function(col,i){
@@ -510,9 +484,106 @@ exports.homesave = function(inputs){
   }
 
   dynT.push(['Summen', 0 - inputs.initialfee + inputs.initialpay,terminal[2] + helper.wohnungsbau,terminal[3],,terminal[5] + helper.wohnungsbau,,true]);
+  dynT.push(['Zuteilung Darlehen', terminal[5] + helper.wohnungsbau, -helper.totalloanpay,,,terminal[5] + helper.wohnungsbau - helper.totalloanpay,,true]);
+
+  // STATIC COMPUTATIONS
+
+  // number of inflow payments
+  helper.numberpays = termsaveFullMth * 12;
+
+  // total available savings w/o wohnungsbauprämie // commented out, since no shortcut formula for replacement rate with period ending between years
+  /*helper.accrue = inputs.interestsave === 0 ? inputs.saving * 12 * termsaveFullMth : replacementrate * (Math.pow(q,termsaveFullMth)-1)/(q-1);
+  helper.finalsavings = helper.accrue + inputs.initialpay * Math.pow(q,termsaveFullMth)  - inputs.initialfee * Math.pow(q,termsaveFullMth);
+  partialMth = (inputs.termsave - termsaveFullMth) * inputs.interestsave * helper.finalsavings; // accrue terminal amount for partial month
+  helper.finalsavings += partialMth;*/
+
+  // total payments
+  helper.totalpays = helper.numberpays * inputs.saving;
+
+  // total interest
+  helper.totalinterest = helper.finalsavings - helper.totalpays + inputs.initialfee - inputs.initialpay;
+
+  // total loan payment
+  helper.totalloanpay = (inputs.paypercent / 100) * inputs.principal;
+
+  // amount loan w/o interest
+  helper.totalloan = helper.totalloanpay - helper.finalsavingswohnungsbau;
+
+  // term loan
+  helper.termloan = inputs.interestdebt === 0 ? helper.totalloan / (12 * inputs.repay) : Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
+
+  // interest loan
+  //helper.interestloan = inputs.interestdebt === 0 ? 0 : helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
+
+  // amount loan w interest
+  //helper.totalloanwinterest = helper.totalloan + helper.interestloan;
+
+  // "Ansparquote"
+  helper.savingratio = (helper.finalsavingswohnungsbau / inputs.principal) * 100;
+
+  // number of loan payments
+  helper.totalloanpays = helper.termloan * 12;
+
+  /* ******** 5. COMPUTATIONS LOAN PERIOD ******** */
+  jumper = 0;
+  var initSaldo = 0, repayHelper = 0; interestHelper = 0;
+  terminalLoan = [];
+  terminalLoan[2] = 0;
+  terminalLoan[3] = 0;
+
+  for(i = 1, y = Math.floor(helper.totalloanpays) + 1; i <= y; i++){
+
+    if (dynloan[6][i-2]) {   // if last iteration was full year such that annual vals should be computed
+      dynloan[6][i-1] = false;
+      dynloan[7][i-1] = true;  // full year view indicator
+      dynloan[0][i-1] = Math.ceil(String(dynloan[0][i-2] / 12)) + '. Jahr';
+      dynloan[1][i-1] = dynloan[1][i - Math.min(helper.intoyear(dynloan[0][i-2]), i-1) - 1];
+      dynloan[2][i-1] = repayHelper; repayHelper = 0;
+      dynloan[3][i-1] = interestHelper; interestHelper = 0;
+      dynloan[4][i-1] = 0;  // not used
+      dynloan[5][i-1] = dynloan[5][i-2];
+      jumper = 1;
+    } else {
+      (i === 1) ? dynloan[0][i-1] = 1 + terminal[0] : dynloan[0][i-1] = dynloan[0][i-2-jumper] + 1;
+      (i === 1) ? dynloan[1][i-1] = terminal[5] + helper.wohnungsbau - helper.totalloanpay : dynloan[1][i-1] = dynloan[5][i-2-jumper];
+      dynloan[3][i-1] = dynloan[1][i-1] * (inputs.interestdebt / 12);  // interest
+      interestHelper += dynloan[3][i-1];
+      terminalLoan[3] += dynloan[3][i-1];
+      dynloan[2][i-1] = Math.min(inputs.repay, -(dynloan[1][i-1] + dynloan[3][i-1]));
+      terminalLoan[2] += dynloan[2][i-1];
+      repayHelper += dynloan[2][i-1];
+      //dynloan[4][i-1] = 5;  switched off
+      dynloan[5][i-1] = dynloan[1][i-1] + dynloan[2][i-1] + dynloan[3][i-1];
+      if(dynloan[0][i-1] % 12 === 0 || y === i){
+        dynloan[6][i-1] = true;
+        y += 1;
+      } else {
+        dynloan[6][i-1] = false;
+      }
+      jumper = 0;
+    }
+  }
+
+  // transpose dynloan
+  dynloanT = dynloan[0].map(function(col,i){
+    return dynloan.map(function(row){
+      return row[i];
+    })
+  });
+
+  // attach final rows
+  dynloanT.push(['Summen', terminal[5] + helper.wohnungsbau - helper.totalloanpay ,terminalLoan[2], terminalLoan[3],,terminal[5] + helper.wohnungsbau - helper.totalloanpay + terminalLoan[2] + terminalLoan[3] ,,true]);
+
+  // interest loan
+  //helper.interestloan = inputs.interestdebt === 0 ? 0 : helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
+  helper.interestloan = -terminalLoan[3];
+
+  // amount loan w interest
+  //helper.totalloanwinterest = helper.totalloan + helper.interestloan;
+  helper.totalloanwinterest = helper.totalloan + helper.interestloan;
 
 
-  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
+  /* ******** 6. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.homesave.id;
   // first result container
 
@@ -533,13 +604,13 @@ exports.homesave = function(inputs){
   result._1.termloan                = _.extend(localElems['termloan'],                {"value": helper.termloan});
 
   // second result container
+  // a) saving period
   result._2.title = 'Entwicklung Bausparguthaben';
-  result._2.header = ['Monat', 'Guthaben Monatsanfang', 'Sparbeitrag', 'Zinsen','Prämien','Guthaben Monatsende'];
+  result._2.header1 = ['Monat', 'Guthaben Monatsanfang', 'Sparbeitrag', 'Zinsen','Prämien','Guthaben Monatsende'];
   result._2.body = dynT;
-  //result._2.bodylast = dynLast;
-
-
-
+  // b) repayment period
+  result._2.header2 = ['Monat', 'Saldo Monatsanfang', 'Rückzahlungsrate', 'Zinsen','Prämien','Saldo Monatsende'];
+  result._2.body2 = dynloanT;
 
   return result;
 };
