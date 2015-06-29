@@ -381,12 +381,13 @@ exports.transfertax = function(inputs){
 exports.homesave = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
-  var result = {}; result._1 = {};
+  var result = {}; result._1 = {}; result._2 = {};
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; var dynT;
   var helper = {}; var q, replacementrate;
   var localElems = calcElems.homesave.results_1;
   var expectedInputs = calcElems.homesave.inputs;
   var errorMap;
-  var termsaveFullMth, partialMth;
+  var termsaveFullMth, partialMth, i, interestaccum = 0;
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
@@ -400,7 +401,7 @@ exports.homesave = function(inputs){
 
   /* ******** 3. COMPUTATIONS ******** */
 
-  // static calculations
+  // STATIC COMPUTATIONS
   // helper vars
   q = 1 + inputs.interestsave;
   r = inputs.interestdebt / 12;
@@ -452,6 +453,34 @@ exports.homesave = function(inputs){
   // number of loan payments
   helper.totalloanpays = helper.termloan * 12;
 
+
+
+  // DYNAMIC COMPUTATIONS
+  interestaccum = 0;  // accumulator for semiperiodical interest PAngV
+  for(i = 1; i <= termsaveFullMth * 12; i++){
+    dyn[0][i-1] = i;                                                          // month
+    (i === 1) ? dyn[1][i-1] = 0 : dyn[1][i-1] = dyn[5][i-2];                  // balance bop
+    dyn[2][i-1] = inputs.saving;                                              // savings
+    interestaccum += dyn[1][i-1] * (inputs.interestsave / 12);
+    if (i % 12 === 0){ // end of year
+      dyn[3][i-1] = interestaccum; interestaccum = 0;
+    } else {
+      dyn[3][i-1] = 0;
+    }
+    dyn[4][i-1] = 0;                                                       // other pays / wohnungsbaupr
+    dyn[5][i-1] = dyn[1][i-1] + dyn[2][i-1] + dyn[3][i-1];                    // balance eop
+  }
+
+  // transpose dyn
+  dynT = dyn[0].map(function(col,i){
+    return dyn.map(function(row){
+      return row[i];
+    })
+  });
+
+
+
+
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.homesave.id;
   // first result container
@@ -472,7 +501,11 @@ exports.homesave = function(inputs){
   result._1.totalloanpays           = _.extend(localElems['totalloanpays'],           {"value": helper.totalloanpays});
   result._1.termloan                = _.extend(localElems['termloan'],                {"value": helper.termloan});
 
-
+  // second result container
+  result._2.title = 'Entwicklung Bausparguthaben';
+  result._2.header = ['Monat', 'Guthaben Monatsanfang', 'Sparbeitrag', 'Zinsen','Prämien','Guthaben Monatsende'];
+  result._2.body = dynT;
+  //result._2.bodylast = dynLast;
 
 
 

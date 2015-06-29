@@ -1,5 +1,5 @@
-//- property-rent-template
-script(id='property-rent-results-2-template', type='text/x-handlebars-template')
+//- property-homesave-template
+script(id='property-homesave-results-2-template', type='text/x-handlebars-template')
   div.ibox.float-e-margins
     div.ibox-title
       h5
@@ -14,6 +14,8 @@ script(id='property-rent-results-2-template', type='text/x-handlebars-template')
             th(style='text-align: right;padding:2px;') {{{this.[1]}}}
             th(style='text-align: right;padding:2px;') {{{this.[2]}}}
             th(style='text-align: right;padding:2px;') {{{this.[3]}}}
+            th(style='text-align: right;padding:2px;') {{{this.[4]}}}
+            th(style='text-align: right;padding:2px;') {{{this.[5]}}}
             | {{/with}}
         tbody
           | {{#each obj.body}}
@@ -22,11 +24,6 @@ script(id='property-rent-results-2-template', type='text/x-handlebars-template')
             td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
           | {{/each}}
-          | {{#if obj.bodylast}}
-          tr
-            td(style='text-align: left;padding:2px;') {{numFormat obj.bodylast.[0] 2}}
-            td(style='text-align: right;padding:2px;') {{numFormat obj.bodylast.[1] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat obj.bodylast.[2] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat obj.bodylast.[3] this.digits}}
-          | {{/if}}
