@@ -386,6 +386,7 @@ exports.homesave = function(inputs){
   var localElems = calcElems.homesave.results_1;
   var expectedInputs = calcElems.homesave.inputs;
   var errorMap;
+  var termsaveFullMth, partialMth;
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
@@ -399,16 +400,21 @@ exports.homesave = function(inputs){
 
   /* ******** 3. COMPUTATIONS ******** */
 
+  // static calculations
   // helper vars
   q = 1 + inputs.interestsave;
   r = inputs.interestdebt / 12;
   replacementrate = inputs.saving * (12 + (11/2)*(q-1));
+  termsaveFullMth = Math.floor(inputs.termsave/(1/12))/12;
 
   // number of inflow payments
-  helper.numberpays = inputs.termsave * 12;
+  helper.numberpays = termsaveFullMth * 12;
 
   // total available savings w/o wohnungsbauprämie
-  helper.finalsavings = replacementrate * (Math.pow(q,inputs.termsave)-1)/(q-1) + inputs.initialpay * Math.pow(q,inputs.termsave)  - inputs.initialfee * Math.pow(q,inputs.termsave);
+  helper.accrue = inputs.interestsave === 0 ? inputs.saving * 12 * termsaveFullMth : replacementrate * (Math.pow(q,termsaveFullMth)-1)/(q-1);
+  helper.finalsavings = helper.accrue + inputs.initialpay * Math.pow(q,termsaveFullMth)  - inputs.initialfee * Math.pow(q,termsaveFullMth);
+  partialMth = (inputs.termsave - termsaveFullMth) * inputs.interestsave * helper.finalsavings; // accrue terminal amount for partial month
+  helper.finalsavings += partialMth;
 
   // total payments
   helper.totalpays = helper.numberpays * inputs.saving;
@@ -420,7 +426,7 @@ exports.homesave = function(inputs){
   helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 21600 ? true : false;
 
   // amount of Wohnungsbauprämie
-  helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, inputs.termsave * 45.06 * (1 + Number(inputs.marriage)));
+  helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, termsaveFullMth * 45.06 * (1 + Number(inputs.marriage)));
 
   // total available savings w wohnungsbauprämie
   helper.finalsavingswohnungsbau = helper.finalsavings + helper.wohnungsbau;
@@ -432,10 +438,10 @@ exports.homesave = function(inputs){
   helper.totalloan = helper.totalloanpay - helper.finalsavingswohnungsbau;
 
   // term loan
-  helper.termloan = Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
+  helper.termloan = inputs.interestdebt === 0 ? helper.totalloan / (12 * inputs.repay) : Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
 
   // interest loan
-  helper.interestloan = helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
+  helper.interestloan = inputs.interestdebt === 0 ? 0 : helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
 
   // amount loan w interest
   helper.totalloanwinterest = helper.totalloan + helper.interestloan;
