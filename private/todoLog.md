@@ -14,6 +14,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * landing-page animations
 * modals for zoom -> popups for results etc
 * invert question marks + put them at the end
+* establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 
 
 
@@ -25,7 +26,9 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * check grammar and style
 
 
-
+***** NICE-TO-HAVE TASKS ******
+* yuidoc-conform documentation
+* single var per function style
 
 
 ***** CALCULATORS TO BE ADDED ******
