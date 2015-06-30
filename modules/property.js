@@ -380,7 +380,10 @@ exports.transfertax = function(inputs){
  */
 exports.homesave = function(inputs){
 
+
+
   /* ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();  helpers.errors.clear();
   var result = {}; result._1 = {}; result._2 = {};
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; var dynT;
   var dynloan = []; dynloan[0] = []; dynloan[1] = []; dynloan[2] = []; dynloan[3] = []; dynloan[4] = []; dynloan[5] = []; dynloan[6] = []; dynloan[7] = []; var dynloanT;
@@ -462,7 +465,7 @@ exports.homesave = function(inputs){
 
   // STATIC CALCS
   helper.finalsavings = terminal[5];  // final w/o Wohnungsbau
-  helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 21600 ? true : false;   // entitled to 'Wohnungsbauprämie?'
+  helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 25600 ? true : false;   // entitled to 'Wohnungsbauprämie?'
   //helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, termsaveFullY * 45.06 * (1 + Number(inputs.marriage)));  // amount of Wohnungsbauprämie for full year
   helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * helper.wohnungsbau;
   // total available savings w wohnungsbauprämie
@@ -583,7 +586,7 @@ exports.homesave = function(inputs){
   helper.totalloanwinterest = helper.totalloan + helper.interestloan;
 
 
-  /* ******** 6. CONSTRUCT RESULT OBJECT ******** */
+  /* ******** 6. CONSTRUCT RESULT DATA OBJECT ******** */
   result.id = calcElems.homesave.id;
   // first result container
 
@@ -611,6 +614,32 @@ exports.homesave = function(inputs){
   // b) repayment period
   result._2.header2 = ['Monat', 'Saldo Monatsanfang', 'Rückzahlungsrate', 'Zinsen','Prämien','Saldo Monatsende'];
   result._2.body2 = dynloanT;
+
+
+  /* ******** 7. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
+  if (helper.totalloan <= 0.004999){  // case where no loan is necessary
+    helpers.messages.set("Hinweis: Das Bausparguthaben am Ende der Ansparphase übersteigt die (ggf. um den Auszahlungsprozentsatz adjustierte) Bausparsumme. Daher  wird kein Darlehen gewährt und ein Darlehen ist auch nicht notwendig.",2);
+    result._1.totalloanwinterest      = _.extend(localElems['totalloanwinterest'],      {"value": 0});
+    delete result._1.totalloan; delete result._1.interestloan; delete result._1.totalloanpays; delete result._1.termloan;
+    delete result._2.header2; delete result._2.body2;
+  }
+
+  if (helper.savingratio <= 40) {  // case where saving ratio is lt 40 %
+    helpers.messages.set("Hinweis: Die Ansparquote liegt unter 40 % und ist damit sehr niedrig. Prüfen Sie, ob das eingegebene Szenario vertragskonform ist. Um die Ansparquote zu erhöhen, können sie zum Beispiel die Bausparsumme vermindern, den Sparbeitrag erhöhen oder die Anspardauer erhöhen.",2);
+  }
+
+  if (inputs.interestsave > inputs.interestdebt){
+    helpers.messages.set("Hinweis: Der Guthabenzinssatz von " + inputs.interestsave * 100 + " % liegt über dem Darlehenszinssatz von " + inputs.interestdebt * 100 + " %. Dies kommt nur in Ausnahmefällen vor, daher überprüfen Sie bitte ob die Zinssätze korrekt sind.",2);
+  }
+
+  if (helper.totalloan * (inputs.interestdebt / 12) >= inputs.repay ){
+    helpers.errors.set("Realistische Ergebnisse konnten nicht berechnet werden, da die monatliche Zinslast von " + Math.round(helper.totalloan * (inputs.interestdebt / 12) * 100)/100 + " für das Darlehen in diesem Szenario nicht kleiner ist als die Rückzahlungsrate von " + inputs.repay + ". Das Darlehen kann also nicht getilgt werden. Verringern Sie die Bausparsumme bzw. erhöhen Sie den Sparbeitrag, die Rückzahlungsrate oder die Anspardauer.",undefined , true);
+    return helpers.errors.errorMap;
+  }
+
+
+  // attach messages
+  result.messages = helpers.messages.messageMap;
 
   return result;
 };

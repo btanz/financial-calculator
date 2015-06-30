@@ -42,6 +42,7 @@ script(id='property-homesave-results-2-template', type='text/x-handlebars-templa
           | {{/if}}
           | {{/each}}
       br
+      | {{#if obj.header2}}
       h4
         i.fa.fa-arrow-left.fa-lg.text-navy &nbsp
         | Rückzahlungsphase
@@ -77,3 +78,4 @@ script(id='property-homesave-results-2-template', type='text/x-handlebars-templa
             td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
           | {{/if}}
           | {{/each}}
+      | {{/if}}

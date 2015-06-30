@@ -131,7 +131,7 @@ block content
       div.ibox-content
         table.table.table-striped
           thead
-            | {{#each obj}}
+            | {{#each obj._1}}
             tr
               th(class='{{tableElemImportance this.importance}}')
                 | {{this.description}} &nbsp
@@ -140,6 +140,11 @@ block content
                 | {{/unless}}
               th(class='{{tableElemImportance this.importance}}', style='text-align: right') {{numFormat this.value this.digits this.type}}  {{this.unit}}
             | {{/each}}
+        | {{#if obj.messages}}
+        | {{#each obj.messages}}
+        p.text-danger  - {{this.messageText}}
+        | {{/each}}
+        | {{/if}}
 
   //- main results error template
   script(id='main-results-error-template', type='text/x-handlebars-template')

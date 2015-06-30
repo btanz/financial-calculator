@@ -2,8 +2,54 @@ var validator = require('validator');
 var _ = require('underscore');
 
 
+// a messaging object that is intended to be used for communicating messages occurring in calculations to the user
+// it is used for messages that allow continuation of the calculation
+// usage in calculation modules: (helpers).messages.set("My message",1)
+// the message is then returned to the user along with the results
+// massgeType is a number that represents
+// 1  error
+// 2  notification
+// 3  success
+exports.messages = {
+  messageText: '',
+  messageType: '',
+  messageMap: [],
+  set: function (messageText, messageType){
+    this.messageText = messageText;
+    this.messageType = messageType;
+    this.messageMap.push(_.pick(this,'messageText','messageType'));
+  },
+  clear: function(){
+    this.messageMap = [];
+  }
+};
+
+// a messaging object that is intended to be used for communicating error messages occurring in calculations to the user
+// it is used for messages that DO NOT allow continuation of the calculation
+// usage in calculation modules: (helpers).errors.set("My error message")
+// the message is then returned to the user along with the results
+exports.errors = {
+  errorMessage: '',
+  errorInput: '',
+  errorPrint: '',
+  errorMap: [],
+  set: function (errorMessage, errorKey, printToUser){
+    this.errorMessage = errorMessage;
+    this.errorInput = errorKey;
+    this.errorPrint = printToUser || false;
+    this.errorMap.push(_.pick(this,'errorMessage','errorKey','errorPrint'));
+  },
+  clear: function(){
+    this.errorMap = [];
+  }
+};
+
+
+
+
 /* VALIDATEINPUTS function that validates an object of inputs against an object of properties
  * TODO finish documentation
+ * TODO integrate exports.errors
  * ARGUMENTS
  *   inputs                   object; inputs such as {'price': 20.00, 'maturity': 4}
  *   expectedInputs           object; expected properties; {'price': 'Number','maturity': 'Number' }

@@ -2524,7 +2524,7 @@
         "label": "Sparbeitrag",
         "placeholder": "Monatlicher Sparbeitrag",
         "addon": "EUR / Monat",
-        "value": "100.00",
+        "value": "250.00",
         "tooltip": "Geben Sie den Beitrag ein, welcher in der Ansparphase monatlich in den Bausparvertrag eingezahlt wird. Es wird unterstellt, dass die Zahlung jeweils am Monatsende (nachschüssig) erfolgt.",
         "type": "number",
         "vtype": "number",
