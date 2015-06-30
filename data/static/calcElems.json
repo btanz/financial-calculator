@@ -2483,7 +2483,7 @@
   "homesave": {
     "id": "property-homesave",
     "name": "Bausparrechner",
-    "description": "TBC",
+    "description": "Mit dem Bausparrechner können Sie Bausparverträge berechnen und Spar- sowie Tilgungspläne analysieren. Ermitteln Sie, ob sich ein Bausparvertrag für Sie lohnt oder vergleichen Sie die Angebote verschiedener Bausparkassen.",
     "inputs": {
       "principal": {
         "id": "property-homesave-principal",
