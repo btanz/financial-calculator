@@ -661,17 +661,17 @@ exports.homesave = function(inputs){
    6.D SECOND CHART
    */
   var labels2 = [];
-  var series2 = []; series2[0] = []; series2[1] = []; series2[2] = [];
+  var series2 = []; series2[0] = []; series2[1] = [];
   dynloanT.forEach(function(element, index){
     if(element[9] === true){
-      labels2.push(element[0]); series2[0].push(-element[1]); series2[1].push(element[2]); series2[2].push(-element[3]);
+      labels2.push(element[0]); series2[0].push(-element[5]); series2[1].push(element[2] + element[3]);
     }
   });
 
   result._chart2.id = 'chart2';
   result._chart2.title = 'Kapitalentwicklung Rückzahlungsphase';
-  result._chart2.legend = ['Saldo Start', 'Rückzahlung', 'Zins'];
-  result._chart2.label = {x: 'Jahr', y: "EndSaldo / Restschuld"}
+  result._chart2.legend = ['Restschuld Jahresende', 'Tilgung'];
+  result._chart2.label = {x: 'Jahr', y: 'Restschuld Jahresanfang'}
   result._chart2.type = 'Bar';
   result._chart2.data = {labels: labels2, series: series2};
   result._chart2.options = {stackBars: true, seriesBarDistance: 10};
