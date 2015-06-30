@@ -443,7 +443,7 @@ exports.homesave = function(inputs){
         dyn[3][i-1] = interestaccum; interestaccum = 0;                         // interest
         dyn[6][i-1] = true;                                                     // full year indicator
         helper.wohnungsbautemp = (i <= 12) ? inputs.initialpay : 0;
-        helper.wohnungsbau += Math.min(((helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) > 50 ? (helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) : 0) * 0.088, 45.06 * (1 + Number(inputs.marriage))); // amount of Wohnungsbauprämie
+        helper.wohnungsbau += Math.round(100 * Math.min(((helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) > 50 ? (helper.intoyear(dyn[0][i-1]) * inputs.saving + dyn[3][i-1] + helper.wohnungsbautemp) : 0) * 0.088, 45.056 * (1 + Number(inputs.marriage)))) / 100; // amount of Wohnungsbauprämie
         // do one more loop for annual aggregates if we are in the last period of saving term and this period is not a full year
         !(dyn[0][i-1] % 12 === 0) && (i === termsaveFullMth * 12 + termsaveFullY) ? y += 1 : y = y;
       } else {
