@@ -58,8 +58,16 @@ app.controller = (function() {
 
             // compile charts
             if (data._chart1){
-              app.helpers.compileTemplate('#results-11', '#main-results-chart1-template', {});
-              new Chartist.Pie('#chart1', data._chart1.data, data._chart1.options);
+              console.log('#'+data._chart1.id);
+              app.helpers.compileTemplate('#results-11', '#main-results-chart-template', data._chart1);
+              new Chartist[data._chart1.type]('#'+data._chart1.id, data._chart1.data, data._chart1.options, data._chart1.responsiveoptions);
+            }
+
+            // compile charts
+            if (data._chart2){
+              console.log('#'+data._chart2.id);
+              app.helpers.compileTemplate('#results-12', '#main-results-chart-template', data._chart2);
+              new Chartist[data._chart2.type]('#'+data._chart2.id, data._chart2.data, data._chart2.options, data._chart2.responsiveoptions);
             }
 
             // initialize new tooltips

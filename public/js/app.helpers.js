@@ -25,11 +25,11 @@ app.helpers = (function($) {
 
   clearAllResultsTemplates = function(){
     compileTemplate('#results-1','#main-results-input-template',{});
+    clearResultsTemplate('#results-11');
     clearResultsTemplate('#results-2');
+    clearResultsTemplate('#results-12');
     clearResultsTemplate('#results-3');
     clearResultsTemplate('#results-4');
-    clearResultsTemplate('#results-5');
-    clearResultsTemplate('#results-6');
   };
 
   return {

@@ -161,6 +161,13 @@ exports.propertyreturn = function(inputs){
 
 
 
+
+
+
+
+
+
+
 /* PROPERTY-RENT function that computes rent over given period
  * ARGUMENTS XXX todo
 
@@ -360,6 +367,9 @@ exports.transfertax = function(inputs){
     series: [totalprice - tax, tax]
 
   };
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Chart';
+  //result._chart1.legend = ['First', 'Second', 'Third']; todo: add legend
   result._chart1.options = {showLabel: true, donut: false, labelOffset: 10};
   result._chart1.type = 'Pie';
 
@@ -367,6 +377,11 @@ exports.transfertax = function(inputs){
   return result
 
 };
+
+
+
+
+
 
 
 
@@ -384,9 +399,9 @@ exports.homesave = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();  helpers.errors.clear();
-  var result = {}; result._1 = {}; result._2 = {};
-  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; var dynT;
-  var dynloan = []; dynloan[0] = []; dynloan[1] = []; dynloan[2] = []; dynloan[3] = []; dynloan[4] = []; dynloan[5] = []; dynloan[6] = []; dynloan[7] = []; var dynloanT;
+  var result = {}; result._1 = {}; result._2 = {}; result._chart1 = {}; result._chart2 = {};
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = []; dyn[9] = []; var dynT;
+  var dynloan = []; dynloan[0] = []; dynloan[1] = []; dynloan[2] = []; dynloan[3] = []; dynloan[4] = []; dynloan[5] = []; dynloan[6] = []; dynloan[7] = []; dynloan[8] = []; dynloan[9] = []; var dynloanT;
   var helper = {}; var q, replacementrate;
   var localElems = calcElems.homesave.results_1;
   var expectedInputs = calcElems.homesave.inputs;
@@ -427,14 +442,16 @@ exports.homesave = function(inputs){
   helper.wohnungsbau = 0;
   for(i = 1, y = termsaveFullMth * 12 + termsaveFullY; i <= y; i++){
     if (dyn[6][i-2]){   // if last iteration was full year such that annual vals should be computed
-      dyn[6][i-1] = false;
-      dyn[7][i-1] = true;  // full year view indicator
-      dyn[0][i-1] = String(Math.ceil((i) / 13)) + '. Jahr';
+      dyn[0][i-1] = Math.ceil((i) / 13);
       dyn[1][i-1] = dyn[1][i - helper.intoyear(dyn[0][i-2]) - 1];
       dyn[2][i-1] = inputs.saving * helper.intoyear(dyn[0][i-2]);
       dyn[3][i-1] = dyn[3][i-2];
       dyn[4][i-1] = 0;
       dyn[5][i-1] = dyn[5][i-2];
+      dyn[6][i-1] = false;
+      dyn[7][i-1] = true;       // special element view indicator (elements such as full year, sums, ect)
+      dyn[8][i-1] = ". Jahr";  // unit to be shown in the output table behind time index
+      dyn[9][i-1] = true;       // true iff element represents full year value
       jumper = 1;
     } else {
       dyn[7][i-1] = false;  // full year view indicator
@@ -537,14 +554,16 @@ exports.homesave = function(inputs){
   for(i = 1, y = Math.floor(helper.totalloanpays) + 1; i <= y; i++){
 
     if (dynloan[6][i-2]) {   // if last iteration was full year such that annual vals should be computed
-      dynloan[6][i-1] = false;
-      dynloan[7][i-1] = true;  // full year view indicator
-      dynloan[0][i-1] = Math.ceil(String(dynloan[0][i-2] / 12)) + '. Jahr';
+      dynloan[0][i-1] = Math.ceil(dynloan[0][i-2] / 12);
       dynloan[1][i-1] = dynloan[1][i - Math.min(helper.intoyear(dynloan[0][i-2]), i-1) - 1];
       dynloan[2][i-1] = repayHelper; repayHelper = 0;
       dynloan[3][i-1] = interestHelper; interestHelper = 0;
       dynloan[4][i-1] = 0;  // not used
       dynloan[5][i-1] = dynloan[5][i-2];
+      dynloan[6][i-1] = false;
+      dynloan[7][i-1] = true;       // special element view indicator (elements such as full year, sums, ect)
+      dynloan[8][i-1] = ". Jahr";   // unit to be shown in the output table behind time index
+      dynloan[9][i-1] = true;       // true iff element represents full year value
       jumper = 1;
     } else {
       (i === 1) ? dynloan[0][i-1] = 1 + terminal[0] : dynloan[0][i-1] = dynloan[0][i-2-jumper] + 1;
@@ -588,7 +607,9 @@ exports.homesave = function(inputs){
 
   /* ******** 6. CONSTRUCT RESULT DATA OBJECT ******** */
   result.id = calcElems.homesave.id;
-  // first result container
+  /*
+    6.A FIRST RESULT CONTAINER
+  */
 
   //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
   result._1.finalsavingswohnungsbau = _.extend(localElems['finalsavingswohnungsbau'], {"value": helper.finalsavingswohnungsbau});
@@ -606,7 +627,9 @@ exports.homesave = function(inputs){
   result._1.totalloanpays           = _.extend(localElems['totalloanpays'],           {"value": helper.totalloanpays});
   result._1.termloan                = _.extend(localElems['termloan'],                {"value": helper.termloan});
 
-  // second result container
+  /*
+   6.B SECOND RESULT CONTAINER
+   */
   // a) saving period
   result._2.title = 'Entwicklung Bausparguthaben';
   result._2.header1 = ['Monat', 'Guthaben Monatsanfang', 'Sparbeitrag', 'Zinsen','Prämien','Guthaben Monatsende'];
@@ -614,6 +637,45 @@ exports.homesave = function(inputs){
   // b) repayment period
   result._2.header2 = ['Monat', 'Saldo Monatsanfang', 'Rückzahlungsrate', 'Zinsen','Prämien','Saldo Monatsende'];
   result._2.body2 = dynloanT;
+
+  /*
+   6.C FIRST CHART
+   */
+  var labels1 = [];
+  var series1 = []; series1[0] = []; series1[1] = []; series1[2] = [];
+  dynT.forEach(function(element, index){
+    if(element[9] === true){
+    labels1.push(element[0]); series1[0].push(element[1]); series1[1].push(element[2]); series1[2].push(element[3]);
+    }
+  });
+
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Kapitalentwicklung Ansparphase';
+  result._chart1.legend = ['Guthaben Start', 'Sparbeitrag', 'Zins'];
+  result._chart1.label = {x: 'Jahr', y: "Endguthaben"}
+  result._chart1.type = 'Bar';
+  result._chart1.data = {labels: labels1, series: series1};
+  result._chart1.options = {stackBars: true, seriesBarDistance: 10};
+
+  /*
+   6.D SECOND CHART
+   */
+  var labels2 = [];
+  var series2 = []; series2[0] = []; series2[1] = []; series2[2] = [];
+  dynloanT.forEach(function(element, index){
+    if(element[9] === true){
+      labels2.push(element[0]); series2[0].push(-element[1]); series2[1].push(element[2]); series2[2].push(-element[3]);
+    }
+  });
+
+  result._chart2.id = 'chart2';
+  result._chart2.title = 'Kapitalentwicklung Rückzahlungsphase';
+  result._chart2.legend = ['Saldo Start', 'Rückzahlung', 'Zins'];
+  result._chart2.label = {x: 'Jahr', y: "EndSaldo / Restschuld"}
+  result._chart2.type = 'Bar';
+  result._chart2.data = {labels: labels2, series: series2};
+  result._chart2.options = {stackBars: true, seriesBarDistance: 10};
+
 
 
   /* ******** 7. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */

@@ -25,97 +25,88 @@ block content
   div.wrapper.wrapper-content
     div.row
       div.col-lg-6
+        div
+          div.ibox.float-e-margins
+            div.ibox-title
+              h5
+                i.fa.fa-edit.fa-lg.text-navy &nbsp
+                | Eingaben
 
-        div.ibox.float-e-margins
-          div.ibox-title
-            h5
-              i.fa.fa-edit.fa-lg.text-navy &nbsp
-              | Eingaben
-
-          div.ibox-content
-            form
-              each input in obj.inputs
-                - var rank = input.secondary ? 'm-l-lg' : ''
-                - var hide = input.hide ? 'hide' : ''
-                //- template for text input fields
-                if input.type === 'text'
-                  if input.linetop
-                    div.hr-line-dashed
-                  div.form-group(class=rank, class=hide)
-                    label(for=input.id)
-                      | #{input.label} &nbsp
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                    if input.addon
-                      div.input-group
+            div.ibox-content
+              form
+                each input in obj.inputs
+                  - var rank = input.secondary ? 'm-l-lg' : ''
+                  - var hide = input.hide ? 'hide' : ''
+                  //- template for text input fields
+                  if input.type === 'text'
+                    if input.linetop
+                      div.hr-line-dashed
+                    div.form-group(class=rank, class=hide)
+                      label(for=input.id)
+                        | #{input.label} &nbsp
+                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                      if input.addon
+                        div.input-group
+                          input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+                          span.input-group-addon= input.addon
+                      else
                         input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-                        span.input-group-addon= input.addon
-                    else
-                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
 
-                //- template for number input fields
-                if input.type === 'number'
-                  if input.linetop
-                    div.hr-line-dashed
-                  div.form-group(class=rank, class=hide)
-                    label(for=input.id)
-                      | #{input.label} &nbsp
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                    if input.addon
-                      div.input-group
+                  //- template for number input fields
+                  if input.type === 'number'
+                    if input.linetop
+                      div.hr-line-dashed
+                    div.form-group(class=rank, class=hide)
+                      label(for=input.id)
+                        | #{input.label} &nbsp
+                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                      if input.addon
+                        div.input-group
+                          input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+                          span.input-group-addon= input.addon
+                      else
                         input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-                        span.input-group-addon= input.addon
-                    else
-                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
 
-                //- template for select input fields
-                if input.type === 'select'
-                  if input.linetop
-                    div.hr-line-dashed
-                  div.form-group(class=rank, class=hide)
-                    label(for=input.id)
-                      | #{input.label} &nbsp
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                    select(id=input.id, class="form-control")
-                      each option, index in input.options
-                        - var optgroup = (option === '_OPTGROUP')
-                          if optgroup
-                            optgroup(label=index)
-                          else
-                            option(value=index)= option
+                  //- template for select input fields
+                  if input.type === 'select'
+                    if input.linetop
+                      div.hr-line-dashed
+                    div.form-group(class=rank, class=hide)
+                      label(for=input.id)
+                        | #{input.label} &nbsp
+                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                      select(id=input.id, class="form-control")
+                        each option, index in input.options
+                          - var optgroup = (option === '_OPTGROUP')
+                            if optgroup
+                              optgroup(label=index)
+                            else
+                              option(value=index)= option
 
-                //- template for date input fields
-                if input.type === 'date'
-                  if input.linetop
-                    div.hr-line-dashed
-                  div.form-group(class=rank, class=hide)
-                    label(for=input.id)
-                      | #{input.label} &nbsp
-                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                    div.input-group.date
-                      span.input-group-addon
-                        i.fa.fa-calendar
-                      input(type='text', id=input.id, value=input.value, class='form-control')
+                  //- template for date input fields
+                  if input.type === 'date'
+                    if input.linetop
+                      div.hr-line-dashed
+                    div.form-group(class=rank, class=hide)
+                      label(for=input.id)
+                        | #{input.label} &nbsp
+                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                      div.input-group.date
+                        span.input-group-addon
+                          i.fa.fa-calendar
+                        input(type='text', id=input.id, value=input.value, class='form-control')
 
-              button.btn.btn-primary.btn-block.m-t#btn-calculate Berechnen
+                button.btn.btn-primary.btn-block.m-t#btn-calculate Berechnen
 
 
-      div.col-lg-6#results-1
+        div#results-2
+        div#results-3
 
-
-      div.col-lg-6#results-2
-
-    div.row
-      div.col-lg-6#results-3
-
-    div.row
-      div.col-lg-6#results-4
-
-    div.row
-      div.col-lg-6#results-11
-
-    div.row
-      div.col-lg-6#results-12
-
+      div.col-lg-6
+        div#results-1
+        div#results-11
+        div#results-12
+        div#results-13
 
 
   //- handlebars templates to be used on the client for output
@@ -181,14 +172,28 @@ block content
           p Fülle alle Eingabefelder aus und drücke den 'Berechnen'-Button, um die Ergebnisse darzustellen.
 
   //- results chart1 template
-  script(id='main-results-chart1-template', type='text/x-handlebars-template')
+  script(id='main-results-chart-template', type='text/x-handlebars-template')
     div.ibox.float-e-margins
       div.ibox-title
         h5
           i.fa.fa-check-square-o.fa-lg.text-navy &nbsp
-          | Chart
+          | {{obj.title}}
       div.ibox-content
-        div.ct-chart.ct-golden-section#chart1
+        p.ct-ylabel {{obj.label.y}}
+        div.ct-chart.ct-golden-section(id='{{obj.id}}')
+        p.ct-xlabel {{obj.label.x}}
+        ul.ct-legend
+          | {{#if obj.legend.[0]}}
+          li.ct-series-a {{obj.legend.[0]}}
+          | {{/if}}
+          | {{#if obj.legend.[1]}}
+          li.ct-series-b {{obj.legend.[1]}}
+          | {{/if}}
+          | {{#if obj.legend.[2]}}
+          li.ct-series-c {{obj.legend.[2]}}
+          | {{/if}}
+
+
 
 
   //- todo: Rework to switch / find more elegant solution

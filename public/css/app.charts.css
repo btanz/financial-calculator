@@ -19,3 +19,96 @@
   /* outline width */
   stroke-width: 4px;
 }
+
+
+/******* BAR CHARTS **********/
+.ct-series-a .ct-bar {
+  stroke-width: 12px;
+
+
+  stroke: rgba(28,132,198,0.7);
+  /*stroke: rgba(26,179,148,0.2); */
+  /* stroke: rgba(237,85,101,0.2); */
+}
+
+.ct-series-b .ct-bar {
+  stroke-width: 12px;
+
+
+  stroke: rgba(28,132,198,0.5);
+  /*stroke: rgba(26,179,148,0.7);*/
+  /*stroke: rgba(237,85,101,0.7);*/
+
+}
+
+.ct-series-c .ct-bar {
+  stroke-width: 12px;
+
+  stroke: rgba(28,132,198,0.3);
+  /*stroke: rgba(26,179,148,1);*/
+  /*stroke: rgba(237,85,101,1);*/
+
+
+  /* stroke: rgba(237,85,101,0.2); */
+}
+
+.ct-series-d .ct-bar {
+  stroke-width: 12px;
+}
+
+
+
+/******* LEGEND **********/
+.ct-legend {
+  padding: 0;
+  text-align: center;
+}
+
+.ct-legend li {
+  position: relative;
+  padding-left: 1.3em;
+  margin-left: 0.8em;
+  list-style-type: none;
+  display: inline;
+}
+
+.ct-legend li::before {
+  height: 1em;
+  width: 1em;
+  position: absolute;
+  top: 0.2em;
+  left: 0;
+  content: '';
+  border-radius: 0em;
+}
+
+.ct-legend .ct-series-a::before {
+  background-color: rgba(28,132,198,0.7);
+}
+
+.ct-legend .ct-series-b::before {
+  background-color: rgba(28,132,198,0.5);
+}
+
+.ct-legend .ct-series-c::before {
+  background-color: rgba(28,132,198,0.3);
+}
+
+/******* LABELS **********/
+.ct-xlabel{
+  margin-top: -5px;
+  padding-top: 0px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.ct-ylabel{
+  font-weight: 600;
+/*
+  -webkit-transform: rotate(270deg);
+  -moz-transform: rotate(270deg);
+  -o-transform: rotate(270deg);
+  writing-mode: tb-rl;*/
+
+
+}

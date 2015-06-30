@@ -2718,7 +2718,7 @@
       },
       "totalloanpay": {
         "tooltip": "TBD",
-        "description": "Gesamter Auszahlungsbetrag bei Zuteilung",
+        "description": "Auszahlungsbetrag bei Zuteilung",
         "unit": "EUR",
         "digits": 2,
         "importance": "first"
