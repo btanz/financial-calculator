@@ -100,17 +100,13 @@ block content
 
         div#results-2
         div#results-3
+        div#results-4
 
       div.col-lg-6
         div#results-1
         div#results-11
         div#results-12
         div#results-13
-
-
-
-
-
 
 
 
@@ -239,3 +235,7 @@ block content
   - var property_homesave = (obj.id === 'property-homesave')
   if property_homesave
     include ./includes/calculator/property-homesave
+
+  - var property_buyrent = (obj.id === 'property-buyrent')
+  if property_buyrent
+    include ./includes/calculator/property-buyrent

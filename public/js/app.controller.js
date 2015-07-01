@@ -56,6 +56,9 @@ app.controller = (function() {
             if (data._2)
               app.helpers.compileTemplate('#results-2', '#' + data.id + '-results-2-template', data._2);
 
+            if (data._3)
+              app.helpers.compileTemplate('#results-3', '#' + data.id + '-results-3-template', data._3);
+
             // compile charts
             if (data._chart1){
               console.log('#'+data._chart1.id);

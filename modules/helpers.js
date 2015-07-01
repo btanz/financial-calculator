@@ -2,6 +2,14 @@ var validator = require('validator');
 var _ = require('underscore');
 
 
+
+// a simple function that does addition
+// mainly used as callback in _reduce tasks
+exports.add = function(a,b){
+  return a + b;
+};
+
+
 // a messaging object that is intended to be used for communicating messages occurring in calculations to the user
 // it is used for messages that allow continuation of the calculation
 // usage in calculation modules: (helpers).messages.set("My message",1)

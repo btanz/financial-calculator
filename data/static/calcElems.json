@@ -1075,6 +1075,8 @@
       }
     }
   },
+
+
   "propertybuyrent": {
     "id": "property-buyrent",
     "name": "Vergleichsrechner Immobilien kaufen oder mieten",
@@ -1309,8 +1311,46 @@
       }
     },
     "results_1": {
+      "rentfinalwealth": {
+        "description": "Vermögen Mieten",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "rentfinalincome": {
+        "description": "davon verfügbares Wohneinkommen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "rentfinalcost": {
+        "description": "davon Mietkosten",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "rentfinalinterest": {
+        "description": "davon Zinsertrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "rentequity": {
+        "description": "davon Eigenkapital",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      }
     }
   },
+
+
+
   "depinterest": {
     "id": "deposits-interest",
     "name": "Zinsrechner",

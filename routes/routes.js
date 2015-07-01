@@ -96,10 +96,9 @@ router.get('/kaufen-oder-mieten', function(req,res,next){
 });
 
 router.get('/kaufen-oder-mieten/inputs',function(req,res,next){
- /* todo: complete
   var obj = req.query;
-  var results = property.propertyreturn(obj);
-  res.json(results);*/
+  var results = property.buyrent(obj);
+  res.json(results);
 });
 
 
