@@ -783,14 +783,15 @@ exports.buyrent = function(inputs){
    */
   for (i = 1; i <= inputs.period; i++){
     dynBuy[0][i-1] = i;                                        // period
-    dynBuy[1][i-1] = (i === 1)? inputs.price - helper.buyLoan : dynBuy[9][i-2];   // wealth start
+    dynBuy[1][i-1] = (i === 1)? 0 : dynBuy[9][i-2];   // money wealth start
     dynBuy[2][i-1] = (i === 1)? helper.buyLoan : dynBuy[5][i-2];                                                   // residual begin
-    dynBuy[3][i-1] = finance.annualInterestPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);       // annual loan interest
-    dynBuy[4][i-1] = finance.annualAmortizationPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);   // annual loan amortization
-    dynBuy[5][i-1] = finance.annualResidualPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);       // residual end
-    dynBuy[6][i-1] = helper.buyAnnualLoanPayment;
-    dynBuy[7][i-1] = (inputs.income - inputs.debtpay - inputs.maintenance) * 12;       // surplus income
-    dynBuy[8][i-1] = dynBuy[1][i-1] * inputs.equityinterest + (inputs.income - inputs.rent) * (13/2) * inputs.equityinterest;    // interest
+    dynBuy[3][i-1] = finance.annualInterestLinear(dynBuy[2][i-1], 12, inputs.debtinterest, inputs.debtpay);       // annual loan interest
+    dynBuy[4][i-1] = finance.annualAmortizationLinear(dynBuy[2][i-1], 12, inputs.debtinterest, inputs.debtpay);   // annual loan amortization
+    dynBuy[5][i-1] = finance.annualResidualLinear(dynBuy[2][i-1], 12, inputs.debtinterest, inputs.debtpay);       // residual end
+    dynBuy[6][i-1] = dynBuy[3][i-1] + dynBuy[4][i-1];                                                             // loan payment
+    console.log(inputs.income - dynBuy[6][i-1] / 12 - inputs.maintenance);
+    dynBuy[7][i-1] = (inputs.income - inputs.maintenance) * 12 - dynBuy[6][i-1];                                  // annual surplus income
+    dynBuy[8][i-1] = dynBuy[1][i-1] * inputs.equityinterest + (inputs.income - dynBuy[6][i-1] / 12 - inputs.maintenance) * (13/2) * inputs.equityinterest;    // interest
     dynBuy[9][i-1] = dynBuy[1][i-1] + dynBuy[7][i-1] + dynBuy[8][i-1];   // wealth end
   }
 
@@ -807,6 +808,8 @@ exports.buyrent = function(inputs){
   dynBuyT.push(['Gesamt', inputs.price - helper.buyLoan, helper.buyLoan, _.reduce(dynBuy[3], helpers.add, 0), _.reduce(dynBuy[4], helpers.add, 0),dynBuy[5][inputs.period-1],,_.reduce(dynBuy[7], helpers.add, 0),_.reduce(dynBuy[8], helpers.add, 0),]);
 
 
+  var termloan = Math.log(( inputs.debtpay / ((inputs.debtinterest/12) * helper.buyLoan)) / ((inputs.debtpay / ((inputs.debtinterest/12) * helper.buyLoan)) - 1)) / (12 * Math.log(1 + (inputs.debtinterest/12)));
+  console.log(termloan);
 
   /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
   result.id = calcElems.propertybuyrent.id;
@@ -836,12 +839,12 @@ exports.buyrent = function(inputs){
    */
   // second result container
   result._3.title = 'Vermögensentwicklung Kaufen';
-  result._3.header = ['Jahr', 'Vermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen','Tilgung Darlehen','Restschuld Ende','Zahlung Darlehen','Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
+  result._3.header = ['Jahr', 'Geldvermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen','Tilgung Darlehen','Restschuld Ende','Zahlung Darlehen','Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
   result._3.body = dynBuyT;
 
 
   //console.log("HI");
-  console.log(inputs);
+  //console.log(inputs);
   //console.log(helper);
 
 

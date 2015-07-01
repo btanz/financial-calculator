@@ -7,10 +7,87 @@
  * Created by benjamintanz on 01.07.15.
  */
 
+"use strict";
+
 var add,
+    annualInterestLinear,
+    annualAmortizationLinear,
+    annualResidualLinear,
     annualInterestPAngV,
     annualAmortizationPAngV,
     annualResidualPAngV;
+
+
+
+
+/**
+ * annualInterestLinear
+ *
+ * Method that computes annual interest payments for 'subannual' annuity repayment schedules
+ * according to the linear interest method. Each period, the periodical (linear) interest rate is applied
+ * to the beginning-of-period residual account balance. The end of period account balance is computed
+ * by subtracting the periodical payment and adding the periodical interest. Note that this is different
+ * to, for example, the PAngV method, where the 'subannual' account balance is computed as
+ * by subtracting the periodical payment only.
+ *
+ * @method annualInterestLinear
+ * @param residualDebt {Number} debt at the beginning of the year
+ * @param periodsPerYear {Number} the payment periods per year (example: equals 12 for monthly payments)
+ * @param interest {Number} the annual interest as a decimal number (i.e. 0.04)
+ * @param periodicalPayment {Number} the periodical annuity payment
+ * @return annualInterest {Number} Returns the annual interest payment
+ */
+annualInterestLinear = function(residualDebt, periodsPerYear, interest, periodicalPayment){
+  var result = 0, i, iAmount;
+  for (i = 1; i <= periodsPerYear; i++){
+    iAmount = Math.max(residualDebt, 0) * (interest / periodsPerYear);
+    residualDebt -= (periodicalPayment - iAmount);
+    result += iAmount;
+  }
+  return result;
+};
+
+
+/**
+ * annualAmortizationLinear
+ *
+ * Method that computes the annual amortization values for 'subannual' annuity repayment schedules
+ * according to the linear interest method. Each period, the periodical (linear) interest rate is applied
+ * to the beginning-of-period residual account balance. The end of period account balance is computed
+ * by subtracting the periodical payment and adding the periodical interest.
+ *
+ * @method annualAmortizationLinear
+ * @param residualDebt {Number} debt at the beginning of the year
+ * @param periodsPerYear {Number} the payment periods per year (example: equals 12 for monthly payments)
+ * @param interest {Number} the annual interest as a decimal number (i.e. 0.04)
+ * @param periodicalPayment {Number} the periodical annuity payment
+ * @return annualInterest {Number} Returns the annual interest payment
+ */
+annualAmortizationLinear = function(residualDebt, periodsPerYear, interest, periodicalPayment){
+  return Math.min(residualDebt, periodsPerYear * periodicalPayment - annualInterestLinear(residualDebt, periodsPerYear, interest, periodicalPayment));
+};
+
+
+/**
+ * annualResidualLinear
+ *
+ * Method that computes the end of year residual debt values for 'subannual' annuity repayment schedules
+ * according to the linear interest method. Each period, the periodical (linear) interest rate is applied
+ * to the beginning-of-period residual account balance. The end of period account balance is computed
+ * by subtracting the periodical payment and adding the periodical interest.
+ *
+ * @method annualResidualLinear
+ * @param residualDebt {Number} debt at the beginning of the year
+ * @param periodsPerYear {Number} the payment periods per year (example: equals 12 for monthly payments)
+ * @param interest {Number} the annual interest as a decimal number (i.e. 0.04)
+ * @param periodicalPayment {Number} the periodical annuity payment
+ * @return annualInterest {Number} Returns the annual interest payment
+ */
+annualResidualLinear = function(residualDebt, periodsPerYear, interest, periodicalPayment){
+  return residualDebt - annualAmortizationLinear(residualDebt, periodsPerYear, interest, periodicalPayment);
+};
+
+
 
 
 /**
@@ -114,17 +191,6 @@ annualResidualPAngV = function(residualDebt, periodsPerYear, interest, periodica
 
 
 
-/********************** EXPOSE FUNCTIONS *********************/
-module.exports = {
-  annualInterestPAngV: annualInterestPAngV,
-  annualAmortizationPAngV: annualAmortizationPAngV,
-  annualResidualPAngV: annualResidualPAngV
-};
-
-
-
-
-
 
 
 /********************** LOCAL HELPERS *********************/
@@ -135,3 +201,15 @@ module.exports = {
 add = function(a,b){
   return a + b;
 };
+
+/********************** EXPOSE FUNCTIONS *********************/
+module.exports = {
+  annualInterestLinear: annualInterestLinear,
+  annualAmortizationLinear: annualAmortizationLinear,
+  annualResidualLinear: annualResidualLinear,
+  annualInterestPAngV: annualInterestPAngV,
+  annualAmortizationPAngV: annualAmortizationPAngV,
+  annualResidualPAngV: annualResidualPAngV
+};
+
+
