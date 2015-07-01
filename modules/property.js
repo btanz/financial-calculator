@@ -3,6 +3,7 @@ var helpers = require('./helpers');
 var _ = require('underscore');
 var calcElems = require('../data/static/calcElems.json');
 var math = require('./math');
+var finance = require('./finance');
 
 
 
@@ -725,7 +726,7 @@ exports.buyrent = function(inputs){
   var errorMap;
   var helper = {}, i;
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; var dynT;
-  var dynBuy = []; dynBuy[0] = []; dynBuy[1] = []; dynBuy[2] = []; dynBuy[3] = []; dynBuy[4] = []; dynBuy[5] = []; var dynBuyT;
+  var dynBuy = []; dynBuy[0] = []; dynBuy[1] = []; dynBuy[2] = []; dynBuy[3] = []; dynBuy[4] = []; dynBuy[5] = []; dynBuy[6] = []; dynBuy[7] = []; dynBuy[8] = []; dynBuy[9] = []; var dynBuyT;
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
@@ -753,6 +754,7 @@ exports.buyrent = function(inputs){
   helper.rentFinalInterest = inputs.equity * Math.pow(1 + inputs.equityinterest, inputs.period) - inputs.equity + helper.rentAvailableForSavingValue - helper.rentAvailableForSaving;
   helper.rentFinalWealth = inputs.equity + helper.rentFinalIncome + helper.rentFinalInterest - helper.rentFinalCost;
   helper.buyLoan = inputs.price + inputs.priceaddon - inputs.equity;
+  helper.buyAnnualLoanPayment = inputs.debtpay * 12;
 
   /*
    3.B DYNAMIC COMPUTATIONS RENT
@@ -781,12 +783,18 @@ exports.buyrent = function(inputs){
    */
   for (i = 1; i <= inputs.period; i++){
     dynBuy[0][i-1] = i;                                        // period
-    dynBuy[1][i-1] = (i === 1)? inputs.price - helper.buyLoan : dynBuy[5][i-2];   // wealth start
-    dynBuy[2][i-1] = helper.buyLoan;                                             // Restschuld Anfang
-    dynBuy[3][i-1] = (inputs.income - inputs.debtpay) * 12;       // surplus income
-    dynBuy[4][i-1] = dynBuy[1][i-1] * inputs.equityinterest + (inputs.income - inputs.rent) * (13/2) * inputs.equityinterest;    // interest
-    dynBuy[5][i-1] = dynBuy[1][i-1] + dynBuy[3][i-1] + dynBuy[4][i-1];   // wealth end
+    dynBuy[1][i-1] = (i === 1)? inputs.price - helper.buyLoan : dynBuy[9][i-2];   // wealth start
+    dynBuy[2][i-1] = (i === 1)? helper.buyLoan : dynBuy[5][i-2];                                                   // residual begin
+    dynBuy[3][i-1] = finance.annualInterestPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);       // annual loan interest
+    dynBuy[4][i-1] = finance.annualAmortizationPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);   // annual loan amortization
+    dynBuy[5][i-1] = finance.annualResidualPAngV(dynBuy[2][i-1], 12, inputs.equityinterest, inputs.debtpay);       // residual end
+    dynBuy[6][i-1] = helper.buyAnnualLoanPayment;
+    dynBuy[7][i-1] = (inputs.income - inputs.debtpay - inputs.maintenance) * 12;       // surplus income
+    dynBuy[8][i-1] = dynBuy[1][i-1] * inputs.equityinterest + (inputs.income - inputs.rent) * (13/2) * inputs.equityinterest;    // interest
+    dynBuy[9][i-1] = dynBuy[1][i-1] + dynBuy[7][i-1] + dynBuy[8][i-1];   // wealth end
   }
+
+
 
   // transpose dynBuy
   dynBuyT = dynBuy[0].map(function(col,i){
@@ -794,6 +802,9 @@ exports.buyrent = function(inputs){
       return row[i];
     })
   });
+
+  // attach final rows
+  dynBuyT.push(['Gesamt', inputs.price - helper.buyLoan, helper.buyLoan, _.reduce(dynBuy[3], helpers.add, 0), _.reduce(dynBuy[4], helpers.add, 0),dynBuy[5][inputs.period-1],,_.reduce(dynBuy[7], helpers.add, 0),_.reduce(dynBuy[8], helpers.add, 0),]);
 
 
 
@@ -825,7 +836,7 @@ exports.buyrent = function(inputs){
    */
   // second result container
   result._3.title = 'Vermögensentwicklung Kaufen';
-  result._3.header = ['Jahr', 'Vermögen Anfang', 'Restschuld Anfang', 'Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
+  result._3.header = ['Jahr', 'Vermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen','Tilgung Darlehen','Restschuld Ende','Zahlung Darlehen','Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
   result._3.body = dynBuyT;
 
 

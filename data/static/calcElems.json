@@ -1204,7 +1204,7 @@
         "label": "Rückzahlungsrate Darlehen",
         "linetop": false,
         "placeholder": "Rückzahlungsrate Darlehen",
-        "addon": "EUR",
+        "addon": "EUR/Monat",
         "value": "1000",
         "tooltip": "Geben Sie hier die Höhe der monatliche Zahlungen an, die der Rückzahlung des Darlehens dienen. Diese konstante Rate deckt die Zins- und Tilgungsleistungen ab.",
         "type": "number",
