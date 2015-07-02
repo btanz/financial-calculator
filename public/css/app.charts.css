@@ -22,9 +22,10 @@
 
 
 /******* BAR CHARTS **********/
+
+/* STANDARD BAR WIDTH */
 .ct-series-a .ct-bar {
   stroke-width: 12px;
-
 
   stroke: rgba(28,132,198,0.7);
   /*stroke: rgba(26,179,148,0.2); */
@@ -33,7 +34,6 @@
 
 .ct-series-b .ct-bar {
   stroke-width: 12px;
-
 
   stroke: rgba(28,132,198,0.5);
   /*stroke: rgba(26,179,148,0.7);*/
@@ -48,13 +48,57 @@
   /*stroke: rgba(26,179,148,1);*/
   /*stroke: rgba(237,85,101,1);*/
 
-
   /* stroke: rgba(237,85,101,0.2); */
 }
 
 .ct-series-d .ct-bar {
   stroke-width: 12px;
 }
+
+/* SLIM BAR WIDTH */
+.ct-series-a .ct-bar-slim {
+  stroke-width: 6px;
+  stroke: rgba(28,132,198,0.7);
+}
+
+.ct-series-b .ct-bar-slim {
+  stroke-width: 6px;
+  stroke: rgba(28,132,198,0.5);
+}
+
+.ct-series-c .ct-bar-slim {
+  stroke-width: 6px;
+  stroke: rgba(28,132,198,0.3);
+}
+
+.ct-series-d .ct-bar-slim {
+  stroke-width: 6px;
+  stroke: rgba(28,132,198,0.2);
+}
+
+
+/* THICK BARS  */
+.ct-series-a .ct-bar-thick {
+  stroke-width: 18px;
+  stroke: rgba(28,132,198,0.7);
+}
+
+.ct-series-b .ct-bar-thick {
+  stroke-width: 18px;
+  stroke: rgba(28,132,198,0.5);
+}
+
+.ct-series-c .ct-bar-thick {
+  stroke-width: 18px;
+  stroke: rgba(28,132,198,0.3);
+}
+
+.ct-series-d .ct-bar-thick {
+  stroke-width: 18px;
+  stroke: rgba(28,132,198,0.2);
+}
+
+
 
 
 
