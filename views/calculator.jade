@@ -122,6 +122,9 @@ block content
           |Ergebnisse
 
       div.ibox-content
+        | {{#if obj.resultheadline}}
+        h4 {{{obj.resultheadline}}}
+        | {{/if}}
         table.table.table-striped
           thead
             | {{#each obj._1}}

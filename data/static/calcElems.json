@@ -1345,6 +1345,83 @@
         "digits": 2,
         "importance": "second",
         "tooltip": "TBD"
+      },
+      "buyfinalwealth": {
+        "description": "Vermögen Kaufen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "buyequity": {
+        "description": "davon Eigenkapital",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyprice": {
+        "description": "davon Kaufpreis incl. Nebenkosten",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyloan": {
+        "description": "davon Darlehen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyfinalincome": {
+        "description": "davon verfügbares Wohneinkommen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyinterestsave": {
+        "description": "davon Zinsertrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyinterestloan": {
+        "description": "davon Zinsaufwand",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buymaintenance": {
+        "description": "davon laufende Kosten und Instandhaltung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyrepay": {
+        "description": "davon Darlehenstilgung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buyresidual": {
+        "description": "davon Restschuld Darlehen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "buypropvalue": {
+        "description": "davon Immobilienwert",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
       }
     }
   },
