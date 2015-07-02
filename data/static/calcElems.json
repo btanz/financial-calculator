@@ -1395,6 +1395,13 @@
         "importance": "second",
         "tooltip": "TBD"
       },
+      "buypropertyincrease": {
+        "description": "davon Wertanstieg Immobilie",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
       "buymaintenance": {
         "description": "davon laufende Kosten und Instandhaltung",
         "unit": "EUR",

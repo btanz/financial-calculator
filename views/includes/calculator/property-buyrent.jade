@@ -18,12 +18,21 @@ script(id='property-buyrent-results-2-template', type='text/x-handlebars-templat
             | {{/with}}
         tbody
           | {{#each obj.body}}
+          | {{#if this.[5]}}
+          tr
+            td(style='text-align: left;padding:2px;').annualval {{{this.[0]}}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
+          | {{else}}
           tr
             td(style='text-align: left;padding:2px;') {{this.[0]}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+          | {{/if}}
           | {{/each}}
 
 
@@ -48,12 +57,29 @@ script(id='property-buyrent-results-3-template', type='text/x-handlebars-templat
             //th(style='text-align: right;padding:2px;') {{{this.[7]}}}
             th(style='text-align: right;padding:2px;') {{{this.[8]}}}
             th(style='text-align: right;padding:2px;') {{{this.[9]}}}
-            //th(style='text-align: right;padding:2px;') {{{this.[10]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[11]}}}
+            th(style='text-align: right;padding:2px;') {{{this.[10]}}}
+            //th(style='text-align: right;padding:2px;') {{{this.[11]}}}
+            th(style='text-align: right;padding:2px;') {{{this.[12]}}}
 
             | {{/with}}
         tbody
           | {{#each obj.body}}
+          | {{#if this.[14]}}
+          tr
+            td(style='text-align: left;padding:2px;').annualval {{{this.[0]}}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[5] this.digits}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[6] this.digits}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[7] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[8] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[9] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[10] this.digits}}
+            //td(style='text-align: right;padding:2px;').annualval {{numFormat this.[11] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[12] this.digits}}
+          | {{else}}
           tr
             td(style='text-align: left;padding:2px;') {{this.[0]}}
             //td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
@@ -65,6 +91,8 @@ script(id='property-buyrent-results-3-template', type='text/x-handlebars-templat
             //td(style='text-align: right;padding:2px;') {{numFormat this.[7] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[8] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[9] this.digits}}
-            //td(style='text-align: right;padding:2px;') {{numFormat this.[10] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[11] this.digits}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[10] this.digits}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[11] this.digits}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[12] this.digits}}
+          | {{/if}}
           | {{/each}}
