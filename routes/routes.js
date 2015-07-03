@@ -89,7 +89,7 @@ router.get('/immobilienrenditerechner/inputs',function(req,res,next){
 
 
 /* **********************************
- ** property-buyorrent routes
+ ** property-buyrent routes
  *********************************** */
 router.get('/kaufen-oder-mieten', function(req,res,next){
   res.render('calculator', {obj: calcElems.propertybuyrent});
