@@ -15,6 +15,10 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * modals for zoom -> popups for results etc
 * invert question marks + put them at the end
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
+* css classes for output tables
+* mocha testing for finance library
+* efficient procedure for init and assign taks at the head of each function
+* effective interest calculator for property-homesave
 
 
 
