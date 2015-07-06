@@ -46,16 +46,13 @@ describe("Property calculators correct", function() {
       data[13] ={price: '268904.02', priceaddon: '7610.3',   maintenance: '297.39', rent: '2013.39', incomedynamic: '0',     valuedynamic: '0',     costdynamic: '0.16',  rentdynamic: '0',     equity: '6327.92',   debtinterest: '4.24', debtpay: '2717.03', income: '4157.73', period: '11', equityinterest: '2.11',  dynamics: 'true'};
       data[14] ={price: '571427.67', priceaddon: '11734.95', maintenance: '712.61', rent: '483.21',  incomedynamic: '0.14',  valuedynamic: '0.38',  costdynamic: '4.19',  rentdynamic: '4.34',  equity: '71523.95',  debtinterest: '2.59', debtpay: '931.8',   income: '2418.71', period: '30', equityinterest: '2.14',  dynamics: 'true'};
       data[15] ={price: '183133.18', priceaddon: '8964.56',  maintenance: '781.27', rent: '2515.02', incomedynamic: '0',     valuedynamic: '1.99',  costdynamic: '0',     rentdynamic: '0',     equity: '47294.62',  debtinterest: '1.76', debtpay: '1433.91', income: '2288.99', period: '34', equityinterest: '3.78',  dynamics: 'true'};
-      data[16] ={price: '561667.58', priceaddon: '21076.26', maintenance: '913.99', rent: '2415.7',  incomedynamic: '2.71',  valuedynamic: '3.36',  costdynamic: '1.78',  rentdynamic: '0',     equity: '224089.51', debtinterest: '1.12', debtpay: '3133.39', income: '4318.58', period: '40', equityinterest: '0.07',  dynamics: 'true'};
-      data[17] ={price: '254589.13', priceaddon: '6650.68',  maintenance: '239.34', rent: '2532.79', incomedynamic: '0',     valuedynamic: '0.07',  costdynamic: '0',     rentdynamic: '0',     equity: '21907.9',   debtinterest: '5.04', debtpay: '2277.03', income: '3672.03', period: '15', equityinterest: '3.43',  dynamics: 'true'};
+      data[16] ={price: '561667.58', priceaddon: '21076.26', maintenance: '913.99', rent: '2415.7',  incomedynamic: '2.71',  valuedynamic: '3.36',  costdynamic: '1.78',  rentdynamic: '0',     equity: '224089.51', debtinterest: '0',    debtpay: '3133.39', income: '4318.58', period: '40', equityinterest: '0',  dynamics: 'true'};
+      data[17] ={price: '254589.13', priceaddon: '6650.68',  maintenance: '239.34', rent: '2532.79', incomedynamic: '0',     valuedynamic: '0',     costdynamic: '0',     rentdynamic: '0',     equity: '21907.9',   debtinterest: '0',    debtpay: '2277.03', income: '3672.03', period: '15', equityinterest: '0',     dynamics: 'true'};
       data[18] ={price: '373742.81', priceaddon: '2856.4',   maintenance: '981.09', rent: '1348.9',  incomedynamic: '4.13',  valuedynamic: '1.56',  costdynamic: '1.85',  rentdynamic: '0',     equity: '342928.24', debtinterest: '8.36', debtpay: '1839.17', income: '3783.6',  period: '8',  equityinterest: '3.42',  dynamics: 'true'};
       data[19] ={price: '503715.76', priceaddon: '18316.18', maintenance: '527.89', rent: '2607.74', incomedynamic: '0',     valuedynamic: '0',     costdynamic: '3.99',  rentdynamic: '0',     equity: '398826.38', debtinterest: '7.93', debtpay: '981.43',  income: '2509.59', period: '25', equityinterest: '3.63',  dynamics: 'true'};
 
-
-
-
       expectations[0] = {rentFinalWealth: 283576.70, rentEquity: 80000,    rentFinalIncome: 360000,    rentFinalCost: -192000,    rentFinalInterest: 35576.70, buyFinalWealth: 336001.24 ,buyEquity: 80000,    buyPrice: -220000,    buyLoan: 140000,    buyFinalIncome: 360000,    buyInterestSave: 8530.02, buyInterestLoan: -32528.78, buyMaintenance: -60000,    buyRepay: -140000,  buyResidual: 0, buyPropValue: 200000};
-      expectations[1] = {rentFinalWealth: -53326.39};
+      expectations[1] = {buyEquity: 128580.07,buyLoan: 326501.29,buyPrice: -455081.36,buyFinalIncome: 26366.4,buyInterestSave: 0,buyMaintenance: -88305.57,buyInterestLoan: -81512.21,buyRepay: 58526.21,buyResidual: -385027.5,buyPropValue: 479261.11,buyFinalWealth: 9308.44,rentEquity: 128580.07,rentFinalIncome: 26366.4,rentFinalInterest: 20931.33,rentFinalCost: -229204.19,rentFinalWealth: -53326.39};
       expectations[2] = {buyEquity: 87709.08,buyLoan: 103992.6,buyPrice: -191701.68,buyFinalIncome: 296545.01,buyInterestSave: 1815.67,buyMaintenance: -73263.38,buyInterestLoan: -99247.21,buyRepay: 18078.01,buyResidual: -122070.61,buyPropValue: 286872.01,buyFinalWealth: 308729.5,rentEquity: 87709.08,rentFinalIncome: 296545.01,rentFinalInterest: 3568.4,rentFinalCost: -198006,rentFinalWealth: 189816.48};
       expectations[3] = {buyEquity: 173879.34,buyLoan: 101166.98,buyPrice: -275046.32,buyFinalIncome: 33856.44,buyInterestSave: 113.51,buyMaintenance: -8144.16,buyInterestLoan: -194.91,buyRepay: -18228.45,buyResidual: -82938.53,buyPropValue: 276498.08,buyFinalWealth: 200961.97,rentEquity: 173879.34,rentFinalIncome: 33856.44,rentFinalInterest: 3962.29,rentFinalCost: -1482.96,rentFinalWealth: 210215.11};
       expectations[4] = {buyEquity: 112756.63,buyLoan: 323962.27,buyPrice: -436718.9,buyFinalIncome: 77787.73,buyInterestSave: 402.92,buyMaintenance: -25414.08,buyInterestLoan: -320742.09,buyRepay: 277906.89,buyResidual: -601869.16,buyPropValue: 446567.16,buyFinalWealth: -145360.63,rentEquity: 112756.63,rentFinalIncome: 77787.73,rentFinalInterest: 8566.88,rentFinalCost: -165588.48,rentFinalWealth: 33522.76};
@@ -64,27 +61,23 @@ describe("Property calculators correct", function() {
       expectations[7] = {buyEquity: 652.72,buyLoan: 154091.7,buyPrice: -154744.42,buyFinalIncome: 524188.89,buyInterestSave: 4012.1,buyMaintenance: -90439.4,buyInterestLoan: -20936.38,buyRepay: -154091.70,buyResidual: 0,buyPropValue: 213889.59,buyFinalWealth: 476623.10,rentEquity: 652.72,rentFinalIncome: 524188.89,rentFinalInterest: 9804.90,rentFinalCost: -105106.32,rentFinalWealth: 429540.19};
       expectations[8] = {buyEquity: 134882.66,buyLoan: 33020.32,buyPrice: -167902.98,buyFinalIncome: 107783.04,buyInterestSave: 34.92,buyMaintenance: -39275.44,buyInterestLoan: -2291.35,buyRepay: -33020.32,buyResidual: 0,buyPropValue: 160978.71,buyFinalWealth: 194209.56,rentEquity: 134882.66,rentFinalIncome: 107783.04,rentFinalInterest: 510.47,rentFinalCost: -124484.34,rentFinalWealth: 118691.83};
       expectations[9] = {buyEquity: 117327.16,buyLoan: 450774.47,buyPrice: -568101.63,buyFinalIncome: 1260622.29,buyInterestSave: 207290.33,buyMaintenance: -82348.01,buyInterestLoan: -652971.48,buyRepay: 547518.6,buyResidual: -998293.07,buyPropValue: 1829324.97,buyFinalWealth: 2111143.63,rentEquity: 117327.16,rentFinalIncome: 1260622.29,rentFinalInterest: 183306.46,rentFinalCost: -665091.13,rentFinalWealth: 896164.78};
-      expectations[10]= {};
-      expectations[11]= {};
-      expectations[12]= {};
-      expectations[13]= {};
-      expectations[14]= {};
-      expectations[15]= {};
-      expectations[16]= {};
-      expectations[17]= {};
-      expectations[18]= {};
-      expectations[19]= {};
-
-
-
-      // todo: add remaining expectations
+      expectations[10]= {buyEquity: 388136.93,buyLoan: 101797.11,buyPrice: -489934.04,buyFinalIncome: 249616.84,buyInterestSave: 95287.91,buyMaintenance: -50739.84,buyInterestLoan: -622500.05,buyRepay: 563946.65,buyResidual: -665743.76,buyPropValue: 474858.05,buyFinalWealth: 44725.8,rentEquity: 388136.93,rentFinalIncome: 249616.84,rentFinalInterest: 218699.51,rentFinalCost: -904879.37,rentFinalWealth: -48426.09};
+      expectations[11]= {buyEquity: 90108.02,buyLoan: 141661.6,buyPrice: -231769.62,buyFinalIncome: 1188519.66,buyInterestSave: 365431.39,buyMaintenance: -545008.46,buyInterestLoan: -64890.9,buyRepay: -141661.6,buyResidual: 0,buyPropValue: 1442583.2,buyFinalWealth: 2244973.28,rentEquity: 90108.02,rentFinalIncome: 1188519.66,rentFinalInterest: 591366.01,rentFinalCost: -938835.6,rentFinalWealth: 931158.09};
+      expectations[12]= {buyEquity: 89528.5,buyLoan: 23867.51,buyPrice: -113396.01,buyFinalIncome: 904390.2,buyInterestSave: 263507.44,buyMaintenance: -206640.49,buyInterestLoan: -302.32,buyRepay: -23867.51,buyResidual: 0,buyPropValue: 113165.74,buyFinalWealth: 1050253.07,rentEquity: 89528.5,rentFinalIncome: 904390.2,rentFinalInterest: 180227.34,rentFinalCost: -749217.76,rentFinalWealth: 424928.28};
+      expectations[13]= {buyEquity: 6327.92,buyLoan: 270186.4,buyPrice: -276514.32,buyFinalIncome: 548820.36,buyInterestSave: 19752.75,buyMaintenance: -39571.04,buyInterestLoan: -63273.63,buyRepay: -270186.4,buyResidual: 0,buyPropValue: 268904.02,buyFinalWealth: 464446.06,rentEquity: 6327.92,rentFinalIncome: 548820.36,rentFinalInterest: 37067.32,rentFinalCost: -265767.48,rentFinalWealth: 326448.12};
+      expectations[14]= {buyEquity: 71523.95,buyLoan: 511638.67,buyPrice: -583162.62,buyFinalIncome: 888644.7,buyInterestSave: 64356.15,buyMaintenance: -495109.38,buyInterestLoan: -429199.62,buyRepay: 93751.62,buyResidual: -605390.29,buyPropValue: 640290.42,buyFinalWealth: 157343.6,rentEquity: 71523.95,rentFinalIncome: 888644.7,rentFinalInterest: 308545.67,rentFinalCost: -344310.46,rentFinalWealth: 924403.85};
+      expectations[15]= {buyEquity: 47294.62,buyLoan: 144803.12,buyPrice: -192097.74,buyFinalIncome: 933907.92,buyInterestSave: 308645.39,buyMaintenance: -318758.16,buyInterestLoan: -12030.99,buyRepay: -144803.12,buyResidual: 0,buyPropValue: 357869.89,buyFinalWealth: 1124830.93,rentEquity: 47294.62,rentFinalIncome: 933907.92,rentFinalInterest: 28596.2,rentFinalCost: -1026128.16,rentFinalWealth: -16329.42};
+      expectations[16]= {buyEquity: 224089.51,buyLoan: 358654.33,buyPrice: -582743.84,buyFinalIncome: 3660367.83,buyInterestSave: 0,buyMaintenance: -631786.63,buyInterestLoan: 0,buyRepay: -358654.33,buyResidual: 0,buyPropValue: 2106586.92,buyFinalWealth: 4776513.79,rentEquity: 224089.51,rentFinalIncome: 3660367.83,rentFinalInterest: 0,rentFinalCost: -1159536,rentFinalWealth: 2724921.34};
+      expectations[17]= {buyEquity: 21907.9,buyLoan: 239331.91,buyPrice: -261239.81,buyFinalIncome: 660965.4,buyInterestSave: 0,buyMaintenance: -43081.2,buyInterestLoan: 0,buyRepay: -239331.91,buyResidual: 0,buyPropValue: 254589.13,buyFinalWealth: 633141.42,rentEquity: 21907.9,rentFinalIncome: 660965.4,rentFinalInterest: 0,rentFinalCost: -455902.2,rentFinalWealth: 226971.1};
+      expectations[18]= {buyEquity: 342928.24,buyLoan: 33670.97,buyPrice: -376599.21,buyFinalIncome: 420298.15,buyInterestSave: 34813.81,buyMaintenance: -100514.03,buyInterestLoan: -2476.07,buyRepay: -33670.97,buyResidual: 0,buyPropValue: 423013.65,buyFinalWealth: 741464.54,rentEquity: 342928.24,rentFinalIncome: 420298.15,rentFinalInterest: 145794.91,rentFinalCost: -129494.4,rentFinalWealth: 779526.91};
+      expectations[19]= {buyEquity: 398826.38,buyLoan: 123205.56,buyPrice: -522031.94,buyFinalIncome: 752877,buyInterestSave: 152622.6,buyMaintenance: -263458.46,buyInterestLoan: -140464.22,buyRepay: -123205.56,buyResidual: 0,buyPropValue: 503715.76,buyFinalWealth: 882087.12,rentEquity: 398826.38,rentFinalIncome: 752877,rentFinalInterest: 555595.22,rentFinalCost: -782322,rentFinalWealth: 924976.6};
     });
 
     it('Passes 1st test set', function(){
       var results = property.buyrent(data[0]),
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
     });
 
     it('Passes 2nd test set', function(){
@@ -92,6 +85,7 @@ describe("Property calculators correct", function() {
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
       assert(_.isMatch(values, expectations[1]));
+
     });
 
     it('Passes 3rd test set', function(){
@@ -183,6 +177,8 @@ describe("Property calculators correct", function() {
       var results = property.buyrent(data[14]),
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      console.log(values);
+      console.log(expectations[14]);
       assert(_.isMatch(values, expectations[14]));
     });
 
@@ -223,12 +219,6 @@ describe("Property calculators correct", function() {
 
 
   });
-
-
-
-
-
-
 
 
 });
