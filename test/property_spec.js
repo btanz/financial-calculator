@@ -26,6 +26,12 @@ describe("Property calculators correct", function() {
   });
 
 
+
+
+
+
+
+
   describe("Property-buyrent correct", function() {
     var data = [],
         expectations = [];

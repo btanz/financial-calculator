@@ -146,6 +146,21 @@ router.get('/bausparrechner/inputs', function(req,res,next){
 
 
 /* **********************************
+ ** property-propertyprice routes
+ *********************************** */
+router.get('/immobilienpreisrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.propertyprice});
+});
+
+
+router.get('/immobilienpreisrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = property.propertyprice(obj);
+  res.json(results);
+});
+
+
+/* **********************************
  ** deposit-depinterest routes
  *********************************** */
 router.get('/zinsrechner', function(req,res,next){

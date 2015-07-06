@@ -2904,5 +2904,191 @@
         "importance": "second"
       }
     }
+  },
+
+  "propertyprice": {
+    "id": "property-propertyprice",
+    "name": "Immobilienpreisrechner",
+    "description": "Mit dem Immobilienpreisrechner können Sie den maximalen Preis berechnen, den Sie für eine Immobilie zahlen können.",
+    "inputs": {
+      "rent": {
+        "id": "property-propertyprice-rent",
+        "linetop": false,
+        "optional": false,
+        "label": "Mietersparnis",
+        "placeholder": "Mietersparnis",
+        "addon": "EUR/Monat",
+        "value": "800.00",
+        "tooltip": "Geben Sie hier die monatlichen Mietkosten ein, welche Sie durch den Kauf und die anschließende Eigennutzung der Immobilie sparen würden. Eine gute Annährung für die Mietersparnis ist die monatliche Warmmiete. Vergessen Sie anschließend nicht, die laufenden Kosten und Instandhaltungskosten einer erworbenen Immobilie im entsprechenden Eingabefeld anzugeben.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000
+        ]
+      },
+      "income": {
+        "id": "property-propertyprice-income",
+        "linetop": false,
+        "optional": false,
+        "label": "Zusätzliches frei verfügbares Einkommen",
+        "placeholder": "Verfügbares Einkommen",
+        "addon": "EUR/Monat",
+        "value": "200.00",
+        "tooltip": "Geben Sie hier das monatliche frei verfügbare Einkommen an, welches Sie nach Mietzahlung zur Verfügung haben und zusätzlich für eine Immobilienfinanzierung nutzen könnten.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000
+        ]
+      },
+      "maintenance": {
+        "id": "property-propertyprice-maintenance",
+        "linetop": false,
+        "optional": false,
+        "label": "Laufende Kosten der Immobilie",
+        "placeholder": "Laufende Kosten",
+        "addon": "EUR / Monat",
+        "value": "120.00",
+        "tooltip": "Geben Sie die monatlichen laufenden Kosten an, welche beim Erwerb einer Immobilie anfallen würden. Diese umfassen zum Beispiel Kosten für Energie (Heizung, Strom), Wasserversorung und Müllabfuhr.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "interest": {
+        "id": "property-propertyprice-interest",
+        "linetop": false,
+        "optional": false,
+        "label": "Darlehenszinssatz",
+        "placeholder": "Darlehenszinssatz",
+        "addon": "% p. a.",
+        "value": "2.50",
+        "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, welchen Sie für eine Immobilienfinanzierung zahlen würden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "selection": {
+        "id": "property-propertyprice-selection",
+        "linetop": true,
+        "label": "Vorgabe Darlehen",
+        "tooltip": "Einer der beiden Parameter 'anfängliche Tilgung' und 'Darlehenslaufzeit' muss für die Berechnung vorgegeben werden. Wählen Sie aus, welchen der Parameter Sie vorgeben möchten.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "2": "Anfängliche Tilgung",
+          "3": "Darlehenslaufzeit"
+        }
+      },
+      "initrepay": {
+        "id": "property-propertyprice-initrepay",
+        "linetop": false,
+        "optional": true,
+        "secondary": true,
+        "label": "Anfängliche Tilgung",
+        "placeholder": "Anfängliche Tilgung",
+        "addon": "% p. a.",
+        "value": "1.50",
+        "tooltip": "Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "term": {
+        "id": "property-propertyprice-term",
+        "linetop": false,
+        "optional": true,
+        "secondary": true,
+        "hide": "true",
+        "label": "Darlehenslaufzeit",
+        "placeholder": "Darlehenslaufzeit",
+        "addon": "Jahre",
+        "value": "20",
+        "tooltip": "Geben Sie die Laufzeit des Darlehens in Jahren an. Dies ist die Dauer der monatlich zu zahlenden gleichbleibenden Raten (Annuitäten) bis zur vollständigen Rückzahlung des Darlehens.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "equity": {
+        "id": "property-propertyprice-equity",
+        "linetop": true,
+        "optional": false,
+        "secondary": false,
+        "label": "Eigenkapital",
+        "placeholder": "Eigenkapital",
+        "addon": "EUR",
+        "value": "40000.00",
+        "tooltip": "Geben Sie das zum Immobilienerwerb einmalig zur Verfügung stehende Kapital an.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000000
+        ]
+      },
+      "notar": {
+        "id": "property-propertyprice-notar",
+        "linetop": false,
+        "optional": false,
+        "label": "Notargebühr",
+        "placeholder": "Notargebühr",
+        "addon": "%",
+        "value": "1.50",
+        "tooltip": "Geben Sie die prozentualen Kosten für den Notar bezogen auf den Kaufpreis ein",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "makler": {
+        "id": "property-propertyprice-makler",
+        "linetop": false,
+        "optional": false,
+        "label": "Maklerprovision",
+        "placeholder": "Maklerprovision",
+        "addon": "%",
+        "value": "4.50",
+        "tooltip": "Geben Sie die prozentualen Kosten für den Makler bezogen auf den Kaufpreis ein",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "proptax": {
+        "id": "property-propertyprice-proptax",
+        "linetop": false,
+        "optional": false,
+        "label": "Grunderwerbssteuer",
+        "placeholder": "Grunderwerbssteuer",
+        "addon": "%",
+        "value": "5.50",
+        "tooltip": "Geben Sie die Steuersatz für die Grunderwerbssteuer an. Dieser unterscheidet sich von Bundesland zu Bundesland. Maßgeblich für den anzuwendenden Steuersatz ist das Bundesland des Grundstücks, auf welchem die Immobilie steht.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      }
+    },
+    "results_1": {
+    }
   }
 }

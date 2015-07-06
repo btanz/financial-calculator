@@ -18,6 +18,11 @@ app.property = (function() {
       toggleHomeSaveSelect(e);
     });
 
+    // attach event handler for propertyprice "Immobilienpreisrechner" choice
+    $('#property-propertyprice-selection').on('change', function (e) {
+      togglePropertyPriceSelect(e);
+    });
+
 
   });
   /*********************** END PROPERTY DOCUMENT READY TASKS *************************/
@@ -57,6 +62,19 @@ app.property = (function() {
       $('#property-homesave-marriage, #property-homesave-income').closest('div[class^="form-group"]').removeClass('hide');
     } else if (state === 'false'){
       $('#property-homesave-marriage, #property-homesave-income').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
+
+
+  function togglePropertyPriceSelect(e){
+    e.preventDefault();
+    var state = $('#property-propertyprice-selection').val();
+    if (state === '2'){
+      $('#property-propertyprice-initrepay').closest('div[class^="form-group"]').removeClass('hide');
+      $('#property-propertyprice-term').closest('div[class^="form-group"]').addClass('hide');
+    } else if (state === '3'){
+      $('#property-propertyprice-initrepay').closest('div[class^="form-group"]').addClass('hide');
+      $('#property-propertyprice-term').closest('div[class^="form-group"]').removeClass('hide');
     }
   }
 

@@ -76,6 +76,10 @@
       "5": {
         "name": "Bausparrechner",
         "url": "/bausparrechner"
+      },
+      "6": {
+        "name": "Immobilienpreisrechner",
+        "url": "/immobilienpreisrechner"
       }
     }
   },
