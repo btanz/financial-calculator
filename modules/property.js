@@ -818,7 +818,6 @@ exports.buyrent = function(inputs){
         temp1 -= 0;
       }
     }
-    console.log(temp2);
     //dynBuy[9][i-1] = (dynBuy[8][i-1] >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
     //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + temp2;
     dynBuy[9][i-1] = ((dynBuy[8][i-1] + dynBuy[7][i-1]) >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
