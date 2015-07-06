@@ -2981,7 +2981,7 @@
         "label": "Vorgabe Darlehen",
         "tooltip": "Einer der beiden Parameter 'anfängliche Tilgung' und 'Darlehenslaufzeit' muss für die Berechnung vorgegeben werden. Wählen Sie aus, welchen der Parameter Sie vorgeben möchten.",
         "type": "select",
-        "vtype": "bool",
+        "vtype": "number",
         "options": {
           "2": "Anfängliche Tilgung",
           "3": "Darlehenslaufzeit"
@@ -3089,6 +3089,83 @@
       }
     },
     "results_1": {
+      "rate": {
+        "tooltip": "TBD",
+        "description": "Monatsrate",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "loan": {
+        "tooltip": "TBD",
+        "description": "Darlehensbetrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "term": {
+        "tooltip": "TBD",
+        "description": "Darlehenslaufzeit",
+        "unit": "Jahre",
+        "digits": 2,
+        "importance": "second"
+      },
+      "initrepay": {
+        "tooltip": "TBD",
+        "description": "Anfängliche Tilgung",
+        "unit": "%",
+        "digits": 2,
+        "importance": "second"
+      },
+      "interest": {
+        "tooltip": "TBD",
+        "description": "Zinsaufwand",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalpropcost": {
+        "tooltip": "TBD",
+        "description": "Gesamtkosten der Immobilie",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "maxprice": {
+        "tooltip": "TBD",
+        "description": "Höchstmöglicher Kaufpreis",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "notar": {
+        "tooltip": "TBD",
+        "description": "Notargebühr",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "makler": {
+        "tooltip": "TBD",
+        "description": "Maklerprovision",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "proptax": {
+        "tooltip": "TBD",
+        "description": "Grunderwerbssteuer",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "totalcost": {
+        "tooltip": "TBD",
+        "description": "Gesamtaufwand des Immobilienerwerbs",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      }
     }
   }
 }

@@ -28,6 +28,28 @@ describe("Property calculators correct", function() {
 
 
 
+  describe("Property-propertyprice correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+      data[0] = { rent: 800, income: 200, maintenance: 120, interest: 2.5, initrepay: 1.5, term: 20, equity: 40000, notar: 1.5, makler: 4.5, proptax: 5.5, selection: 2 };
+      expectations[0] = {maxprice: 286643.72259676585, notar: 4299.655838951488, makler: 12898.967516854462, proptax: 157.65404742822122, totalpropcost: 304000, loan: 264000, rate: 880, term: 39.27402383053324, initrepay: 1.5, interest: 150733.69165043102, totalcost: 454733.691650431};
+    });
+
+    it('Passes 1st test set', function(){
+      var results = property.propertyprice(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= el.value});
+      assert(_.isMatch(values, expectations[0]));
+
+    });
+
+    // todo: add more test cases
+  });
+
+
+
+
 
 
 

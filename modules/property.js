@@ -936,3 +936,87 @@ exports.buyrent = function(inputs){
 
   return result;
 };
+
+
+
+/** PROPERTY-PROPERTYPRICE function that computes affordable property price thresholds
+ * ARGUMENTS XXX todo
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.propertyprice = function(inputs){
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var result = {}; result._1 = {}; helper = {};
+  var localElems = calcElems.propertyprice.results_1;
+  var expectedInputs = calcElems.propertyprice.inputs;
+  var errorMap;
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+
+  inputs.interest = inputs.interest / 100;
+  inputs.notar = inputs.notar / 100;
+  inputs.makler = inputs.makler / 100;
+  inputs.proptax = inputs.proptax / 100;
+  inputs.proptax = inputs.proptax / 100;
+  inputs.initrepay = inputs.initrepay / 100;
+
+
+
+  /* ******** 3. COMPUTATIONS ******** */
+  helper.rate = inputs.rent + inputs.income - inputs.maintenance;
+  helper.q = 1 + inputs.interest / 12;
+
+  if(inputs.selection === 2){  // initrepay selected
+    helper.loan = (helper.rate * 12) / (inputs.interest + inputs.initrepay);
+    helper.term = (inputs.interest === 0) * helper.loan / (12 * helper.rate) + (inputs.interest !== 0) * Math.log((helper.rate / ((inputs.interest / 12) * helper.loan)) / ((helper.rate / ((inputs.interest / 12)*helper.loan))-1)) / (12 * Math.log(1 + (inputs.interest/12)));
+  } else if (inputs.selection === 3){  // term selected
+    helper.qnt = Math.pow(helper.q, 12 * inputs.term);
+    helper.loan = (inputs.interest === 0) * helper.rate * inputs.term * 12 + (inputs.interest !== 0) * helper.rate * (helper.qnt - 1) / (helper.qnt * (helper.q- 1));
+    helper.initrepay = (12 * helper.rate - helper.loan * inputs.interest) / helper.loan;
+  } else {  // sthg wrong
+    return;
+  }
+
+  helper.term = helper.term || inputs.term;
+  helper.initrepay = helper.initrepay || inputs.initrepay;
+
+  helper.interest = helper.term * 12 * helper.rate - helper.loan;
+  helper.totalpropcost = inputs.equity + helper.loan;
+  helper.maxprice = helper.totalpropcost / (1 + inputs.notar + inputs.makler + inputs.proptax);
+  helper.notar = helper.maxprice * inputs.notar;
+  helper.makler = helper.maxprice * inputs.makler;
+  helper.proptax = helper.maxprice * inputs.proptax;
+
+  helper.totalcost = helper.totalpropcost + helper.interest;
+
+
+  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+  result.id = calcElems.propertyprice.id;
+  /*
+   6.A FIRST RESULT CONTAINER
+   */
+  result._1.maxprice      = _.extend(localElems['maxprice'],      {"value": helper.maxprice});
+  result._1.notar         = _.extend(localElems['notar'],         {"value": helper.notar});
+  result._1.makler        = _.extend(localElems['makler'],        {"value": helper.makler});
+  result._1.proptax       = _.extend(localElems['proptax'],       {"value": helper.proptax});
+  result._1.totalpropcost = _.extend(localElems['totalpropcost'], {"value": helper.totalpropcost});
+  result._1.loan          = _.extend(localElems['loan'],          {"value": helper.loan});
+  result._1.rate          = _.extend(localElems['rate'],          {"value": helper.rate});
+  result._1.term          = _.extend(localElems['term'],          {"value": helper.term});
+  result._1.initrepay     = _.extend(localElems['initrepay'],     {"value": helper.initrepay * 100});
+  result._1.interest      = _.extend(localElems['interest'],      {"value": helper.interest});
+  result._1.totalcost     = _.extend(localElems['totalcost'],     {"value": helper.totalcost});
+
+
+  return result;
+
+};
