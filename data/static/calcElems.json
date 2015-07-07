@@ -3167,5 +3167,199 @@
         "importance": "first"
       }
     }
+  },
+
+
+  "repaysurrogat": {
+    "id": "debt-repaysurrogat",
+    "name": "Tilgungssurrogatrechner",
+    "description": "Mit dem Tilgungssurrogatrechner können Sie bestimmen, ob eine Tilgungsaussetzung und Wandlung eines Annuitätendarlehens in ein endfälliges Darlehen bei gleichzeitiger Anlage der überschüssigen Mittel zu einem finanziellen Vorteil führt.",
+    "inputs": {
+      "rent": {
+        "id": "debt-repaysurrogat-princial",
+        "linetop": false,
+        "optional": false,
+        "label": "Darlehensbetrag",
+        "placeholder": "Darlehensbetrag",
+        "addon": "EUR",
+        "value": "100000.00",
+        "tooltip": "Geben Sie die Höhe des Darlehens bzw. die Kreditsumme an.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "debtinterest": {
+        "id": "debt-repaysurrogat-debtinterest",
+        "linetop": false,
+        "optional": false,
+        "label": "Darlehenszinssatz",
+        "placeholder": "Darlehenszinssatz",
+        "addon": "% p. a.",
+        "value": "2.50",
+        "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, welcher für das Darlehen zu zahlen ist.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "selection": {
+        "id": "debt-repaysurrogat-selection",
+        "linetop": true,
+        "label": "Vorgabewert Darlehen",
+        "tooltip": "Einer der Parameter 'anfängliche Tilgung', 'Darlehenslaufzeit' oder 'Darlehensrate' muss für die Berechnung vorgegeben werden. Wählen Sie aus, welchen der Parameter Sie vorgeben möchten. Die anderen Parameter werden entsprechend berechnet.",
+        "type": "select",
+        "vtype": "number",
+        "options": {
+          "2": "Anfängliche Tilgung",
+          "3": "Darlehenslaufzeit",
+          "4": "Darlehensrate"
+        }
+      },
+      "initrepay": {
+        "id": "debt-repaysurrogat-initrepay",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "label": "Anfängliche Tilgung",
+        "placeholder": "Anfängliche Tilgung",
+        "addon": "% p. a.",
+        "value": "1.50",
+        "tooltip": "Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "term": {
+        "id": "debt-repaysurrogat-term",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Darlehenslaufzeit",
+        "placeholder": "Darlehenslaufzeit",
+        "addon": "Jahre",
+        "value": "20",
+        "tooltip": "Geben Sie die Laufzeit des Darlehens in Jahren an. Dies ist die Dauer der monatlich zu zahlenden gleichbleibenden Raten (Annuitäten) bis zur vollständigen Rückzahlung des Darlehens.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "repay": {
+        "id": "debt-repaysurrogat-repay",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Darlehensrate",
+        "placeholder": "Darlehensrate",
+        "addon": "EUR",
+        "value": "500",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000000
+        ]
+      },
+      "interval": {
+        "id": "debt-repaysurrogat-interval",
+        "linetop": true,
+        "label": "Zahlungsintervall",
+        "tooltip": "Geben Sie das Zeitintervall für die Ratenzahlungen an.",
+        "type": "select",
+        "vtype": "number",
+        "options": {
+          "12": "monatlich",
+          "4":  "vierteljährlich",
+          "2":  "halbjährlich",
+          "1":  "jährlich"
+        }
+      },
+      "saveinterest": {
+        "id": "debt-repaysurrogat-saveinterest",
+        "linetop": false,
+        "optional": false,
+        "label": "Guthabenzinssatz",
+        "placeholder": "Guthabenzinssatz",
+        "addon": "% p. a.",
+        "value": "6.00",
+        "tooltip": "Geben Sie den jährlichen Zinssatz des Anlageproduktes ein, in welches die monatliche Überschüsse/Tilgungsersatzanteile investiert werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "taxes": {
+        "id": "debt-repaysurrogat-taxes",
+        "linetop": true,
+        "label": "Steuern berücksichtigen?",
+        "tooltip": "Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
+        "type": "select",
+        "vtype": "boolean",
+        "options": {
+          "false": "Nein",
+          "true": "Ja"
+        }
+      },
+      "taxrate": {
+        "id": "debt-repaysurrogat-taxrate",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Steuersatz",
+        "placeholder": "Steuersatz",
+        "addon": "% p. a.",
+        "value": "26.375",
+        "tooltip": "Geben Sie den prozentualen Steuersatz an, mit welchem die Kapitalerträge nach Abzug des Freibetrages belastet werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "taxfree": {
+        "id": "debt-repaysurrogat-taxfree",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Jährlicher Freibetrag",
+        "placeholder": "Freibetrag",
+        "addon": "EUR",
+        "value": "801.00",
+        "tooltip": "Geben Sie den jährlichen Steuerfreibetrag an. In Deutschland beträgt der Freibetrag 801.00 EUR für Ledige und 1.602.00 EUR für Verheiratete.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000
+        ]
+      }
+    },
+    "results_1": {
+      "rate": {
+        "tooltip": "Die maximale monatliche Rate zur Rückzahlung des Darlehens (Zins und Tilgung), welche aus dem monatlichen Einkommensüberschüssen höchstens finanziert werden kann. Die Rate setzt sich zusammen aus Mietersparnis und zusätzlichem frei verfügbaren Einkommen, vermindert um die laufenden Kosten der neuen Immobilie.",
+        "description": "Monatsrate",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      }
+    }
   }
 }

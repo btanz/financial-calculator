@@ -219,6 +219,21 @@ router.get('/dispozinsrechner/inputs', function(req,res,next){
 
 
 /* **********************************
+ ** debt-repaysurrogat routes
+ *********************************** */
+router.get('/tilgungssurrogatrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.repaysurrogat});
+});
+
+
+router.get('/tilgungssurrogatrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = debt.repaysurrogat(obj);
+  res.json(results);
+});
+
+
+/* **********************************
  ** misc-daycount routes
  *********************************** */
 router.get('/zinstagerechner', function(req,res,next){

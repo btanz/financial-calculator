@@ -28,10 +28,51 @@ app.debt = (function() {
       toggleDispoSelect(e);
     });
 
+
+    // attach event handler for repaysurrogat selection
+    $('#debt-repaysurrogat-selection').on('change', function (e) {
+      toggleInputsRepaysurrogat(e);
+    });
+
+    // attach event handler for repaysurrogat tax
+    $('#debt-repaysurrogat-taxes').on('change', function (e) {
+      toggleInputsRepaysurrogatTaxes(e);
+    });
+
+
+
+
   });
   /*********************** END DEBT DOCUMENT READY TASKS *************************/
 
   /*********************** BEGIN DEBT EVENT HANDLERS ***********************/
+  function toggleInputsRepaysurrogat (e){
+    e.preventDefault();
+    var state = $('#debt-repaysurrogat-selection').val();
+    if (state === "2"){
+      $('#debt-repaysurrogat-initrepay').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-repaysurrogat-term, #debt-repaysurrogat-repay').closest('div[class^="form-group"]').addClass('hide');
+    } else if (state === "3"){
+      $('#debt-repaysurrogat-term').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-repaysurrogat-initrepay, #debt-repaysurrogat-repay').closest('div[class^="form-group"]').addClass('hide');
+    } else if (state === "4"){
+      $('#debt-repaysurrogat-repay').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-repaysurrogat-initrepay, #debt-repaysurrogat-term').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
+
+  function toggleInputsRepaysurrogatTaxes (e){
+    e.preventDefault();
+    var state = $('#debt-repaysurrogat-taxes').val();
+    if (state === 'true'){
+      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree').closest('div[class^="form-group"]').removeClass('hide');
+    } else if (state === 'false'){
+      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
+
+
+
   function toggleAnnuitySelect (e){
     e.preventDefault();
 

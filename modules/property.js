@@ -941,7 +941,7 @@ exports.buyrent = function(inputs){
 
 
 /** PROPERTY-PROPERTYPRICE function that computes affordable property price thresholds
- * ARGUMENTS XXX todo
+ * ARGUMENTS XXX todo: documenation
 
  * ACTIONS
  *   none
