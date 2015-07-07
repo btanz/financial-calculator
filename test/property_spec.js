@@ -33,18 +33,189 @@ describe("Property calculators correct", function() {
         expectations = [];
     before(function () {
       data[0] = { rent: 800, income: 200, maintenance: 120, interest: 2.5, initrepay: 1.5, term: 20, equity: 40000, notar: 1.5, makler: 4.5, proptax: 5.5, selection: 2 };
-      expectations[0] = {maxprice: 286643.72259676585, notar: 4299.655838951488, makler: 12898.967516854462, proptax: 157.65404742822122, totalpropcost: 304000, loan: 264000, rate: 880, term: 39.27402383053324, initrepay: 1.5, interest: 150733.69165043102, totalcost: 454733.691650431};
+      data[1] =  {rent: '800', income: '450', maintenance: '250', interest: '5',           initrepay: '1.5', term: '',      equity: '50000',    makler: '4', proptax: '5', selection: '2', notar: '1.5'};
+      data[2] =  {rent: '800', income: '450', maintenance: '250', interest: '5',           initrepay: '',    term: '29.39', equity: '50000',    makler: '4', proptax: '5', selection: '3', notar: '1.5'};
+      data[3] =  {rent: '1805.19', income: '516.85', maintenance: '157.75', interest: '20',initrepay: '1',   term: '',      equity: '20825.91', makler: '8', proptax: '6', selection: '2', notar: '8'};
+      data[4] =  {rent: '538.54', income: '867.57', maintenance: '325.99', interest: '12', initrepay: '',    term: '40.91', equity: '41252.44', makler: '2', proptax: '0', selection: '3', notar: '1'};
+      data[5] =  {rent: '729.58', income: '70.86', maintenance: '90.16', interest: '16',   initrepay: '4',   term: '',      equity: '98583.16', makler: '4', proptax: '8', selection: '2', notar: '8'};
+      data[6] =  {rent: '1846.70', income: '913.16', maintenance: '307.37', interest: '5', initrepay: '0',   term: '',      equity: '15480.22', makler: '3', proptax: '3', selection: '2', notar: '3'};
+      data[7] =  {rent: '1933.51', income: '550.52', maintenance: '172.29', interest: '7', initrepay: '',    term: '23.17', equity: '59870.08', makler: '6', proptax: '5', selection: '3', notar: '8'};
+      data[8] =  {rent: '623.04', income: '244.05', maintenance: '223.04', interest: '20', initrepay: '1',   term: '',      equity: '91440.9',  makler: '5', proptax: '3', selection: '2', notar: '0'};
+      data[9] =  {rent: '1309.51', income: '792.33', maintenance: '43.97', interest: '3',  initrepay: '',    term: '23.62', equity: '53265.06', makler: '10', proptax: '0', selection: '3', notar: '0'};
+      data[10] = {rent: '456.65', income: '724.83', maintenance: '340.72', interest: '11', initrepay: '0',   term: '',      equity: '69769.83', makler: '6', proptax: '10',selection: '2', notar: '4'};
+      data[11] = {rent: '1102.07', income: '871.13', maintenance: '145.69', interest: '19',initrepay: '0',   term: '',      equity: '84462.51', makler: '8', proptax: '1', selection: '2', notar: '10'};
+      data[12] = {rent: '817.39', income: '553.19', maintenance: '143.91', interest: '0',  initrepay: '',    term: '10.2',  equity: '30724.67', makler: '9', proptax: '7', selection: '3', notar: '6'};
+      data[13] = {rent: '1991.20', income: '52.26', maintenance: '131.67', interest: '1',  initrepay: '',    term: '22.56', equity: '68497.75', makler: '1', proptax: '3', selection: '3', notar: '8'};
+      data[14] = {rent: '780.88', income: '236.00', maintenance: '212.60', interest: '0',  initrepay: '2',   term: '',      equity: '67206.07', makler: '1', proptax: '9', selection: '2', notar: '4'};
+      data[15] = {rent: '654.36', income: '926.12', maintenance: '193.71', interest: '17', initrepay: '',    term: '44.55', equity: '878.16',   makler: '2', proptax: '7', selection: '3', notar: '9'};
+      data[16] = {rent: '1088.26', income: '59.31', maintenance: '104.70', interest: '7',  initrepay: '',    term: '27.26', equity: '93423.1',  makler: '3', proptax: '2', selection: '3', notar: '7'};
+      data[17] = {rent: '576.21', income: '487.20', maintenance: '99.95', interest: '2',   initrepay: '',    term: '11.71', equity: '6207.42',  makler: '8', proptax: '3', selection: '3', notar: '2'};
+      data[18] = {rent: '405.38', income: '560.28', maintenance: '24.81', interest: '7',   initrepay: '2',   term: '',      equity: '32227.53', makler: '6', proptax: '3', selection: '2', notar: '5'};
+      data[19] = {rent: '1350.85', income: '94.69', maintenance: '370.78', interest: '9',  initrepay: '',    term: '47.14', equity: '73596.3',  makler: '4', proptax: '7', selection: '3', notar: '3'};
+      data[20] = {rent: '257.11', income: '854.70', maintenance: '115.82', interest: '13', initrepay: '1',   term: '',      equity: '97999.41', makler: '6', proptax: '5', selection: '2', notar: '4'};
+
+      expectations[0] = {maxprice: 272645.74,notar: 4089.69,  makler: 12269.06, proptax: 14995.52, totalpropcost: 304000, loan: 264000, rate: 880, term: 39.27, initrepay: 1.5, interest: 150691.20, totalcost: 454691.20};
+      expectations[1] = {makler: 8492.86,   notar: 3184.82,   proptax: 10616.08,    totalpropcost: 234615.38,  loan: 184615.38, rate: 1000.00, term: 29.39,  interest: 168064.62,   totalcost: 402680.0000, initrepay: 1.50,  maxprice: 212321.62};
+      expectations[2] = {makler: 8493.09,   notar: 3184.91,   proptax: 10616.36,    totalpropcost: 234621.47,  loan: 184621.47, rate: 1000.00, term: 29.39,  interest: 168058.53,   totalcost: 402680.0000, initrepay: 1.50,  maxprice: 212327.13};
+      expectations[3] = {makler: 9475.39,   notar: 9475.39,   proptax: 7106.54,     totalpropcost: 144499.62,  loan: 123673.71, rate: 2164.29, term: 15.35,  interest: 274988.50,   totalcost: 419488.13,   initrepay: 1.00,  maxprice: 118442.31};
+      expectations[4] = {makler: 2882.48,   notar: 1441.24,   proptax: 0.00,        totalpropcost: 148447.81,  loan: 107195.37, rate: 1080.12, term: 40.91,  interest: 423057.14,   totalcost: 571504.95,   initrepay: 0.09,  maxprice: 144124.09};
+      expectations[5] = {makler: 4706.67,   notar: 9413.33,   proptax: 9413.33,     totalpropcost: 141199.96,  loan: 42616.80,  rate: 710.28,  term: 10.13,  interest: 43724.84,    totalcost: 184924.80,   initrepay: 4.00,  maxprice: 117666.63};
+      expectations[6] = {makler: 16626.00,  notar: 16626.00,  proptax: 16626.00,    totalpropcost: 604077.82,  loan: 588597.60, rate: 2452.49, term: Infinity,interest: Infinity,   totalcost: Infinity,    initrepay: 0,     maxprice: 554199.83};
+      //expectations[7] = {makler: 19034.65,  notar: 25379.54,  proptax: 15862.21,    totalpropcost: 377520.59,  loan: 317650.51, rate: 2311.74, term: 23.17,  interest: 325105.68,   totalcost: 702626.27,   initrepay: 1.73,  maxprice: 317244.19};
+      expectations[8] = {makler: 5937.21,   notar: 0.00,      proptax: 3562.33,     totalpropcost: 128243.76,  loan: 36802.86,  rate: 644.05,  term: 15.35,  interest: 81831.15,    totalcost: 210074.91,   initrepay: 1.00,  maxprice: 118744.22};
+      expectations[9] = {makler: 42799.24,  notar: 0.00,      proptax: 0.00,        totalpropcost: 470791.63,  loan: 417526.57, rate: 2057.87, term: 23.62,  interest: 165756.10,   totalcost: 636547.73,   initrepay: 2.91,  maxprice: 427992.39};
+      expectations[10]= {makler: 8074.46,   notar: 5382.97,   proptax: 13457.43,    totalpropcost: 161489.10,  loan: 91719.27,  rate: 840.76,  term: Infinity,interest: Infinity,   totalcost: Infinity,    initrepay: 0.0000,maxprice: 134574.25};
+      expectations[11]= {makler: 13437.59,  notar: 16796.99,  proptax: 1679.70,     totalpropcost: 199884.19,  loan: 115421.68, rate: 1827.51, term: Infinity,interest: Infinity,   totalcost: Infinity,    initrepay: 0.0000,maxprice: 167969.91};
+      expectations[12]= {makler: 13342.80,  notar: 8895.20,   proptax: 10377.73,    totalpropcost: 180869.08,  loan: 150144.41, rate: 1226.67, term: 10.20,  interest: 0.00,        totalcost: 180869.08,   initrepay: 9.80,  maxprice: 148253.34};
+      expectations[13]= {makler: 4746.95,   notar: 37975.58,  proptax: 14240.84,    totalpropcost: 531658.17,  loan: 463160.42, rate: 1911.79, term: 22.56,  interest: 54399.37,    totalcost: 586057.54,   initrepay: 3.95,  maxprice: 474694.80};
+      expectations[14]= {makler: 4822.58,   notar: 19290.32,  proptax: 43403.22,    totalpropcost: 549774.07,  loan: 482568.00, rate: 804.28,  term: 50.00,  interest: 0.00,        totalcost: 549774.07,   initrepay: 2.00,  maxprice: 482257.96};
+      expectations[15]= {makler: 1673.13,   notar: 7529.09,   proptax: 5855.96,     totalpropcost: 98714.76,   loan: 97836.60,  rate: 1386.77, term: 44.55,  interest: 643530.65,   totalcost: 742245.40,   initrepay: 0.01,  maxprice: 83656.57};
+      expectations[16]= {makler: 6576.76,   notar: 15345.76,  proptax: 4384.50,     totalpropcost: 245532.20,  loan: 152109.10, rate: 1042.87, term: 27.26,  interest: 189034.53,   totalcost: 434566.73,   initrepay: 1.23,  maxprice: 219225.18};
+      expectations[17]= {makler: 8978.30,   notar: 2244.57,   proptax: 3366.86,     totalpropcost: 126818.46,  loan: 120611.04, rate: 963.46,  term: 11.71,  interest: 14774.36,    totalcost: 141592.82,   initrepay: 7.59,  maxprice: 112228.72};
+      expectations[18]= {makler: 8298.64,   notar: 6915.53,   proptax: 4149.32,     totalpropcost: 157674.20,  loan: 125446.67, rate: 940.85,  term: 21.55,  interest: 117857.14,   totalcost: 275531.34,   initrepay: 2.00,  maxprice: 138310.70};
+      expectations[19]= {makler: 7537.04,   notar: 5652.78,   proptax: 13189.81,    totalpropcost: 214805.51,  loan: 141209.21, rate: 1074.76, term: 47.14,  interest: 466761.03,   totalcost: 681566.54,   initrepay: 0.13,  maxprice: 188425.88};
+      expectations[20]= {makler: 9567.13,   notar: 6378.09,   proptax: 7972.61,     totalpropcost: 183369.98,  loan: 85370.57,  rate: 995.99,  term: 20.41,  interest: 158567.30,   totalcost: 341937.28,   initrepay: 1.00,  maxprice: 159452.16};
+
+
     });
 
     it('Passes 1st test set', function(){
       var results = property.propertyprice(data[0]),
           values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= el.value});
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
       assert(_.isMatch(values, expectations[0]));
-
     });
 
-    // todo: add more test cases
+    it('Passes 2nd test set', function(){
+      var results = property.propertyprice(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.propertyprice(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.propertyprice(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = property.propertyprice(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = property.propertyprice(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = property.propertyprice(data[6]),
+          values = {};
+      assert(Array.isArray(results));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = property.propertyprice(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = property.propertyprice(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = property.propertyprice(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = property.propertyprice(data[10]),
+          values = {};
+      assert(Array.isArray(results));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = property.propertyprice(data[11]),
+          values = {};
+      assert(Array.isArray(results));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = property.propertyprice(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = property.propertyprice(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = property.propertyprice(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = property.propertyprice(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = property.propertyprice(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = property.propertyprice(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = property.propertyprice(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = property.propertyprice(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
   });
 
 

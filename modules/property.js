@@ -4,6 +4,7 @@ var _ = require('underscore');
 var calcElems = require('../data/static/calcElems.json');
 var math = require('./math');
 var finance = require('./finance');
+var f = require('../lib/finance');
 
 
 
@@ -950,13 +951,21 @@ exports.buyrent = function(inputs){
 exports.propertyprice = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
+  helpers.errors.clear();
   var result = {}; result._1 = {}; helper = {};
   var localElems = calcElems.propertyprice.results_1;
   var expectedInputs = calcElems.propertyprice.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
+  var selectMap = [undefined,undefined,'term','initrepay'];
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
+  // drop elems that are to be computed
+  delete inputs[selectMap[inputs.selection]];
+  delete _expectedInputs[selectMap[inputs.selection]];
+
+
+  errorMap = helpers.validate(inputs, _expectedInputs);
   if (errorMap.length !== 0){
     return errorMap;
   }
@@ -965,7 +974,6 @@ exports.propertyprice = function(inputs){
   inputs.interest = inputs.interest / 100;
   inputs.notar = inputs.notar / 100;
   inputs.makler = inputs.makler / 100;
-  inputs.proptax = inputs.proptax / 100;
   inputs.proptax = inputs.proptax / 100;
   inputs.initrepay = inputs.initrepay / 100;
 
@@ -977,10 +985,11 @@ exports.propertyprice = function(inputs){
 
   if(inputs.selection === 2){  // initrepay selected
     helper.loan = (helper.rate * 12) / (inputs.interest + inputs.initrepay);
-    helper.term = (inputs.interest === 0) * helper.loan / (12 * helper.rate) + (inputs.interest !== 0) * Math.log((helper.rate / ((inputs.interest / 12) * helper.loan)) / ((helper.rate / ((inputs.interest / 12)*helper.loan))-1)) / (12 * Math.log(1 + (inputs.interest/12)));
+    helper.term = f.annuity.annuityTerm(helper.loan, helper.rate, inputs.interest, 12);
+    helper.term = Math.round(helper.term * 100) / 100;
   } else if (inputs.selection === 3){  // term selected
     helper.qnt = Math.pow(helper.q, 12 * inputs.term);
-    helper.loan = (inputs.interest === 0) * helper.rate * inputs.term * 12 + (inputs.interest !== 0) * helper.rate * (helper.qnt - 1) / (helper.qnt * (helper.q- 1));
+    helper.loan = (inputs.interest === 0) ? helper.rate * inputs.term * 12 : helper.rate * (helper.qnt - 1) / (helper.qnt * (helper.q- 1));
     helper.initrepay = (12 * helper.rate - helper.loan * inputs.interest) / helper.loan;
   } else {  // sthg wrong
     return;
@@ -1016,6 +1025,12 @@ exports.propertyprice = function(inputs){
   result._1.interest      = _.extend(localElems['interest'],      {"value": helper.interest});
   result._1.totalcost     = _.extend(localElems['totalcost'],     {"value": helper.totalcost});
 
+
+  /* ******** 5. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
+  if (inputs.selection === 2 && inputs.initrepay <= 0){
+    helpers.errors.set("Realistische Ergebnisse können nicht berechnet werden, da die anfängliche Tilgungsrate nicht größer als 0 ist. Daher wird der Kredit nicht getilgt. Geben sie eine positive Tilgungsrate ein oder alternativ die Darlehenslaufzeit vor.",undefined , true);
+    return helpers.errors.errorMap;
+  }
 
   return result;
 

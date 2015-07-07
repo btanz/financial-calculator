@@ -2990,7 +2990,7 @@
       "initrepay": {
         "id": "property-propertyprice-initrepay",
         "linetop": false,
-        "optional": true,
+        "optional": false,
         "secondary": true,
         "label": "Anfängliche Tilgung",
         "placeholder": "Anfängliche Tilgung",
@@ -3007,7 +3007,7 @@
       "term": {
         "id": "property-propertyprice-term",
         "linetop": false,
-        "optional": true,
+        "optional": false,
         "secondary": true,
         "hide": "true",
         "label": "Darlehenslaufzeit",
@@ -3090,77 +3090,77 @@
     },
     "results_1": {
       "rate": {
-        "tooltip": "TBD",
+        "tooltip": "Die maximale monatliche Rate zur Rückzahlung des Darlehens (Zins und Tilgung), welche aus dem monatlichen Einkommensüberschüssen höchstens finanziert werden kann. Die Rate setzt sich zusammen aus Mietersparnis und zusätzlichem frei verfügbaren Einkommen, vermindert um die laufenden Kosten der neuen Immobilie.",
         "description": "Monatsrate",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "loan": {
-        "tooltip": "TBD",
+        "tooltip": "Der höchstmögliche Darlehensbetrag berechnet aus den Eingabeparametern. Dieser Darlehensbetrag zusammen mit dem Eigenkapital ergibt die Gesamtkosten der Immobilie, welche man in diesem Szenario gerade noch finanzieren kann.",
         "description": "Darlehensbetrag",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "term": {
-        "tooltip": "TBD",
+        "tooltip": "Die Dauer bis zur vollständigen Rückzahlung des Darlehens mit Zins und Tilgung.",
         "description": "Darlehenslaufzeit",
         "unit": "Jahre",
         "digits": 2,
         "importance": "second"
       },
       "initrepay": {
-        "tooltip": "TBD",
+        "tooltip": "Der prozentuale Anteil des Darlehensbetrags, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird",
         "description": "Anfängliche Tilgung",
         "unit": "%",
         "digits": 2,
         "importance": "second"
       },
       "interest": {
-        "tooltip": "TBD",
+        "tooltip": "Der gesamte für das Darlehen entstehende Zinsaufwand. Der Zinsaufwand ist die Summe aller in den Monatsraten enthaltenen Zinsszahlungen für das Darlehen.",
         "description": "Zinsaufwand",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "totalpropcost": {
-        "tooltip": "TBD",
+        "tooltip": "Die Gesamtkosten der Immobilien, bestehend aus Kaufpreis, Notargebühren, Maklerprovisionen sowie Grunderwerbssteuer.",
         "description": "Gesamtkosten der Immobilie",
         "unit": "EUR",
         "digits": 2,
         "importance": "first"
       },
       "maxprice": {
-        "tooltip": "TBD",
+        "tooltip": "Der maximal finanzierbare Kaufpreis der Immobilie ohne Kosten wie Notargebühren, Maklerprovisionen und Grunderwerbssteuern. Der Betrag wird aus den Eingabeparametern berechnet und hängt maßgeblich ab vom Eigenkapital, der monatlich verfügbaren Darlehensrate (Monatsrate) sowie der anfänglichen Tilgung bzw. Laufzeit.",
         "description": "Höchstmöglicher Kaufpreis",
         "unit": "EUR",
         "digits": 2,
         "importance": "first"
       },
       "notar": {
-        "tooltip": "TBD",
+        "tooltip": "Die prozentuale Gebühr für die Dienste des Notars bezogen auf den Kaufpreis.",
         "description": "Notargebühr",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "makler": {
-        "tooltip": "TBD",
+        "tooltip": "Die prozentuale Provision für den Makler bezogen auf den Kaufpreis.",
         "description": "Maklerprovision",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "proptax": {
-        "tooltip": "TBD",
+        "tooltip": "Die beim Kauf für Grundstück und Gebäude zu entrichtende Grunderwerbssteuer als Prozentsatz des Kaufpreises.",
         "description": "Grunderwerbssteuer",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       },
       "totalcost": {
-        "tooltip": "TBD",
+        "tooltip": "Der Gesamtaufwand setzt sich zusammen aus den gesamten Kosten der Immobilie sowie dem Zinsaufwand des Darlehens.",
         "description": "Gesamtaufwand des Immobilienerwerbs",
         "unit": "EUR",
         "digits": 2,
