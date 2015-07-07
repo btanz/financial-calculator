@@ -4,6 +4,7 @@ var helpers = require('./helpers');
 var math = require('./math');
 var misc = require('./misc');
 var calcElems = require('../data/static/calcElems.json');
+var f = require('../lib/finance');
 
 
 exports.annuity = function(inputs){
@@ -398,3 +399,76 @@ exports.dispo = function(inputs){
 
 
 };
+
+
+
+
+
+/** DEBT-REPAYSURROGATE function that checks whether it is more attractive to safe and pay back
+ * a loan in full at the end of the term or pay back annuities
+ * ARGUMENTS XXX todo: documenation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.repaysurrogat = function(inputs){
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  var result = {}; result._1 = {}; helper = {};
+  var localElems = calcElems.repaysurrogat.results_1;
+  var expectedInputs = calcElems.repaysurrogat.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = [undefined,undefined,'initrepay','term','repay'];
+
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  // drop elems that are to be computed
+  if(inputs.selection === "2"){
+    delete inputs['term']; delete _expectedInputs['term'];
+    delete inputs['repay']; delete _expectedInputs['repay'];
+  } else if(inputs.selection === "3") {
+    delete inputs['initrepay']; delete _expectedInputs['initrepay'];
+    delete inputs['repay']; delete _expectedInputs['repay'];
+  } else if(inputs.selection === "4") {
+    delete inputs['initrepay']; delete _expectedInputs['initrepay'];
+    delete inputs['term']; delete _expectedInputs['term'];
+  } else {  // sthg wrong
+    return;
+  }
+
+  if(inputs.taxes === 'false'){
+    delete inputs['taxrate'];
+    delete inputs['taxfree'];
+    delete _expectedInputs['taxrate'];
+    delete _expectedInputs['taxfree'];
+  }
+
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  inputs.debtinterest = inputs.debtinterest / 100;
+  inputs.initrepay = inputs.initrepay / 100;
+  inputs.saveinterest = inputs.saveinterest / 100;
+  inputs.taxrate = inputs.taxrate / 100;
+
+
+  console.log(inputs);
+
+  /* ******** 3. COMPUTATIONS ******** */
+  helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(inputs.term, inputs.interval);
+  helper.totalcost = helper.adjustedterm * inputs.interval * f.annuity.annuity(inputs.principal, inputs.debtinterest, inputs.interval, inputs.term);
+  helper.interest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
+  helper.repaysubstitute = helper.totalcost - helper.interest;
+
+
+
+
+};
+
+
+

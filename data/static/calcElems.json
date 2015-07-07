@@ -3175,8 +3175,8 @@
     "name": "Tilgungssurrogatrechner",
     "description": "Mit dem Tilgungssurrogatrechner können Sie bestimmen, ob eine Tilgungsaussetzung und Wandlung eines Annuitätendarlehens in ein endfälliges Darlehen bei gleichzeitiger Anlage der überschüssigen Mittel zu einem finanziellen Vorteil führt.",
     "inputs": {
-      "rent": {
-        "id": "debt-repaysurrogat-princial",
+      "principal": {
+        "id": "debt-repaysurrogat-principal",
         "linetop": false,
         "optional": false,
         "label": "Darlehensbetrag",
