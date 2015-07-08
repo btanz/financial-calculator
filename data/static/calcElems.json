@@ -3198,7 +3198,7 @@
         "label": "Darlehenszinssatz",
         "placeholder": "Darlehenszinssatz",
         "addon": "% p. a.",
-        "value": "2.50",
+        "value": "4.00",
         "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, welcher für das Darlehen zu zahlen ist.",
         "type": "number",
         "vtype": "number",
@@ -3225,8 +3225,8 @@
         "linetop": false,
         "optional": false,
         "secondary": true,
-        "label": "Anfängliche Tilgung",
-        "placeholder": "Anfängliche Tilgung",
+        "label": "Tilgungssatz",
+        "placeholder": "Tilgungssatz",
         "addon": "% p. a.",
         "value": "1.50",
         "tooltip": "Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.",
@@ -3353,12 +3353,82 @@
       }
     },
     "results_1": {
-      "rate": {
-        "tooltip": "Die maximale monatliche Rate zur Rückzahlung des Darlehens (Zins und Tilgung), welche aus dem monatlichen Einkommensüberschüssen höchstens finanziert werden kann. Die Rate setzt sich zusammen aus Mietersparnis und zusätzlichem frei verfügbaren Einkommen, vermindert um die laufenden Kosten der neuen Immobilie.",
-        "description": "Monatsrate",
+      "totalcost": {
+        "tooltip": "Die Summe aller während der Laufzeit anfallenden Zahlungen, welche sich aus dem Produkt von Darlehensrate und Anzahl der Zahlung ergibt.",
+        "description": "Gesamtkosten Darlehen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "debtinterest": {
+        "tooltip": "Die Summe aller während der Laufzeit anfallenden Zinszahlungen, welche in der Darlehensrate enthalten sind.",
+        "description": "davon Zinsaufwand",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
+      },
+      "repaysubstitute": {
+        "tooltip": "Die Summe aller Tilgungszahlungen, welche bei Tilgungsaussetzung in ein Anlageprodukt investiert werden können.",
+        "description": "davon Tilgungssurrogat",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "annuity": {
+        "tooltip": "TBD",
+        "description": "Darlehensrate",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "repayrate": {
+        "tooltip": "TBD",
+        "description": "Tilgungssatz",
+        "unit": "%",
+        "digits": 2,
+        "importance": "second"
+      },
+      "term": {
+        "tooltip": "TBD",
+        "description": "Darlehenslaufzeit",
+        "unit": "Jahre",
+        "digits": 2,
+        "importance": "second"
+      },
+      "interestgain": {
+        "tooltip": "TBD",
+        "description": "Zinsertrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "terminalvalue": {
+        "tooltip": "TBD",
+        "description": "Endwert Anlagekapital",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "pnlcategory": {
+        "tooltip": "TBD",
+        "description": "Tilgungsaussetzung lohnt sich?",
+        "unit": "",
+        "type": "string",
+        "importance": "first"
+      },
+      "pnlpos": {
+        "tooltip": "TBD",
+        "description": "Finanzieller Vorteil",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "pnlneg": {
+        "tooltip": "TBD",
+        "description": "Finanzieller Nachteil",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
       }
     }
   }

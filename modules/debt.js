@@ -416,12 +416,18 @@ exports.dispo = function(inputs){
 exports.repaysurrogat = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
-  var result = {}; result._1 = {}; helper = {};
+  helpers.messages.clear();
+  helpers.errors.clear();
+
+  var result = {}; result._1 = {}; result._2 = {}; helper = {};
+  var i;
   var localElems = calcElems.repaysurrogat.results_1;
   var expectedInputs = calcElems.repaysurrogat.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined,undefined,'initrepay','term','repay'];
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = [];
+  var dynT, dynAnnual, dynAnnualT;
 
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -457,16 +463,159 @@ exports.repaysurrogat = function(inputs){
   inputs.taxrate = inputs.taxrate / 100;
 
 
-  console.log(inputs);
-
   /* ******** 3. COMPUTATIONS ******** */
-  helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(inputs.term, inputs.interval);
-  helper.totalcost = helper.adjustedterm * inputs.interval * f.annuity.annuity(inputs.principal, inputs.debtinterest, inputs.interval, inputs.term);
-  helper.interest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
-  helper.repaysubstitute = helper.totalcost - helper.interest;
+  /*
+   * 3.A STATIC CALCULATIONS
+   */
+  if (inputs.selection === 4){
+    helper.term = f.annuity.annuityTerm(inputs.principal, inputs.repay, inputs.debtinterest, inputs.interval);
+    if(isNaN(helper.term)){
+      helpers.errors.set("Realistische Ergebnisse können nicht berechnet werden, da die Darlehenszahlungen zu gering sind, um das Darlehen zu tilgen. Erhöhen Sie die Darlehensrate und/oder das Zahlungsintervall bzw. verringern Sie den Darlehensbetrag.", undefined , true);
+      return helpers.errors.errorMap;
+    }
+    helper.term = Math.round(helper.term * 100) / 100;
+    helper.adjustedterm = f.basic.adjustTermToHigherFullPeriod(helper.term, inputs.interval);
+    helper.annuity = inputs.repay;
+    helper.totalcost = helper.adjustedterm * inputs.interval * helper.annuity;
+    helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
+    helper.repaysubstitute = helper.totalcost - helper.debtinterest;
+    helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+  } else if (inputs.selection === 3){
+    helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(helper.term, inputs.interval);
+    helper.annuity = Math.round(100 * f.annuity.annuity(inputs.principal, inputs.debtinterest, inputs.interval, helper.adjustedterm)) / 100;
+    helper.totalcost = helper.adjustedterm * inputs.interval * helper.annuity;
+    helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
+    helper.repaysubstitute = helper.totalcost - helper.debtinterest;
+    helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+  } else if (inputs.selection === 2){
+    helper.annuity = Math.round(100 * ((inputs.initrepay * inputs.principal + inputs.principal * inputs.debtinterest) / inputs.interval)) / 100;
+    helper.term = f.annuity.annuityTerm(inputs.principal, helper.annuity, inputs.debtinterest, inputs.interval);
+    if(isNaN(helper.term)){
+      helpers.errors.set("Realistische Ergebnisse können nicht berechnet werden, da der Tilgungssatz zu gering ist, um das Darlehen zu tilgen. Bitte erhöhen Sie den Tilgungssatz.", undefined , true);
+      return helpers.errors.errorMap;
+    }
+    helper.term = Math.round(helper.term * 100) / 100;
+    helper.adjustedterm = f.basic.adjustTermToHigherFullPeriod(helper.term, inputs.interval);
+    helper.totalcost = helper.adjustedterm * inputs.interval * helper.annuity;
+    helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
+    helper.repaysubstitute = helper.totalcost - helper.debtinterest;
+    helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+  } else { //sthg wrong
+    return
+  }
+
+
+  /*
+   * 3.B DYNAMIC CALCULATIONS
+   */
+  var period = 1, year = 1;
+  var escape = false;
+  var accum = [0,0,0,0,0];
+  for (i = 1; period <= helper.adjustedterm * inputs.interval; i++){
+    if (escape){
+      dyn[0][i-1] = year;
+      dyn[1][i-1] = accum[1];
+      dyn[2][i-1] = accum[2];
+      dyn[3][i-1] = accum[3];
+      dyn[4][i-1] = accum[4];
+      dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
+      dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+      dyn[7][i-1] = true;   // annual val indicator
+      dyn[8][i-1] = ". Jahr";
+      escape = false; year += 1;
+      accum = [0,0,0,0,0];
+    } else {
+      dyn[0][i-1] = period * (12/inputs.interval);        // period
+      dyn[1][i-1] = inputs.principal * (inputs.debtinterest / inputs.interval);   // interest payment
+      dyn[2][i-1] = helper.annuity - dyn[1][i-1]   // repay surrogat
+      dyn[3][i-1] = helper.annuity;
+      //dyn[4][i-1] = (period-1) * dyn[2][i-1] * inputs.saveinterest / inputs.interval;      // interest received
+      (i === 1) ? dyn[5][i-1] = dyn[2][i-1] : dyn[5][i-1] = dyn[5][i-2] + dyn[2][i-1];
+      (i === 1) ? dyn[4][i-1] = 0 : dyn[4][i-1] = dyn[5][i-2] * inputs.saveinterest / inputs.interval;
+      dyn[6][i-1] = -inputs.principal + dyn[5][i-1];
+
+      // accumulate periodical vals
+      accum[1] += dyn[1][i-1];
+      accum[2] += dyn[2][i-1];
+      accum[3] += dyn[3][i-1];
+      accum[4] += dyn[4][i-1];
+      if(period % inputs.interval === 0){
+        escape = true;
+      }
+      period += 1;
+    }
+  }
+
+  // attach final year
+  dyn[0][i-1] = year;
+  dyn[1][i-1] = accum[1];
+  dyn[2][i-1] = accum[2];
+  dyn[3][i-1] = accum[3];
+  dyn[4][i-1] = accum[4];
+  dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
+  dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+  dyn[7][i-1] = true;   // annual val indicator
+  dyn[8][i-1] = ". Jahr";
+
+  // transpose dyn
+  dynT = dyn[0].map(function(col,i){
+    return dyn.map(function(row){
+      return row[i];
+    })
+  });
+
+  // compute array with annual vals
+  dynAnnual = _.filter(dynT, function(subarray){ return subarray[7]===true});
+
+  // transpose dynAnnual
+  dynAnnualT = dynAnnual[0].map(function(col,i){
+    return dynAnnual.map(function(row){
+      return row[i];
+    })
+  });
+
+  helper.interestgain = _.reduce(dynAnnualT[4], helpers.add, 0);
+  helper.terminalvalue = dyn[5][i-2] + accum[4];
+  helper.pnl = -inputs.principal + dyn[5][i-2] + accum[4];
+
+  // attach final sums
+  dynT.push(['Gesamt', _.reduce(dynAnnualT[1], helpers.add, 0), _.reduce(dynAnnualT[2], helpers.add, 0), _.reduce(dynAnnualT[3], helpers.add, 0), helper.interestgain, helper.terminalvalue, helper.pnl ,true]);
 
 
 
+
+  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+  result.id = calcElems.repaysurrogat.id;
+  /*
+   6.A FIRST RESULT CONTAINER
+   */
+  if(helper.pnl > 0){
+    result._1.pnlcategory  = _.extend(localElems['pnlcategory'],  {"value": "JA"});
+    result._1.pnl          = _.extend(localElems['pnlpos'],       {"value": helper.pnl});
+  } else {
+    result._1.pnlcategory  = _.extend(localElems['pnlcategory'],  {"value": "NEIN"});
+    result._1.pnl          = _.extend(localElems['pnlneg'],       {"value": helper.pnl});
+  }
+  result._1.totalcost      = _.extend(localElems['totalcost'],      {"value": helper.totalcost});
+  result._1.debtinterest   = _.extend(localElems['debtinterest'],   {"value": helper.debtinterest});
+  result._1.repaysubstitute= _.extend(localElems['repaysubstitute'],{"value": helper.repaysubstitute});
+  result._1.annuity        = _.extend(localElems['annuity'],        {"value": helper.annuity});
+  result._1.repayrate      = _.extend(localElems['repayrate'],      {"value": helper.repayrate * 100});
+  result._1.term           = _.extend(localElems['term'],           {"value": helper.adjustedterm});
+  result._1.terminalvalue  = _.extend(localElems['terminalvalue'],  {"value": helper.terminalvalue});
+  result._1.interestgain   = _.extend(localElems['interestgain'],   {"value": helper.interestgain});
+
+  /*
+   6.B SECOND RESULT CONTAINER
+   */
+  result._2.title = 'Wertentwicklung';
+  result._2.header = ['Monat', 'Zins- <br> aufwand', 'Tilgungs- <br> surrogat', 'Gesamtrate','Zins- <br> ertrag','Anlagekapital','Saldo'];
+  result._2.body = dynT;
+
+
+
+
+  return result;
 
 };
 
