@@ -419,6 +419,7 @@ exports.repaysurrogat = function(inputs){
   helpers.messages.clear();
   helpers.errors.clear();
 
+
   var result = {}; result._1 = {}; result._2 = {}; helper = {};
   var i;
   var localElems = calcElems.repaysurrogat.results_1;
@@ -426,7 +427,7 @@ exports.repaysurrogat = function(inputs){
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined,undefined,'initrepay','term','repay'];
-  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = [];
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = []; dyn[9] = [];
   var dynT, dynAnnual, dynAnnualT;
 
 
@@ -448,8 +449,10 @@ exports.repaysurrogat = function(inputs){
   if(inputs.taxes === 'false'){
     delete inputs['taxrate'];
     delete inputs['taxfree'];
+    delete inputs['taxtime'];
     delete _expectedInputs['taxrate'];
     delete _expectedInputs['taxfree'];
+    delete _expectedInputs['taxtime'];
   }
 
   errorMap = helpers.validate(inputs, _expectedInputs);
@@ -461,6 +464,8 @@ exports.repaysurrogat = function(inputs){
   inputs.initrepay = inputs.initrepay / 100;
   inputs.saveinterest = inputs.saveinterest / 100;
   inputs.taxrate = inputs.taxrate / 100;
+
+  var taxend = (inputs.taxtime === 'true') ? true : false;
 
 
   /* ******** 3. COMPUTATIONS ******** */
@@ -504,13 +509,16 @@ exports.repaysurrogat = function(inputs){
     return
   }
 
+  console.log(inputs);
+
+
 
   /*
    * 3.B DYNAMIC CALCULATIONS
    */
   var period = 1, year = 1;
   var escape = false;
-  var accum = [0,0,0,0,0];
+  var accum = [0,0,0,0,0,0,0,0,0,0];
   for (i = 1; period <= helper.adjustedterm * inputs.interval; i++){
     if (escape){
       dyn[0][i-1] = year;
@@ -518,12 +526,20 @@ exports.repaysurrogat = function(inputs){
       dyn[2][i-1] = accum[2];
       dyn[3][i-1] = accum[3];
       dyn[4][i-1] = accum[4];
-      dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
-      dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+      if(taxend) {
+        dyn[9][i-1] = dyn[9][i-2];
+        dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
+        dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+      } else {
+        dyn[9][i-1] = (dyn[4][i - 1] > inputs.taxfree) ? -(dyn[4][i - 1] - inputs.taxfree) * inputs.taxrate : 0;
+        dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1] + dyn[9][i-1];
+        dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+      }
       dyn[7][i-1] = true;   // annual val indicator
       dyn[8][i-1] = ". Jahr";
+
       escape = false; year += 1;
-      accum = [0,0,0,0,0];
+      accum[0] = 0; accum[1] = 0; accum[2] = 0; accum[3] = 0; accum[4] = 0; accum[5] = 0;
     } else {
       dyn[0][i-1] = period * (12/inputs.interval);        // period
       dyn[1][i-1] = inputs.principal * (inputs.debtinterest / inputs.interval);   // interest payment
@@ -539,6 +555,13 @@ exports.repaysurrogat = function(inputs){
       accum[2] += dyn[2][i-1];
       accum[3] += dyn[3][i-1];
       accum[4] += dyn[4][i-1];
+      accum[9] += dyn[4][i-1];
+      if(taxend){
+        dyn[9][i-1] = - Math.max(0,(accum[9]-inputs.taxfree) * inputs.taxrate);
+      } else {
+        dyn[9][i-1] = (accum[4] > inputs.taxfree) ? -Math.min( dyn[4][i-1],accum[4] - inputs.taxfree) * inputs.taxrate : 0;
+      }
+
       if(period % inputs.interval === 0){
         escape = true;
       }
@@ -552,8 +575,15 @@ exports.repaysurrogat = function(inputs){
   dyn[2][i-1] = accum[2];
   dyn[3][i-1] = accum[3];
   dyn[4][i-1] = accum[4];
-  dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
-  dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+  if(taxend) {
+    dyn[9][i-1] = dyn[9][i-2];
+    dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1];
+    dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+  } else {
+    dyn[9][i-1] = (dyn[4][i - 1] > inputs.taxfree) ? -(dyn[4][i - 1] - inputs.taxfree) * inputs.taxrate : 0;
+    dyn[5][i-1] = dyn[5][i-2] + dyn[4][i-1] + dyn[9][i-1];
+    dyn[6][i-1] = - inputs.principal + dyn[5][i-1];
+  }
   dyn[7][i-1] = true;   // annual val indicator
   dyn[8][i-1] = ". Jahr";
 
@@ -575,11 +605,18 @@ exports.repaysurrogat = function(inputs){
   });
 
   helper.interestgain = _.reduce(dynAnnualT[4], helpers.add, 0);
-  helper.terminalvalue = dyn[5][i-2] + accum[4];
-  helper.pnl = -inputs.principal + dyn[5][i-2] + accum[4];
+  if(taxend) {
+    helper.terminalvalue = dyn[5][i-2] + accum[4];
+    helper.taxdeduct = dyn[9][i-1];
+  } else {
+    helper.terminalvalue = dyn[5][i-2] + accum[4] + dyn[9][i-1];
+    helper.taxdeduct = _.reduce(dynAnnualT[9], helpers.add, 0);
+  }
+  helper.pnl = -inputs.principal + dyn[5][i-2] + accum[4] + dyn[9][i-1];
+
 
   // attach final sums
-  dynT.push(['Gesamt', _.reduce(dynAnnualT[1], helpers.add, 0), _.reduce(dynAnnualT[2], helpers.add, 0), _.reduce(dynAnnualT[3], helpers.add, 0), helper.interestgain, helper.terminalvalue, helper.pnl ,true]);
+  dynT.push(['Gesamt', _.reduce(dynAnnualT[1], helpers.add, 0), _.reduce(dynAnnualT[2], helpers.add, 0), _.reduce(dynAnnualT[3], helpers.add, 0), helper.interestgain, (taxend) ? helper.terminalvalue + helper.taxdeduct :  helper.terminalvalue , helper.pnl ,true, , helper.taxdeduct]);
 
 
 
@@ -604,16 +641,30 @@ exports.repaysurrogat = function(inputs){
   result._1.term           = _.extend(localElems['term'],           {"value": helper.adjustedterm});
   result._1.terminalvalue  = _.extend(localElems['terminalvalue'],  {"value": helper.terminalvalue});
   result._1.interestgain   = _.extend(localElems['interestgain'],   {"value": helper.interestgain});
+  if (inputs.taxes === 'true'){
+    result._1.taxdeduct    = _.extend(localElems['taxdeduct'],      {"value": helper.taxdeduct});
+    if(taxend){
+      result._1.terminalwotax    = _.extend(localElems['terminalwotax'],      {"value": helper.terminalvalue + helper.taxdeduct});
+    }
+  }
 
   /*
    6.B SECOND RESULT CONTAINER
    */
   result._2.title = 'Wertentwicklung';
-  result._2.header = ['Monat', 'Zins- <br> aufwand', 'Tilgungs- <br> surrogat', 'Gesamtrate','Zins- <br> ertrag','Anlagekapital','Saldo'];
+
+  result._2.header = ['Monat', 'Zins- <br> aufwand', 'Tilgungs- <br> surrogat', 'Gesamt- <br> rate','Zins- <br> ertrag','Anlage- <br> kapital','Saldo',,,'Steuer- <br> abzug'];
   result._2.body = dynT;
-
-
-
+  if (inputs.taxes === 'true'){
+    result._2.tax = true;
+    if(taxend){
+      result._2.taxend = true;
+    } else {
+      result._2.taxan = true;
+    }
+  } else {
+    result._2.tax = false;
+  }
 
   return result;
 

@@ -3330,7 +3330,7 @@
         "vtype": "number",
         "args": [
           0,
-          20
+          75
         ]
       },
       "taxfree": {
@@ -3348,8 +3348,23 @@
         "vtype": "number",
         "args": [
           0,
-          10000
+          100000
         ]
+      },
+      "taxtime": {
+        "id": "debt-repaysurrogat-taxtime",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Versteuerungszeitpunkt",
+        "tooltip": "Wählen Sie, ob die Kapitalerträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen.",
+        "type": "select",
+        "vtype": "boolean",
+        "options": {
+          "false": "jährlich",
+          "true": "Laufzeitende"
+        }
       }
     },
     "results_1": {
@@ -3429,6 +3444,20 @@
         "unit": "EUR",
         "digits": 2,
         "importance": "first"
+      },
+      "taxdeduct": {
+        "tooltip": "TBD",
+        "description": "Steuerabzug",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "terminalwotax": {
+        "tooltip": "TBD",
+        "description": "Endwert nach Steuern",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
       }
     }
   }

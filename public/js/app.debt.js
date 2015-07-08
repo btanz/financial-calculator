@@ -65,9 +65,9 @@ app.debt = (function() {
     e.preventDefault();
     var state = $('#debt-repaysurrogat-taxes').val();
     if (state === 'true'){
-      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree').closest('div[class^="form-group"]').removeClass('hide');
+      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree, #debt-repaysurrogat-taxtime').closest('div[class^="form-group"]').removeClass('hide');
     } else if (state === 'false'){
-      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree').closest('div[class^="form-group"]').addClass('hide');
+      $('#debt-repaysurrogat-taxrate, #debt-repaysurrogat-taxfree, #debt-repaysurrogat-taxtime').closest('div[class^="form-group"]').addClass('hide');
     }
   }
 
