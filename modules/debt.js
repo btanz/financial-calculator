@@ -446,6 +446,8 @@ exports.repaysurrogat = function(inputs){
     return;
   }
 
+
+
   if(inputs.taxes === 'false'){
     delete inputs['taxrate'];
     delete inputs['taxfree'];
@@ -486,7 +488,7 @@ exports.repaysurrogat = function(inputs){
     helper.repaysubstitute = helper.totalcost - helper.debtinterest;
     helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
   } else if (inputs.selection === 3){
-    helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(helper.term, inputs.interval);
+    helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(inputs.term, inputs.interval);
     helper.annuity = Math.round(100 * f.annuity.annuity(inputs.principal, inputs.debtinterest, inputs.interval, helper.adjustedterm)) / 100;
     helper.totalcost = helper.adjustedterm * inputs.interval * helper.annuity;
     helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
@@ -509,7 +511,7 @@ exports.repaysurrogat = function(inputs){
     return
   }
 
-  console.log(inputs);
+  console.log(helper);
 
 
 
@@ -665,6 +667,8 @@ exports.repaysurrogat = function(inputs){
   } else {
     result._2.tax = false;
   }
+
+
 
   return result;
 
