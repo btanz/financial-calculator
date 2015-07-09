@@ -2572,8 +2572,8 @@
     },
     "results_1": {
       "total": {
-        "tooltip": "",
-        "omittooltip": true,
+        "tooltip": "Der Gesamtbetrag bestehend aus dem Kaufpreis und der anfallenden Grunderwerbssteuer.",
+        "omittooltip": false,
         "description": "Gesamtbetrag inkl. Steuer",
         "unit": "EUR",
         "digits": 2,

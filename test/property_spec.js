@@ -417,5 +417,198 @@ describe("Property calculators correct", function() {
   });
 
 
+  describe("Property-transfertax correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+      data[0] = {price: '852513.44', state: 'HES'};
+      data[1] = {price: '650487.06', state: 'HES'};
+      data[2] = {price: '492940', state: 'BER'};
+      data[3] = {price: '138588.52', state: 'BRE'};
+      data[4] = {price: '827068.88', state: 'BRE'};
+      data[5] = {price: '359205.96', state: 'SAA'};
+      data[6] = {price: '535076.96', state: 'HES'};
+      data[7] = {price: '138702.5', state: 'SCH'};
+      data[8] = {price: '844758.65', state: 'MEC'};
+      data[9] = {price: '826050.57', state: 'BRA'};
+      data[10]= {price: '729868.19', state: 'BAD'};
+      data[11]= {price: '607617.44', state: 'SAA'};
+      data[12]= {price: '717655.08', state: 'THU'};
+      data[13]= {price: '540157.35', state: 'BAY'};
+      data[14]= {price: '686054.46', state: 'BRA'};
+      data[15]= {price: '733057.09', state: 'SAR'};
+      data[16]= {price: '890052.71', state: 'MEC'};
+      data[17]= {price: '501464.89', state: 'BRE'};
+      data[18]= {price: '360545.88', state: 'SAR'};
+      data[19]= {price: '931336.03', state: 'SCH'};
+
+      expectations[0] = {total: 903664.25, tax: 51150.81, rate: 6};
+      expectations[1] = {total: 689516.28, tax: 39029.22, rate: 6};
+      expectations[2] = {total: 522516.4, tax: 29576.4, rate: 6};
+      expectations[3] = {total: 145517.95, tax: 6929.43, rate: 5};
+      expectations[4] = {total: 868422.32, tax: 41353.44, rate: 5};
+      expectations[5] = {total: 377166.26, tax: 17960.30, rate: 5};
+      expectations[6] = {total: 567181.58, tax: 32104.62, rate: 6};
+      expectations[7] = {total: 147718.16, tax: 9015.66, rate: 6.5};
+      expectations[8] = {total: 886996.58, tax: 42237.93, rate: 5};
+      expectations[9] = {total: 879743.86, tax: 53693.29, rate: 6.5};
+      expectations[10] = {total: 766361.6, tax: 36493.41, rate: 5};
+      expectations[11] = {total: 637998.31, tax: 30380.87, rate: 5};
+      expectations[12] = {total: 753537.83, tax: 35882.75, rate: 5};
+      expectations[13] = {total: 559062.86, tax: 18905.51, rate: 3.5};
+      expectations[14] = {total: 730648.00, tax: 44593.54, rate: 6.5};
+      expectations[15] = {total: 780705.80, tax: 47648.71, rate: 6.5};
+      expectations[16] = {total: 934555.35, tax: 44502.64, rate: 5};
+      expectations[17] = {total: 526538.13, tax: 25073.24, rate: 5};
+      expectations[18] = {total: 383981.36, tax: 23435.48, rate: 6.5};
+      expectations[19] = {total: 991872.87, tax: 60536.84, rate: 6.5};
+
+    });
+
+    it('Passes 1st test set', function(){
+      var results = property.transfertax(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = property.transfertax(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.transfertax(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.transfertax(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = property.transfertax(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = property.transfertax(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = property.transfertax(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = property.transfertax(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = property.transfertax(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = property.transfertax(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = property.transfertax(data[10]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[10]));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = property.transfertax(data[11]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[11]));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = property.transfertax(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = property.transfertax(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = property.transfertax(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = property.transfertax(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = property.transfertax(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = property.transfertax(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = property.transfertax(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = property.transfertax(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
+
+  });
+
+
 });
 
