@@ -35,7 +35,6 @@ exports.annuity = function(inputs){
   // run validations
   errorMap = helpers.validate(inputs, _expectedInputs);
   if (errorMap.length !== 0){
-    console.log(errorMap);
     return errorMap;
   }
 
@@ -487,13 +486,20 @@ exports.repaysurrogat = function(inputs){
     helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
     helper.repaysubstitute = helper.totalcost - helper.debtinterest;
     helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+    if(helper.term !== helper.adjustedterm){  // send message if rate was adjusted
+      helpers.messages.set("Hinweis: Die errechnete Darlehenslaufzeit von " + helper.term + " ist kein Vielfaches des Zahlungsintervalls. Die Darlehenslaufzeit wurde entsprechend auf das nächsthöhere Vielfache eines Zahlungsintervalls angepasst. Der angepasste Wert beträgt " + Math.round(helper.adjustedterm * 100) / 100 + ".",2);
+    }
   } else if (inputs.selection === 3){
-    helper.adjustedterm = f.basic.adjustTermToLowerFullPeriod(inputs.term, inputs.interval);
+    helper.adjustedterm = f.basic.adjustTermToHigherFullPeriod(inputs.term, inputs.interval);
     helper.annuity = Math.round(100 * f.annuity.annuity(inputs.principal, inputs.debtinterest, inputs.interval, helper.adjustedterm)) / 100;
     helper.totalcost = helper.adjustedterm * inputs.interval * helper.annuity;
     helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
     helper.repaysubstitute = helper.totalcost - helper.debtinterest;
     helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+    if(inputs.term !== helper.adjustedterm){  // send message if rate was adjusted
+      helpers.messages.set("Hinweis: Die eingegebene Darlehenslaufzeit von " + inputs.term + " ist kein Vielfaches des Zahlungsintervalls. Die Darlehenslaufzeit wurde entsprechend auf das nächsthöhere Vielfache eines Zahlungsintervalls angepasst. Der angepasste Wert beträgt " + Math.round(helper.adjustedterm * 100) / 100 + ".",2);
+    }
+
   } else if (inputs.selection === 2){
     helper.annuity = Math.round(100 * ((inputs.initrepay * inputs.principal + inputs.principal * inputs.debtinterest) / inputs.interval)) / 100;
     helper.term = f.annuity.annuityTerm(inputs.principal, helper.annuity, inputs.debtinterest, inputs.interval);
@@ -507,12 +513,13 @@ exports.repaysurrogat = function(inputs){
     helper.debtinterest = inputs.principal * inputs.debtinterest * helper.adjustedterm;
     helper.repaysubstitute = helper.totalcost - helper.debtinterest;
     helper.repayrate = (inputs.interval * helper.annuity - inputs.principal * inputs.debtinterest) / inputs.principal;
+    if(helper.term !== helper.adjustedterm){  // send message if rate was adjusted
+      helpers.messages.set("Hinweis: Die errechnete Darlehenslaufzeit von " + helper.term + " ist kein Vielfaches des Zahlungsintervalls. Die Darlehenslaufzeit wurde entsprechend auf das nächsthöhere Vielfache eines Zahlungsintervalls angepasst. Der angepasste Wert beträgt " + Math.round(helper.adjustedterm * 100) / 100 + ".",2);
+    }
+
   } else { //sthg wrong
     return
   }
-
-  console.log(helper);
-
 
 
   /*
@@ -668,7 +675,8 @@ exports.repaysurrogat = function(inputs){
     result._2.tax = false;
   }
 
-
+  // attach messages
+  result.messages = helpers.messages.messageMap;
 
   return result;
 

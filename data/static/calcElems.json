@@ -3182,7 +3182,7 @@
         "label": "Darlehensbetrag",
         "placeholder": "Darlehensbetrag",
         "addon": "EUR",
-        "value": "100000.00",
+        "value": "150000.00",
         "tooltip": "Geben Sie die Höhe des Darlehens bzw. die Kreditsumme an.",
         "type": "number",
         "vtype": "number",
@@ -3198,7 +3198,7 @@
         "label": "Darlehenszinssatz",
         "placeholder": "Darlehenszinssatz",
         "addon": "% p. a.",
-        "value": "4.00",
+        "value": "3.69",
         "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, welcher für das Darlehen zu zahlen ist.",
         "type": "number",
         "vtype": "number",
@@ -3206,6 +3206,20 @@
           0,
           20
         ]
+      },
+      "interval": {
+        "id": "debt-repaysurrogat-interval",
+        "linetop": false,
+        "label": "Zahlungsintervall",
+        "tooltip": "Geben Sie das Zeitintervall für die Ratenzahlungen an.",
+        "type": "select",
+        "vtype": "number",
+        "options": {
+          "12": "monatlich",
+          "4":  "vierteljährlich",
+          "2":  "halbjährlich",
+          "1":  "jährlich"
+        }
       },
       "selection": {
         "id": "debt-repaysurrogat-selection",
@@ -3228,7 +3242,7 @@
         "label": "Tilgungssatz",
         "placeholder": "Tilgungssatz",
         "addon": "% p. a.",
-        "value": "1.50",
+        "value": "1.60",
         "tooltip": "Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.",
         "type": "number",
         "vtype": "number",
@@ -3273,23 +3287,9 @@
           10000000
         ]
       },
-      "interval": {
-        "id": "debt-repaysurrogat-interval",
-        "linetop": true,
-        "label": "Zahlungsintervall",
-        "tooltip": "Geben Sie das Zeitintervall für die Ratenzahlungen an.",
-        "type": "select",
-        "vtype": "number",
-        "options": {
-          "12": "monatlich",
-          "4":  "vierteljährlich",
-          "2":  "halbjährlich",
-          "1":  "jährlich"
-        }
-      },
       "saveinterest": {
         "id": "debt-repaysurrogat-saveinterest",
-        "linetop": false,
+        "linetop": true,
         "optional": false,
         "label": "Guthabenzinssatz",
         "placeholder": "Guthabenzinssatz",
