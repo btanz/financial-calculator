@@ -811,6 +811,202 @@ describe("Property calculators correct", function() {
 
 
 
+  describe("Property-rent correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+
+      data[0] = {select: '1', rent: '823.52', dynamic: '2.44', term: '16.85', renttotal: '295241.05'};
+      data[1] = {select: '2', rent: '991.09', dynamic: '5.3', term: '10.36', renttotal: '1689530.11'};
+      data[2] = {select: '1', rent: '1605.46', dynamic: '7.38', term: '2.35', renttotal: '244158.42'};
+      data[3] = {select: '3', rent: '4092.95', dynamic: '9.08', term: '5.19', renttotal: '820651.99'};
+      data[4] = {select: '1', rent: '554.26', dynamic: '5.17', term: '33.96', renttotal: '193318.52'};
+      data[5] = {select: '3', rent: '645.92', dynamic: '2.21', term: '3.78', renttotal: '1633038.28'};
+      data[6] = {select: '3', rent: '3671.87', dynamic: '8.55', term: '20.78', renttotal: '732193.75'};
+      data[7] = {select: '2', rent: '1848.76', dynamic: '2.99', term: '13.86', renttotal: '1269984.29'};
+      data[8] = {select: '2', rent: '4402.37', dynamic: '3.62', term: '10.14', renttotal: '1337667.86'};
+      data[9] = {select: '3', rent: '68.35', dynamic: '1.46', term: '26.07', renttotal: '1265540.17'};
+      data[10]= {select: '0', rent: '515.94', dynamic: '6.39', term: '0.63', renttotal: '28224.96'};
+      data[11]= {select: '0', rent: '4191.67', dynamic: '2.91', term: '38.69', renttotal: '1752116.3'};
+      data[12]= {select: '1', rent: '4088.1', dynamic: '0.81', term: '19.33', renttotal: '708578.81'};
+      data[13]= {select: '1', rent: '3983.28', dynamic: '6.9', term: '38.27', renttotal: '1748777.08'};
+      data[14]= {select: '3', rent: '767.57', dynamic: '10', term: '32.8', renttotal: '1520771.89'};
+      data[15]= {select: '0', rent: '577.06', dynamic: '9.32', term: '4.26', renttotal: '6785.76'};
+      data[16]= {select: '0', rent: '3586.7', dynamic: '3.19', term: '25.02', renttotal: '1928306.53'};
+      data[17]= {select: '2', rent: '1481.24', dynamic: '9.43', term: '16.07', renttotal: '1388962.79'};
+      data[18]= {select: '1', rent: '2818.29', dynamic: '7.65', term: '25.62', renttotal: '759871.07'};
+      data[19]= {select: '0', rent: '4725.57', dynamic: '5.05', term: '30.82', renttotal: '259420.05'};
+
+      expectations[0] = {value: 6.81};
+      expectations[1] = {value: 41.51};
+      expectations[2] = {value: 476.74};
+      expectations[3] = {value: 10894.2};
+      expectations[4] = {value: -0.97};
+      expectations[5] = {value: 34915.05};
+      expectations[6] = {value: 1159.22};
+      expectations[7] = {value: 33.86};
+      expectations[8] = {value: 18.29};
+      expectations[9] = {value: 3353.29};
+      expectations[10] ={value: 3855.69};
+      expectations[11] ={value: 3515432.32};
+      expectations[12] ={value: -3.31};
+      expectations[13] ={value: -0.24};
+      expectations[14] ={value: 581.69};
+      expectations[15] ={value: 34304.65};
+      expectations[16] ={value: 1610818.65};
+      expectations[17] ={value: 23.58};
+      expectations[18] ={value: -1.09};
+      expectations[19] ={value: 4002997.09};
+
+    });
+
+
+    it('Passes 1st test set', function(){
+      var results = property.rent(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = property.rent(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.rent(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.rent(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = property.rent(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = property.rent(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = property.rent(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = property.rent(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = property.rent(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = property.rent(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = property.rent(data[10]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[10]));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = property.rent(data[11]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[11]));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = property.rent(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = property.rent(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = property.rent(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = property.rent(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = property.rent(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = property.rent(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = property.rent(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = property.rent(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
+
+  });
+
+
+
 
 });
 

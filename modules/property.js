@@ -174,19 +174,9 @@ exports.propertyreturn = function(inputs){
   result.messages = helpers.messages.messageMap;
 
   // attach chart
-
-  /*var labels1 = [];
-  var series1 = []; series1[0] = []; series1[1] = []; series1[2] = [];
-  dynT.forEach(function(element, index){
-    if(element[9] === true){
-      labels1.push(element[0]); series1[0].push(element[1]); series1[1].push(element[2]); series1[2].push(element[3]);
-    }
-  });*/
-
   result._chart1.id = 'chart1';
   result._chart1.title = 'Einnahmen und Ausgaben';
-  //result._chart1.legend = ['Guthaben Start', 'Sparbeitrag', 'Zins'];
-  result._chart1.label = {x: '', y: ''}
+  result._chart1.label = {x: '', y: ''};
   result._chart1.type = 'Bar';
   result._chart1.data = {labels: ['Gesamte Einnahmen', 'Gesamte Ausgaben'],
     series: [
@@ -321,6 +311,12 @@ exports.rent = function(inputs){
   return result;
 
 };
+
+
+
+
+
+
 
 
 
@@ -968,11 +964,11 @@ exports.buyrent = function(inputs){
   result._chart1.type = 'Bar';
   result._chart1.data = {labels: labels1, series: series1};
   if (inputs.period >=20){  // use slim bars if more than 20 periods
-    result._chart1.options = {stackBars: false, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
   } else if (inputs.period >=8) {
-    result._chart1.options = {stackBars: false, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
   } else {
-    result._chart1.options = {stackBars: false, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
   }
 
   return result;
