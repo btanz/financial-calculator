@@ -642,24 +642,24 @@ describe("Property calculators correct", function() {
       data[19]= {equity: '163697.67', repay: '993',    termLoan: '14',    maintenance: '160.01',costDynamic: '0.28', revenue: '1462.97', revDynamic: '0.67', term: '19',    terminal: '33886.56'};
 
       expectations[0] = {maintenance: 72000,    revenue: 615675.6,  profit: 291675.60, irr: 4.17};
-      expectations[1] = {maintenance: 15133.11, revenue: 913761.54, profit: 475590.13, irr: 6.45};
-      expectations[2] = {maintenance: 38288.4,  revenue: 744467.14, profit: 286802.02, irr: 4.23};
-      expectations[3] = {maintenance: 75369.78, revenue: 985899.86, profit: 470698.11, irr: 2.78};
-      expectations[4] = {maintenance: 3919.78,  revenue: 210703.78, profit: -540600.13,irr: 99};
-      expectations[5] = {maintenance: 20107.56, revenue: 682918.72, profit: 334651.9,  irr: 9.02};
+      expectations[1] = {maintenance: 15133.11, revenue: 913761.54, profit: 475590.13, irr: 6.44};
+      expectations[2] = {maintenance: 38288.4,  revenue: 744467.14, profit: 286747.98, irr: 4.23};
+      expectations[3] = {maintenance: 75369.78, revenue: 985899.86, profit: 469839.47, irr: 2.78};
+      expectations[4] = {maintenance: 3919.78,  revenue: 210703.78, profit: -540600.13};
+      expectations[5] = {maintenance: 20107.56, revenue: 682918.27, profit: 334273.27,  irr: 9.01};
       expectations[6] = {maintenance: 88133.23, revenue: 780279.46, profit: 541907.28, irr: 11.41};
-      expectations[7] = {maintenance: 998.4,    revenue: 249716.62, profit: -30030.85, irr: -10.69};
-      expectations[8] = {maintenance: 120630.68,revenue: 955424.96, profit: 533149.89, irr: 8.08};
+      expectations[7] = {maintenance: 998.4,    revenue: 249716.62, profit: -30030.85, irr: -10.71};
+      expectations[8] = {maintenance: 120630.68,revenue: 955424.96, profit: 532725.04, irr: 8.07};
       expectations[9] = {maintenance: 61632.03, revenue: 914859.46, profit: 470750.82, irr: 4.74};
       expectations[10]= {maintenance: 62083.94, revenue: 481987.05, profit: 342807.14, irr: 15.89};
       expectations[11]= {maintenance: 1071.93,  revenue: 795549.61, profit: 428877.25, irr: 12.53};
-      expectations[12]= {maintenance: 40705.55, revenue: 924029.43, profit: 469847,    irr: 7.51};
-      expectations[13]= {maintenance: 1785.98,  revenue: 298928.93, profit: -269436.72,irr: 99};
-      expectations[14]= {maintenance: 121533.4, revenue: 1202033.31,profit: 914531.67, irr: 11.95};
+      expectations[12]= {maintenance: 40705.55, revenue: 924029.43, profit: 469575.57,    irr: 7.51};
+      expectations[13]= {maintenance: 1785.98,  revenue: 298928.93, profit: -270874.98};
+      expectations[14]= {maintenance: 121533.4, revenue: 1202033.31,profit: 913971.55, irr: 11.93};
       expectations[15]= {maintenance: 34265.37, revenue: 792209.88, profit: 702556.46, irr: 38.27};
       expectations[16]= {maintenance: 18871.67, revenue: 819908.43, profit: 306709.23, irr: 3.61};
-      expectations[17]= {maintenance: 1840.11,  revenue: 651406.75, profit: 286133.93, irr: 41.96};
-      expectations[18]= {maintenance: 19875.96, revenue: 673899.05, profit: -4594.08,  irr: -0.62};
+      expectations[17]= {maintenance: 1840.11,  revenue: 651406.75, profit: 286085.11, irr: 41.95};
+      expectations[18]= {maintenance: 19875.96, revenue: 673899.05, profit: -5992.12,  irr: -0.85};
       expectations[19]= {maintenance: 37416.24, revenue: 388340.4,  profit: 20402.49,  irr: 0.86};
 
     });
@@ -669,8 +669,6 @@ describe("Property calculators correct", function() {
       var results = property.propertyreturn(data[0]),
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      console.log(values);
-      console.log(expectations[0]);
       assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
     });
 

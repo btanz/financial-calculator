@@ -1032,14 +1032,14 @@
         "tooltip": "TBD"
       },
       "rentRevenue": {
-        "description": "Monatliche Mieteinnahmen",
+        "description": "Mieteinnahmen",
         "unit": "EUR",
         "digits": 2,
         "importance": "second",
         "tooltip": "TBD"
       },
       "sellRevenue": {
-        "description": "Endwert",
+        "description": "Verkaufs-/Endwert",
         "unit": "EUR",
         "digits": 2,
         "importance": "second",
