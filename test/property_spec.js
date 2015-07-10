@@ -417,6 +417,10 @@ describe("Property calculators correct", function() {
   });
 
 
+
+
+
+
   describe("Property-transfertax correct", function() {
     var data = [],
         expectations = [];
@@ -608,6 +612,206 @@ describe("Property calculators correct", function() {
 
 
   });
+
+
+
+  describe("Property-propertyreturn correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+
+      data[0] = {equity: '180000',    repay: '600',    termLoan: '10',    maintenance: '200',   costDynamic: '0',    revenue: '900',     revDynamic: '1',    term: '30',    terminal: '240000'};
+      data[1] = {equity: '421119.8',  repay: '12.79',  termLoan: '12.49', maintenance: '56.28', costDynamic: '3.73', revenue: '1714.4',  revDynamic: '3.25', term: '16.55', terminal: '470781.82'};
+      data[2] = {equity: '416620.16', repay: '54.05',  termLoan: '4.29',  maintenance: '174.77',costDynamic: '1.58', revenue: '1409.58', revDynamic: '1.99', term: '16.16', terminal: '425564.46'};
+      data[3] = {equity: '430386.93', repay: '858.64', termLoan: '0.92',  maintenance: '131.42',costDynamic: '3.41', revenue: '458.09',  revDynamic: '1.2',  term: '28.79', terminal: '797844.72'};
+      data[4] = {equity: '396999.01', repay: '1652.76',termLoan: '17.66', maintenance: '49.63', costDynamic: '0.93', revenue: '714.66',  revDynamic: '3.1',  term: '6.35',  terminal: '150800.46'};
+      data[5] = {equity: '239559.39', repay: '378.63', termLoan: '19.53', maintenance: '127.93',costDynamic: '2.44', revenue: '987.59',  revDynamic: '4.77', term: '11.49', terminal: '506667.25'};
+      data[6] = {equity: '147826.31', repay: '603.16', termLoan: '0.3',   maintenance: '287.49',costDynamic: '0.57', revenue: '1498.44', revDynamic: '0.01', term: '23.9',  terminal: '349733.83'};
+      data[7] = {equity: '253130.78', repay: '545.07', termLoan: '3.9',   maintenance: '66.03', costDynamic: '4.02', revenue: '1085.14', revDynamic: '3.34', term: '1.2',   terminal: '233330.8'};
+      data[8] = {equity: '282526.14', repay: '424.85', termLoan: '3.78',  maintenance: '265.18',costDynamic: '4.1',  revenue: '1917.52', revDynamic: '2.79', term: '23.29', terminal: '212670.08'};
+      data[9] = {equity: '307217.53', repay: '321.62', termLoan: '19.49', maintenance: '178.27',costDynamic: '0.57', revenue: '1138.28', revDynamic: '2.52', term: '26.68', terminal: '402059.2'};
+      data[10]= {equity: '8461.87',   repay: '1460.3', termLoan: '3.88',  maintenance: '233.52',costDynamic: '4.01', revenue: '590.65',  revDynamic: '3.14', term: '16.12', terminal: '335590.47'};
+      data[11]= {equity: '263819.95', repay: '795.16', termLoan: '10.65', maintenance: '9.22',  costDynamic: '0.69', revenue: '1861.7',  revDynamic: '1.73', term: '9.37',  terminal: '569134'};
+      data[12]= {equity: '350505.12', repay: '271.43', termLoan: '19.36', maintenance: '236.43',costDynamic: '0.47', revenue: '1610.99', revDynamic: '0.35', term: '13.87', terminal: '648822.74'};
+      data[13]= {equity: '428506.71', repay: '1438.26',termLoan: '8.04',  maintenance: '51.98', costDynamic: '1.12', revenue: '570.23',  revDynamic: '0.86', term: '2.82',  terminal: '279383.81'};
+      data[14]= {equity: '114997.32', repay: '560.12', termLoan: '7.59',  maintenance: '274.48',costDynamic: '2.55', revenue: '1367.23', revDynamic: '0.7',  term: '26.26', terminal: '729397.83'};
+      data[15]= {equity: '29676.7',   repay: '1224.35',termLoan: '1.72',  maintenance: '192.85',costDynamic: '1.15', revenue: '1297.19', revDynamic: '1.97', term: '13.67', terminal: '549069.81'};
+      data[16]= {equity: '304480.43', repay: '1224.82',termLoan: '12.9',  maintenance: '60.16', costDynamic: '1.33', revenue: '1400.25', revDynamic: '1.61', term: '22.52', terminal: '366568.56'};
+      data[17]= {equity: '354938.03', repay: '48.82',  termLoan: '14.52', maintenance: '87.11', costDynamic: '1.38', revenue: '1130.36', revDynamic: '2.56', term: '1.71',  terminal: '627408.73'};
+      data[18]= {equity: '372018.97', repay: '1398.04',termLoan: '17.11', maintenance: '290.65',costDynamic: '4.67', revenue: '1259.14', revDynamic: '2.78', term: '5.12',  terminal: '591143.39'};
+      data[19]= {equity: '163697.67', repay: '993',    termLoan: '14',    maintenance: '160.01',costDynamic: '0.28', revenue: '1462.97', revDynamic: '0.67', term: '19',    terminal: '33886.56'};
+
+      expectations[0] = {maintenance: 72000,    revenue: 615675.6,  profit: 291675.60, irr: 4.17};
+      expectations[1] = {maintenance: 15133.11, revenue: 913761.54, profit: 475590.13, irr: 6.45};
+      expectations[2] = {maintenance: 38288.4,  revenue: 744467.14, profit: 286802.02, irr: 4.23};
+      expectations[3] = {maintenance: 75369.78, revenue: 985899.86, profit: 470698.11, irr: 2.78};
+      expectations[4] = {maintenance: 3919.78,  revenue: 210703.78, profit: -540600.13,irr: 99};
+      expectations[5] = {maintenance: 20107.56, revenue: 682918.72, profit: 334651.9,  irr: 9.02};
+      expectations[6] = {maintenance: 88133.23, revenue: 780279.46, profit: 541907.28, irr: 11.41};
+      expectations[7] = {maintenance: 998.4,    revenue: 249716.62, profit: -30030.85, irr: -10.69};
+      expectations[8] = {maintenance: 120630.68,revenue: 955424.96, profit: 533149.89, irr: 8.08};
+      expectations[9] = {maintenance: 61632.03, revenue: 914859.46, profit: 470750.82, irr: 4.74};
+      expectations[10]= {maintenance: 62083.94, revenue: 481987.05, profit: 342807.14, irr: 15.89};
+      expectations[11]= {maintenance: 1071.93,  revenue: 795549.61, profit: 428877.25, irr: 12.53};
+      expectations[12]= {maintenance: 40705.55, revenue: 924029.43, profit: 469847,    irr: 7.51};
+      expectations[13]= {maintenance: 1785.98,  revenue: 298928.93, profit: -269436.72,irr: 99};
+      expectations[14]= {maintenance: 121533.4, revenue: 1202033.31,profit: 914531.67, irr: 11.95};
+      expectations[15]= {maintenance: 34265.37, revenue: 792209.88, profit: 702556.46, irr: 38.27};
+      expectations[16]= {maintenance: 18871.67, revenue: 819908.43, profit: 306709.23, irr: 3.61};
+      expectations[17]= {maintenance: 1840.11,  revenue: 651406.75, profit: 286133.93, irr: 41.96};
+      expectations[18]= {maintenance: 19875.96, revenue: 673899.05, profit: -4594.08,  irr: -0.62};
+      expectations[19]= {maintenance: 37416.24, revenue: 388340.4,  profit: 20402.49,  irr: 0.86};
+
+    });
+
+
+    it('Passes 1st test set', function(){
+      var results = property.propertyreturn(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      console.log(values);
+      console.log(expectations[0]);
+      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = property.propertyreturn(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.propertyreturn(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.propertyreturn(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = property.propertyreturn(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = property.propertyreturn(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = property.propertyreturn(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = property.propertyreturn(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = property.propertyreturn(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = property.propertyreturn(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = property.propertyreturn(data[10]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[10]));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = property.propertyreturn(data[11]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[11]));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = property.propertyreturn(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = property.propertyreturn(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = property.propertyreturn(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = property.propertyreturn(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = property.propertyreturn(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = property.propertyreturn(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = property.propertyreturn(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = property.propertyreturn(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
+
+  });
+
+
 
 
 });
