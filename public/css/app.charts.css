@@ -99,6 +99,28 @@
 }
 
 
+/* VERY THICK BARS  */
+.ct-series-a .ct-bar-verythick {
+  stroke-width: 30px;
+  stroke: rgba(28,132,198,0.7);
+}
+
+.ct-series-b .ct-bar-verythick {
+  stroke-width: 30px;
+  stroke: rgba(28,132,198,0.5);
+}
+
+.ct-series-c .ct-bar-verythick {
+  stroke-width: 30px;
+  stroke: rgba(28,132,198,0.3);
+}
+
+.ct-series-d .ct-bar-verythick {
+  stroke-width: 30px;
+  stroke: rgba(28,132,198,0.2);
+}
+
+
 
 
 

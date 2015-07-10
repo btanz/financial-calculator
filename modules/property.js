@@ -30,7 +30,7 @@ exports.propertyreturn = function(inputs){
   helpers.messages.clear();  helpers.errors.clear();
   var revenuePV, goal, irr, helper = {};
   var cash = [], totals = [], cashHelper;
-  var result = {}; result._1 = {}; result._2 = {};
+  var result = {}; result._1 = {}; result._2 = {}; result._chart1 = {};
   var localElems = calcElems.propertyreturn.results_1;
   var expectedInputs = calcElems.propertyreturn.inputs;
   var errorMap;
@@ -173,8 +173,32 @@ exports.propertyreturn = function(inputs){
   // attach messages
   result.messages = helpers.messages.messageMap;
 
+  // attach chart
+
+  /*var labels1 = [];
+  var series1 = []; series1[0] = []; series1[1] = []; series1[2] = [];
+  dynT.forEach(function(element, index){
+    if(element[9] === true){
+      labels1.push(element[0]); series1[0].push(element[1]); series1[1].push(element[2]); series1[2].push(element[3]);
+    }
+  });*/
+
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Einnahmen und Ausgaben';
+  //result._chart1.legend = ['Guthaben Start', 'Sparbeitrag', 'Zins'];
+  result._chart1.label = {x: '', y: ''}
+  result._chart1.type = 'Bar';
+  result._chart1.data = {labels: ['Gesamte Einnahmen', 'Gesamte Ausgaben'],
+    series: [
+      [helper.sellRevenue + helper.rentRevenue, helper.maintenance + helper.loan + helper.initialInvestment]
+    ]};
+  result._chart1.options = {stackBars: true, seriesBarDistance: 0, classNames:{bar: 'ct-bar-verythick'}, axisY: {offset: 60}};
+
   return result;
 };
+
+
+
 
 
 
