@@ -51,6 +51,7 @@ exports.propertyreturn = function(inputs){
   if(helper.adjustedTermLoan !== inputs.termLoan) {helpers.messages.set("Hinweis: Die angegebene Darlehenslaufzeit von " + inputs.termLoan + " ist kein Vielfaches des Zahlungsintervalls (monatlich). Die Darlehenslaufzeit wurde entsprechend auf den nächsten vollen Monat angepasst. Der angepasste Wert beträgt " + Math.round(helper.adjustedTermLoan * 100) / 100 + " Jahre (" + helper.adjustedTermLoan * 12 + " Monate).",2)};
   if(helper.adjustedTerm !== inputs.term) {helpers.messages.set("Hinweis: Die angegebene Anlagedauer von " + inputs.term + " ist kein Vielfaches des Zahlungsintervalls (monatlich). Die Anlagedauer wurde entsprechend auf den nächsten vollen Monat angepasst. Der angepasste Wert beträgt " + Math.round(helper.adjustedTerm * 100) / 100 + " Jahre (" + helper.adjustedTerm * 12 + " Monate).",2)};
 
+
   /* ******** 3. COMPUTATIONS ******** */
   // *** 3.A Compute effective interest ***
   revenuePV = function(interest){
@@ -117,17 +118,16 @@ exports.propertyreturn = function(inputs){
   cash[6][0] = - inputs.equity + cash[5][0];
 
   effTerm = Math.max(inputs.term, inputs.termLoan);
-  console.log(effTerm);
 
   for (var i=1; i < effTerm; i++){
     cash[0][i] = i + 1;                                                                                     // periode
-    cash[7][i] = f.basic.round(cash[7][i-1] * (1 + inputs.costDynamic),2);
+    cash[7][i] = i < inputs.term ? f.basic.round(cash[7][i-1] * (1 + inputs.costDynamic),2) : 0;
     cash[1][i] = cash[7][i];
     cash[2][i] = (inputs.term - i > 1) ? cash[1][i] * 12 : cash[1][i] * Math.ceil(12 * (inputs.term - i));
     cashHelper = i < inputs.termLoan ? inputs.repay : 0;                                                    // debt repayment
     cash[2][i] += (inputs.termLoan - i > 1) ? cashHelper * 12 : cashHelper * Math.ceil(12 * (inputs.termLoan - i));
     cash[1][i] += cashHelper;   // add debt repayment to costs
-    cash[3][i] = f.basic.round(cash[3][i-1] * (1 + inputs.revDynamic),2);
+    cash[3][i] = i < inputs.term ? f.basic.round(cash[3][i-1] * (1 + inputs.revDynamic),2) : 0;
     cash[4][i] = (inputs.term - i > 1) ? cash[3][i] * 12 : cash[3][i] * Math.ceil(12 * (inputs.term - i));
     cash[5][i] = cash[4][i] - cash[2][i];
     cash[6][i] = cash[6][i-1] + cash[5][i];
@@ -166,9 +166,9 @@ exports.propertyreturn = function(inputs){
   result._2.header = ['Jahr', 'Kosten', 'Einnahmen', 'Gewinn'];
   result._2.headersub = ['Mon.', 'Jahr', 'Mon.', 'Jahr', 'Jahr', 'kumuliert'];
   result._2.firstrow = ['Anfangsinvestition von ', ' EUR', helper.initialInvestment, -helper.initialInvestment];
-  result._2.lastrow = ['Endwert von ', ' EUR', helper.sellRevenue, helper.sellRevenue + cash[6][cash[6].length-1]];
+  result._2.lastrow = [' Verkaufs-/Endwert von ', ' EUR', helper.sellRevenue, helper.sellRevenue + cash[6][cash[6].length-1]];
   result._2.body = helper.cash;
-  result._2.totalsrow = ['&sum;','',totals[0],'',totals[1],totals[2],totals[2]];
+  result._2.totalsrow = ['Summe','',totals[0],'',totals[1],totals[2],totals[2]];
 
   // attach messages
   result.messages = helpers.messages.messageMap;
