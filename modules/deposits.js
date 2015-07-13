@@ -427,6 +427,129 @@ exports.savings = function(inputs){
 
 
 
+/** DEPOSITS-TIMEDEPOSIT function that computes parameters for time deposits
+ * ARGUMENTS XXX todo: documenation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.timedeposit = function(inputs) {
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+
+
+  var result = {}, helper = {};
+  result._1 = {};
+  var localElems = calcElems.timedeposit.results_1;
+  var expectedInputs = calcElems.timedeposit.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = [undefined,undefined,'interestgain','principal','interest','term'];
+
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  // drop elems that are to be computed
+  if(inputs.calcselect === "2"){
+    delete inputs['interestgain']; delete _expectedInputs['interestgain'];
+  } else if(inputs.calcselect === "3") {
+    delete inputs['principal']; delete _expectedInputs['principal'];
+  } else if(inputs.calcselect === "4") {
+    delete inputs['interest']; delete _expectedInputs['interest'];
+  } else if(inputs.calcselect === "5") {
+    delete inputs['term']; delete _expectedInputs['term'];
+  } else {  // sthg wrong
+    return;
+  }
+
+
+  if(inputs.taxes === 'false'){
+    delete inputs['taxrate'];
+    delete inputs['taxfree'];
+    delete inputs['taxtime'];
+    delete _expectedInputs['taxrate'];
+    delete _expectedInputs['taxfree'];
+    delete _expectedInputs['taxtime'];
+  }
+
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  inputs.interest = inputs.interest / 100;
+
+
+
+  /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
+  function gain(r){
+    return inputs.interestgain - inputs.principal * (Math.pow(1 + r, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * r / 12) - 1);
+  }
+
+  function term(t){
+    return inputs.interestgain - inputs.principal * (Math.pow(1 + inputs.interest, Math.floor(t / 12)) * (1 + (t % 12) * inputs.interest / 12) - 1);
+  }
+
+
+  /* ******** 3. COMPUTATIONS ******** */
+  if(inputs.calcselect === 2){   // interestgain is to be computed
+    helper.terminalValue = (inputs.selection === false) ? inputs.principal * (1 + inputs.interest * inputs.term / 12) : inputs.principal * Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * inputs.interest / 12);
+    helper.result = helper.terminalValue - inputs.principal;
+
+  } else if(inputs.calcselect === 3) {   // principal is to be computed
+    helper.result = (inputs.selection === false) ? (inputs.interestgain) / (inputs.interest * inputs.term / 12) : inputs.interestgain / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * inputs.interest / 12) - 1);
+    helper.terminalValue = helper.result + inputs.interestgain;
+
+  } else if(inputs.calcselect === 4) {   // interest is to be computed
+    if(inputs.selection === false){
+      helper.result = 100 * (inputs.interestgain / inputs.principal) * (12 / inputs.term);
+    } else {
+      helper.result = math.roots(gain,0.01,1500) * 100;
+    }
+    // sanitize results
+    if(helper === null){
+      return [{errorMessage: 'Leider kann der Zinssatz für diese Parameter nicht berechnet werden. Grund dafür ist meist, dass der Wert ungewühnlich niedrig oder hoch ist.', errorInput: '', errorPrint: true}];
+    } else {
+      inputs.interest = helper.result / 100;
+      helper.terminalValue = inputs.principal + inputs.interestgain;
+    }
+
+  } else if(inputs.calcselect === 5) {   // term is to be computed
+    if(inputs.selection === false) {
+      helper.result = 12 * inputs.interestgain / (inputs.interest * inputs.principal);
+    } else {
+      helper.result = math.roots(term,12,1500);
+    }
+    // sanitize results
+    if(helper === null){
+      return [{errorMessage: 'Leider kann die Laufzeit für diese Parameter nicht berechnet werden. Grund dafür ist meist, dass der Wert ungewöhnlich niedrig oder hoch ist.', errorInput: '', errorPrint: true}];
+    } else {
+      helper.terminalValue = inputs.principal + inputs.interestgain;
+    }
+  }
+
+
+
+
+
+
+  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+  result.id = calcElems.timedeposit.id;
+
+  // first result container
+  result._1.value         = _.extend(localElems[selectMap[inputs.calcselect]], {"value": helper.result});
+  result._1.terminalValue = _.extend(localElems['terminalvalue'],      {"value": helper.terminalValue});
+
+  console.log(result);
+
+  return result;
+
+};
+
+
 
 
 

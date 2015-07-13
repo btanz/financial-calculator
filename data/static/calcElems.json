@@ -3476,14 +3476,14 @@
         "type": "select",
         "vtype": "number",
         "args": [
-          0,
-          3
+          2,
+          5
         ],
         "options": {
-          "0": "Zinsertrag",
-          "1": "Anlagesumme",
-          "2": "Zinssatz",
-          "3": "Laufzeit"
+          "2": "Zinsertrag",
+          "3": "Anlagesumme",
+          "4": "Zinssatz",
+          "5": "Laufzeit"
         }
       },
       "principal": {
@@ -3531,7 +3531,7 @@
         "vtype": "number",
         "args": [
           0,
-          1000
+          1200
         ]
       },
       "interestgain": {
@@ -3551,7 +3551,7 @@
         ]
       },
       "selection": {
-        "id": "deposits-timedeposit-compunding",
+        "id": "deposits-timedeposit-selection",
         "linetop": false,
         "optional": false,
         "label": "Behandlung der Zinserträge",
@@ -3628,11 +3628,39 @@
       }
     },
     "results_1": {
-      "totalcost": {
-        "tooltip": "Die Summe aller während der Laufzeit anfallenden Zahlungen, welche sich aus dem Produkt von Darlehensrate und Anzahl der Zahlung ergibt.",
-        "description": "Gesamtkosten Darlehen",
+      "interestgain": {
+        "tooltip": "Der gesamte über die Anlagedauer entstehende Zinsertrag.",
+        "description": "Zinsertrag",
         "unit": "EUR",
         "digits": 2,
+        "importance": "first"
+      },
+      "terminalvalue": {
+        "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der Anlagesumme und dem Zinsertrag.",
+        "description": "Endwert",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "principal": {
+        "tooltip": "Die Anlagesumme, welche unter den angegebenen Parametern zur Erzielung des vorgegebenen Zinsertrags notwendig ist.",
+        "description": "Anlagesumme",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "interest": {
+        "tooltip": "Der jährliche Zinssatz, welcher unter den angegebenen Parametern zur Erzielung des vorgegebenen Zinsertrags notwendig ist.",
+        "description": "Zinssatz",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "first"
+      },
+      "term": {
+        "tooltip": "Die Laufzeit, welcher unter den angegebenen Parametern zur Erzielung des vorgegebenen Zinsertrags notwendig ist.",
+        "description": "Laufzeit",
+        "unit": "Monate",
+        "digits": 1,
         "importance": "first"
       }
     }

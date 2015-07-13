@@ -40,7 +40,7 @@ app.deposits = (function() {
     e.preventDefault();
 
     var state = $('#deposits-timedeposit-calcselect').val();
-    var disabledMap = ['#deposits-timedeposit-interestgain','#deposit-timedeposit-principal','#deposits-timedeposit-interest','#deposits-timedeposit-term'];
+    var disabledMap = [undefined,undefined,'#deposits-timedeposit-interestgain','#deposit-timedeposit-principal','#deposits-timedeposit-interest','#deposits-timedeposit-term'];
 
     disabledMap.forEach(function(ind, value){
       $(ind).prop("disabled", false);
