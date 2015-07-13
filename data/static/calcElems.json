@@ -3460,5 +3460,181 @@
         "importance": "second"
       }
     }
+  },
+
+
+
+  "timedeposit": {
+    "id": "deposits-timedeposit",
+    "name": "Festgeldrechner",
+    "description": "Mit dem Festgeldrechner können Sie den Endwert sowie wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für eine Festgeldanlage bestimmen.",
+    "inputs": {
+      "calcselect": {
+        "id": "deposits-timedeposit-calcselect",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "Wählen Sie hier aus, welche der Größen Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          0,
+          3
+        ],
+        "options": {
+          "0": "Zinsertrag",
+          "1": "Anlagesumme",
+          "2": "Zinssatz",
+          "3": "Laufzeit"
+        }
+      },
+      "principal": {
+        "id": "deposit-timedeposit-principal",
+        "linetop": false,
+        "optional": false,
+        "label": "Anlagesumme",
+        "placeholder": "Anlagesumme",
+        "addon": "EUR",
+        "value": "50000.00",
+        "tooltip": "Geben Sie den Geldbetrag an, welcher angelegt werden soll.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000000000
+        ]
+      },
+      "interest": {
+        "id": "deposits-timedeposit-interest",
+        "linetop": false,
+        "optional": false,
+        "label": "Zinssatz",
+        "placeholder": "Zinssatz",
+        "addon": "% p. a.",
+        "value": "1.50",
+        "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, mit welchem das Kapital verzinst wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ]
+      },
+      "term": {
+        "id": "deposits-timedeposit-term",
+        "linetop": false,
+        "optional": false,
+        "label": "Laufzeit",
+        "placeholder": "Laufzeit",
+        "addon": "Monate",
+        "value": "8",
+        "tooltip": "Geben Sie die Laufzeit der Festgeldanlage an. Über diese Laufzeit wird die Anlagesumme entsprechend dem Zinssatz verzinst.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000
+        ]
+      },
+      "interestgain": {
+        "id": "deposits-timedeposit-interestgain",
+        "linetop": false,
+        "optional": false,
+        "disabled": true,
+        "label": "Zinsertrag",
+        "placeholder": "Zinsertrag",
+        "addon": "EUR",
+        "tooltip": "Geben Sie den Zinsertrag an, welchen die angegebene Festgeldanlage erzielt.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000000
+        ]
+      },
+      "selection": {
+        "id": "deposits-timedeposit-compunding",
+        "linetop": false,
+        "optional": false,
+        "label": "Behandlung der Zinserträge",
+        "tooltip": "Geben Sie an, ob die Zinserträge jedes Jahr ausgezahlt und nicht weiter verzinst werden (Auszahlung) oder ob sie jedes Jahr der Anlagesumme zugeschlagen (Einbehaltung) und fortan mit verzinst werden. Wie bei gewöhnlichen Festgeldverträgen wendet der Rechner unterjährig die lineare Verzinsung an.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "Auszahlung, kein Zinseszins",
+          "true": "Einbehaltung, Zinseszins"
+        }
+      },
+      "taxes": {
+        "id": "deposits-timedeposit-taxes",
+        "linetop": true,
+        "label": "Steuern berücksichtigen?",
+        "tooltip": "Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
+        "type": "select",
+        "vtype": "boolean",
+        "options": {
+          "false": "Nein",
+          "true": "Ja"
+        }
+      },
+      "taxrate": {
+        "id": "deposits-timedeposit-taxrate",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Steuersatz",
+        "placeholder": "Steuersatz",
+        "addon": "% p. a.",
+        "value": "26.375",
+        "tooltip": "Geben Sie den prozentualen Steuersatz an, mit welchem die Kapitalerträge nach Abzug des Freibetrages belastet werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          75
+        ]
+      },
+      "taxfree": {
+        "id": "deposits-timedeposit-taxfree",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Jährlicher Freibetrag",
+        "placeholder": "Freibetrag",
+        "addon": "EUR",
+        "value": "801.00",
+        "tooltip": "Geben Sie den jährlichen Steuerfreibetrag an. In Deutschland beträgt der Freibetrag 801.00 EUR für Ledige und 1.602.00 EUR für Verheiratete.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "taxtime": {
+        "id": "deposits-timedeposit-taxtime",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Versteuerungszeitpunkt",
+        "tooltip": "Wählen Sie, ob die Kapitalerträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen.",
+        "type": "select",
+        "vtype": "boolean",
+        "options": {
+          "false": "jährlich",
+          "true": "Laufzeitende"
+        }
+      }
+    },
+    "results_1": {
+      "totalcost": {
+        "tooltip": "Die Summe aller während der Laufzeit anfallenden Zahlungen, welche sich aus dem Produkt von Darlehensrate und Anzahl der Zahlung ergibt.",
+        "description": "Gesamtkosten Darlehen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      }
+    }
   }
 }

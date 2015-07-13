@@ -188,6 +188,22 @@ router.get('/sparrechner/inputs', function(req,res,next){
 });
 
 
+
+/* **********************************
+ ** deposit-timedeposit routes
+ *********************************** */
+router.get('/festgeldrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.timedeposit});
+});
+
+router.get('/festgeldrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.timedeposit(obj);
+  res.json(results);
+});
+
+
+
 /* **********************************
  ** debt-annuity routes
  *********************************** */

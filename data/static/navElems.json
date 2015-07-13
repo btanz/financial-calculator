@@ -51,6 +51,10 @@
       "2": {
         "name": "Zinsrechner",
         "url": "/zinsrechner"
+      },
+      "3": {
+        "name": "Festgeldrechner",
+        "url": "/festgeldrechner"
       }
     }
   },
