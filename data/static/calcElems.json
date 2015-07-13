@@ -3569,7 +3569,7 @@
         "label": "Steuern berücksichtigen?",
         "tooltip": "Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
         "type": "select",
-        "vtype": "boolean",
+        "vtype": "bool",
         "options": {
           "false": "Nein",
           "true": "Ja"
@@ -3620,7 +3620,7 @@
         "label": "Versteuerungszeitpunkt",
         "tooltip": "Wählen Sie, ob die Kapitalerträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen.",
         "type": "select",
-        "vtype": "boolean",
+        "vtype": "bool",
         "options": {
           "false": "jährlich",
           "true": "Laufzeitende"
@@ -3661,6 +3661,13 @@
         "description": "Laufzeit",
         "unit": "Monate",
         "digits": 1,
+        "importance": "first"
+      },
+      "taxes": {
+        "tooltip": "TBD",
+        "description": "Steuerlast",
+        "unit": "EUR",
+        "digits": 2,
         "importance": "first"
       }
     }

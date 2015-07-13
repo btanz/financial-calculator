@@ -449,6 +449,7 @@ exports.timedeposit = function(inputs) {
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined,undefined,'interestgain','principal','interest','term'];
+  var i;
 
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -481,6 +482,7 @@ exports.timedeposit = function(inputs) {
   }
 
   inputs.interest = inputs.interest / 100;
+  inputs.taxrate  = inputs.taxrate / 100;
 
 
 
@@ -496,8 +498,72 @@ exports.timedeposit = function(inputs) {
 
   /* ******** 3. COMPUTATIONS ******** */
   if(inputs.calcselect === 2){   // interestgain is to be computed
+
+
+    if(inputs.selection){   // with compounding
+      helper.terminalValue = inputs.principal;
+      helper.taxes = 0;
+      helper.temp = 0;
+
+
+      // annual vals
+      for(i = 0; i < Math.floor(inputs.term / 12); i++){
+        if(inputs.taxes && !inputs.taxtime){ // periodical taxes
+          helper.temp = (inputs.interest * helper.terminalValue > inputs.taxfree) ? (inputs.interest * helper.terminalValue - inputs.taxfree) * inputs.taxrate : 0;
+          helper.taxes +=  helper.temp;
+        }
+        helper.terminalValue = helper.terminalValue + inputs.interest * helper.terminalValue - helper.temp;
+      }
+
+      // monthly vals
+      if(inputs.taxes && !inputs.taxtime) { // periodical taxes
+        helper.taxes += (helper.terminalValue * (inputs.term % 12) * inputs.interest / 12 > inputs.taxfree) ? (helper.terminalValue * (inputs.term % 12) * inputs.interest / 12 - inputs.taxfree) * inputs.taxrate : 0;
+      }
+      helper.terminalValue *= (1 + (inputs.term % 12) * inputs.interest / 12);
+      helper.result = helper.terminalValue - inputs.principal;
+
+
+    } else {   // w/o compounding
+      helper.terminalValue = inputs.principal * (1 + inputs.interest * inputs.term / 12);
+      helper.result = helper.terminalValue - inputs.principal;
+      if (inputs.taxes && inputs.taxtime) {  // periodical taxes
+        helper.taxes = (inputs.principal * inputs.interest) > inputs.taxfree ? ((inputs.principal * inputs.interest) - inputs.taxfree) * inputs.taxrate * Math.floor(inputs.term / 12) : 0;
+        helper.taxes += (inputs.principal * inputs.interest * (inputs.term % 12)) > inputs.taxfree ? ((inputs.principal * inputs.interest * (inputs.term % 12)) - inputs.taxfree) * inputs.taxrate : 0;
+      }
+    }
+
+    // deal with end of term taxes
+    if (inputs.taxes && inputs.taxtime){  // end of term taxes
+      helper.taxes = (helper.result > inputs.taxfree) ? (helper.result - inputs.taxfree) * inputs.taxrate : 0;
+    }
+
+
+
+
+
+    /*
     helper.terminalValue = (inputs.selection === false) ? inputs.principal * (1 + inputs.interest * inputs.term / 12) : inputs.principal * Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * inputs.interest / 12);
     helper.result = helper.terminalValue - inputs.principal;
+
+    // deal with taxes
+    if(inputs.taxes){
+      if(inputs.taxtime){  // compute taxes on terminal value
+        helper.taxes = (helper.result > inputs.taxfree) ? (helper.result - inputs.taxfree) * inputs.taxrate : 0;
+      } else {   // compute taxes on annual values
+        if(inputs.term <= 12){
+          helper.taxes = (helper.result > inputs.taxfree) ? (helper.result - inputs.taxfree) * inputs.taxrate : 0;
+        } else {
+          helper.taxes = 0;
+          for(i = 0; i <= Math.floor(inputs.term / 12); i++){
+            helper.taxes += (helper.result > inputs.taxfree) ? (helper.result - inputs.taxfree) * inputs.taxrate : 0;
+          }
+        }
+      }
+
+    }*/
+
+
+
 
   } else if(inputs.calcselect === 3) {   // principal is to be computed
     helper.result = (inputs.selection === false) ? (inputs.interestgain) / (inputs.interest * inputs.term / 12) : inputs.interestgain / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * inputs.interest / 12) - 1);
@@ -533,7 +599,7 @@ exports.timedeposit = function(inputs) {
 
 
 
-
+ // console.log(inputs);
 
 
   /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
@@ -542,8 +608,10 @@ exports.timedeposit = function(inputs) {
   // first result container
   result._1.value         = _.extend(localElems[selectMap[inputs.calcselect]], {"value": helper.result});
   result._1.terminalValue = _.extend(localElems['terminalvalue'],      {"value": helper.terminalValue});
+  if(inputs.taxes){
+    result._1.taxes       = _.extend(localElems['taxes'], {"value": helper.taxes});
+  }
 
-  console.log(result);
 
   return result;
 
