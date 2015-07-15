@@ -532,6 +532,8 @@ exports.timedeposit = function(inputs) {
       }
     }
 
+
+
     // deal with end of term taxes
     if (inputs.taxes && inputs.taxtime){  // end of term taxes
       helper.taxes = (helper.result > inputs.taxfree) ? (helper.result - inputs.taxfree) * inputs.taxrate : 0;

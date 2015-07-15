@@ -3635,6 +3635,13 @@
         "digits": 2,
         "importance": "first"
       },
+      "interestgainnotax": {
+        "tooltip": "Der gesamte über die Anlagedauer entstehende Zinsertrag vor Abzug der Steuern.",
+        "description": "Zinsertrag vor Steuer",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
       "terminalvalue": {
         "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der Anlagesumme und dem Zinsertrag.",
         "description": "Endwert",
