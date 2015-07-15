@@ -632,6 +632,7 @@ exports.timedeposit = function(inputs) {
             helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
             return helpers.errors.errorMap;
           }
+
         }
 
         helper.taxes = - Math.max(0, inputs.principal * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(helper.result / 12) - Math.max(inputs.principal * inputs.interest * (helper.result % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
@@ -640,31 +641,92 @@ exports.timedeposit = function(inputs) {
 
       }
 
+    }
 
-
-      /*
-        helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.taxfree * inputs.taxrate);
-        helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.interest * ((inputs.term % 12) / 12) * inputs.taxrate + inputs.interest * inputs.term / 12);
-        // do alternative calculations in case assumption was not correct
-        if(helper.result * inputs.interest - inputs.taxfree > 0 && helper.result * inputs.interest * (inputs.term % 12) / 12 - inputs.taxfree <= 0){
-          console.log('HI!');
-          helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12));
-          helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) + inputs.interest * inputs.term / 12);
+    /*
+    * ******** 3B. CASE COMPOUNDED INTEREST ********
+    */
+  } else {
+    /*
+     * ******** 3B1. CASE COMPOUNDED INTEREST AND NO TAX ********
+     */
+    if(!inputs.taxes){
+      if(inputs.calcselect === 2) { // interestgain
+        helper.result = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+        helper.terminalvalue = inputs.principal + helper.result;
+      } else if (inputs.calcselect === 3) {   // principal
+        helper.result = inputs.interestgain / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+        helper.terminalvalue = helper.result + inputs.interestgain;
+      } else if(inputs.calcselect === 4) {   // interest
+        helper.result = math.roots(function(i){
+          return inputs.interestgain - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
+        },0.1,1500);
+        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
+          return helpers.errors.errorMap;
         }
-        if(helper.result * inputs.interest - inputs.taxfree <= 0){
-          helper.result = inputs.interestgain / (inputs.interest * inputs.term / 12);
+        helper.terminalvalue = inputs.principal + inputs.interestgain;
+        helper.result *= 100;
+      } else if(inputs.calcselect === 5) {   // term
+        helper.result = math.roots(function(t){
+          return inputs.interestgain - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
+        },5,1500);
+        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+          return helpers.errors.errorMap;
         }
-
+        helper.terminalvalue = inputs.principal + inputs.interestgain;
       }
-      */
+
+
+    /*
+     * ******** 3A2. CASE COMPOUNDED INTEREST AND TERMINAL TAX ********
+     */
+    } else if(inputs.taxes && inputs.taxtime){
+
+      if(inputs.calcselect === 2) {   // interestgain
+        helper.interestgainwotax = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+        helper.taxes = - Math.max(helper.interestgainwotax - inputs.taxfree,0) * inputs.taxrate;
+        helper.result = helper.interestgainwotax + helper.taxes;
+        helper.terminalvalue = inputs.principal + helper.result;
+      } else if(inputs.calcselect === 3) {   // principal
+        helper.bool = (inputs.interestgain > inputs.taxfree);
+        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+        helper.result = helper.interestgainwotax / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+        helper.terminalvalue = helper.result + inputs.interestgain;
+      } else if(inputs.calcselect === 4) {   // interest
+        helper.bool = (inputs.interestgain > inputs.taxfree);
+        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+        helper.result = math.roots(function(i){
+          return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
+        },0.1,1500);
+        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
+          return helpers.errors.errorMap;
+        }
+        helper.terminalvalue = inputs.principal + inputs.interestgain;
+        helper.result *= 100;
+      } else if(inputs.calcselect === 5) {   // term
+        helper.bool = (inputs.interestgain > inputs.taxfree);
+        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+        helper.result = math.roots(function(t){
+          return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
+        },5,1500);
+        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+          return helpers.errors.errorMap;
+        }
+        helper.terminalvalue = inputs.principal + inputs.interestgain;
+      } else {  // sthg wrong
+        return null;
+      }
+
 
 
     }
-
-
-
-  } else {
-    /* ******** 3B. CASE COMPOUNDED INTEREST ******** */
 
   }
 
@@ -791,6 +853,8 @@ exports.timedeposit = function(inputs) {
   // attach messages
   result.messages = helpers.messages.messageMap;
 
+
+
   return result;
 
 };
@@ -884,6 +948,7 @@ annualCashHelper = function(start, period, interest){
       }
     }
   }
+
 
   // return array with results of computation
   return result;

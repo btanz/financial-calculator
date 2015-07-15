@@ -36,7 +36,7 @@ describe("Deposits calculators are correct", function() {
 
       expectations[0] = {value: 1215};  // value is interestgain
       expectations[1] = {interestgainwotax: 9737.68, value: 22189.08, taxes: -826.22};
-      expectations[2] = {interestgainwotax: 132.17, principal: 759.69, taxes: 0};
+      expectations[2] = {interestgainwotax: 132.17, value: 759.69, taxes: 0};
       expectations[3] = {interestgainwotax: 2933.63, value: 409344.36, taxes: -905.63};
       expectations[4] = {interestgainwotax: 9895.93, value: 204743.30, taxes: -1794.42};
       expectations[5] = {value: 2146.89, interestgainwotax: 2146.89, taxes: 0};
@@ -44,12 +44,12 @@ describe("Deposits calculators are correct", function() {
       expectations[7] = {interestgainwotax: 2852.54, value: 2.06, taxes: -124.65};
       expectations[8] = {interestgainwotax: 5298.17, interest: 0.6, taxes: -200.65};
       expectations[9] = {interestgain: 51820.13, interestgainnotax: 74486.73, taxes: -22666.6};
-      expectations[10]= {principal: 59.84};
+      expectations[10]= {value: 59.84};
       expectations[11]= {interestgainwotax: 9842.86, value: 0.39, taxes: -958.15};
       expectations[12]= {interestgainwotax: 12902.17, value: 863984.63, taxes: -3937};
       expectations[13]= {value: 4004.13, interestgainwotax: 4100.72, taxes: -96.59};
       expectations[14]= {value: 262620.44};
-      expectations[15]= {interestgainwotax: 6569.63, interest: 0.1, taxes: -171.74};
+      expectations[15]= {interestgainwotax: 6539.69, value: 0.1, taxes: -141.80};
       expectations[16]= {interestgain: 574.81, interestgainnotax: 642.03, taxes: -67.23};
       expectations[17]= {value: 93270.74, interestgainwotax: 124434.32, taxes: -31163.58};
       expectations[18]= {value: 0.38};
