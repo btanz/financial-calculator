@@ -3635,12 +3635,12 @@
         "digits": 2,
         "importance": "first"
       },
-      "interestgainnotax": {
+      "interestgainwotax": {
         "tooltip": "Der gesamte über die Anlagedauer entstehende Zinsertrag vor Abzug der Steuern.",
-        "description": "Zinsertrag vor Steuer",
+        "description": "Zinsertrag vor Steuern",
         "unit": "EUR",
         "digits": 2,
-        "importance": "first"
+        "importance": "second"
       },
       "terminalvalue": {
         "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der Anlagesumme und dem Zinsertrag.",
@@ -3660,14 +3660,14 @@
         "tooltip": "Der jährliche Zinssatz, welcher unter den angegebenen Parametern zur Erzielung des vorgegebenen Zinsertrags notwendig ist.",
         "description": "Zinssatz",
         "unit": "% p. a.",
-        "digits": 2,
+        "digits": 4,
         "importance": "first"
       },
       "term": {
         "tooltip": "Die Laufzeit, welcher unter den angegebenen Parametern zur Erzielung des vorgegebenen Zinsertrags notwendig ist.",
         "description": "Laufzeit",
         "unit": "Monate",
-        "digits": 1,
+        "digits": 2,
         "importance": "first"
       },
       "taxes": {
@@ -3675,7 +3675,7 @@
         "description": "Steuerlast",
         "unit": "EUR",
         "digits": 2,
-        "importance": "first"
+        "importance": "second"
       }
     }
   }

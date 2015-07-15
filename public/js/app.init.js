@@ -57,7 +57,14 @@ app.init = function(){
         formatString += '0';
       }
 
-      return numeral(value).format(formatString);
+      // fix rounding if number is negativ, i.e. -26.375 goes to -26.38 instead of -26.37
+      if(value<0){
+
+        return numeral(app.helpers.round(value,digits)).format(formatString);
+      } else {
+        return numeral(value).format(formatString);
+      }
+
     }
 
   });

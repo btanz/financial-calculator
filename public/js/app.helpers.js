@@ -32,10 +32,16 @@ app.helpers = (function($) {
     clearResultsTemplate('#results-4');
   };
 
+
+  round = function(number, digits){
+    return (number < 0) ? - Math.round(Math.abs(number) * Math.pow(10, digits)) / Math.pow(10, digits) : Math.round(number * Math.pow(10, digits)) / Math.pow(10, digits);
+  };
+
   return {
     compileTemplate: compileTemplate,
     clearResultsTemplate: clearResultsTemplate,
-    clearAllResultsTemplates: clearAllResultsTemplates
+    clearAllResultsTemplates: clearAllResultsTemplates,
+    round: round
   }
 
 
