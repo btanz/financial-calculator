@@ -203,6 +203,21 @@ router.get('/festgeldrechner/inputs', function(req,res,next){
 });
 
 
+/* **********************************
+ ** deposit-savingscheme (Zuwachssparen) routes
+ *********************************** */
+router.get('/zuwachssparrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.savingscheme});
+});
+
+router.get('/zuwachssparrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.savingscheme(obj);
+  res.json(results);
+});
+
+
+
 
 /* **********************************
  ** debt-annuity routes

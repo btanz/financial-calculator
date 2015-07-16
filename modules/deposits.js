@@ -444,6 +444,7 @@ exports.timedeposit = function(inputs) {
 
   var result = {}, helper = {};
   result._1 = {};
+  result._chart1 = {};
   var localElems = calcElems.timedeposit.results_1;
   var expectedInputs = calcElems.timedeposit.inputs;
   var _expectedInputs = _.clone(expectedInputs);
@@ -488,7 +489,6 @@ exports.timedeposit = function(inputs) {
     inputs.term = Math.ceil(inputs.term);
     helpers.messages.set("Hinweis: Die Laufzeit wurde nicht in ganzen Monaten angegeben. Für die Berechnung wurde die Laufzeit auf den nächsten ganzen Monat gesetzt. Der Berechnung liegt also ein Laufzeit von " + inputs.term + " Monaten zugrunde.",2);
   }
-
 
   /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
   function gain(r){
@@ -845,6 +845,19 @@ exports.timedeposit = function(inputs) {
 
   // attach messages
   result.messages = helpers.messages.messageMap;
+
+
+  // construct chart 1
+  result._chart1.data = {
+    //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
+    series: [inputs.principal || helper.result, inputs.interestgain || helper.result]
+
+  };
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Zusammensetzung Endwert';
+  result._chart1.legend = ['Anlagesumme', 'Zinsertrag'];
+  result._chart1.options = {showLabel: false, donut: false, labelOffset: 0};
+  result._chart1.type = 'Pie';
 
 
   return result;

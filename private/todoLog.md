@@ -20,6 +20,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * efficient procedure for init and assign taks at the head of each function
 * effective interest calculator for property-homesave
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
+* more effient frontent-code for showing and hiding inputs
 
 
 

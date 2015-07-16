@@ -566,6 +566,8 @@
       }
     }
   },
+
+
   "equityreturn": {
     "id": "boerse-equityreturn",
     "name": "Aktienrenditerechner",
@@ -755,6 +757,8 @@
       }
     }
   },
+
+
   "retire": {
     "id": "planning-retire",
     "name": "Altersvorsorgerechner",
@@ -3467,7 +3471,7 @@
   "timedeposit": {
     "id": "deposits-timedeposit",
     "name": "Festgeldrechner",
-    "description": "Mit dem Festgeldrechner können Sie den Endwert sowie wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für eine Festgeldanlage bestimmen.",
+    "description": "Mit dem Festgeldrechner können Sie den Endwert sowie wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für eine Festgeldanlage bestimmen. Auch Steuern auf die erzielten Erträge können mit dem Rechner berücksichtigt werden.",
     "inputs": {
       "calcselect": {
         "id": "deposits-timedeposit-calcselect",
@@ -3509,12 +3513,12 @@
         "label": "Zinssatz",
         "placeholder": "Zinssatz",
         "addon": "% p. a.",
-        "value": "1.50",
+        "value": "2.50",
         "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, mit welchem das Kapital verzinst wird.",
         "type": "number",
         "vtype": "number",
         "args": [
-          0,
+          0.000001,
           20
         ]
       },
@@ -3546,7 +3550,7 @@
         "type": "number",
         "vtype": "number",
         "args": [
-          0,
+          0.000001,
           100000000
         ]
       },
@@ -3618,7 +3622,7 @@
         "secondary": true,
         "hide": "true",
         "label": "Versteuerungszeitpunkt",
-        "tooltip": "Wählen Sie, ob die Kapitalerträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen.",
+        "tooltip": "Wählen Sie, ob die Zinserträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen. Im Normalfall würde man bei jährlicher Auszahlung der Zinserträge auch einen jährlichen Versteuerungszeitpunkt wählen. Bei Einbehaltung der Erträge dagegen fällt der Versteuerungszeitpunkt in der Regel auf das Laufzeitende.",
         "type": "select",
         "vtype": "bool",
         "options": {
@@ -3671,12 +3675,190 @@
         "importance": "first"
       },
       "taxes": {
-        "tooltip": "TBD",
+        "tooltip": "Der Gesamtwert aller über die Anlagelaufzeit zu leistenden Steuerzahlungen unter Berücksichtigung des jährlichen Steuerfreibetrages und des Steuersatzes.",
         "description": "Steuerlast",
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
       }
     }
+  },
+
+
+  "savingscheme": {
+    "id": "deposits-savingscheme",
+    "name": "Zuwachssparrechner",
+    "description": "Mit dem Zuwachssparrechner können Sie Guthabenentwicklung und Effektivzins eines Sparplanes zum Zuwachssparen berechnen.",
+    "inputs": {
+      "calcselect": {
+        "id": "deposits-savingscheme-calcselect",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "Wählen Sie hier aus, ob die Anlagesumme oder der Endwert berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          2,
+          3
+        ],
+        "options": {
+          "2": "Endwert",
+          "3": "Anlagesumme"
+        }
+      },
+      "principal": {
+        "id": "deposits-savingscheme-principal",
+        "label": "Anlagesumme",
+        "addon": "EUR",
+        "placeholder": "Anlagesumme",
+        "value": "10000",
+        "tooltip": "Geben Sie den Geldbetrag an, welcher angelegt werden soll.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "terminal": {
+        "id": "deposits-savingscheme-terminal",
+        "label": "Endwert",
+        "addon": "EUR",
+        "placeholder": "Endwert",
+        "disabled": true,
+        "value": "",
+        "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der anfänglichen Anlagesumme sowie dem Zinsertrag, ggf. nach Steuern.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "term": {
+        "id": "deposits-savingscheme-term",
+        "linetop": false,
+        "label": "Laufzeit des Sparplans (Jahre)",
+        "placeholer": "Laufzeit (Jahre)",
+        "tooltip": "Geben Sie hier die Laufzeit des Sparplans in Jahren an. Über diese Laufzeit wird die Anlagesumme entsprechend der jährlichen Zinssätze verzinst. Nach Eingabe der Laufzeit können Sie die jährlichen Zinssätze eingeben. Beim Zuwachssparen sind diese meist von Jahr zu Jahr ansteigend.",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ],
+        "options": {
+          "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9",
+          "10": "10", "11": "11", "12": "12", "13": "13", "14": "14", "15": "15", "16": "16", "17": "17", "18": "18", "19": "19", "20": "20",
+          "21": "21", "22": "22", "23": "23", "24": "24", "25": "25"
+        }
+      },
+      "interest": {
+        "id": "deposits-savingscheme-interest",
+        "type": "custom",
+        "vtype": "number",
+        "args": [
+          0,
+          20
+        ],
+        "label": "Zinssatz",
+        "optional": "false",
+        "array": "true",
+        "arrayParent": "term"
+      },
+      "selection": {
+        "id": "deposits-savingscheme-interestselection",
+        "linetop": true,
+        "optional": false,
+        "label": "Behandlung der Zinserträge",
+        "tooltip": "Geben Sie an, ob die Zinserträge jedes Jahr ausgezahlt und nicht weiter verzinst werden (Auszahlung) oder ob sie jedes Jahr der Anlagesumme zugeschlagen (Einbehaltung) und fortan mit verzinst werden. Wie bei gewöhnlichen Festgeldverträgen wendet der Rechner unterjährig die lineare Verzinsung an.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "true": "Einbehaltung, Zinseszins",
+          "false": "Auszahlung, kein Zinseszins"
+
+        }
+      },
+      "taxes": {
+        "id": "deposits-savingscheme-taxes",
+        "linetop": true,
+        "label": "Steuern berücksichtigen?",
+        "tooltip": "Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "Nein",
+          "true": "Ja"
+        }
+      },
+      "taxrate": {
+        "id": "deposits-savingscheme-taxrate",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Steuersatz",
+        "placeholder": "Steuersatz",
+        "addon": "% p. a.",
+        "value": "26.375",
+        "tooltip": "Geben Sie den prozentualen Steuersatz an, mit welchem die Kapitalerträge nach Abzug des Freibetrages belastet werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          75
+        ]
+      },
+      "taxfree": {
+        "id": "deposits-savingscheme-taxfree",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Jährlicher Freibetrag",
+        "placeholder": "Freibetrag",
+        "addon": "EUR",
+        "value": "801.00",
+        "tooltip": "Geben Sie den jährlichen Steuerfreibetrag an. In Deutschland beträgt der Freibetrag 801.00 EUR für Ledige und 1.602.00 EUR für Verheiratete.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      },
+      "taxtime": {
+        "id": "deposits-savingscheme-taxtime",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Versteuerungszeitpunkt",
+        "tooltip": "Wählen Sie, ob die Zinserträge jährlich oder einmalig zum Laufzeitende besteuert werden sollen. Im Normalfall würde man bei jährlicher Auszahlung der Zinserträge auch einen jährlichen Versteuerungszeitpunkt wählen. Bei Einbehaltung der Erträge dagegen fällt der Versteuerungszeitpunkt in der Regel auf das Laufzeitende.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "jährlich",
+          "true": "Laufzeitende"
+        }
+      }
+    },
+    "results_1": {
+      "irr": {
+        "description": "Rendite/IRR",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Dieses Feld gibt die berechnete Rendite an. Die Rendite entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
+      },
+      "holding": {
+        "description": "Haltedauer",
+        "unit": "Tage",
+        "digits": 1,
+        "importance": "second",
+        "tooltip": "Dieses Feld gibt die aus den Eingaben berechnete Haltedauer in Tagen wieder."
+      }
+    }
   }
+
 }

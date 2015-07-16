@@ -49,10 +49,14 @@
         "url": "/sparrechner"
       },
       "2": {
+        "name": "Zuwachssparrechner",
+        "url": "/zuwachssparrechner"
+      },
+      "3": {
         "name": "Zinsrechner",
         "url": "/zinsrechner"
       },
-      "3": {
+      "4": {
         "name": "Festgeldrechner",
         "url": "/festgeldrechner"
       }

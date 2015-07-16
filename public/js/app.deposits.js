@@ -20,6 +20,22 @@ app.deposits = (function() {
       toggleTimedepositCalcselect(e);
     });
 
+    $('#deposits-savingscheme-taxes').on('change', function (e) {
+      toggleSavingschemeSelecttax(e);
+    });
+
+    $('#deposits-savingscheme-calcselect').on('change', function (e) {
+      toggleSavingschemeCalcselect(e);
+    });
+
+    // attach a div where annual interest rates will be added dynamically
+    $('#deposits-savingscheme-term').closest('div[class^="form-group"]').after('<div class="interestInput"></div>');
+
+    // attach event handler for interest input fields
+    $('#deposits-savingscheme-term').on('change', function (e) {
+      toggleSavingschemeTerm(e);
+    });
+
 
   });
   /*********************** END DEPOSITS DOCUMENT READY TASKS *************************/
@@ -51,6 +67,43 @@ app.deposits = (function() {
     });
   }
 
+  function toggleSavingschemeSelecttax(e){
+    e.preventDefault();
+    var state = $('#deposits-savingscheme-taxes').val();
+    if (state === 'true'){
+      $('#deposits-savingscheme-taxrate, #deposits-savingscheme-taxfree, #deposits-savingscheme-taxtime').closest('div[class^="form-group"]').removeClass('hide');
+    } else if (state === 'false'){
+      $('#deposits-savingscheme-taxrate, #deposits-savingscheme-taxfree, #deposits-savingscheme-taxtime').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
+
+  function toggleSavingschemeCalcselect (e){
+    e.preventDefault();
+
+    var state = $('#deposits-savingscheme-calcselect').val();
+    var disabledMap = [undefined,undefined,'#deposits-savingscheme-terminal','#deposits-savingscheme-principal'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
+
+  function toggleSavingschemeTerm(e){
+    e.preventDefault();
+    var state = parseInt($('#deposits-savingscheme-term').val());
+    if (state !== 0){
+      $('.interestInput').children().remove();
+      for(var i = 0; i< state; i++){
+        app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz ' + String(i+1) + '. Jahr', id1: 'deposits-savingscheme-interest' + i}, true);
+      }
+    } else {
+      $('.interestInput').children().remove();
+    }
+  }
 
 
   function toggleInterestSelect (e){

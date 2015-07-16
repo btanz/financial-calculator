@@ -1,0 +1,11 @@
+//- deposits-savingscheme-template
+   Created by benjamintanz on 16.07.15.
+script(id='deposits-savingscheme-interestInput-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-md-5
+        h4 {{obj.count}}
+      div.col-md-7
+        div.input-group
+          input(placeholder='', id='{{obj.id1}}', type='text', value='', class="form-control")
+          span.input-group-addon % p. a.

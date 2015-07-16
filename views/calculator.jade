@@ -231,6 +231,10 @@ block content
   if deposits_savings
     include ./includes/calculator/deposits-savings
 
+  - var deposits_savingscheme = (obj.id === 'deposits-savingscheme')
+  if deposits_savingscheme
+    include ./includes/calculator/deposits-savingscheme
+
   - var debt_annuity = (obj.id === 'debt-annuity')
   if debt_annuity
     include ./includes/calculator/debt-annuity

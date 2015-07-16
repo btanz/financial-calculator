@@ -7,17 +7,23 @@
 /******* PIE CHARTS **********/
 .ct-series-a .ct-slice-pie {
   /*fill: #1AB394;*/
-  fill: #DEDEDE;
+  /*fill: #DEDEDE;
   stroke: white;
-  /* outline width */
-  stroke-width: 4px;
+  stroke: rgba(28,132,198,0.7);*/
+  stroke: white;
+  fill: rgba(28,132,198,0.7);
+  stroke-width: 2px;
 }
 
 .ct-series-b .ct-slice-pie {
-  fill: #A3E1D4;
+  /*fill: #A3E1D4;
+  stroke: white;*/
+
+  /*stroke: rgba(28,132,198,0.5);*/
   stroke: white;
-  /* outline width */
-  stroke-width: 4px;
+  fill: rgba(28,132,198,0.5);
+
+  stroke-width: 2px;
 }
 
 
