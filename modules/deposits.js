@@ -868,6 +868,117 @@ exports.timedeposit = function(inputs) {
 
 
 
+
+/** DEPOSITS-SAVINGSCHEME function that computes parameters savings schemes ("Zuwachssparen")
+ * ARGUMENTS XXX todo: documenation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.savingscheme = function(inputs) {
+
+  // todo: current assumptions: calculate terminal value; no interest
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+
+  var result = {}, helper = {};
+  result._1 = {};  result._2 = {};
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = [];  dyn[6] = [];  dyn[7] = [];  dyn[8] = [];  dyn[9] = [];
+  var dynT;
+  var interest = [];
+  var localElems = calcElems.savingscheme.results_1;
+  var expectedInputs = calcElems.savingscheme.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = [undefined,undefined,'terminal','principal'];
+  var i;
+
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  // drop elems that are to be computed
+  if(inputs.calcselect === "2"){
+    delete inputs['terminal']; delete _expectedInputs['terminal'];
+  } else if(inputs.calcselect === "3") {
+    delete inputs['principal']; delete _expectedInputs['principal'];
+  }
+
+  inputs.taxrate  = inputs.taxrate / 100;
+
+  if(inputs.taxes === 'false'){
+    delete inputs['taxrate'];   delete _expectedInputs['taxrate'];
+    delete inputs['taxfree'];   delete _expectedInputs['taxfree'];
+    delete inputs['taxtime'];   delete _expectedInputs['taxtime'];
+  }
+
+
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  helper.averageinterest = 0;
+  for (i = 0; i < inputs.term; i++){
+    interest.push(inputs['interest'.concat(i)] / 100);
+    helper.averageinterest += inputs['interest'.concat(i)] / 100;
+  }
+  helper.averageinterest /= inputs.term;
+
+  /* ******** 3. COMPUTATIONS ******** */
+
+  for (i = 1; i <= inputs.term; i++){
+    dyn[0][i-1] = i;        // period
+    dyn[1][i-1] = (i===1) ? inputs.principal : dyn[4][i-2];               // initial capital
+    dyn[2][i-1] = dyn[1][i-1] * interest[i-1];                            // flow interest
+    dyn[3][i-1] = (i===1) ? dyn[2][i-1] : dyn[3][i-2] + dyn[2][i-1];      // accumulated interest
+    dyn[4][i-1] = inputs.principal + dyn[3][i-1];                         // terminal capital
+  }
+
+
+  // transpose dyn
+  dynT = dyn[0].map(function(col,i){
+    return dyn.map(function(row){
+      return row[i];
+    })
+  });
+
+  // attach final rows
+  helper.terminal = dyn[4][i-2];
+  helper.interest = dyn[3][i-2];
+
+  dynT.push(['Summen', inputs.principal , helper.interest, helper.interest, helper.terminal, undefined, undefined, undefined, undefined, true]);
+
+
+
+  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+  result.id = calcElems.savingscheme.id;
+
+  /*
+   4.A FIRST RESULT CONTAINER
+   */
+  result._1.terminal         = _.extend(localElems['terminal'],       {"value": helper.terminal});
+  result._1.principal        = _.extend(localElems['principal'],      {"value": inputs.principal});
+  result._1.interest         = _.extend(localElems['interest'],       {"value": helper.interest});
+  result._1.averageinterest  = _.extend(localElems['averageinterest'],{"value": helper.averageinterest * 100});
+
+
+  /*
+   4.B SECOND RESULT CONTAINER
+   */
+  result._2.title = 'Entwicklung Sparguthaben';
+  result._2.header = ['Jahr', 'Guthaben Jahresanfang', 'Zinsertrag', 'Summe Zinsertrag','Guthaben Jahresende'];
+  result._2.body = dynT;
+
+
+  return result;
+
+};
+
+
+
 /* ************************ END DEPOSITS MODULE PUBLIC FUNCTIONS *******************************/
 
 

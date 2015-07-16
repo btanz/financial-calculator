@@ -3744,7 +3744,7 @@
         "vtype": "number",
         "args": [
           0,
-          20
+          25
         ],
         "options": {
           "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5", "6": "6", "7": "7", "8": "8", "9": "9",
@@ -3761,11 +3761,11 @@
           20
         ],
         "label": "Zinssatz",
-        "optional": "false",
+        "optional": false,
         "array": "true",
         "arrayParent": "term"
       },
-      "selection": {
+      "interestselection": {
         "id": "deposits-savingscheme-interestselection",
         "linetop": true,
         "optional": false,
@@ -3844,19 +3844,33 @@
       }
     },
     "results_1": {
-      "irr": {
-        "description": "Rendite/IRR",
+      "terminal": {
+        "description": "Endwert inkl. Zinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der anfänglichen Anlagesumme und dem Zinsertrag."
+      },
+      "principal": {
+        "description": "Anlagesumme",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Der angelegte bzw. anzulegende Geldbetrag."
+      },
+      "interest": {
+        "description": "Zinsertrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Der gesamte über die Laufzeit entstehende Zinsertrag."
+      },
+      "averageinterest": {
+        "description": "Durchschnittlicher jährlicher Zinssatz",
         "unit": "% p. a.",
         "digits": 3,
         "importance": "first",
-        "tooltip": "Dieses Feld gibt die berechnete Rendite an. Die Rendite entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
-      },
-      "holding": {
-        "description": "Haltedauer",
-        "unit": "Tage",
-        "digits": 1,
-        "importance": "second",
-        "tooltip": "Dieses Feld gibt die aus den Eingaben berechnete Haltedauer in Tagen wieder."
+        "tooltip": "Das einfache arithmetische Mittel der jährlichen Zinssätze."
       }
     }
   }

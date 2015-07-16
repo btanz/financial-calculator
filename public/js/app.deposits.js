@@ -109,13 +109,12 @@ app.deposits = (function() {
   }
 
   function prepopulateSavingScheme(){
-    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 1. Jahr', id1: 'deposits-savingscheme-interest1', val1: 1.25}, true);
-    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 2. Jahr', id1: 'deposits-savingscheme-interest2', val1: 1.50}, true);
-    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 3. Jahr', id1: 'deposits-savingscheme-interest3', val1: 1.75}, true);
-    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 4. Jahr', id1: 'deposits-savingscheme-interest4', val1: 2.25}, true);
-
+    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 1. Jahr', id1: 'deposits-savingscheme-interest0', val1: '1,25'}, true);
+    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 2. Jahr', id1: 'deposits-savingscheme-interest1', val1: '1,50'}, true);
+    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 3. Jahr', id1: 'deposits-savingscheme-interest2', val1: '1,75'}, true);
+    app.helpers.compileTemplate('.interestInput','#deposits-savingscheme-interestInput-template', {count: 'Zinssatz 4. Jahr', id1: 'deposits-savingscheme-interest3', val1: '2,25'}, true);
+    $('#deposits-savingscheme-term').val(4);
   }
-
 
 
 
