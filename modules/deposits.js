@@ -2,6 +2,7 @@ var _ = require('underscore');
 var validator = require('validator');
 var helpers = require('./helpers');
 var math = require('./math');
+var f = require('../lib/finance');
 var calcElems = require('../data/static/calcElems.json');
 
 var terminalValueHelper, annualCashHelper;
@@ -879,7 +880,7 @@ exports.timedeposit = function(inputs) {
  */
 exports.savingscheme = function(inputs) {
 
-  // todo: current assumptions: calculate terminal value; no interest
+  // todo: current assumptions: calculate terminal value; no interest; no 'ausschüttung'
 
   /* ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
@@ -887,6 +888,7 @@ exports.savingscheme = function(inputs) {
 
   var result = {}, helper = {};
   result._1 = {};  result._2 = {};
+  var cf = [];
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = [];  dyn[6] = [];  dyn[7] = [];  dyn[8] = [];  dyn[9] = [];
   var dynT;
   var interest = [];
@@ -927,16 +929,19 @@ exports.savingscheme = function(inputs) {
   }
   helper.averageinterest /= inputs.term;
 
+
   /* ******** 3. COMPUTATIONS ******** */
 
   for (i = 1; i <= inputs.term; i++){
     dyn[0][i-1] = i;        // period
     dyn[1][i-1] = (i===1) ? inputs.principal : dyn[4][i-2];               // initial capital
-    dyn[2][i-1] = dyn[1][i-1] * interest[i-1];                            // flow interest
-    dyn[3][i-1] = (i===1) ? dyn[2][i-1] : dyn[3][i-2] + dyn[2][i-1];      // accumulated interest
+    dyn[2][i-1] = (inputs.interestselection) ? dyn[1][i-1] * interest[i-1] : interest[i-1] * inputs.principal;       // flow interest
+    (inputs.taxes && inputs.taxtime === false) ? dyn[5][i-1] = - Math.max(0,dyn[2][i-1] - inputs.taxfree) * inputs.taxrate : dyn[5][i-1] = 0;   // taxes
+    dyn[6][i-1] = dyn[2][i-1] + dyn[5][i-1];                                                                         // flow interest after tax
+    (inputs.interestselection) ? cf.push([i,0]) : cf.push([i,dyn[6][i-1]]);                                          // cash flow array
+    dyn[3][i-1] = (i===1) ? dyn[2][i-1] + dyn[5][i-1] : dyn[3][i-2] + dyn[2][i-1] + dyn[5][i-1];      // accumulated interest after taxes
     dyn[4][i-1] = inputs.principal + dyn[3][i-1];                         // terminal capital
   }
-
 
   // transpose dyn
   dynT = dyn[0].map(function(col,i){
@@ -945,11 +950,51 @@ exports.savingscheme = function(inputs) {
     })
   });
 
-  // attach final rows
-  helper.terminal = dyn[4][i-2];
-  helper.interest = dyn[3][i-2];
 
-  dynT.push(['Summen', inputs.principal , helper.interest, helper.interest, helper.terminal, undefined, undefined, undefined, undefined, true]);
+  /*
+   * COMPUTE AGGREGATE VALUES
+   */
+  helper.terminal = dyn[4][i-2];
+  //helper.interest = dyn[3][i-2];
+  helper.interest = _.reduce(dyn[2], helpers.add, 0);
+  helper.linearinterest = (helper.interest / inputs.term) / inputs.principal;
+
+  if(inputs.taxes && inputs.taxtime === false){
+    helper.taxtotal = _.reduce(dyn[5], helpers.add, 0);
+    helper.interestwtax = _.reduce(dyn[6], helpers.add, 0);
+    helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
+  } else if (inputs.taxes && inputs.taxtime === true){
+    helper.taxtotal = - Math.max(0, helper.interest - inputs.taxfree) * inputs.taxrate;
+    helper.interestwtax = helper.interest + helper.taxtotal;
+    helper.terminal += helper.taxtotal;
+    helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
+  }
+
+  if (inputs.interestselection) { // add initial/final value to last cash flow
+    cf[i-2][1] = dyn[4][i-2];
+  } else {
+    cf[i-2][1] += inputs.principal;
+    if(inputs.taxes && inputs.taxtime === true){
+      cf[i-2][1] += helper.taxtotal;
+    }
+  }
+
+  console.log(cf);
+
+  // use simple calculation for irr if there is compounding, as there is a single cash flow only; else, use rootfinder
+  if (inputs.interestselection){
+    helper.effectiveinterest = Math.pow(helper.terminal / inputs.principal, 1 / inputs.term) - 1;
+  } else {
+    helper.effectiveinterest = math.roots(function(i){ return inputs.principal - f.basic.pv(i, cf)},0.01,1500);
+    if(!validator.isFloat(helper.effectiveinterest)){  // sanitize result and return if sthg wring
+      helpers.messages.set("Leider konnte der Effektivzins für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Effektivzins außergewöhnlich hoch oder niedrig ist.",2);
+    }
+  }
+
+
+
+  // attach final rows
+  dynT.push(['Summen', inputs.principal , helper.interest, helper.interest, helper.terminal, helper.taxtotal, helper.interestwtax, undefined, undefined, true]);
 
 
 
@@ -959,19 +1004,27 @@ exports.savingscheme = function(inputs) {
   /*
    4.A FIRST RESULT CONTAINER
    */
-  result._1.terminal         = _.extend(localElems['terminal'],       {"value": helper.terminal});
-  result._1.principal        = _.extend(localElems['principal'],      {"value": inputs.principal});
-  result._1.interest         = _.extend(localElems['interest'],       {"value": helper.interest});
-  result._1.averageinterest  = _.extend(localElems['averageinterest'],{"value": helper.averageinterest * 100});
+  result._1.terminal         = _.extend(localElems['terminal'],         {"value": helper.terminal});
+  result._1.principal        = _.extend(localElems['principal'],        {"value": inputs.principal});
+  result._1.interest         = _.extend(localElems['interest'],         {"value": helper.interest});
+  result._1.averageinterest  = _.extend(localElems['averageinterest'],  {"value": helper.averageinterest * 100});
+  result._1.linearinterest   = _.extend(localElems['linearinterest'],   {"value": helper.linearinterest * 100});
+  result._1.effectiveinterest= _.extend(localElems['effectiveinterest'],{"value": helper.effectiveinterest * 100});
 
 
   /*
    4.B SECOND RESULT CONTAINER
    */
   result._2.title = 'Entwicklung Sparguthaben';
-  result._2.header = ['Jahr', 'Guthaben Jahresanfang', 'Zinsertrag', 'Summe Zinsertrag','Guthaben Jahresende'];
+  result._2.header = ['Jahr', 'Guthaben Jahresanfang', 'Zinsertrag', 'Summe Zinsertrag','Guthaben Jahresende','Steuerlast','Zinsertrag nach Steuer'];
   result._2.body = dynT;
+  result._2.tax = inputs.taxes;
 
+
+  // attach messages
+  result.messages = helpers.messages.messageMap;
+
+  console.log(inputs);
 
   return result;
 

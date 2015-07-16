@@ -3736,7 +3736,7 @@
       },
       "term": {
         "id": "deposits-savingscheme-term",
-        "linetop": false,
+        "linetop": true,
         "label": "Laufzeit des Sparplans (Jahre)",
         "placeholer": "Laufzeit (Jahre)",
         "tooltip": "Geben Sie hier die Laufzeit des Sparplans in Jahren an. Über diese Laufzeit wird die Anlagesumme entsprechend der jährlichen Zinssätze verzinst. Nach Eingabe der Laufzeit können Sie die jährlichen Zinssätze eingeben. Beim Zuwachssparen sind diese meist von Jahr zu Jahr ansteigend.",
@@ -3758,7 +3758,7 @@
         "vtype": "number",
         "args": [
           0,
-          20
+          30
         ],
         "label": "Zinssatz",
         "optional": false,
@@ -3871,6 +3871,20 @@
         "digits": 3,
         "importance": "first",
         "tooltip": "Das einfache arithmetische Mittel der jährlichen Zinssätze."
+      },
+      "linearinterest": {
+        "description": "Durchschnittliche lineare Rendite",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Diese Rendite gibt den durchschnittlichen jährliche Wertzuwachs des Sparplans wieder. Sie berechnet sich als Rendite des durchschnittlichen jährlichen Zinsertrages relativ zur Anlagesumme."
+      },
+      "effectiveinterest": {
+        "description": "Effektivzins / IRR",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Die effektive jährliche Rendite des Sparplans, welche nach der Methode des internen Zinfußes (internal rate of return) berechnet wird. Diese Rendite kann interpretiert werden als eine mittlere jährliche Rendite der Sparanlage. Sie kann verwendet werden, um mehrere Sparalternativen zu vergleichen. Im Allgemeinen ist die Sparalternative mit dem höchsten Effektivzins auch die lukrativste."
       }
     }
   }
