@@ -225,7 +225,7 @@ describe("Deposits calculators are correct", function() {
       data[15]= {calcselect: '3', principal: '941022.52', terminal: '230656.11', term : '10',interestselection: 'false', interest0: '0.75', interest1: '1.97', interest2: '2.64', interest3: '3.8', interest4: '4.54', interest4: '4.54', interest5: '0.59', interest6: '4.25', interest7: '7.89', interest8: '2.07', interest9: '2.57', taxes: 'false', taxrate: '12.46', taxfree: '3168.81', taxtime: 'false'};
       data[16]= {calcselect: '2', principal: '548565.14', terminal: '769661.49', term : '10',interestselection: 'false', interest0: '0.43', interest1: '1.57', interest2: '0.35', interest3: '1.23', interest4: '1.87', interest4: '1.87', interest5: '0.37', interest6: '1.92', interest7: '3.31', interest8: '4.58', interest9: '3.5', taxes: 'false', taxrate: '23.08', taxfree: '3824.57', taxtime: 'false'};
       data[17]= {calcselect: '3', principal: '819161.48', terminal: '470853.47', term : '9', interestselection: 'true',  interest0: '2.57', interest1: '0.67', interest2: '2.75', interest3: '1.55', interest4: '2.79', interest4: '2.79', interest5: '2.47', interest6: '2.89', interest7: '4.59', interest8: '3.38', taxes: 'false', taxrate: '28.51', taxfree: '3744.68', taxtime: 'false'};
-      data[18]= {calcselect: '3', principal: '280076.4',  terminal: '914524.59', term : '3', interestselection: 'true',  interest0: '1.21', interest1: '', interest2: '2.23', taxes: 'false', taxrate: '24.91', taxfree: '2439.36', taxtime: 'true'};
+      data[18]= {calcselect: '3', principal: '280076.4',  terminal: '914524.59', term : '3', interestselection: 'true',  interest0: '1.21', interest1: '0', interest2: '2.23', taxes: 'false', taxrate: '24.91', taxfree: '2439.36', taxtime: 'true'};
       data[19]= {calcselect: '3', principal: '670145.24', terminal: '76914.1',   term : '4',   interestselection: 'false', interest0: '2.74', interest1: '2.4', interest2: '2.34', interest3: '2.27', taxes: 'true', taxrate: '9.33', taxfree: '3155.83', taxtime: 'true'};
 
 
@@ -236,19 +236,19 @@ describe("Deposits calculators are correct", function() {
       expectations[4] = {principal: 737688.49, interest: 18589.75, averageinterest: 2.52, linearinterest: 2.52, effectiveinterest: 2.52};
       expectations[5] = {terminal: 827313.65, interest: 29728.03, averageinterest: 1.23, linearinterest: 1.24, effectiveinterest: 1.23};
       expectations[6] = {terminal: 606604.11, interest: 92677.68, averageinterest: 2.41, linearinterest: 2.58, effectiveinterest: 2.4};
-      expectations[7] = {principal: 622790.83, interest: 75335.06, taxes: -19167.56, averageinterest: 2.25, linearinterest: 1.76, effectiveinterest: 1.7};
+      expectations[7] = {principal: 639939.60, interest: 75335.06, taxes: -19167.56, averageinterest: 2.25, linearinterest: 1.76, effectiveinterest: 1.7};
       expectations[8] = {terminal: 558333.12, interest: 80749.28, taxes: -11416.34, averageinterest: 2.22, linearinterest: 2.03, effectiveinterest: 1.91};
       expectations[9] = {principal: 132596.69, interest: 12441.57, taxes: -1452.37, averageinterest: 1.51, linearinterest: 1.38, effectiveinterest: 1.34};
       expectations[10]= {terminal: 933064.43, interest: 137804.27, averageinterest: 2.03, linearinterest: 2.17, effectiveinterest: 2.02};
       expectations[11]= {principal: 911086.68, interest: 16217.34, averageinterest: 0.89, linearinterest: 0.89, effectiveinterest: 0.89};
       expectations[12]= {terminal: 800953.93, interest: 115299.07, taxes: -23877.87, averageinterest: 2.71, linearinterest: 2.15, effectiveinterest: 2.13};
-      expectations[13]= {principal: 347643.79, interest: 20650.04, taxes: -3593.48, averageinterest: 1.98, linearinterest: 1.64, effectiveinterest: 1.64};
-      expectations[14]= {principal: 150290.41, interest: 66854.38, averageinterest: 3.77, linearinterest: 4.45, effectiveinterest: 3.75};
+      expectations[13]= {principal: 344251.79, interest: 20448.56, averageinterest: 1.98, linearinterest: 1.98, effectiveinterest: 1.99};
+      expectations[14]= {principal: 161076.64, interest: 69414.70, averageinterest: 3.77, linearinterest: 3.48, effectiveinterest: 3.03};
       expectations[15]= {principal: 175979.33, interest: 54676.78, averageinterest: 3.11, linearinterest: 3.11, effectiveinterest: 3.04};
       expectations[16]= {terminal: 653505.65, interest: 104940.51, averageinterest: 1.91, linearinterest: 1.91, effectiveinterest: 1.85};
       expectations[17]= {principal: 372954.74, interest: 97898.73, averageinterest: 2.63, linearinterest: 2.92, effectiveinterest: 2.62};
       expectations[18]= {principal: 883880.6, interest: 30643.99, averageinterest: 1.15, linearinterest: 1.16, effectiveinterest: 1.14};
-      expectations[19]= {principal: 70396.39, interest: 6863.65, averageinterest: 2.4375, linearinterest: 2.31, effectiveinterest: 2.24};
+      expectations[19]= {principal: 70396.39, interest: 6863.65, averageinterest: 2.44, linearinterest: 2.31, effectiveinterest: 2.32};
 
 
     });
@@ -293,8 +293,6 @@ describe("Deposits calculators are correct", function() {
       var results = deposits.savingscheme(data[5]),
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      //console.log(values);
-      //console.log(expectations[5]);
       assert(_.isMatch(values, expectations[5]));
     });
 
