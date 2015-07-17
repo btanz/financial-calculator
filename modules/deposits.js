@@ -880,7 +880,8 @@ exports.timedeposit = function(inputs) {
  */
 exports.savingscheme = function(inputs) {
 
-  // todo: current assumptions: calculate terminal value; no interest; no 'ausschüttung'
+  // todo: current assumptions: calculate terminal value
+
 
   /* ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
@@ -979,8 +980,6 @@ exports.savingscheme = function(inputs) {
     }
   }
 
-  console.log(cf);
-
   // use simple calculation for irr if there is compounding, as there is a single cash flow only; else, use rootfinder
   if (inputs.interestselection){
     helper.effectiveinterest = Math.pow(helper.terminal / inputs.principal, 1 / inputs.term) - 1;
@@ -992,10 +991,8 @@ exports.savingscheme = function(inputs) {
   }
 
 
-
   // attach final rows
   dynT.push(['Summen', inputs.principal , helper.interest, helper.interest, helper.terminal, helper.taxtotal, helper.interestwtax, undefined, undefined, true]);
-
 
 
   /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
@@ -1007,6 +1004,7 @@ exports.savingscheme = function(inputs) {
   result._1.terminal         = _.extend(localElems['terminal'],         {"value": helper.terminal});
   result._1.principal        = _.extend(localElems['principal'],        {"value": inputs.principal});
   result._1.interest         = _.extend(localElems['interest'],         {"value": helper.interest});
+  if(inputs.taxes) {result._1.taxes = _.extend(localElems['taxes'],     {"value": helper.taxtotal})};
   result._1.averageinterest  = _.extend(localElems['averageinterest'],  {"value": helper.averageinterest * 100});
   result._1.linearinterest   = _.extend(localElems['linearinterest'],   {"value": helper.linearinterest * 100});
   result._1.effectiveinterest= _.extend(localElems['effectiveinterest'],{"value": helper.effectiveinterest * 100});
@@ -1024,7 +1022,6 @@ exports.savingscheme = function(inputs) {
   // attach messages
   result.messages = helpers.messages.messageMap;
 
-  console.log(inputs);
 
   return result;
 

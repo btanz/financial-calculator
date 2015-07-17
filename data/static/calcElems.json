@@ -3865,6 +3865,13 @@
         "importance": "second",
         "tooltip": "Der gesamte über die Laufzeit entstehende Zinsertrag."
       },
+      "taxes": {
+        "description": "Steuerlast",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Die gesamte über die Laufzeit entstehende Steuerlast."
+      },
       "averageinterest": {
         "description": "Durchschnittlicher jährlicher Zinssatz",
         "unit": "% p. a.",
