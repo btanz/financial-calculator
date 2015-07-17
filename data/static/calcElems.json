@@ -2468,7 +2468,7 @@
         "vtype": "number",
         "args": [
           0,
-          120
+          75
         ]
       },
       "renttotal": {
@@ -3844,11 +3844,18 @@
       }
     },
     "results_1": {
-      "terminal": {
+      "terminalmain": {
         "description": "Endwert inkl. Zinsen",
         "unit": "EUR",
         "digits": 2,
         "importance": "first",
+        "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der anfänglichen Anlagesumme und dem Zinsertrag."
+      },
+      "terminal": {
+        "description": "Endwert inkl. Zinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
         "tooltip": "Der Wert der Anlagesumme am Ende der Laufzeit, bestehend aus der anfänglichen Anlagesumme und dem Zinsertrag."
       },
       "principal": {
@@ -3856,6 +3863,13 @@
         "unit": "EUR",
         "digits": 2,
         "importance": "second",
+        "tooltip": "Der angelegte bzw. anzulegende Geldbetrag."
+      },
+      "principalmain": {
+        "description": "Anlagesumme",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
         "tooltip": "Der angelegte bzw. anzulegende Geldbetrag."
       },
       "interest": {

@@ -214,6 +214,7 @@ exports.rent = function(inputs){
   var rootFun, helper, h1, i;
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; var dynT; var dynLast = [];
   var result = {}; result._1 = {}; result._2 = {};
+  result._chart1 = {};
   var localElems = calcElems.rent.results_1;
   var expectedInputs = calcElems.rent.inputs;
   var _expectedInputs = _.clone(expectedInputs);
@@ -299,14 +300,57 @@ exports.rent = function(inputs){
 
   /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.rent.id;
-  // first result container
+
+  /*
+   5.A FIRST RESULT CONTAINER
+   */
   result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper});
 
-  // second result container
+  /*
+   5.B SECOND RESULT CONTAINER
+   */
   result._2.title = 'Übersicht Mietentwicklung';
   result._2.header = ['Jahr', 'Monatsmiete', 'Jahresmiete', 'Summe bisher gezahlte Miete'];
   result._2.body = dynT;
   result._2.bodylast = dynLast;
+
+  /*
+   5.C FIRST CHART
+   */
+  var labels1 = dyn[0];
+  var series1 = [dyn[2]];
+  //console.log(labels1);
+  //console.log(series1);
+  console.log(inputs.term);
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Mietentwicklung';
+  result._chart1.label = {x: 'Jahr', y: "Jahresmiete"};
+  result._chart1.type = 'Bar';
+
+  if (inputs.term >=75) {  // remove chart if output is way to big
+    delete(result._chart1);
+  } else if (inputs.term >=40) {  // use slim bars and show only every fourth
+    labels1 = labels1.filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4});
+    series1 = [dyn[2].filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4})];
+    result._chart1.data = {labels: labels1, series: series1};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+  } else if (inputs.term >=25) {  // use slim bars and show only every second
+    labels1 = labels1.filter(function(val,ind){ return ind % 2 !== inputs.term % 2});
+    series1 = [dyn[2].filter(function(val,ind){ return ind % 2 !== inputs.term % 2})];
+    result._chart1.data = {labels: labels1, series: series1};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+  } else if (inputs.term >=15){  // use slim bars if more than 20 periods
+    result._chart1.data = {labels: labels1, series: series1};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+  } else if (inputs.period >=6) {
+    result._chart1.data = {labels: labels1, series: series1};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
+  } else {
+    result._chart1.data = {labels: labels1, series: series1};
+    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
+  }
+
+
 
   return result;
 
@@ -432,8 +476,6 @@ exports.transfertax = function(inputs){
 
  */
 exports.homesave = function(inputs){
-
-
 
   /* ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();  helpers.errors.clear();
@@ -690,7 +732,7 @@ exports.homesave = function(inputs){
   result._chart1.id = 'chart1';
   result._chart1.title = 'Kapitalentwicklung Ansparphase';
   result._chart1.legend = ['Guthaben Start', 'Sparbeitrag', 'Zins'];
-  result._chart1.label = {x: 'Jahr', y: "Endguthaben"}
+  result._chart1.label = {x: 'Jahr', y: "Endguthaben"};
   result._chart1.type = 'Bar';
   result._chart1.data = {labels: labels1, series: series1};
   result._chart1.options = {stackBars: true, seriesBarDistance: 10};
@@ -729,7 +771,7 @@ exports.homesave = function(inputs){
   }
 
   if (inputs.interestsave > inputs.interestdebt){
-    helpers.messages.set("Hinweis: Der Guthabenzinssatz von " + inputs.interestsave * 100 + " % liegt über dem Darlehenszinssatz von " + inputs.interestdebt * 100 + " %. Dies kommt nur in Ausnahmefällen vor, daher überprüfen Sie bitte ob die Zinssätze korrekt sind.",2);
+    helpers.messages.set("Hinweis: Der Guthabenzinssatz von " + f.basic.round(inputs.interestsave * 100, 2) + " % liegt über dem Darlehenszinssatz von " + f.basic.round(inputs.interestdebt * 100, 2) + " %. Dies kommt nur in Ausnahmefällen vor, daher überprüfen Sie bitte ob die Zinssätze korrekt sind.",2);
   }
 
   if (helper.totalloan * (inputs.interestdebt / 12) >= inputs.repay ){

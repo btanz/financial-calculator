@@ -32,3 +32,10 @@ exports.roots = function(f,initX,iterBound,devY,delt){
   return X;
 };
 
+
+// a simple function that does transposition on an array
+// the function expects and array and returns the transpose of it
+exports.transpose = function(arr){
+  return arr[0].map(function (col, i) {return arr.map(function (row) {return row[i];})});
+};
+
