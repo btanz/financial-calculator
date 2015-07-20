@@ -161,6 +161,21 @@ router.get('/immobilienpreisrechner/inputs', function(req,res,next){
 
 
 /* **********************************
+ ** property-mortgage routes
+ *********************************** */
+router.get('/hypothekenrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.mortgage});
+});
+
+
+router.get('/hypothekenrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = property.mortgage(obj);
+  res.json(results);
+});
+
+
+/* **********************************
  ** deposit-depinterest routes
  *********************************** */
 router.get('/zinsrechner', function(req,res,next){

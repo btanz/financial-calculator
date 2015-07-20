@@ -92,6 +92,10 @@
       "6": {
         "name": "Immobilienpreisrechner",
         "url": "/immobilienpreisrechner"
+      },
+      "7": {
+        "name": "Hypothekenrechner",
+        "url": "/hypothekenrechner"
       }
     }
   },

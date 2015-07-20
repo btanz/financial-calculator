@@ -1777,6 +1777,7 @@
       }
     }
   },
+
   "annuity": {
     "id": "debt-annuity",
     "name": "Tilgungsrechner Annuitätendarlehen",
@@ -1806,7 +1807,7 @@
         "addon": "EUR",
         "placeholder": "Kreditsumme",
         "value": "15000.00",
-        "tooltip": "TBD",
+        "tooltip": "Geben Sie die Kredit- bzw. Darlehenssumme ein. Dies ist der Betrag, welcher bei Auszahlung des Kredites zur Verfügung gestellt wird.",
         "type": "number",
         "vtype": "number",
         "args": [
@@ -4002,6 +4003,338 @@
           "360": "360",
           "365": "365",
           "365.25": "365,25"
+        }
+      }
+    },
+    "results_1": {
+      "interestpenalty": {
+        "description": "Vorschusszinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Die zu zahlenden Vorschusszinsen."
+      },
+      "interestprincipal": {
+        "description": "Zinsbelasteter Betrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Der Betrag, auf welchen Vorschusszinsen zu entrichten sind."
+      },
+      "interest": {
+        "description": "Vorschusszinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "second",
+        "tooltip": "Der zugrundeliegende Zinssatz für die Berechnung der Vorschusszinsen."
+      }
+    }
+  },
+
+
+  "mortgage": {
+    "id": "property-mortgage",
+    "name": "Hypothekenrechner",
+    "description": "Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypothekendarlehen durchführen.",
+    "inputs": {
+      "select": {
+        "id": "property-mortgage-select",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          0,
+          5
+        ],
+        "options": {
+          "0": "Rate/Annuität",
+          "1": "Restschuld",
+          "2": "Laufzeit",
+          "3": "Zinssatz",
+          "4": "Kreditsumme"
+        }
+      },
+      "principal": {
+        "id": "property-mortgage-principal",
+        "label": "Kreditsumme",
+        "addon": "EUR",
+        "placeholder": "Kreditsumme",
+        "value": "80000.00",
+        "tooltip": "Geben Sie die Kredit- bzw. Darlehenssumme ein. Dies ist der Betrag, welcher bei Auszahlung des Kredites zur Verfügung gestellt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "fees": {
+        "id": "property-mortgage-fees",
+        "linetop": true,
+        "label": "Sind Abschlussgebühren angefallen?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "feeamount": {
+        "id": "property-mortgage-feeamount",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Gebühren",
+        "addon": "EUR",
+        "placeholder": "Gebühren",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ],
+        "optional": true
+      },
+      "feetype": {
+        "id": "property-mortgage-feetype",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie sollen die Gebühren verrechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          2,
+          3
+        ],
+        "options": {
+          "2": "Verrechnung mit der Ratenzahlung/Annuität",
+          "3": "keine Verrechnung, sondern gesonderte Zahlung"
+        }
+      },
+      "disagio": {
+        "id": "property-mortgage-disagio",
+        "label": "Gab es ein Disagio?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "disagioamount": {
+        "id": "property-mortgage-disagioamount",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Disago",
+        "addon": "%",
+        "placeholder": "Disago",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ],
+        "optional": true
+      },
+      "interest": {
+        "id": "property-mortgage-interest",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.50",
+        "tooltip": "Geben Sie den gebundenen Sollzinssatz für das Darlehen ein. Dies ist der nominale Jahreszinssatz, welcher auf die jeweils ausstehenden Schulden angewandt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "initialinterest": {
+        "id": "property-mortgage-initialinterest",
+        "label": "Anfängliche Tilgung",
+        "addon": "% p. a.",
+        "placeholder": "Anfängliche Tilgung",
+        "value": "4.00",
+        "tooltip": "Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "repay": {
+        "id": "property-mortgage-repay",
+        "label": "Rate/Annuität",
+        "addon": "EUR",
+        "placeholder": "Rate/Annuität",
+        "value": "",
+        "disabled": true,
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "repayfreq": {
+        "id": "property-mortgage-repayfreq",
+        "label": "Zahlungsintervall für Rate",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          1,
+          12
+        ],
+        "options": {
+          "12": "monatlich",
+          "4": "vierteljährlich",
+          "2": "halbjährlich",
+          "1": "jährlich"
+        }
+      },
+      "term": {
+        "id": "property-mortgage-term",
+        "label": "Laufzeit Ratenzahlungen",
+        "addon": "Jahre",
+        "placeholder": "Laufzeit Ratenzahlungen",
+        "value": "10",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          200
+        ]
+      },
+      "repaymentfree": {
+        "id": "property-mortgage-repaymentfree",
+        "label": "Gab es eine tilgungsfreie Zeit?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "repaymentfreeterm": {
+        "id": "property-mortgage-repaymentfreeterm",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Zeitraum",
+        "addon": "Jahre",
+        "placeholder": "Zeitraum",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000
+        ],
+        "optional": true
+      },
+      "repaymentfreetype": {
+        "id": "property-mortgage-repaymentfreetype",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie sollen die Zinsen für die tilgungsfreie Zeit verrechnet werden?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          2,
+          3
+        ],
+        "options": {
+          "2": "Verrechnung mit der Ratenzahlung/Annuität",
+          "3": "keine Verrechnung, sondern gesonderte Zahlung"
+        }
+      },
+      "residual": {
+        "id": "property-mortgage-residual",
+        "label": "Restschuld",
+        "addon": "EUR",
+        "placeholder": "Restschuld",
+        "value": "4000",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "annualrepay": {
+        "id": "property-mortgage-annualrepay",
+        "label": "Jährliche Sondertilgung",
+        "addon": "EUR",
+        "placeholder": "Jährliche Sondertilgung",
+        "value": "0",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "followup": {
+        "id": "property-mortgage-followup",
+        "label": "Anschlussfinanzierung berechnen?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "nein",
+          "true": "ja"
+        }
+      },
+      "followupinterest": {
+        "id": "property-mortgage-followupinterest",
+        "secondary": "true",
+        "hide": "true",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ],
+        "optional": true
+      },
+      "specialrepay": {
+        "id": "property-mortgage-specialrepay",
+        "label": "Gibt es individuelle Sondertilungen?",
+        "tooltip": "TBD",
+        "linetop": true,
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "nein",
+          "true": "ja"
         }
       }
     },
