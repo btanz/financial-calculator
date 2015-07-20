@@ -1,24 +1,35 @@
 // *** 1. Require dependencies ***
 
-// A. External dependencies
+// A. Config dependencies
+var config = require('./config');
+
+// B. External dependencies
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var compress = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// B. Internal dependencies
-var routes = require('./routes/routes');
-var navElems = require('./data/static/navElems.json');
+// C. Internal dependencies
+var routes = require('./../routes/routes');
+var navElems = require('./../data/static/navElems.json');
 
-// C. Init
+// D. Init
 var app = express();
 
 
 // *** 2. Configure settings ***
+
+// compression module setup
+if(config.compression){
+  app.use(compress());
+}
+
+
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '/../views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -27,7 +38,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/../public')));
 
 
 
