@@ -4263,17 +4263,23 @@
         "secondary": "true",
         "hide": "true",
         "label": "Zeitraum",
-        "addon": "Jahre",
         "placeholder": "Zeitraum",
         "value": "",
         "tooltip": "TBD",
-        "type": "number",
+        "type": "numberselect",
         "vtype": "number",
         "args": [
           0,
           1000
         ],
-        "optional": true
+        "optional": true,
+        "idselect": "property-mortgage-repaymentfreeterminterval",
+        "tooltipselect": "TBD",
+        "labelselect": "",
+        "options": {
+          "1": "Jahre",
+          "2": "Monate"
+        }
       },
       "repaymentfreetype": {
         "id": "property-mortgage-repaymentfreetype",
