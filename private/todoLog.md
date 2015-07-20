@@ -4,7 +4,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * testing sheet for each calculator
 * improved rootfinding algorithm
 * graphs
-* pdf generator 
+* pdf generator (create pdf an the server an d serve back as a static file)
 * useful print previews
 * excel file generator
 * frontend validation
@@ -21,7 +21,8 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * effective interest calculator for property-homesave
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * more effient frontent-code for showing and hiding inputs
-* function for initializing calculators (i.e. outsource 'init and assign') 
+* function for initializing calculators (i.e. outsource 'init and assign')
+* customizable HTML emails that can be sent to clients (use app.render insted of res.render on the server to create emails)
 
 
 
