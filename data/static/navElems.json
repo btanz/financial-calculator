@@ -59,6 +59,10 @@
       "4": {
         "name": "Festgeldrechner",
         "url": "/festgeldrechner"
+      },
+      "5": {
+        "name": "Vorschusszinsrechner",
+        "url": "/vorschusszinsrechner"
       }
     }
   },

@@ -3908,6 +3908,126 @@
         "tooltip": "Die effektive jährliche Rendite des Sparplans, welche nach der Methode des internen Zinfußes (internal rate of return) berechnet wird. Diese Rendite kann interpretiert werden als eine mittlere jährliche Rendite der Sparanlage. Sie kann verwendet werden, um mehrere Sparalternativen zu vergleichen. Im Allgemeinen ist die Sparalternative mit dem höchsten Effektivzins auch die lukrativste."
       }
     }
+  },
+
+
+  "interestpenalty": {
+    "id": "deposits-interestpenalty",
+    "name": "Vorschusszinsrechner",
+    "description": "Mit dem Vorschusszinsrechner können die Zinsen berechnet werden, welche durch das Abheben eines größeren Geldbetrages vom Sparkonto ohne rechtzeitige vorherige Kündigung anfallen.",
+    "inputs": {
+      "principal": {
+        "id": "deposits-interestpenalty-principal",
+        "label": "Entnahmebetrag",
+        "addon": "EUR",
+        "placeholder": "Entnahmebetrag",
+        "value": "4000",
+        "tooltip": "Geben Sie den Geldbetrag an, welchen Sie vom Sparkonto ohne vorherige Kündigung abheben möchten.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "interest": {
+        "id": "deposits-interestpenalty-interest",
+        "label": "Anlagezinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Anlagezinssatz",
+        "value": "1.25",
+        "tooltip": "Geben Sie den jährlichen Zinssatz an, welchen Sie auf das Sparguthaben erhalten.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          30
+        ]
+      },
+      "allowance": {
+        "id": "deposits-interestpenalty-allowance",
+        "label": "Verbleibender Freibetrag",
+        "addon": "EUR",
+        "placeholder": "Verbleibender Freibetrag",
+        "value": "2000",
+        "tooltip": "Geben Sie den Betrag ein, welchen Sie ohne vorherige Kündingung und ohne Zinsstrafe von ihrem Sparkonto abheben können. Auf diesen Betrag fallen entsprechend keine Vorschusszinsen an. Gewöhnlich beläuft sich der gesamte von der Bank eingeräumte Freibetrag auf monatlich 2000 EUR. Der verbleibende Freibetrag ist der eingeräumte Freibetrag abzüglich der bereits von Ihnen getätigten Auszahlungen im laufenden Monat.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "term": {
+        "id": "deposits-interestpenalty-term",
+        "label": "Vorschusszinstage",
+        "addon": "Tage",
+        "placeholder": "Vorschusszinstage",
+        "value": "90",
+        "tooltip": "Geben Sie die Anzahl der Zinstage ein, für welche Vorschusszinsen zu entrichten sind. Sofern Sie den Entnahmebetrag nicht gekündigt haben wird meist von 90 Zinstagen ausgegangen. Ansonsten entsprechen die Vorschusszinstage meist den Tagen zwischen gewünschter vorzeitiger Auszahlung und Vertragsende nach Kündigung.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "factor": {
+        "id": "deposits-interestpenalty-factor",
+        "label": "Zinsfaktor",
+        "addon": "%",
+        "placeholder": "Zinsfaktor",
+        "value": "25.00",
+        "tooltip": "Geben Sie den Anteil des Anlagezinssatzes an, welcher für die Berechnung der Vorschusszinsen angewandt wird. Meist beläuft sich dieser Anteil auf 25%.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "interestdays": {
+        "id": "deposits-interestpenalty-interestdays",
+        "linetop": false,
+        "label": "Jährliche Zinstage",
+        "placeholer": "Jährliche Zinstage",
+        "tooltip": "Geben Sie die Anzahl der für ein Jahr angenommenen Zinstage an. Für deutsche Sparkonten wird in der Regel die deutsche Zinsmethode genutzt, welche von 360 Zinstagen pro Jahr ausgeht.",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          360,
+          366
+        ],
+        "options": {
+          "360": "360",
+          "365": "365",
+          "365.25": "365,25"
+        }
+      }
+    },
+    "results_1": {
+      "interestpenalty": {
+        "description": "Vorschusszinsen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Die zu zahlenden Vorschusszinsen."
+      },
+      "interestprincipal": {
+        "description": "Zinsbelasteter Betrag",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Der Betrag, auf welchen Vorschusszinsen zu entrichten sind."
+      },
+      "interest": {
+        "description": "Vorschusszinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "second",
+        "tooltip": "Der zugrundeliegende Zinssatz für die Berechnung der Vorschusszinsen."
+      }
+    }
   }
 
 }

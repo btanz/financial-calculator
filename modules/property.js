@@ -319,9 +319,6 @@ exports.rent = function(inputs){
    */
   var labels1 = dyn[0];
   var series1 = [dyn[2]];
-  //console.log(labels1);
-  //console.log(series1);
-  console.log(inputs.term);
   result._chart1.id = 'chart1';
   result._chart1.title = 'Mietentwicklung';
   result._chart1.label = {x: 'Jahr', y: "Jahresmiete"};

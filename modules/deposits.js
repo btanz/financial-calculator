@@ -1090,6 +1090,60 @@ exports.savingscheme = function(inputs) {
 
 
 
+
+/** DEPOSITS-INTERESTPENALTY function that computes parameters for interest penalty ("Vorschusszinsen")
+ * ARGUMENTS XXX todo: documenation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.interestpenalty = function(inputs) {
+
+  /* ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+
+
+  var result = {}, helper = {};
+  result._1 = {};
+  var localElems = calcElems.interestpenalty.results_1;
+  var expectedInputs = calcElems.interestpenalty.inputs;
+  var errorMap;
+
+  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  errorMap = helpers.validate(inputs, expectedInputs);
+  if (errorMap.length !== 0) {
+    return errorMap;
+  }
+
+  inputs.interest = inputs.interest / 100;
+  inputs.factor = inputs.factor / 100;
+
+  /* ******** 3. COMPUTATIONS ******** */
+  helper.interestprincipal = Math.max(0, inputs.principal - inputs.allowance);
+  helper.interest = inputs.factor * inputs.interest;
+  helper.interestpenalty = helper.interestprincipal * helper.interest * inputs.term / inputs.interestdays;
+
+
+  /* ******** 5. CONSTRUCT RESULT DATA OBJECT ******** */
+  result.id = calcElems.interestpenalty.id;
+
+
+  /*
+   5.A FIRST RESULT CONTAINER
+   */
+  result._1.interestpenalty   = _.extend(localElems['interestpenalty'],    {"value": helper.interestpenalty});
+  result._1.interestprincipal = _.extend(localElems['interestprincipal'],  {"value": helper.interestprincipal});
+  result._1.interest          = _.extend(localElems['interest'],           {"value": helper.interest * 100});
+
+  return result;
+
+};
+
+
+
 /* ************************ END DEPOSITS MODULE PUBLIC FUNCTIONS *******************************/
 
 

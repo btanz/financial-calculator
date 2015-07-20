@@ -7,6 +7,200 @@ var ROUND_PRECISION = 100;   // 1/100 rounding precision
 
 describe("Deposits calculators are correct", function() {
 
+
+  describe("Deposits-interestpenalty correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+      data[0] = {calcselect: '2', principal: '12000',     interest: '4.5',  term: '27',   interestgain: '',        selection: 'false', taxes: 'false', taxrate: '26.375', taxfree: '801',    taxtime: 'false'};
+
+      data[0] = {principal: '10621.91', interest: '4.04', allowance: '1611.54', term: '473', factor: '19.3',  interestdays: '365.25'};
+      data[1] = {principal: '17526.83', interest: '4.42', allowance: '8511.54', term: '313', factor: '83.85', interestdays: '360'};
+      data[2] = {principal: '37282.11', interest: '1.46', allowance: '6201.2',  term: '300', factor: '94.42', interestdays: '360'};
+      data[3] = {principal: '21249.65', interest: '1.81', allowance: '4590.64', term: '314', factor: '83.08', interestdays: '360'};
+      data[4] = {principal: '40852.41', interest: '3.08', allowance: '4692.42', term: '148', factor: '54.98', interestdays: '365'};
+      data[5] = {principal: '31171.18', interest: '2.77', allowance: '8872.4',  term: '318', factor: '61.49', interestdays: '365'};
+      data[6] = {principal: '23573.81', interest: '3.68', allowance: '2703.54', term: '407', factor: '41.51', interestdays: '360'};
+      data[7] = {principal: '13530.69', interest: '1.34', allowance: '4721.64', term: '288', factor: '69.15', interestdays: '365'};
+      data[8] = {principal: '4391.27',  interest: '2.99', allowance: '8464.46', term: '88',  factor: '44.64', interestdays: '365'};
+      data[9] = {principal: '10192.27', interest: '0.46', allowance: '5996.14', term: '408', factor: '39.53', interestdays: '365.25'};
+      data[10]= {principal: '43866.42', interest: '3.07', allowance: '3335.02', term: '133', factor: '49.69', interestdays: '365'};
+      data[11]= {principal: '25938.65', interest: '3.72', allowance: '4650.2',  term: '335', factor: '71.62', interestdays: '365'};
+      data[12]= {principal: '48169.22', interest: '1.5',  allowance: '58.03',   term: '245', factor: '82.92', interestdays: '365.25'};
+      data[13]= {principal: '19316.74', interest: '3.28', allowance: '4623.27', term: '177', factor: '23.12', interestdays: '365.25'};
+      data[14]= {principal: '8431.02',  interest: '1.81', allowance: '5683.72', term: '278', factor: '62.96', interestdays: '360'};
+      data[15]= {principal: '35238.97', interest: '3.24', allowance: '8571.92', term: '324', factor: '51.64', interestdays: '365'};
+      data[16]= {principal: '27873.1',  interest: '2.33', allowance: '5712.02', term: '270', factor: '89.73', interestdays: '360'};
+      data[17]= {principal: '15953.83', interest: '3.1',  allowance: '2218.81', term: '485', factor: '78.47', interestdays: '365.25'};
+      data[18]= {principal: '14482.62', interest: '1.85', allowance: '3574.19', term: '55',  factor: '46.41', interestdays: '360'};
+      data[19]= {principal: '27902.16', interest: '2.21', allowance: '5128.43', term: '76',  factor: '24.69', interestdays: '360'};
+
+      expectations[0] = {interestprincipal: 9010.37,  interest: 0.78, interestpenalty: 90.98};
+      expectations[1] = {interestprincipal: 9015.29,  interest: 3.71, interestpenalty: 290.50};
+      expectations[2] = {interestprincipal: 31080.91, interest: 1.38, interestpenalty: 357.05};
+      expectations[3] = {interestprincipal: 16659.01, interest: 1.50, interestpenalty: 218.5};
+      expectations[4] = {interestprincipal: 36159.99, interest: 1.69, interestpenalty: 248.29};
+      expectations[5] = {interestprincipal: 22298.78, interest: 1.70, interestpenalty: 330.9};
+      expectations[6] = {interestprincipal: 20870.27, interest: 1.53, interestpenalty: 360.43};
+      expectations[7] = {interestprincipal: 8809.05,  interest: 0.93, interestpenalty: 64.41};
+      expectations[8] = {interestprincipal: 0,        interest: 1.33, interestpenalty: 0};
+      expectations[9] = {interestprincipal: 4196.13,  interest: 0.18, interestpenalty: 8.52};
+      expectations[10]= {interestprincipal: 40531.4,  interest: 1.53, interestpenalty: 225.3};
+      expectations[11]= {interestprincipal: 21288.45, interest: 2.66, interestpenalty: 520.56};
+      expectations[12]= {interestprincipal: 48111.19, interest: 1.24, interestpenalty: 401.4};
+      expectations[13]= {interestprincipal: 14693.47, interest: 0.76, interestpenalty: 54};
+      expectations[14]= {interestprincipal: 2747.3,   interest: 1.14, interestpenalty: 24.18};
+      expectations[15]= {interestprincipal: 26667.05, interest: 1.67, interestpenalty: 396.06};
+      expectations[16]= {interestprincipal: 22161.08, interest: 2.09, interestpenalty: 347.49};
+      expectations[17]= {interestprincipal: 13735.02, interest: 2.43, interestpenalty: 443.66};
+      expectations[18]= {interestprincipal: 10908.43, interest: 0.86, interestpenalty: 14.31};
+      expectations[19]= {interestprincipal: 22773.73, interest: 0.55, interestpenalty: 26.23};
+    });
+
+    it('Passes 1st test set', function(){
+      var results = deposits.interestpenalty(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = deposits.interestpenalty(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = deposits.interestpenalty(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = deposits.interestpenalty(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = deposits.interestpenalty(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = deposits.interestpenalty(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = deposits.interestpenalty(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = deposits.interestpenalty(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = deposits.interestpenalty(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = deposits.interestpenalty(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = deposits.interestpenalty(data[10]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[10]));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = deposits.interestpenalty(data[11]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[11]));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = deposits.interestpenalty(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = deposits.interestpenalty(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = deposits.interestpenalty(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = deposits.interestpenalty(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = deposits.interestpenalty(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = deposits.interestpenalty(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = deposits.interestpenalty(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = deposits.interestpenalty(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
+  });
+
+
+
   describe("Deposits-timedeposit correct", function() {
     var data = [],
         expectations = [];

@@ -217,6 +217,19 @@ router.get('/zuwachssparrechner/inputs', function(req,res,next){
 });
 
 
+/* **********************************
+ ** deposit-interestpenalty routes
+ *********************************** */
+router.get('/vorschusszinsrechner', function(req,res,next){
+  res.render('calculator', {obj: calcElems.interestpenalty});
+});
+
+router.get('/vorschusszinsrechner/inputs', function(req,res,next){
+  var obj = req.query;
+  var results = deposits.interestpenalty(obj);
+  res.json(results);
+});
+
 
 
 /* **********************************
