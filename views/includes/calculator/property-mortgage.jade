@@ -1,0 +1,29 @@
+//
+   Created by benjamintanz on 20.07.15.
+//- property-mortgage-templates
+
+script(id='property-mortgage-specialrepayInput-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-md-3
+        //h4 {{obj.count}}
+        div.input-group.m-b-sm
+          | {{#if obj.first}}
+          | &nbsp
+          | {{/if}}
+          h4 {{obj.count}}
+      div.col-md-5
+        | {{#if obj.first}}
+        label(for='{{obj.id1}}') Tilgungsmonat &nbsp
+        | {{/if}}
+        div.input-group.m-b-sm
+          input(placeholder='', id='{{obj.id1}}', type='text', value='', class='form-control')
+          span.input-group-addon Monat
+      div.col-md-4
+        | {{#if obj.first}}
+        label(for='{{obj.id2}}') Betrag &nbsp
+        | {{/if}}
+        div.input-group.m-b-sm
+          input(placeholder='', id='{{obj.id2}}', type='text', value='', class="form-control")
+          span.input-group-addon EUR
+

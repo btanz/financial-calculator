@@ -4037,28 +4037,48 @@
     "name": "Hypothekenrechner",
     "description": "Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypothekendarlehen durchführen.",
     "inputs": {
-      "select": {
-        "id": "property-mortgage-select",
-        "label": "Was soll berechnet werden?",
+      "select1": {
+        "id": "property-mortgage-select1",
+        "label": "Was soll berechnet werden? - 1. Auswahl",
         "tooltip": "TBD",
         "type": "select",
         "vtype": "number",
         "args": [
-          0,
-          5
+          1,
+          7
         ],
         "options": {
-          "0": "Rate/Annuität",
-          "1": "Restschuld",
-          "2": "Laufzeit",
+          "1": "Rate/Annuität",
+          "2": "Kreditsumme",
           "3": "Zinssatz",
-          "4": "Kreditsumme"
+          "4": "Anfängliche Tilgung",
+          "5": "Laufzeit",
+          "6": "Restschuld",
+          "7": "Jährliche Sondertilgung"
+        }
+      },
+      "select2": {
+        "id": "property-mortgage-select2",
+        "label": "Was soll berechnet werden? - 2. Auswahl",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          1,
+          4
+        ],
+        "options": {
+          "1": "Restschuld",
+          "2": "Anfängliche Tilgung",
+          "3": "Laufzeit",
+          "4": "Jährliche Sondertilgung"
         }
       },
       "principal": {
         "id": "property-mortgage-principal",
         "label": "Kreditsumme",
         "addon": "EUR",
+        "linetop": true,
         "placeholder": "Kreditsumme",
         "value": "80000.00",
         "tooltip": "Geben Sie die Kredit- bzw. Darlehenssumme ein. Dies ist der Betrag, welcher bei Auszahlung des Kredites zur Verfügung gestellt wird.",
@@ -4336,6 +4356,55 @@
           "false": "nein",
           "true": "ja"
         }
+      },
+      "specialrepaypositions": {
+        "id": "property-mortgage-specialrepaypositions",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie viele Sondertilgungszeitpunkte gibt es?",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          0,
+          30
+        ],
+        "options": {
+          "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+          "6": "6", "7": "7", "8": "8", "9": "9", "10": "10",
+          "11": "11", "12": "12", "13": "13", "14": "14", "15": "15",
+          "16": "16", "17": "17", "18": "18", "19": "19", "20": "20",
+          "21": "21", "22": "22", "23": "23", "24": "24", "25": "25",
+          "26": "26", "27": "27", "28": "28", "29": "29", "30": "30"
+        }
+      },
+      "specialrepaymonths": {
+        "id": "property-mortgage-specialrepaymonths",
+        "type": "custom",
+        "vtype": "number",
+        "args": [
+          0,
+          1200
+        ],
+        "label": "Monat der Sondertilgung",
+        "optional": "false",
+        "array": "true",
+        "arrayParent": "specialrepaypositions"
+      },
+      "specialrepayamount": {
+        "id": "property-mortgage-specialrepayamount",
+        "type": "custom",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ],
+        "label": "Betrag Sondertilgung",
+        "optional": "false",
+        "array": "true",
+        "arrayParent": "specialrepaypositions"
       }
     },
     "results_1": {
