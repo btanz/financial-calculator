@@ -4229,16 +4229,22 @@
       "term": {
         "id": "property-mortgage-term",
         "label": "Laufzeit Ratenzahlungen",
-        "addon": "Jahre",
         "placeholder": "Laufzeit Ratenzahlungen",
         "value": "10",
         "tooltip": "TBD",
-        "type": "number",
+        "type": "numberselect",
         "vtype": "number",
         "args": [
           0,
           200
-        ]
+        ],
+        "idselect": "property-mortgage-terminterval",
+        "tooltipselect": "TBD",
+        "labelselect": "",
+        "options": {
+          "1": "Jahre",
+          "2": "Monate"
+        }
       },
       "repaymentfree": {
         "id": "property-mortgage-repaymentfree",
