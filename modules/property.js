@@ -1110,3 +1110,139 @@ exports.propertyprice = function(inputs){
   return result;
 
 };
+
+
+
+
+/** PROPERTY-MORTGAGE function that computes parameters for mortgage loans
+ * ARGUMENTS XXX todo: documentation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.mortgage = function(inputs){
+
+  /** ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; var dynT;
+  var result = {}; result._1 = {}; result._2 = {};
+  var helper = {};
+  var localElems = calcElems.mortgage.results_1;
+  var expectedInputs = calcElems.mortgage.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = [[undefined, 'repay', 'principal', 'interest', 'initialinterest'],[undefined, 'residual', 'term', 'annualrepay']];
+  var i;
+
+
+  /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+
+  /** read out term choices and remove choice inputs */
+  helper.termperiods = inputs.termperiods;
+  helper.repaymentfreetermperiods = inputs.repaymentfreetermperiods;
+  delete inputs.termperiods;
+  delete inputs.repaymentfreetermperiods;
+
+  /** drop elements that are to be computed from input and expectedinputs object */
+  delete inputs[selectMap[0][inputs.select1]];
+  delete _expectedInputs[selectMap[0][inputs.select1]];
+  delete inputs[selectMap[1][inputs.select2]];
+  delete _expectedInputs[selectMap[1][inputs.select2]];
+
+  /** run validation method */
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  /** convert terms with subannual choices to years */
+  inputs.term              = inputs.term              / helper.termperiods;
+  inputs.repaymentfreeterm = inputs.repaymentfreeterm / helper.repaymentfreetermperiods;
+
+  /** convert terms that are not period multiples to period multiples */
+  inputs.term = f.basic.adjustTermToHigherFullPeriod(inputs.term, inputs.repayfreq);
+  // todo: send message to user that conversion took place
+
+  /** convert all percentage values to decimals */
+  inputs.disagioamount = inputs.disagioamount / 100;
+  inputs.interest = inputs.interest / 100;
+  inputs.initalinterest = inputs.initialinterest / 100;
+  inputs.followupinterest = inputs.followupinterest / 100;
+
+
+  /** ******** 3. COMPUTATIONS ******** */
+
+
+  /**
+   * 3.A STATIC COMPUTATIONS
+   */
+
+  /** compute repayment rate if not given */
+  inputs.repay = inputs.repay || f.annuity.annuityInitialInterest(inputs.principal, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
+
+  /** compute principal if not given */
+  inputs.principal = inputs.principal || f.annuity.principalInitialInterest(inputs.repay, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
+
+  /** compute interest rate if not given */
+  inputs.interest = inputs.interest || f.annuity.interestInitialInterest(inputs.principal, inputs.repay, inputs.repayfreq, inputs.initalinterest);
+
+  /** compute initial interest if not given */
+  inputs.initialinterest = inputs.initialinterest || f.annuity.initialInterest(inputs.principal, inputs.repay, inputs.interest, inputs.repayfreq);
+
+
+  /**
+   * 3.B DYNAMIC COMPUTATIONS
+   */
+  dyn = f.annuity.schedule.call({
+    mode: 1,
+    annualvals: true,
+    finalvals: true,
+    principal: inputs.principal,
+    term: inputs.term,
+    repayfreq: inputs.repayfreq,
+    repay: inputs.repay,
+    interest: inputs.interest
+  });
+
+
+
+  /** assign residual if not given */
+  inputs.residual = inputs.residual || dyn.residual;
+
+  helper.totalrepay     = dyn.totalrepay;
+  helper.totalinterest  = dyn.totalinterest;
+  helper.totalreduction = dyn.totalreduction;
+
+
+
+  /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.mortgage.id;
+
+  /**
+   * 4.A FIRST RESULT CONTAINER
+   */
+  result._1.value1        = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
+  result._1.value2        = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
+  result._1.totalrepay    = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
+  result._1.totalreduction= _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
+  result._1.totalinterest = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
+
+
+  /**
+   * 4.B SECOND RESULT CONTAINER
+   */
+  result._2.title = 'Tilgungsplan';
+  result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zinsanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
+  result._2.body = dyn.schedule;
+
+
+  /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
+
+  // add a message that periods are adjusted to next full period
+
+  return result;
+
+};

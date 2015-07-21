@@ -4235,9 +4235,11 @@
           200
         ],
         "labelselect": "Jahre",
+        "idselect": "property-mortgage-termperiods",
+        "selectedoption": "1",
         "options": {
           "1": "Jahre",
-          "2": "Monate"
+          "12": "Monate"
         }
       },
       "repaymentfree": {
@@ -4268,9 +4270,11 @@
         ],
         "optional": true,
         "labelselect": "Jahre",
+        "idselect": "property-mortgage-repaymentfreetermperiods",
+        "selectedoption": "1",
         "options": {
           "1": "Jahre",
-          "2": "Monate"
+          "12": "Monate"
         }
       },
       "repaymentfreetype": {
@@ -4413,26 +4417,61 @@
       }
     },
     "results_1": {
-      "interestpenalty": {
-        "description": "Vorschusszinsen",
+      "repay": {
+        "description": "Rate/Annuität",
         "unit": "EUR",
         "digits": 2,
         "importance": "first",
-        "tooltip": "Die zu zahlenden Vorschusszinsen."
+        "tooltip": "Die periodisch zu zahlendene konstante Rate zur Rückzahlung der Hypothek."
       },
-      "interestprincipal": {
-        "description": "Zinsbelasteter Betrag",
+      "principal": {
+        "description": "Kreditsumme",
         "unit": "EUR",
         "digits": 2,
-        "importance": "second",
+        "importance": "first",
         "tooltip": "Der Betrag, auf welchen Vorschusszinsen zu entrichten sind."
       },
       "interest": {
-        "description": "Vorschusszinssatz",
+        "description": "Zinssatz",
         "unit": "% p. a.",
         "digits": 3,
+        "importance": "first",
+        "tooltip": "Der gebundene Sollzinssatz für das Darlehen."
+      },
+      "initialinterest": {
+        "description": "Anfängliche Tilgung",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Der prozentuale Anteil der Kreditsumme, welcher mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird"
+      },
+      "residual": {
+        "description": "Restschuld",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "totalrepay": {
+        "description": "Gesamte Rückzahlungen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "totalinterest": {
+        "description": "davon Zinslast",
+        "unit": "EUR",
+        "digits": 2,
         "importance": "second",
-        "tooltip": "Der zugrundeliegende Zinssatz für die Berechnung der Vorschusszinsen."
+        "tooltip": "TBD"
+      },
+      "totalreduction": {
+        "description": "davon Tilgung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
       }
     }
   }

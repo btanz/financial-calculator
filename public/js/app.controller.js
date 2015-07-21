@@ -1,4 +1,4 @@
-/*
+/**
  * app.controller.js
  * Client application controller that ties calculators and views together
  *
@@ -18,16 +18,17 @@ app.controller = (function() {
     /**
      * attach global event handlers
      */
-    // calculate document once submit button is clicked
+
+    /** calculate document once submit button is clicked */
     $('#btn-calculate').on('click',function(e){submitBtnCalculate(e)});
 
-    // calculate document once onLoad such that users can see first results
+    /** calculate document once onLoad such that users can see first results */
     $('#btn-calculate').trigger('click');
 
-    // invalidate calculations if any of the input fields changes
-    $('input, select').on('keyup change', function(e){ invalidateResults(e) })
+    /** invalidate calculations if any of the input fields changes */
+    $('input, select').on('keyup change', function(e){ invalidateResults(e) });
 
-    // handling for input field dropdown buttons
+    /** handling for input field dropdown buttons */
     $('ul.dropdown-menu li a').on('click', function(e){dropdownToggle(e)});
 
   });
@@ -35,24 +36,41 @@ app.controller = (function() {
 
 
   /*********************** BEGIN GLOBAL EVENT HANDLERS ***********************/
-  // handler that deals with submit button events
+
+  /**
+   * Handle submit button events
+   * @param e
+   */
   function submitBtnCalculate(e){
     e.preventDefault();
     var inputs = {};
 
-    // parse and collect inputs
+    /**
+     * Parse and collect inputs
+     */
+
+    /** parse input fields */
     $('input').each( function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
     });
 
+    /** parse select fields */
     $('select').each( function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
+    /** parse button-numberselect fields */
+    $('button.dropdown-toggle').each(function(){
+      var id = $(this).attr('id');
+      inputs[id.split('-')[id.split('-').length-1]] = $(this).attr('value');
+    });
 
-    // make Ajax request to server
+
+    /**
+     * Make AJAX-request to server
+     */
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data) {
 
@@ -97,16 +115,24 @@ app.controller = (function() {
         });
   }
 
-  // handler that reads the selected value from a dropdown toggle and writes it to a button
+  /**
+   * Read selected value from a clicked dropdown toggle and write it to associated button
+   * @param e
+   */
   function dropdownToggle(e){
-    // prevent following the link
+    /** prevent following the link */
     e.preventDefault();
-    // set button text to selected element from dropdown
+    /** set button text to selected element from dropdown */
     e.currentTarget.parentElement.parentElement.previousSibling.innerHTML = e.currentTarget.innerHTML + '<span class="caret"></span>';
+    /** set button value to href index of selected element from dropdown */
+    e.currentTarget.parentElement.parentElement.previousSibling.value = e.currentTarget.pathname.substring(1)
   }
 
 
-  // handler that invalidates result (used for example if one of the inputs changes
+  /**
+   * Invalidate and clear results
+   * @param e
+   */
   function invalidateResults(e){
     e.preventDefault();
     app.helpers.clearAllResultsTemplates();

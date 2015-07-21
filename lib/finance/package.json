@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha"
   },
+  "dependencies": {
+    "underscore": "^1.8.3"
+  },
   "keywords": [
     "finance",
     "annuitites",

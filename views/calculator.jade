@@ -78,7 +78,7 @@ block content
                       div.input-group
                         input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
                         div.input-group-btn
-                          button(data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
+                          button(id=input.idselect, value=input.selectedoption, data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
                             span.caret
                           ul.dropdown-menu.pull-right
                             each option, index in input.options
