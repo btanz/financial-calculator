@@ -67,34 +67,23 @@ block content
                       else
                         input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
 
-                  //- template for number-select input fields that hold a number (suh as 1/2/3/.. periods) and a select (such as months/periods) input
+                  //- alternative template for number-select input fields
                   if input.type === 'numberselect'
                     if input.linetop
                       div.hr-line-dashed
                     div.form-group(class=rank, class=hide)
-                      div.row
-                        div.col-md-6
-                          label(for=input.id)
-                            | #{input.label} &nbsp
-                            i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                          if input.addon
-                            div.input-group
-                              input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
-                              span.input-group-addon= input.addon
-                          else
-                            input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
-                        div.col-md-6
-                          label(for=input.idselect)
-                            | #{input.labelselect} &nbsp
-                            //i(class='fa fa-question-circle fa-lg', data-toggle='tooltipselect', data-placement='top', title=input.tooltipselect)
-                          select(id=input.idselect, class="form-control")
+                      label(for=input.id)
+                        | #{input.label} &nbsp
+                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                      div.input-group
+                        input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
+                        div.input-group-btn
+                          button(data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
+                            span.caret
+                          ul.dropdown-menu.pull-right
                             each option, index in input.options
-                              - var optgroup = (option === '_OPTGROUP')
-                              if optgroup
-                                optgroup(label=index)
-                              else
-                                option(value=index)= option
-
+                              li
+                                a(href=index)= option
 
 
                   //- template for select input fields

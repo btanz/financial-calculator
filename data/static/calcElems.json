@@ -4238,9 +4238,7 @@
           0,
           200
         ],
-        "idselect": "property-mortgage-terminterval",
-        "tooltipselect": "TBD",
-        "labelselect": "",
+        "labelselect": "Jahre",
         "options": {
           "1": "Jahre",
           "2": "Monate"
@@ -4273,9 +4271,7 @@
           1000
         ],
         "optional": true,
-        "idselect": "property-mortgage-repaymentfreeterminterval",
-        "tooltipselect": "TBD",
-        "labelselect": "",
+        "labelselect": "Jahre",
         "options": {
           "1": "Jahre",
           "2": "Monate"

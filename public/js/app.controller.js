@@ -10,10 +10,15 @@ app.controller = (function() {
   /*********************** BEGIN GLOBAL DOCUMENT READY TASKS ***********************/
   $(document).ready(function(){
 
-    // run initialization steps
+    /**
+     * run initialization steps
+     */
     app.init();
 
-    // initialize global event handlers
+    /**
+     * attach global event handlers
+     */
+    // calculate document once submit button is clicked
     $('#btn-calculate').on('click',function(e){submitBtnCalculate(e)});
 
     // calculate document once onLoad such that users can see first results
@@ -21,6 +26,9 @@ app.controller = (function() {
 
     // invalidate calculations if any of the input fields changes
     $('input, select').on('keyup change', function(e){ invalidateResults(e) })
+
+    // handling for input field dropdown buttons
+    $('ul.dropdown-menu li a').on('click', function(e){dropdownToggle(e)});
 
   });
   /*********************** END GLOBAL DOCUMENT READY TASKS *************************/
@@ -88,6 +96,15 @@ app.controller = (function() {
           app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
         });
   }
+
+  // handler that reads the selected value from a dropdown toggle and writes it to a button
+  function dropdownToggle(e){
+    // prevent following the link
+    e.preventDefault();
+    // set button text to selected element from dropdown
+    e.currentTarget.parentElement.parentElement.previousSibling.innerHTML = e.currentTarget.innerHTML + '<span class="caret"></span>';
+  }
+
 
   // handler that invalidates result (used for example if one of the inputs changes
   function invalidateResults(e){
