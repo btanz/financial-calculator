@@ -3,7 +3,7 @@ var fx = require('money');
 var _ = require('underscore');
 var math = require('./math');
 var helpers = require('./helpers');
-var calcElems = require('../data/static/calcElems.json');
+var calcElems = require('../../data/static/calcElems.json');
 
 
 var cumNormalHelper, cumNormalPrimeHelper;

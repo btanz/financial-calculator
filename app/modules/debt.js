@@ -3,8 +3,8 @@ var validator = require('validator');
 var helpers = require('./helpers');
 var math = require('./math');
 var misc = require('./misc');
-var calcElems = require('../data/static/calcElems.json');
-var f = require('../lib/finance');
+var calcElems = require('../../data/static/calcElems.json');
+var f = require('../../lib/finance');
 
 
 exports.annuity = function(inputs){

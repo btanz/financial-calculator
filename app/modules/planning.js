@@ -1,6 +1,6 @@
 // * MODULE COLLECTING FINANCIAL PLANNING FUNCTIONS
 var helpers = require('./helpers');
-var calcElems = require('../data/static/calcElems.json');
+var calcElems = require('../../data/static/calcElems.json');
 
 var terminalValueHelper, presentValueHelper, terminalRentValueHelper, annuityValueHelper, annualValueHelper, reverseAnnualValueHelper;
 

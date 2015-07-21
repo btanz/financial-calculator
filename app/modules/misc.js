@@ -2,7 +2,7 @@ var _ = require('underscore');
 var validator = require('validator');
 var moment = require('moment');
 var helpers = require('./helpers');
-var calcElems = require('../data/static/calcElems.json');
+var calcElems = require('../../data/static/calcElems.json');
 
 var daycount, isLeapYear, isdaGerman, isdaBondBasis, yearFrac;
 

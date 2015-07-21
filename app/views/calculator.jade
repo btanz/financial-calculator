@@ -10,7 +10,7 @@ extends layout
 block content
 
   //- sidebar on the right
-  include ./includes/sidebar.jade
+  include includes/sidebar
 
   div.row.wrapper.border-bottom.white-bg.page-heading
     div.col-lg-12
@@ -224,52 +224,52 @@ block content
   //- include calculator specific templates
   - var boerse_fx = (obj.id === 'boerse-fx')
   if boerse_fx
-    include ./includes/calculator/boerse-fx
+    include includes/calculator/boerse-fx
 
   - var boerse_equityreturn = (obj.id === 'boerse-equityreturn')
   if boerse_equityreturn
-    include ./includes/calculator/boerse-equityreturn
+    include includes/calculator/boerse-equityreturn
 
   - var planning_retire = (obj.id === 'planning-retire')
   if planning_retire
-    include ./includes/calculator/planning-retire
+    include includes/calculator/planning-retire
 
   - var property_propertyreturn = (obj.id === 'property-propertyreturn')
   if property_propertyreturn
-    include ./includes/calculator/property-propertyreturn
+    include includes/calculator/property-propertyreturn
 
   - var property_rent = (obj.id === 'property-rent')
   if property_rent
-    include ./includes/calculator/property-rent
+    include includes/calculator/property-rent
 
   - var deposits_interest = (obj.id === 'deposits-interest')
   if deposits_interest
-    include ./includes/calculator/deposits-interest
+    include includes/calculator/deposits-interest
 
   - var deposits_savings = (obj.id === 'deposits-savings')
   if deposits_savings
-    include ./includes/calculator/deposits-savings
+    include includes/calculator/deposits-savings
 
   - var deposits_savingscheme = (obj.id === 'deposits-savingscheme')
   if deposits_savingscheme
-    include ./includes/calculator/deposits-savingscheme
+    include includes/calculator/deposits-savingscheme
 
   - var debt_annuity = (obj.id === 'debt-annuity')
   if debt_annuity
-    include ./includes/calculator/debt-annuity
+    include includes/calculator/debt-annuity
 
   - var property_homesave = (obj.id === 'property-homesave')
   if property_homesave
-    include ./includes/calculator/property-homesave
+    include includes/calculator/property-homesave
 
   - var property_buyrent = (obj.id === 'property-buyrent')
   if property_buyrent
-    include ./includes/calculator/property-buyrent
+    include includes/calculator/property-buyrent
 
   - var debt_repaysurrogat = (obj.id === 'debt-repaysurrogat')
   if debt_repaysurrogat
-    include ./includes/calculator/debt-repaysurrogat
+    include includes/calculator/debt-repaysurrogat
 
   - var property_mortgage = (obj.id === 'property-mortgage')
   if property_mortgage
-    include ./includes/calculator/property-mortgage
+    include includes/calculator/property-mortgage

@@ -2,8 +2,8 @@ var _ = require('underscore');
 var validator = require('validator');
 var helpers = require('./helpers');
 var math = require('./math');
-var f = require('../lib/finance');
-var calcElems = require('../data/static/calcElems.json');
+var f = require('../../lib/finance');
+var calcElems = require('../../data/static/calcElems.json');
 
 var terminalValueHelper, annualCashHelper;
 

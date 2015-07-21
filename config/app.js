@@ -12,8 +12,9 @@ var compress = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// C. Internal dependencies
-var routes = require('./../routes/routes');
+// C. Internal dependencies / Routes
+var routes = require('../app/routes/routes');
+var index = require('../app/routes/index.routes');
 var navElems = require('./../data/static/navElems.json');
 
 // D. Init
@@ -29,7 +30,7 @@ if(config.compression){
 
 
 // view engine setup
-app.set('views', path.join(__dirname, '/../views'));
+app.set('views', path.join(__dirname, '/../app/views'));
 app.set('view engine', 'jade');
 
 // uncomment after placing your favicon in /public
@@ -55,6 +56,7 @@ app.locals.navElems = navElems;
 
 // *** 6. Define routes ***
 app.use('/', routes);
+app.use('/', index);
 
 
 // *** 7. Do error handling ***

@@ -1,10 +1,10 @@
 // * MODULE COLLECTING PROPERTY/REAL ESTATE FUNCTIONS
 var helpers = require('./helpers');
 var _ = require('underscore');
-var calcElems = require('../data/static/calcElems.json');
+var calcElems = require('../../data/static/calcElems.json');
 var math = require('./math');
 var finance = require('./finance');
-var f = require('../lib/finance');
+var f = require('../../lib/finance');
 
 
 
