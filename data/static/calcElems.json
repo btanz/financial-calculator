@@ -4051,10 +4051,7 @@
           "1": "Rate/Annuität",
           "2": "Kreditsumme",
           "3": "Zinssatz",
-          "4": "Anfängliche Tilgung",
-          "5": "Laufzeit",
-          "6": "Restschuld",
-          "7": "Jährliche Sondertilgung"
+          "4": "Anfängliche Tilgung"
         }
       },
       "select2": {
@@ -4069,9 +4066,8 @@
         ],
         "options": {
           "1": "Restschuld",
-          "2": "Anfängliche Tilgung",
-          "3": "Laufzeit",
-          "4": "Jährliche Sondertilgung"
+          "2": "Laufzeit",
+          "3": "Jährliche Sondertilgung"
         }
       },
       "principal": {
@@ -4301,7 +4297,8 @@
         "label": "Restschuld",
         "addon": "EUR",
         "placeholder": "Restschuld",
-        "value": "4000",
+        "value": "",
+        "disabled": true,
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",

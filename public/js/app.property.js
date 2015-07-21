@@ -24,6 +24,16 @@ app.property = (function() {
     });
 
 
+    // attach event handler for mortgage calc choice 1
+    $('#property-mortgage-select1').on('change', function (e) {
+      toggleMortgageSelect1(e);
+    });
+
+    // attach event handler for mortgage calc choice 2
+    $('#property-mortgage-select2').on('change', function (e) {
+      toggleMortgageSelect2(e);
+    });
+
     // attach event handler for fees
     $('#property-mortgage-fees').on('change', function (e) {
       toggleMortgageInputsFees(e);
@@ -63,6 +73,37 @@ app.property = (function() {
   /*********************** END PROPERTY DOCUMENT READY TASKS *************************/
 
   /*********************** BEGIN PROPERTY EVENT HANDLERS ***********************/
+  function toggleMortgageSelect1(e){
+    e.preventDefault();
+    var state = $('#property-mortgage-select1').val();
+
+    var disabledMap = [undefined, '#property-mortgage-repay', '#property-mortgage-principal', '#property-mortgage-interest', '#property-mortgage-initialinterest'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
+
+  function toggleMortgageSelect2(e){
+    e.preventDefault();
+    var state = $('#property-mortgage-select2').val();
+
+    var disabledMap = [undefined, '#property-mortgage-residual', '#property-mortgage-term', '#property-mortgage-annualrepay'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
+
+
   function toggleMortgageInputsFees (e){
     e.preventDefault();
     var state = $('#property-mortgage-fees').val();
