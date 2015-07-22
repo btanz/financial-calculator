@@ -1,276 +1,103 @@
 var express = require('express');
 var router = express.Router();
-var planning = require('../modules/planning');
-var property = require('../modules/property');
-var deposits = require('../modules/deposits');
-var debt = require('../modules/debt');
-var misc = require('../modules/misc');
-var calcElems = require('../../data/static/calcElems.json');
-
 
 
 /* **********************************
 ** boerse routes
 *********************************** */
-var boerse = require('../controllers/calculator.boerse.controller');
+var boerse = require('../controllers/calc.boerse.controller');
 
-router.get('/optionspreisrechner',        boerse.options.render);
-router.get('/optionspreisrechner/inputs', boerse.options.calculate);
+router.get('/optionspreisrechner',              boerse.options.render);
+router.get('/optionspreisrechner/inputs',       boerse.options.calculate);
 
-router.get('/waehrungsrechner',           boerse.fx.render);
-router.get('/waehrungsrechner/inputs',    boerse.fx.calculate);
+router.get('/waehrungsrechner',                 boerse.fx.render);
+router.get('/waehrungsrechner/inputs',          boerse.fx.calculate);
 
-router.get('/aktienrenditerechner',       boerse.equityreturn.render);
-router.get('/aktienrenditerechner/inputs',boerse.equityreturn.calculate);
-
-
-
-
-/* **********************************
- ** planning-retire routes
- *********************************** */
-router.get('/altersvorsorgerechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.retire});
-});
-
-router.get('/altersvorsorgerechner/inputs',function(req,res,next){
-  var obj = req.query;
-  var results = planning.retire(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** property-propertyreturn routes
- *********************************** */
-router.get('/immobilienrenditerechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.propertyreturn});
-});
-
-router.get('/immobilienrenditerechner/inputs',function(req,res,next){
-  var obj = req.query;
-  var results = property.propertyreturn(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** property-buyrent routes
- *********************************** */
-router.get('/kaufen-oder-mieten', function(req,res,next){
-  res.render('calculator', {obj: calcElems.propertybuyrent});
-});
-
-router.get('/kaufen-oder-mieten/inputs',function(req,res,next){
-  var obj = req.query;
-  var results = property.buyrent(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** property-rent routes
- *********************************** */
-router.get('/mietrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.rent});
-});
-
-
-router.get('/mietrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = property.rent(obj);
-  res.json(results);
-});
-
-/* **********************************
- ** property-transfertax routes
- *********************************** */
-router.get('/grunderwerbssteuerrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.transfertax});
-});
-
-
-router.get('/grunderwerbssteuerrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = property.transfertax(obj);
-  res.json(results);
-});
-
-/* **********************************
- ** property-homesave routes
- *********************************** */
-router.get('/bausparrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.homesave});
-});
-
-
-router.get('/bausparrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = property.homesave(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** property-propertyprice routes
- *********************************** */
-router.get('/immobilienpreisrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.propertyprice});
-});
-
-
-router.get('/immobilienpreisrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = property.propertyprice(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** property-mortgage routes
- *********************************** */
-router.get('/hypothekenrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.mortgage});
-});
-
-
-router.get('/hypothekenrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = property.mortgage(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** deposit-depinterest routes
- *********************************** */
-router.get('/zinsrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.depinterest});
-});
-
-router.get('/zinsrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = deposits.interest(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** deposit-depsaving routes
- *********************************** */
-router.get('/sparrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.depsaving});
-});
-
-router.get('/sparrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = deposits.savings(obj);
-  res.json(results);
-});
+router.get('/aktienrenditerechner',             boerse.equityreturn.render);
+router.get('/aktienrenditerechner/inputs',      boerse.equityreturn.calculate);
 
 
 
 /* **********************************
- ** deposit-timedeposit routes
+ ** planning routes
  *********************************** */
-router.get('/festgeldrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.timedeposit});
-});
+var planning = require('../controllers/calc.planning.controller');
 
-router.get('/festgeldrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = deposits.timedeposit(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** deposit-savingscheme (Zuwachssparen) routes
- *********************************** */
-router.get('/zuwachssparrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.savingscheme});
-});
-
-router.get('/zuwachssparrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = deposits.savingscheme(obj);
-  res.json(results);
-});
-
-
-/* **********************************
- ** deposit-interestpenalty routes
- *********************************** */
-router.get('/vorschusszinsrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.interestpenalty});
-});
-
-router.get('/vorschusszinsrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = deposits.interestpenalty(obj);
-  res.json(results);
-});
+router.get('/altersvorsorgerechner',            planning.retire.render);
+router.get('/altersvorsorgerechner/inputs',     planning.retire.calculate);
 
 
 
 /* **********************************
- ** debt-annuity routes
+ ** property routes
  *********************************** */
-router.get('/annuitaetenrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.annuity});
-});
+var property = require('../controllers/calc.property.controller');
 
+router.get('/immobilienrenditerechner',         property.propertyreturn.render);
+router.get('/immobilienrenditerechner/inputs',  property.propertyreturn.calculate);
 
-router.get('/annuitaetenrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = debt.annuity(obj);
-  res.json(results);
-});
+router.get('/kaufen-oder-mieten',               property.buyrent.render);
+router.get('/kaufen-oder-mieten/inputs',        property.buyrent.calculate);
+
+router.get('/mietrechner',                      property.rent.render);
+router.get('/mietrechner/inputs',               property.rent.calculate);
+
+router.get('/grunderwerbssteuerrechner',        property.transfertax.render);
+router.get('/grunderwerbssteuerrechner/inputs', property.transfertax.calculate);
+
+router.get('/bausparrechner',                   property.homesave.render);
+router.get('/bausparrechner/inputs',            property.homesave.calculate);
+
+router.get('/immobilienpreisrechner',           property.propertyprice.render);
+router.get('/immobilienpreisrechner/inputs',    property.propertyprice.calculate);
+
+router.get('/hypothekenrechner',                property.mortgage.render);
+router.get('/hypothekenrechner/inputs',         property.mortgage.calculate);
 
 
 /* **********************************
- ** debt-dispo routes
+ ** deposits routes
  *********************************** */
-router.get('/dispozinsrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.dispo});
-});
+var deposits = require('../controllers/calc.deposits.controller');
 
+router.get('/zinsrechner',                      deposits.depinterest.render);
+router.get('/zinsrechner/inputs',               deposits.depinterest.calculate);
 
-router.get('/dispozinsrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = debt.dispo(obj);
-  res.json(results);
-});
+router.get('/sparrechner',                      deposits.depsaving.render);
+router.get('/sparrechner/inputs',               deposits.depsaving.calculate);
+
+router.get('/festgeldrechner',                  deposits.timedeposit.render);
+router.get('/festgeldrechner/inputs',           deposits.timedeposit.calculate);
+
+router.get('/zuwachssparrechner',               deposits.savingscheme.render);
+router.get('/zuwachssparrechner/inputs',        deposits.savingscheme.calculate);
+
+router.get('/vorschusszinsrechner',             deposits.interestpenalty.render);
+router.get('/vorschusszinsrechner/inputs',      deposits.interestpenalty.calculate);
 
 
 /* **********************************
- ** debt-repaysurrogat routes
+ ** debt routes
  *********************************** */
-router.get('/tilgungssurrogatrechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.repaysurrogat});
-});
+var debt = require('../controllers/calc.debt.controller');
 
+router.get('/annuitaetenrechner',               debt.annuity.render);
+router.get('/annuitaetenrechner/inputs',        debt.annuity.calculate);
 
-router.get('/tilgungssurrogatrechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = debt.repaysurrogat(obj);
-  res.json(results);
-});
+router.get('/dispozinsrechner',                 debt.dispo.render);
+router.get('/dispozinsrechner/inputs',          debt.dispo.calculate);
+
+router.get('/tilgungssurrogatrechner',          debt.repaysurrogat.render);
+router.get('/tilgungssurrogatrechner/inputs',   debt.repaysurrogat.calculate);
 
 
 /* **********************************
- ** misc-daycount routes
+ ** misc routes
  *********************************** */
-router.get('/zinstagerechner', function(req,res,next){
-  res.render('calculator', {obj: calcElems.daycount});
-});
+var misc = require('../controllers/calc.misc.controller');
 
-
-router.get('/zinstagerechner/inputs', function(req,res,next){
-  var obj = req.query;
-  var results = misc.daycount(obj);
-  res.json(results);
-});
+router.get('/zinstagerechner',                  misc.daycount.render);
+router.get('/zinstagerechner/inputs',           misc.daycount.calculate);
 
 
 /* **********************************
