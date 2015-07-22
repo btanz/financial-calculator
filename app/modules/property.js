@@ -1162,7 +1162,8 @@ exports.mortgage = function(inputs){
   inputs.repaymentfreeterm = inputs.repaymentfreeterm / helper.repaymentfreetermperiods;
 
   /** convert terms that are not period multiples to period multiples */
-  inputs.term = f.basic.adjustTermToHigherFullPeriod(inputs.term, inputs.repayfreq);
+  inputs.term              = f.basic.adjustTermToHigherFullPeriod(inputs.term, inputs.repayfreq);
+  inputs.repaymentfreeterm = f.basic.adjustTermToHigherFullPeriod(inputs.repaymentfreeterm, inputs.repayfreq);
   // todo: send message to user that conversion took place
 
   /** convert all percentage values to decimals */
@@ -1208,6 +1209,9 @@ exports.mortgage = function(inputs){
     term: inputs.term,
     repayfreq: inputs.repayfreq,
     repay: inputs.repay,
+    repaymentfree: inputs.repaymentfree,
+    repaymentfreeterm: inputs.repaymentfreeterm,
+    repaymentfreetype : inputs.repaymentfreetype,
     interest: inputs.interest
   });
 
@@ -1219,9 +1223,9 @@ exports.mortgage = function(inputs){
   helper.totalrepay     = dyn.totalrepay;
   helper.totalinterest  = dyn.totalinterest;
   helper.totalreduction = dyn.totalreduction;
+  helper.totalrepaymentfreeinterest = dyn.totalrepaymentfreeinterest;
 
 
-console.log(inputs);
   /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.mortgage.id;
 
@@ -1233,6 +1237,7 @@ console.log(inputs);
   result._1.totalrepay     = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
   result._1.totalreduction = _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
   result._1.totalinterest  = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
+  (inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal = _.extend(localElems['repaymentfreetotal'],     {"value": helper.totalrepaymentfreeinterest}) : null;
   (inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
   (inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
 

@@ -4486,6 +4486,13 @@
         "digits": 2,
         "importance": "second",
         "tooltip": "TBD"
+      },
+      "repaymentfreetotal": {
+        "description": "davon Zinslast tilgungsfreie Zeit",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
       }
     }
   }
