@@ -1157,13 +1157,14 @@ exports.mortgage = function(inputs){
     return errorMap;
   }
 
-  /** convert terms with subannual choices to years */
-  inputs.term              = inputs.term              / helper.termperiods;
-  inputs.repaymentfreeterm = inputs.repaymentfreeterm / helper.repaymentfreetermperiods;
+  /** convert terms with subannual choices to month */
+  inputs.term              = inputs.term              * 12 / helper.termperiods;
+  inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
 
-  /** convert terms that are not period multiples to period multiples */
-  inputs.term              = f.basic.adjustTermToHigherFullPeriod(inputs.term, inputs.repayfreq);
-  inputs.repaymentfreeterm = f.basic.adjustTermToHigherFullPeriod(inputs.repaymentfreeterm, inputs.repayfreq);
+  /** convert terms that are not period multiples to period multiples and convert back to years*/
+  inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
+  inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
+
   // todo: send message to user that conversion took place
 
   /** convert all percentage values to decimals */
