@@ -1,6 +1,6 @@
 var assert = require("assert");
 var _ = require("underscore");
-var property = require('./property')
+var property = require('../app/modules/property')
 //var f = require("../finance");
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
 

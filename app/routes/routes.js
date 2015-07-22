@@ -2,9 +2,9 @@ var express = require('express');
 var router = express.Router();
 
 
-/* **********************************
-** boerse routes
-*********************************** */
+/**
+ * BOERSE ROUTES
+ */
 var boerse = require('../controllers/calc.boerse.controller');
 
 router.get('/optionspreisrechner',              boerse.options.render);
@@ -18,9 +18,9 @@ router.get('/aktienrenditerechner/inputs',      boerse.equityreturn.calculate);
 
 
 
-/* **********************************
- ** planning routes
- *********************************** */
+/**
+ * PLANNING ROUTES
+ */
 var planning = require('../controllers/calc.planning.controller');
 
 router.get('/altersvorsorgerechner',            planning.retire.render);
@@ -28,9 +28,9 @@ router.get('/altersvorsorgerechner/inputs',     planning.retire.calculate);
 
 
 
-/* **********************************
- ** property routes
- *********************************** */
+/**
+ * PROPERTY ROUTES
+ */
 var property = require('../controllers/calc.property.controller');
 
 router.get('/immobilienrenditerechner',         property.propertyreturn.render);
@@ -55,9 +55,9 @@ router.get('/hypothekenrechner',                property.mortgage.render);
 router.get('/hypothekenrechner/inputs',         property.mortgage.calculate);
 
 
-/* **********************************
- ** deposits routes
- *********************************** */
+/**
+ * DEPOSITS ROUTES
+ */
 var deposits = require('../controllers/calc.deposits.controller');
 
 router.get('/zinsrechner',                      deposits.depinterest.render);
@@ -76,9 +76,9 @@ router.get('/vorschusszinsrechner',             deposits.interestpenalty.render)
 router.get('/vorschusszinsrechner/inputs',      deposits.interestpenalty.calculate);
 
 
-/* **********************************
- ** debt routes
- *********************************** */
+/**
+ * DEBT ROUTES
+ */
 var debt = require('../controllers/calc.debt.controller');
 
 router.get('/annuitaetenrechner',               debt.annuity.render);
@@ -91,16 +91,16 @@ router.get('/tilgungssurrogatrechner',          debt.repaysurrogat.render);
 router.get('/tilgungssurrogatrechner/inputs',   debt.repaysurrogat.calculate);
 
 
-/* **********************************
- ** misc routes
- *********************************** */
+/**
+ * MISC ROUTES
+ */
 var misc = require('../controllers/calc.misc.controller');
 
 router.get('/zinstagerechner',                  misc.daycount.render);
 router.get('/zinstagerechner/inputs',           misc.daycount.calculate);
 
 
-/* **********************************
- ** expose routes
- *********************************** */
+/**
+ * EXPOSE ROUTES
+ */
 module.exports = router;

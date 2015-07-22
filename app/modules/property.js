@@ -1135,7 +1135,6 @@ exports.mortgage = function(inputs){
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [[undefined, 'repay', 'principal', 'interest', 'initialinterest'],[undefined, 'residual', 'term', 'annualrepay']];
-  var i;
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -1200,6 +1199,11 @@ exports.mortgage = function(inputs){
     mode: 1,
     annualvals: true,
     finalvals: true,
+    disagio: inputs.disagio,
+    disagioamount: inputs.disagioamount,
+    fees: inputs.fees,
+    feeamount: inputs.feeamount,
+    feeupfront: (inputs.feetype === 3),
     principal: inputs.principal,
     term: inputs.term,
     repayfreq: inputs.repayfreq,
@@ -1217,25 +1221,26 @@ exports.mortgage = function(inputs){
   helper.totalreduction = dyn.totalreduction;
 
 
-
+console.log(inputs);
   /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.mortgage.id;
 
   /**
    * 4.A FIRST RESULT CONTAINER
    */
-  result._1.value1        = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
-  result._1.value2        = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
-  result._1.totalrepay    = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
-  result._1.totalreduction= _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
-  result._1.totalinterest = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
-
+  result._1.value1         = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
+  result._1.value2         = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
+  result._1.totalrepay     = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
+  result._1.totalreduction = _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
+  result._1.totalinterest  = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
+  (inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
+  (inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
 
   /**
    * 4.B SECOND RESULT CONTAINER
    */
   result._2.title = 'Tilgungsplan';
-  result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zinsanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
+  result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zins- & <br> Gebührenanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
   result._2.body = dyn.schedule;
 
 

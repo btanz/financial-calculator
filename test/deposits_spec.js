@@ -1,6 +1,6 @@
 var assert = require("assert");
 var _ = require("underscore");
-var deposits = require("./deposits");
+var deposits = require("../app/modules/deposits");
 
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
 
