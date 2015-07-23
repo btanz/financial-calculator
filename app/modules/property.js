@@ -1213,6 +1213,7 @@ exports.mortgage = function(inputs){
     repaymentfree: inputs.repaymentfree,
     repaymentfreeterm: inputs.repaymentfreeterm,
     repaymentfreetype : inputs.repaymentfreetype,
+    annualrepay: inputs.annualrepay,
     interest: inputs.interest
   });
 
