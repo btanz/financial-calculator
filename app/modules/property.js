@@ -1135,7 +1135,7 @@ exports.mortgage = function(inputs){
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [[undefined, 'repay', 'principal', 'interest', 'initialinterest'],[undefined, 'residual', 'term', 'annualrepay']];
-
+  var i, specialpays;
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
 
@@ -1197,6 +1197,21 @@ exports.mortgage = function(inputs){
   /**
    * 3.B DYNAMIC COMPUTATIONS
    */
+
+  /** constract array with special repayments */
+  specialpays = f.basic.annualpayments(inputs.term * inputs.repayfreq + 1, inputs.annualrepay);
+
+  // todo: write message informing that repay time has been set ti ceil if not a full month
+  // todo: write message that repays are later than term
+  for (i = 0; i < 30; i++){
+    helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
+    helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
+    if(helper.ind && helper.val && helper.ind < specialpays.length){
+      specialpays[Math.ceil(helper.ind)] += helper.val;
+    }
+  }
+
+  /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; Residual open */
   dyn = f.annuity.schedule.call({
     mode: 1,
     annualvals: true,
@@ -1213,7 +1228,7 @@ exports.mortgage = function(inputs){
     repaymentfree: inputs.repaymentfree,
     repaymentfreeterm: inputs.repaymentfreeterm,
     repaymentfreetype : inputs.repaymentfreetype,
-    annualrepay: inputs.annualrepay,
+    specialrepay: specialpays,
     interest: inputs.interest
   });
 
