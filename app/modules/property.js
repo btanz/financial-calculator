@@ -1199,7 +1199,7 @@ exports.mortgage = function(inputs){
    */
 
   /** constract array with special repayments */
-  specialpays = f.basic.annualpayments(inputs.term * inputs.repayfreq + 1, inputs.annualrepay);
+  specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
 
   // todo: write message informing that repay time has been set ti ceil if not a full month
   // todo: write message that repays are later than term
@@ -1210,6 +1210,7 @@ exports.mortgage = function(inputs){
       specialpays[Math.ceil(helper.ind)] += helper.val;
     }
   }
+
 
   /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; Residual open */
   dyn = f.annuity.schedule.call({
