@@ -1135,6 +1135,7 @@ exports.mortgage = function(inputs){
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [[undefined, 'repay', 'principal', 'interest', 'initialinterest'],[undefined, 'residual', 'term', 'annualrepay']];
+  var messageMap = ['FEHLER','jährlich','halbjährlich','FEHLER','vierteljährlich','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','monatlich'];
   var i, specialpays;
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -1158,14 +1159,20 @@ exports.mortgage = function(inputs){
   }
 
   /** convert terms with subannual choices to month */
+  helper.term = inputs.term;
   inputs.term              = inputs.term              * 12 / helper.termperiods;
   inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
 
   /** convert terms that are not period multiples to period multiples and convert back to years*/
   inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
-  inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
+  inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-  // todo: send message to user that conversion took place
+  if(helper.term !== inputs.term){
+    helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + helper.term + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + inputs.term + " Jahre (" + inputs.term * 12 + " Monate).",2);
+  }
+
+
+  // todo: send message to user that only full period values are possible (?)
 
   /** convert all percentage values to decimals */
   inputs.disagioamount = inputs.disagioamount / 100;
@@ -1243,6 +1250,10 @@ exports.mortgage = function(inputs){
   helper.totalreduction = dyn.totalreduction;
   helper.totalrepaymentfreeinterest = dyn.totalrepaymentfreeinterest;
 
+  /** re-convert */
+  inputs.interest        *= 100;
+  inputs.initialinterest *= 100;
+
 
   /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.mortgage.id;
@@ -1268,8 +1279,15 @@ exports.mortgage = function(inputs){
 
 
   /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
+  if (inputs.interest < 0  && inputs.select1 === 3) {  // case where interest is negativ
+    helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+  }
 
-  // add a message that periods are adjusted to next full period
+
+  result.messages = helpers.messages.messageMap;
+
+
+  // todo add a message that periods are adjusted to next full period
 
   return result;
 

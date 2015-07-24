@@ -1008,5 +1008,42 @@ describe("Property calculators correct", function() {
 
 
 
+
+  describe("Property-mortgage correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+
+      data[0] =  {select1: '3', select2: '1', principal: '127438.69', fees: 'false', feeamount: '0',     feetype: '2', disagio: 'true',  disagioamount: '8.45', interest: '',     initialinterest: '3.13', repay: '11.62', repayfreq: '4', term: '62', termperiods: '12',  repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[1] =  {select1: '4', select2: '1', principal: '50302.61',  fees: 'true',  feeamount: '288.7', feetype: '2', disagio: 'false', disagioamount: '0',    interest: '2.65', initialinterest: '',     repay: '212.88', repayfreq: '4',term: '200', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '839.94', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+
+
+      expectations[0] = { value1: -3.09, value2: 102846.12};
+      expectations[1] = { value1: -0.96, value2: 47390.74, };
+
+
+
+    });
+
+    it('Passes 1st test set', function(){
+      var results = property.mortgage(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = property.mortgage(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+    });
+
+
+  });
+
+
+
+
 });
 
