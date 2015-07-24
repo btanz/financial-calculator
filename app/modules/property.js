@@ -1159,7 +1159,7 @@ exports.mortgage = function(inputs){
   }
 
   /** convert terms with subannual choices to month */
-  helper.term = inputs.term;
+  helper.term = inputs.term / inputs.repayfreq;
   inputs.term              = inputs.term              * 12 / helper.termperiods;
   inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
 
@@ -1168,7 +1168,7 @@ exports.mortgage = function(inputs){
   inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
   if(helper.term !== inputs.term){
-    helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + helper.term + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + inputs.term + " Jahre (" + inputs.term * 12 + " Monate).",2);
+    helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
   }
 
 
@@ -1209,12 +1209,13 @@ exports.mortgage = function(inputs){
   specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
 
   // todo: write message informing that repay time has been set ti ceil if not a full month
-  // todo: write message that repays are later than term
   for (i = 0; i < 30; i++){
     helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
     helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
     if(helper.ind && helper.val && helper.ind < specialpays.length){
       specialpays[Math.ceil(helper.ind)] += helper.val;
+    } else if (helper.ind && helper.val && helper.ind >= specialpays.length){
+      helpers.messages.set("Hinweis: Die Sondertilgung im Monat " + helper.ind + " kann leider nicht berücksichtigt werden, da sie außerhalb der Laufzeit der Rückzahlung liegt.",2);
     }
   }
 
@@ -1280,7 +1281,10 @@ exports.mortgage = function(inputs){
 
   /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
   if (inputs.interest < 0  && inputs.select1 === 3) {  // case where interest is negativ
-    helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+    helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+  }
+  if (inputs.initialinterest < 0  && inputs.select1 === 4) {  // case where initialinterest is negativ
+    helpers.messages.set("Hinweis: Die berechnete anfängliche Tilgung ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
   }
 
 

@@ -1014,13 +1014,16 @@ describe("Property calculators correct", function() {
         expectations = [];
     before(function () {
 
-      data[0] =  {select1: '3', select2: '1', principal: '127438.69', fees: 'false', feeamount: '0',     feetype: '2', disagio: 'true',  disagioamount: '8.45', interest: '',     initialinterest: '3.13', repay: '11.62', repayfreq: '4', term: '62', termperiods: '12',  repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
-      data[1] =  {select1: '4', select2: '1', principal: '50302.61',  fees: 'true',  feeamount: '288.7', feetype: '2', disagio: 'false', disagioamount: '0',    interest: '2.65', initialinterest: '',     repay: '212.88', repayfreq: '4',term: '200', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '839.94', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[0] = {select1: '3', select2: '1', principal: '127438.69', fees: 'false', feeamount: '0',      feetype: '2', disagio: 'true',  disagioamount: '8.45', interest: '',     initialinterest: '3.13', repay: '11.62',  repayfreq: '4', term: '62',  termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[1] = {select1: '4', select2: '1', principal: '50302.61',  fees: 'true',  feeamount: '288.7',  feetype: '2', disagio: 'false', disagioamount: '0',    interest: '2.65', initialinterest: '',     repay: '212.88', repayfreq: '4', term: '200', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '839.94', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[2] = {select1: '4', select2: '1', principal: '126588.64', fees: 'true',  feeamount: '2667.76',feetype: '3', disagio: 'true',  disagioamount: '8.03', interest: '2.41', initialinterest: '',     repay: '563.05', repayfreq: '4', term: '140', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '14', repaymentfreetype: '3', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '2', specialrepaymonths0: '103', specialrepayamount0: '922.81', specialrepaymonths1: '183', specialrepayamount1: '697.68'};
+      data[3] = {select1: '1', select2: '1', principal: '58226.47',  fees: 'false', feeamount: '0',      feetype: '2', disagio: 'false', disagioamount: '0',    interest: '3.75', initialinterest: '1.37', repay: '',       repayfreq: '4', term: '2',   termperiods: '12', repaymentfree: 'false',repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
 
 
       expectations[0] = { value1: -3.09, value2: 102846.12};
-      expectations[1] = { value1: -0.96, value2: 47390.74, };
-
+      expectations[1] = { value1: -0.96, value2: 47390.74};
+      expectations[2] = { value1: -0.63, value2: 136402.29};
+      expectations[3] = { value1: 745.3, value2: 58027.04};
 
 
     });
@@ -1037,6 +1040,20 @@ describe("Property calculators correct", function() {
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
       assert(_.isMatch(values, expectations[1]));
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.mortgage(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.mortgage(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
     });
 
 
