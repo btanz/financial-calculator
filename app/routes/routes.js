@@ -75,6 +75,9 @@ router.get('/zuwachssparrechner/inputs',        deposits.savingscheme.calculate)
 router.get('/vorschusszinsrechner',             deposits.interestpenalty.render);
 router.get('/vorschusszinsrechner/inputs',      deposits.interestpenalty.calculate);
 
+router.get('/tagesgeldrechner',                 deposits.overnightdeposit.render);
+router.get('/tagesgeldrechner/inputs',          deposits.overnightdeposit.calculate);
+
 
 /**
  * DEBT ROUTES

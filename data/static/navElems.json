@@ -61,6 +61,10 @@
         "url": "/festgeldrechner"
       },
       "5": {
+        "name": "Tagesgeldrechner",
+        "url": "/tagesgeldrechner"
+      },
+      "6": {
         "name": "Vorschusszinsrechner",
         "url": "/vorschusszinsrechner"
       }

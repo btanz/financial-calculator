@@ -1,0 +1,27 @@
+//
+   Created by benjamintanz on 25.07.15.
+//- deposits-overnight-templates
+script(id='deposits-overnight-interesttypeInput-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-md-3
+        //h4 {{obj.count}}
+        div.input-group.m-b-sm
+          | {{#if obj.first}}
+          | &nbsp
+          | {{/if}}
+          h4 {{obj.count}}
+      div.col-md-5
+        | {{#if obj.first}}
+        label(for='{{obj.id1}}') Guthaben ab &nbsp
+        | {{/if}}
+        div.input-group.m-b-sm
+          input(placeholder='', id='{{obj.id1}}', type='number', value='{{obj.amount}}', class='form-control')
+          span.input-group-addon EUR
+      div.col-md-4
+        | {{#if obj.first}}
+        label(for='{{obj.id2}}') Zinssatz &nbsp
+        | {{/if}}
+        div.input-group.m-b-sm
+          input(placeholder='', id='{{obj.id2}}', type='number', value='{{obj.interest}}', class="form-control")
+          span.input-group-addon % p. a.

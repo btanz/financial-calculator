@@ -4495,6 +4495,356 @@
         "tooltip": "TBD"
       }
     }
-  }
+  },
 
+
+
+  "overnight": {
+    "id": "deposits-overnight",
+    "name": "Tagesgeldrechner",
+    "description": "Der Tagesgeldrechner eignet sich zur Berechnung von Zinsertrag, Anfangskapital, Zinssatz und die Zinstage für eine tageweise Geldanlage.",
+    "inputs": {
+      "calcselect": {
+        "id": "deposits-overnight-calcselect",
+        "label": "Was soll berechnet werden?",
+        "tooltip": "Wählen Sie hier aus, ob der Zinsertrag, das Anfangskapital, der Zinssatz oder die Zinstage berechnet werden sollen. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          1,
+          4
+        ],
+        "options": {
+          "1": "Zinsertrag",
+          "2": "Anfangskapital",
+          "3": "Zinssatz",
+          "4": "Zinstage"
+        }
+      },
+      "principal": {
+        "id": "deposits-overnight-principal",
+        "label": "Anfangskapital",
+        "addon": "EUR",
+        "linetop": true,
+        "placeholder": "Anfangskapital",
+        "value": "8000.00",
+        "tooltip": "Das Anfangskapital ist der anfängliche Anlagebetrag der Tagesgeldanlage. Wenn man also 1.000 EUR bei der Bank als Tagesgeld zur Anlage bringt, so entspricht dies dem Anfangskapital.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ]
+      },
+      "interesttype": {
+        "id": "deposits-overnight-interesttype",
+        "linetop": false,
+        "label": "Guthabenabhängige Verzinsung?",
+        "tooltip": "Wählen Sie hier 'JA', falls die Verzinsung abhängig vom Guthaben ist (Zinsstaffel). Sie können dann guthabenabhängige Zinssätze eingeben. Wenn Sie 'NEIN' wählen, geben Sie bitte einen Zinsatz im folgenden Feld an, welcher dann unabhängig vom Guthaben angewendet wird.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "NEIN",
+          "true": "JA"
+        }
+      },
+      "specialinterestpositions": {
+        "id": "deposits-overnight-specialinterestpositions",
+        "linetop": false,
+        "hide": true,
+        "secondary": "true",
+        "label": "Wie viele Guthabenstaffeln gibt es?",
+        "tooltip": "Geben Sie die Anzahl der Guthabenstaffeln ein. Dieser Wert entspricht der Anzahl der zutreffenden Kombinationen aus Guthabensgrenzen und Zinssätzen.",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          0,
+          10
+        ],
+        "options": {
+          "0": "0", "1": "1", "2": "2", "3": "3", "4": "4", "5": "5",
+          "6": "6", "7": "7", "8": "8", "9": "9", "10": "10"
+        }
+      },
+      "specialinterestthreshold": {
+        "id": "deposits-overnight-specialinterestthreshold",
+        "type": "custom",
+        "vtype": "number",
+        "args": [
+          0,
+          1000000000
+        ],
+        "label": "Guthaben ab",
+        "optional": "false",
+        "array": "true",
+        "arrayParent": "specialinterestpositions"
+      },
+      "specialinterest": {
+        "id": "deposits-overnight-specialinterest",
+        "type": "custom",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ],
+        "label": "Zinssatz in % p. a.",
+        "optional": "false",
+        "array": "true",
+        "arrayParent": "specialrepaypositions"
+      },
+      "interest": {
+        "id": "deposits-overnight-interest",
+        "label": "Zinssatz",
+        "addon": "% p. a.",
+        "placeholder": "Zinssatz",
+        "value": "3.50",
+        "tooltip": "Geben Sie den jährlichen nominalen Zinssatz ein, mit welchem das Kapital verzinst wird.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
+      "interestperiod": {
+        "id": "deposits-overnight-interestperiod",
+        "linetop": false,
+        "hide": false,
+        "secondary": false,
+        "label": "Zinsperiode",
+        "tooltip": "Die Zinsperiode entspricht dem Zeitraum zwischen zwei Zinsgutschrift-Terminen und bestimmt somit die Häufigkeit der Zinsgutschriften. Nach Gutschrift werden die Zinsen dem Kapital zugeschlagen und fortan mitverzinst. Wählen Sie die Einstellung 'Auszahlung', falls die Zinserträge nicht gutgeschrieben, sondern ausgezahlt werden.",
+        "type": "select",
+        "vtype": "number",
+        "optional": true,
+        "args": [
+          2,
+          6
+        ],
+        "options": {
+          "0": "Auszahlung",
+          "365": "täglich",
+          "12": "monatlich",
+          "4": "vierteljährlich",
+          "2": "halbjährlich",
+          "1": "jährlich"
+        }
+      },
+      "periodselect": {
+        "id": "deposits-overnight-periodselect",
+        "linetop": false,
+        "label": "Zeitraum als Datum oder Zinstage vorgeben?",
+        "tooltip": "Wählen Sie hier 'Datum', falls Sie den Anlagezeitraum als Datumsbereich vorgeben wollen. Die Zinstage werden dann automatisch nach der gewählten Zinsmethode berechnet. Alternativ können Sie 'Zinstage' wählen und die Anlagedauer entsprechend in Zinstagen eingeben.",
+        "type": "select",
+        "vtype": "bool",
+        "options": {
+          "false": "Zinstage",
+          "true": "Datum"
+        }
+      },
+      "begindate": {
+        "id": "deposits-overnight-begindate",
+        "linetop": false,
+        "option": false,
+        "hide": true,
+        "secondary": true,
+        "label": "Anfagsdatum",
+        "addon": "Datum",
+        "value": "08.01.2013",
+        "tooltip": "Geben Sie hier den ersten Tag des Anlagezeitraums an. Dieser Tag wird, wie üblich, in der Berechnung nicht mitgezählt.",
+        "type": "date",
+        "vtype": "date"
+      },
+      "enddate": {
+        "id": "deposits-overnight-enddate",
+        "linetop": false,
+        "option": false,
+        "hide": true,
+        "secondary": true,
+        "label": "Enddatum",
+        "addon": "Datum",
+        "value": "28.04.2015",
+        "tooltip": "Geben Sie hier den letzten Tag des Anlagezeitraums an. Dieser Tag wird in der Berechnung mitgezählt.",
+        "type": "date",
+        "vtype": "date"
+      },
+      "interestdays": {
+        "id": "deposits-overnight-interestdays",
+        "linetop": false,
+        "label": "Zinstage",
+        "placeholder": "Zinstage",
+        "addon": "Tage",
+        "value": "100",
+        "optional": false,
+        "hide": false,
+        "secondary": true,
+        "tooltip": "Die Dauer der Anlage in Tagen nach der gewählten Zinsmethode.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          10000
+        ]
+      },
+      "interestgain": {
+        "id": "deposits-overnight-interestgain",
+        "linetop": false,
+        "optional": false,
+        "disabled": true,
+        "label": "Zinsertrag",
+        "value": "",
+        "placeholder": "Zinsertrag",
+        "addon": "EUR",
+        "tooltip": "Geben Sie den Zinsertrag an, welchen die Anlage erzielt.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0.000001,
+          100000000
+        ]
+      },
+      "daycount": {
+        "id": "deposits-overnight-daycount",
+        "linetop": false,
+        "label": "Zinsmethode",
+        "tooltip": "Anzuwendendes Verfahren zur Berechnung der Zins- und Basistage.",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "a30E360": "30E / 360 ISDA, Deutsche Zinsmethode",
+          "a30360": "30E / 360, ISDA Anleihenbasis",
+          "act360": "act / 360",
+          "act365": "act / 365",
+          "actact": "act / act, Taggenaue Methode"
+        }
+      },
+      "taxes": {
+        "id": "deposits-overnight-taxes",
+        "linetop": true,
+        "label": "Steuern berücksichtigen?",
+        "tooltip": "Wählen Sie 'JA', um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
+        "type": "select",
+        "vtype": "boolean",
+        "options": {
+          "false": "NEIN",
+          "true": "JA"
+        }
+      },
+      "taxrate": {
+        "id": "deposits-overnight-taxrate",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Steuersatz",
+        "placeholder": "Steuersatz",
+        "addon": "% p. a.",
+        "value": "26.375",
+        "tooltip": "Geben Sie den prozentualen Steuersatz an, mit welchem die Kapitalerträge nach Abzug des Freibetrages belastet werden.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          75
+        ]
+      },
+      "taxfree": {
+        "id": "deposits-overnight-taxfree",
+        "linetop": false,
+        "optional": false,
+        "secondary": true,
+        "hide": "true",
+        "label": "Jährlicher Freibetrag",
+        "placeholder": "Freibetrag",
+        "addon": "EUR",
+        "value": "801.00",
+        "tooltip": "Geben Sie den jährlichen Steuerfreibetrag an. In Deutschland beträgt der Freibetrag 801.00 EUR für Ledige und 1.602.00 EUR für Verheiratete.",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100000
+        ]
+      }
+    },
+    "results_1": {
+      "repay": {
+        "description": "Rate/Annuität",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Die periodisch zu zahlendene konstante Rate zur Rückzahlung der Hypothek."
+      },
+      "principal": {
+        "description": "Kreditsumme",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Der Betrag, auf welchen Vorschusszinsen zu entrichten sind."
+      },
+      "interest": {
+        "description": "Zinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Der gebundene Sollzinssatz für das Darlehen."
+      },
+      "initialinterest": {
+        "description": "Anfängliche Tilgung",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first",
+        "tooltip": "Der prozentuale Anteil der Kreditsumme, welcher mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird"
+      },
+      "residual": {
+        "description": "Restschuld",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "totalrepay": {
+        "description": "Gesamte Rückzahlungen",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "totalinterest": {
+        "description": "davon Zinslast",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "totalreduction": {
+        "description": "davon Tilgung",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "disagio": {
+        "description": "davon Disagio",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "fees": {
+        "description": "davon Gebühren",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "repaymentfreetotal": {
+        "description": "davon Zinslast tilgungsfreie Zeit",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "TBD"
+      }
+    }
+  }
 }

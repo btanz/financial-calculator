@@ -74,3 +74,18 @@ exports.interestpenalty = {
     res.json(results);
   }
 };
+
+
+/** calculator-deposits-timedeposit */
+exports.overnightdeposit = {
+
+  render: function(req,res,next){
+    res.render('calculator', {obj: calcElems.overnight});
+  },
+
+  calculate: function(req,res,next){
+    var obj = req.query;
+    var results = deposits.overnight(obj);
+    res.json(results);
+  }
+};

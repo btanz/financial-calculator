@@ -4,38 +4,41 @@ app.deposits = (function() {
   $(document).ready(function () {
     // todo: abstract and shorten code, especially make it calculation-indepedent
     // attach event handler for calculation selection mode
-    $('#deposits-interest-select').on('change', function (e) {
-      toggleInterestSelect(e);
-    });
+    $('#deposits-interest-select').on('change', toggleInterestSelect);
 
-    $('#deposits-savings-select').on('change', function (e) {
-      toggleSavingsSelect(e);
-    });
+    $('#deposits-savings-select').on('change', toggleSavingsSelect);
 
+    $('#deposits-timedeposit-taxes').on('change', toggleTimedepositSelecttax);
 
-    $('#deposits-timedeposit-taxes').on('change', function (e) {
-      toggleTimedepositSelecttax(e);
-    });
+    $('#deposits-timedeposit-calcselect').on('change', toggleTimedepositCalcselect);
 
-    $('#deposits-timedeposit-calcselect').on('change', function (e) {
-      toggleTimedepositCalcselect(e);
-    });
+    $('#deposits-savingscheme-taxes').on('change', toggleSavingschemeSelecttax);
 
-    $('#deposits-savingscheme-taxes').on('change', function (e) {
-      toggleSavingschemeSelecttax(e);
-    });
-
-    $('#deposits-savingscheme-calcselect').on('change', function (e) {
-      toggleSavingschemeCalcselect(e);
-    });
+    $('#deposits-savingscheme-calcselect').on('change', toggleSavingschemeCalcselect);
 
     // attach a div where annual interest rates will be added dynamically
     $('#deposits-savingscheme-term').closest('div[class^="form-group"]').after('<div class="interestInput"></div>');
 
     // attach event handler for interest input fields
-    $('#deposits-savingscheme-term').on('change', function (e) {
-      toggleSavingschemeTerm(e);
-    });
+    $('#deposits-savingscheme-term').on('change', toggleSavingschemeTerm);
+
+    // attach event handler for overnight calculation selection
+    $('#deposits-overnight-calcselect').on('change', toggleOvernightCalcselect);
+
+    // attach event handler for overnight interest type
+    $('#deposits-overnight-interesttype').on('change', toggleOvernightInteresttype);
+
+    // attach a div where specialinterest amounts and rates will be added dynamically for overnight
+    $('#deposits-overnight-specialinterestpositions').closest('div[class^="form-group"]').after('<div class="interesttypeInput"></div>');
+
+    // attach event handler for overnight specialinterest input fields
+    $('#deposits-overnight-specialinterestpositions').on('change', toggleOvernightInputsSpecialinterestpositions);
+
+    // attach event handler for overnight periodselect
+    $('#deposits-overnight-periodselect').on('change', toggleOvernightSelectperiod);
+
+    // attach event handler for overnight taxes
+    $('#deposits-overnight-taxes').on('change', toggleOvernightSelecttax);
 
     // compile first interest input fields
     prepopulateSavingScheme();
@@ -44,6 +47,77 @@ app.deposits = (function() {
   /*********************** END DEPOSITS DOCUMENT READY TASKS *************************/
 
   /*********************** BEGIN DEPOSITS EVENT HANDLERS ***********************/
+
+  function toggleOvernightCalcselect (e){
+    e.preventDefault();
+
+    var state = $('#deposits-overnight-calcselect').val();
+    var disabledMap = [undefined,'#deposits-overnight-interestgain','#deposits-overnight-principal','#deposits-overnight-interest','#deposits-overnight-interestdays'];
+
+    disabledMap.forEach(function(ind, value){
+      $(ind).prop("disabled", false);
+      if (Number(value) === Number(state)){
+        $(ind).prop("disabled", true);
+        $(ind).val('');
+      }
+    });
+  }
+
+  function toggleOvernightInteresttype (e){
+    e.preventDefault();
+    var elem = $('#deposits-overnight-specialinterestpositions');
+    var state = $('#deposits-overnight-interesttype').val();
+    if (state === 'true'){
+      elem.closest('div[class^="form-group"]').removeClass('hide');
+      elem.val(3);  // todo: trigger calcs
+      elem.trigger('change');
+      $('#deposits-overnight-interest').closest('div[class^="form-group"]').addClass('hide');
+    } else if (state === 'false'){
+      elem.closest('div[class^="form-group"]').addClass('hide');
+      $('.interesttypeInput').children().remove();
+      elem.val(0);
+      $('#deposits-overnight-interest').closest('div[class^="form-group"]').removeClass('hide');
+    }
+  }
+
+  function toggleOvernightInputsSpecialinterestpositions(e){
+    e.preventDefault();
+    var state = parseInt($('#deposits-overnight-specialinterestpositions').val());
+    var first = false;
+    if (state !== 0){
+      $('.interesttypeInput').children().remove();
+      for(var i = 0; i< state; i++){
+        if (i === 0) {first = true} else {first = false};
+        app.helpers.compileTemplate('.interesttypeInput','#deposits-overnight-interesttypeInput-template', {count: String(i+1) + '. Staffel', id1: 'deposits-overnight-specialinterestthreshold' + i, id2: 'deposits-overnight-specialinterest'+i, amount: 1000 * i, interest: (i/4) + 0.5, first: first}, true);
+      }
+    } else {
+      $('.interesttypeInput').children().remove();
+    }
+  }
+
+  function toggleOvernightSelecttax(e){
+    e.preventDefault();
+    var state = $('#deposits-overnight-taxes').val();
+    if (state === 'true'){
+      $('#deposits-overnight-taxrate, #deposits-overnight-taxfree').closest('div[class^="form-group"]').removeClass('hide');
+    } else if (state === 'false'){
+      $('#deposits-overnight-taxrate, #deposits-overnight-taxfree').closest('div[class^="form-group"]').addClass('hide');
+    }
+  }
+
+
+  function toggleOvernightSelectperiod(e){
+    e.preventDefault();
+    var state = $('#deposits-overnight-periodselect').val();
+    if (state === 'true'){
+      $('#deposits-overnight-begindate, #deposits-overnight-enddate').closest('div[class^="form-group"]').removeClass('hide');
+      $('#deposits-overnight-interestdays').closest('div[class^="form-group"]').addClass('hide');
+    } else if (state === 'false'){
+      $('#deposits-overnight-begindate, #deposits-overnight-enddate').closest('div[class^="form-group"]').addClass('hide');
+      $('#deposits-overnight-interestdays').closest('div[class^="form-group"]').removeClass('hide');
+    }
+  }
+
 
   function toggleTimedepositSelecttax(e){
     e.preventDefault();
@@ -69,6 +143,7 @@ app.deposits = (function() {
       }
     });
   }
+
 
   function toggleSavingschemeSelecttax(e){
     e.preventDefault();
