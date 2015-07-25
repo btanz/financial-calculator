@@ -4,69 +4,44 @@ app.property = (function() {
 
 
     // attach event handler for fee inputs
-    $('#property-buyrent-dynamics').on('change', function (e) {
-      toggleInputsDynamics(e);
-    });
+    $('#property-buyrent-dynamics').on('change', toggleInputsDynamics);
 
     // attach event handler for rent calc choice
-    $('#property-rent-select').on('change', function (e) {
-      toggleRentSelect(e);
-    });
+    $('#property-rent-select').on('change', toggleRentSelect);
 
     // attach event handler for homesave "Wohnungsbauprämie" choice
-    $('#property-homesave-bonus').on('change', function (e) {
-      toggleHomeSaveSelect(e);
-    });
+    $('#property-homesave-bonus').on('change', toggleHomeSaveSelect);
 
     // attach event handler for propertyprice "Immobilienpreisrechner" choice
-    $('#property-propertyprice-selection').on('change', function (e) {
-      togglePropertyPriceSelect(e);
-    });
+    $('#property-propertyprice-selection').on('change', togglePropertyPriceSelect);
 
 
     // attach event handler for mortgage calc choice 1
-    $('#property-mortgage-select1').on('change', function (e) {
-      toggleMortgageSelect1(e);
-    });
+    $('#property-mortgage-select1').on('change', toggleMortgageSelect1);
 
     // attach event handler for mortgage calc choice 2
-    $('#property-mortgage-select2').on('change', function (e) {
-      toggleMortgageSelect2(e);
-    });
+    $('#property-mortgage-select2').on('change', toggleMortgageSelect2);
 
     // attach event handler for fees
-    $('#property-mortgage-fees').on('change', function (e) {
-      toggleMortgageInputsFees(e);
-    });
-
+    $('#property-mortgage-fees').on('change', toggleMortgageInputsFees);
 
     // attach event handler for disagio
-    $('#property-mortgage-disagio').on('change', function (e) {
-      toggleMortgageInputsDisagio(e);
-    });
+    $('#property-mortgage-disagio').on('change', toggleMortgageInputsDisagio);
 
     // attach event handler for repaymentfree
-    $('#property-mortgage-repaymentfree').on('change', function (e) {
-      toggleMortgageInputsRepaymentfree(e);
-    });
+    $('#property-mortgage-repaymentfree').on('change', toggleMortgageInputsRepaymentfree);
 
     // attach event handler for followup
-    $('#property-mortgage-followup').on('change', function (e) {
-      toggleMortgageInputsFollowup(e);
-    });
+    $('#property-mortgage-followup').on('change', toggleMortgageInputsFollowup);
 
     // attach event handler for specialrepay
-    $('#property-mortgage-specialrepay').on('change', function (e) {
-      toggleMortgageInputsSpecialrepay(e);
-    });
+    $('#property-mortgage-specialrepay').on('change', toggleMortgageInputsSpecialrepay);
 
     // attach a div where specialrepay times and amounts will be added dynamically
     $('#property-mortgage-specialrepaypositions').closest('div[class^="form-group"]').after('<div class="specialrepayInput"></div>');
 
     // attach event handler for specialrepaypositions input fields
-    $('#property-mortgage-specialrepaypositions').on('change', function (e) {
-      toggleMortgageInputsSpecialrepaypositions(e);
-    });
+    $('#property-mortgage-specialrepaypositions').on('change', toggleMortgageInputsSpecialrepaypositions);
 
 
   });

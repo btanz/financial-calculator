@@ -4,43 +4,26 @@ app.debt = (function() {
   $(document).ready(function () {
 
     // attach event handler for calculation selection mode
-    $('#debt-annuity-select').on('change', function (e) {
-      toggleAnnuitySelect(e);
-    });
+    $('#debt-annuity-select').on('change', toggleAnnuitySelect);
 
     // attach event handler for fees
-    $('#debt-annuity-fees').on('change', function (e) {
-      toggleInputsFees(e);
-    });
+    $('#debt-annuity-fees').on('change', toggleInputsFees);
 
     // attach event handler for disagio
-    $('#debt-annuity-disagio').on('change', function (e) {
-      toggleInputsDisagio(e);
-    });
+    $('#debt-annuity-disagio').on('change', toggleInputsDisagio);
 
     // attach event handler for repaymentfree
-    $('#debt-annuity-repaymentfree').on('change', function (e) {
-      toggleInputsRepaymentfree(e);
-    });
+    $('#debt-annuity-repaymentfree').on('change', toggleInputsRepaymentfree);
 
     // attach event handler for calculation selection mode
-    $('#debt-dispo-periodchoice').on('change', function (e) {
-      toggleDispoSelect(e);
-    });
+    $('#debt-dispo-periodchoice').on('change', toggleDispoSelect);
 
 
     // attach event handler for repaysurrogat selection
-    $('#debt-repaysurrogat-selection').on('change', function (e) {
-      toggleInputsRepaysurrogat(e);
-    });
+    $('#debt-repaysurrogat-selection').on('change', toggleInputsRepaysurrogat);
 
     // attach event handler for repaysurrogat tax
-    $('#debt-repaysurrogat-taxes').on('change', function (e) {
-      toggleInputsRepaysurrogatTaxes(e);
-    });
-
-
-
+    $('#debt-repaysurrogat-taxes').on('change', toggleInputsRepaysurrogatTaxes);
 
   });
   /*********************** END DEBT DOCUMENT READY TASKS *************************/

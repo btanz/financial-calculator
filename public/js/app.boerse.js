@@ -7,14 +7,10 @@ app.boerse = (function() {
     $('#boerse-equityreturn-dividends').closest('div[class^="form-group"]').after('<div class="dividendsInput"></div>');
 
     // attach event handler for dividend input fields
-    $('#boerse-equityreturn-dividends').on('change', function (e) {
-      toggleInputsDividends(e);
-    });
+    $('#boerse-equityreturn-dividends').on('change', toggleInputsDividends);
 
     // attach event handler for fee inputs
-    $('#boerse-equityreturn-fees').on('change', function (e) {
-      toggleInputsFees(e);
-    });
+    $('#boerse-equityreturn-fees').on('change', toggleInputsFees);
 
   });
   /*********************** END BOERSE DOCUMENT READY TASKS *************************/

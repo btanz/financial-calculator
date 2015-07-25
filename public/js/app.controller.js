@@ -20,16 +20,16 @@ app.controller = (function() {
      */
 
     /** calculate document once submit button is clicked */
-    $('#btn-calculate').on('click',function(e){submitBtnCalculate(e)});
+    $('#btn-calculate').on('click', submitBtnCalculate);
 
     /** calculate document once onLoad such that users can see first results */
     $('#btn-calculate').trigger('click');
 
     /** invalidate calculations if any of the input fields changes */
-    $('input, select').on('keyup change', function(e){ invalidateResults(e) });
+    $('input, select').on('keyup change', invalidateResults);
 
     /** handling for input field dropdown buttons */
-    $('ul.dropdown-menu li a').on('click', function(e){dropdownToggle(e)});
+    $('ul.dropdown-menu li a').on('click', dropdownToggle);
 
   });
   /*********************** END GLOBAL DOCUMENT READY TASKS *************************/
