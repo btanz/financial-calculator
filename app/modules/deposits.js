@@ -3,6 +3,7 @@ var validator = require('validator');
 var helpers = require('./helpers');
 var math = require('./math');
 var f = require('../../lib/finance');
+var misc = require('./misc');
 var calcElems = require('../../data/static/calcElems.json');
 
 var terminalValueHelper, annualCashHelper;
@@ -1137,6 +1138,128 @@ exports.interestpenalty = function(inputs) {
   result._1.interestpenalty   = _.extend(localElems['interestpenalty'],    {"value": helper.interestpenalty});
   result._1.interestprincipal = _.extend(localElems['interestprincipal'],  {"value": helper.interestprincipal});
   result._1.interest          = _.extend(localElems['interest'],           {"value": helper.interest * 100});
+
+  return result;
+
+};
+
+
+/** DEPOSITS-OVERNIGHT function that computes parameters for overnight deposits ("Tagesgeld")
+ * ARGUMENTS XXX todo: documenation
+
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
+exports.overnight = function(inputs) {
+  // todo: relax assumptions: * interestgain only is calculated; * no taxes; * no 'Zinsstaffel';
+
+  /** ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+
+  var result = {}; result._1 = {}; result._2 = {};
+  var helper = {};
+  var localElems = calcElems.overnight.results_1;
+  var expectedInputs = calcElems.overnight.inputs;
+  var _expectedInputs = _.clone(expectedInputs);
+  var errorMap;
+  var selectMap = [undefined, 'interestgain', 'principal', 'interest', 'interestdays'];
+
+  /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  /** drop elements that are to be computed from input and expectedinputs object */
+  delete inputs[selectMap[inputs.calcselect]];
+  delete _expectedInputs[selectMap[inputs.calcselect]];
+
+  /** run validation method */
+  errorMap = helpers.validate(inputs, _expectedInputs);
+  if (errorMap.length !== 0){
+    return errorMap;
+  }
+
+  /** extract denominator from interestmethod */
+  if(inputs.daycount === 'a30E360' || inputs.daycount === 'a30360' || inputs.daycount === 'act360'){
+    helper.denom = 360;
+  } else if (inputs.daycount === 'act365'){
+    helper.denom = 365;
+  } else if (inputs.daycount === 'actact'){
+    helper.denom = 365.25;
+  } else {
+    helpers.errors.set("Beim auslesen der Zinsmethode ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es noch einmal.", undefined, true);
+    return helpers.errors.errorMap;
+  }
+
+  /** compute interestdays and interestfactor if period given as date range */
+  if(inputs.periodselect){
+    /** do custom validations */
+    if (inputs.enddate === "") {
+      helpers.errors.set("Das Enddatum muss ausgefüllt sein.", undefined, true);
+      return helpers.errors.errorMap;
+    } else if (inputs.begindate === ""){
+      helpers.errors.set("Das Anfangsdatum muss ausgefüllt sein.", undefined, true);
+      return helpers.errors.errorMap;
+    } else if (inputs.enddate < inputs.begindate){
+      helpers.errors.set("Das Enddatum kann nicht vor dem Anfangsdatum liegen.", undefined, true);
+      return helpers.errors.errorMap;
+    }
+
+    /** compute interestdays and assign them to inputs */
+    range = {"begindate": inputs.begindate, "enddate": inputs.enddate, "skipvalidation": true};
+    helper.container = misc.daycount(range)._1;
+    inputs.interestdays = helper.container['' + inputs.daycount + 'interestdays'].value;
+    helper.factor = helper.container['' + inputs.daycount + 'factor'].value;
+    // helper.factorF = helper.container['' + inputs.daycount + 'factorF'].value;
+
+  /** compute interestfactor if interestdays are given */
+  } else {
+    helper.factor = inputs.interestdays / helper.denom;
+  }
+
+  /** convert percentage values to decimals */
+  inputs.interest = inputs.interest / 100;
+  // todo: add 'Staffelzins'
+
+
+  /** ******** 3. COMPUTATIONS ******** */
+
+
+  // todo: abstract
+  if (inputs.interestperiod === 0){
+    inputs.interestgain = inputs.interestgain || inputs.principal * inputs.interest * helper.factor;
+  } else if (inputs.interestperiod === 1){
+    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest / helper.denom, inputs.interestdays) - inputs.principal;
+  } else if (inputs.interestperiod === 2){
+    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/12)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/12))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/12)) / helper.denom) - inputs.principal;
+  } else if (inputs.interestperiod === 3){
+    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/4)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/4))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/4)) / helper.denom) - inputs.principal;
+  } else if (inputs.interestperiod === 4){
+    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/2)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/2))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/2)) / helper.denom) - inputs.principal;
+  } else if (inputs.interestperiod === 5){
+    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom)/helper.denom), Math.floor(inputs.interestdays / (helper.denom))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom)) / helper.denom) - inputs.principal;
+  }
+
+
+
+
+
+
+  console.log(inputs.interestgain);
+
+
+
+  /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.overnight.id;
+
+  /**
+   * 4.A FIRST RESULT CONTAINER
+   */
+  result._1.value          = _.extend(localElems[selectMap[inputs.calcselect]], {"value": inputs[selectMap[inputs.calcselect]]});
+  (inputs.periodselect) ? result._1.interestdays = _.extend(localElems['interestdays'],{"value": inputs.interestdays}) : null;
+  result._1.interestfactor = _.extend(localElems['interestfactor'],{"value": helper.factor});
+
+  //console.log(inputs);
+
 
   return result;
 

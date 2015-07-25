@@ -4591,7 +4591,7 @@
         "label": "Zinssatz in % p. a.",
         "optional": "false",
         "array": "true",
-        "arrayParent": "specialrepaypositions"
+        "arrayParent": "specialinterestpositions"
       },
       "interest": {
         "id": "deposits-overnight-interest",
@@ -4613,21 +4613,21 @@
         "hide": false,
         "secondary": false,
         "label": "Zinsperiode",
-        "tooltip": "Die Zinsperiode entspricht dem Zeitraum zwischen zwei Zinsgutschrift-Terminen und bestimmt somit die Häufigkeit der Zinsgutschriften. Nach Gutschrift werden die Zinsen dem Kapital zugeschlagen und fortan mitverzinst. Wählen Sie die Einstellung 'Auszahlung', falls die Zinserträge nicht gutgeschrieben, sondern ausgezahlt werden.",
+        "tooltip": "Die Zinsperiode entspricht dem Zeitraum zwischen zwei Zinsgutschrift-Terminen und bestimmt somit die Häufigkeit der Zinsgutschriften. Nach Gutschrift werden die Zinsen dem Kapital zugeschlagen und fortan mitverzinst. Wählen Sie die Einstellung 'Auszahlung', falls die Zinserträge nur einmal am Ende der Anlagedauer gutgeschrieben oder ausgezahlt werden.",
         "type": "select",
         "vtype": "number",
         "optional": true,
         "args": [
-          2,
-          6
+          0,
+          5
         ],
         "options": {
           "0": "Auszahlung",
-          "365": "täglich",
-          "12": "monatlich",
-          "4": "vierteljährlich",
-          "2": "halbjährlich",
-          "1": "jährlich"
+          "1": "täglich",
+          "2": "monatlich",
+          "3": "vierteljährlich",
+          "4": "halbjährlich",
+          "5": "jährlich"
         }
       },
       "periodselect": {
@@ -4650,7 +4650,7 @@
         "secondary": true,
         "label": "Anfagsdatum",
         "addon": "Datum",
-        "value": "08.01.2013",
+        "value": "08.01.2015",
         "tooltip": "Geben Sie hier den ersten Tag des Anlagezeitraums an. Dieser Tag wird, wie üblich, in der Berechnung nicht mitgezählt.",
         "type": "date",
         "vtype": "date"
@@ -4768,82 +4768,26 @@
       }
     },
     "results_1": {
-      "repay": {
-        "description": "Rate/Annuität",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "first",
-        "tooltip": "Die periodisch zu zahlendene konstante Rate zur Rückzahlung der Hypothek."
-      },
-      "principal": {
-        "description": "Kreditsumme",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "first",
-        "tooltip": "Der Betrag, auf welchen Vorschusszinsen zu entrichten sind."
-      },
-      "interest": {
-        "description": "Zinssatz",
-        "unit": "% p. a.",
-        "digits": 3,
-        "importance": "first",
-        "tooltip": "Der gebundene Sollzinssatz für das Darlehen."
-      },
-      "initialinterest": {
-        "description": "Anfängliche Tilgung",
-        "unit": "% p. a.",
-        "digits": 3,
-        "importance": "first",
-        "tooltip": "Der prozentuale Anteil der Kreditsumme, welcher mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird"
-      },
-      "residual": {
-        "description": "Restschuld",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "first",
-        "tooltip": "TBD"
-      },
-      "totalrepay": {
-        "description": "Gesamte Rückzahlungen",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "first",
-        "tooltip": "TBD"
-      },
-      "totalinterest": {
-        "description": "davon Zinslast",
-        "unit": "EUR",
-        "digits": 2,
+      "interestdays": {
+        "description": "Zinstage",
+        "unit": "Tage",
+        "digits": 0,
         "importance": "second",
-        "tooltip": "TBD"
+        "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
       },
-      "totalreduction": {
-        "description": "davon Tilgung",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "second",
-        "tooltip": "TBD"
+      "interestfactor": {
+        "tooltip": "TBD",
+        "omittooltip": true,
+        "description": "Zinsfaktor (Dezimal)",
+        "unit": "",
+        "digits": 4,
+        "importance": "second"
       },
-      "disagio": {
-        "description": "davon Disagio",
+      "interestgain": {
+        "tooltip": "Der akkumulierte Zinsertrag der Tagesgeldanlage.",
+        "description": "Zinsertrag",
         "unit": "EUR",
-        "digits": 2,
-        "importance": "second",
-        "tooltip": "TBD"
-      },
-      "fees": {
-        "description": "davon Gebühren",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "second",
-        "tooltip": "TBD"
-      },
-      "repaymentfreetotal": {
-        "description": "davon Zinslast tilgungsfreie Zeit",
-        "unit": "EUR",
-        "digits": 2,
-        "importance": "second",
-        "tooltip": "TBD"
+        "digits": 2
       }
     }
   }

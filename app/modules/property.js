@@ -1174,7 +1174,7 @@ exports.mortgage = function(inputs){
 
   // todo: send message to user that only full period values are possible (?)
 
-  /** convert all percentage values to decimals */
+  /** convert percentage values to decimals */
   inputs.disagioamount = inputs.disagioamount / 100;
   inputs.interest = inputs.interest / 100;
   inputs.initalinterest = inputs.initialinterest / 100;
