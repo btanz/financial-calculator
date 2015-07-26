@@ -4724,7 +4724,7 @@
         "label": "Steuern berücksichtigen?",
         "tooltip": "Wählen Sie 'JA', um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.",
         "type": "select",
-        "vtype": "boolean",
+        "vtype": "bool",
         "options": {
           "false": "NEIN",
           "true": "JA"
@@ -4778,7 +4778,7 @@
       "interestfactor": {
         "tooltip": "TBD",
         "omittooltip": true,
-        "description": "Zinsfaktor (Dezimal)",
+        "description": "Zinsfaktor",
         "unit": "",
         "digits": 4,
         "importance": "second"
@@ -4787,7 +4787,36 @@
         "tooltip": "Der akkumulierte Zinsertrag der Tagesgeldanlage.",
         "description": "Zinsertrag",
         "unit": "EUR",
-        "digits": 2
+        "digits": 2,
+        "importance": "first"
+      },
+      "interestgainaftertax": {
+        "tooltip": "Der akkumulierte Zinsertrag der Tagesgeldanlage nach Steuern.",
+        "description": "Zinsertrag nach Steuern",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "interestgainbeforetax": {
+        "tooltip": "Der akkumulierte Zinsertrag der Tagesgeldanlage vor Abzug von Steuern.",
+        "description": "Zinsertrag vor Steuern",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "taxes": {
+        "tooltip": "Die sich aus den eingegebenen Steuerparametern (Steuersatz, jährlicher Freibetrag) ergebende Steuerlast.",
+        "description": "Steuerlast",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "second"
+      },
+      "terminal": {
+        "tooltip": "Das Endkapital ergibt sich aus dem Anfangskapital zusammen mit dem Zinsertrag",
+        "description": "Endkapital",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
       }
     }
   }

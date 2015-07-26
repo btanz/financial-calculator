@@ -1153,19 +1153,22 @@ exports.interestpenalty = function(inputs) {
 
  */
 exports.overnight = function(inputs) {
-  // todo: relax assumptions: * interestgain only is calculated; * no taxes; * no 'Zinsstaffel';
+  // todo: relax assumptions: * interestgain only is calculated; * no 'Zinsstaffel';
 
   /** ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
   helpers.errors.clear();
 
-  var result = {}; result._1 = {}; result._2 = {};
+  var result = {};
+  result._1 = {};
+  result._2 = {};
   var helper = {};
   var localElems = calcElems.overnight.results_1;
   var expectedInputs = calcElems.overnight.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined, 'interestgain', 'principal', 'interest', 'interestdays'];
+  var interestMap = [];
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   /** drop elements that are to be computed from input and expectedinputs object */
@@ -1174,16 +1177,16 @@ exports.overnight = function(inputs) {
 
   /** run validation method */
   errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
+  if (errorMap.length !== 0) {
     return errorMap;
   }
 
   /** extract denominator from interestmethod */
-  if(inputs.daycount === 'a30E360' || inputs.daycount === 'a30360' || inputs.daycount === 'act360'){
+  if (inputs.daycount === 'a30E360' || inputs.daycount === 'a30360' || inputs.daycount === 'act360') {
     helper.denom = 360;
-  } else if (inputs.daycount === 'act365'){
+  } else if (inputs.daycount === 'act365') {
     helper.denom = 365;
-  } else if (inputs.daycount === 'actact'){
+  } else if (inputs.daycount === 'actact') {
     helper.denom = 365.25;
   } else {
     helpers.errors.set("Beim auslesen der Zinsmethode ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es noch einmal.", undefined, true);
@@ -1191,15 +1194,15 @@ exports.overnight = function(inputs) {
   }
 
   /** compute interestdays and interestfactor if period given as date range */
-  if(inputs.periodselect){
+  if (inputs.periodselect) {
     /** do custom validations */
     if (inputs.enddate === "") {
       helpers.errors.set("Das Enddatum muss ausgefüllt sein.", undefined, true);
       return helpers.errors.errorMap;
-    } else if (inputs.begindate === ""){
+    } else if (inputs.begindate === "") {
       helpers.errors.set("Das Anfangsdatum muss ausgefüllt sein.", undefined, true);
       return helpers.errors.errorMap;
-    } else if (inputs.enddate < inputs.begindate){
+    } else if (inputs.enddate < inputs.begindate) {
       helpers.errors.set("Das Enddatum kann nicht vor dem Anfangsdatum liegen.", undefined, true);
       return helpers.errors.errorMap;
     }
@@ -1211,40 +1214,36 @@ exports.overnight = function(inputs) {
     helper.factor = helper.container['' + inputs.daycount + 'factor'].value;
     // helper.factorF = helper.container['' + inputs.daycount + 'factorF'].value;
 
-  /** compute interestfactor if interestdays are given */
+    /** compute interestfactor if interestdays are given */
   } else {
     helper.factor = inputs.interestdays / helper.denom;
   }
 
   /** convert percentage values to decimals */
-  inputs.interest = inputs.interest / 100;
+  inputs.interest  = inputs.interest / 100;
+  inputs.taxrate   = inputs.taxrate / 100;
+
   // todo: add 'Staffelzins'
 
 
   /** ******** 3. COMPUTATIONS ******** */
 
-
-  // todo: abstract
-  if (inputs.interestperiod === 0){
+  /** compute interestgain */
+  interestMap = [undefined, helper.denom, 12, 4, 2, 1];
+  if (inputs.interestperiod === 0) {
     inputs.interestgain = inputs.interestgain || inputs.principal * inputs.interest * helper.factor;
-  } else if (inputs.interestperiod === 1){
-    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest / helper.denom, inputs.interestdays) - inputs.principal;
-  } else if (inputs.interestperiod === 2){
-    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/12)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/12))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/12)) / helper.denom) - inputs.principal;
-  } else if (inputs.interestperiod === 3){
-    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/4)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/4))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/4)) / helper.denom) - inputs.principal;
-  } else if (inputs.interestperiod === 4){
-    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom/2)/helper.denom), Math.floor(inputs.interestdays / (helper.denom/2))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom/2)) / helper.denom) - inputs.principal;
-  } else if (inputs.interestperiod === 5){
-    inputs.interestgain = inputs.interestgain || inputs.principal * Math.pow(1 + inputs.interest * ((helper.denom)/helper.denom), Math.floor(inputs.interestdays / (helper.denom))) * (1 + inputs.interest * (inputs.interestdays % (helper.denom)) / helper.denom) - inputs.principal;
+    if(inputs.taxes){
+      helper.taxes = - Math.max(0, inputs.interestgain - inputs.taxfree) * inputs.taxrate;
+      helper.interestgainAfterTax = inputs.interestgain + helper.taxes;
+    } else {
+      helper.interestgainAfterTax = inputs.interestgain;
+    }
+  } else {
+    helper.result = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree);
+    helper.interestgainAfterTax = inputs.interestgain || helper.result.principal - inputs.principal;
+    inputs.interestgain = inputs.interestgain || helper.result.principal - inputs.principal - helper.result.tax;
+    helper.taxes = helper.result.tax;
   }
-
-
-
-
-
-
-  console.log(inputs.interestgain);
 
 
 
@@ -1254,11 +1253,16 @@ exports.overnight = function(inputs) {
   /**
    * 4.A FIRST RESULT CONTAINER
    */
-  result._1.value          = _.extend(localElems[selectMap[inputs.calcselect]], {"value": inputs[selectMap[inputs.calcselect]]});
+  result._1.terminal               = _.extend(localElems['terminal'],               {"value": inputs.principal + helper.interestgainAfterTax});
+  if(inputs.taxes){
+    result._1.interestgainAfterTax = _.extend(localElems['interestgainaftertax'],   {"value": helper.interestgainAfterTax});
+    result._1.interestgainBeforeTax= _.extend(localElems['interestgainbeforetax'],  {"value": inputs.interestgain});
+    result._1.taxes                = _.extend(localElems['taxes'],                  {"value": helper.taxes});
+  } else {
+    result._1.value                = _.extend(localElems[selectMap[inputs.calcselect]], {"value": inputs[selectMap[inputs.calcselect]]});
+  }
+  result._1.interestfactor       = _.extend(localElems['interestfactor'],{"value": helper.factor});
   (inputs.periodselect) ? result._1.interestdays = _.extend(localElems['interestdays'],{"value": inputs.interestdays}) : null;
-  result._1.interestfactor = _.extend(localElems['interestfactor'],{"value": helper.factor});
-
-  //console.log(inputs);
 
 
   return result;
