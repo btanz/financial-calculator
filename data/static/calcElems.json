@@ -4831,6 +4831,13 @@
         "unit": "% p. a.",
         "digits": 3,
         "importance": "second"
+      },
+      "interest": {
+        "tooltip": "Der jährliche Nominalzins, welcher für die Erzielung des eingegebenen Zinsertrags notwendig ist.",
+        "description": "Zinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "first"
       }
     }
   }

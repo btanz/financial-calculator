@@ -1363,7 +1363,7 @@ exports.overnight = function(inputs) {
         }
         inputs.principal = inputs.principal || helper.interestgain / (inputs.interest * helper.factor);
 
-      } else {
+      } else {  /** case compounding */
         /** wrapper function for rootfinder that accepts principal (x) as only free var */
         function fun2(x){
           return f.basic.tvInterestdaysSubperiodsLinear(x, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - x - inputs.interestgain;
@@ -1379,6 +1379,49 @@ exports.overnight = function(inputs) {
         }
         if(inputs.taxes){
           helper.taxes = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).tax;
+          helper.interestgain = inputs.interestgain - helper.taxes;
+        }
+      }
+    }
+
+
+  /**
+   * 3.D COMPUTE INTEREST RATE
+   */
+  } else if (inputs.calcselect === 3){
+
+    /** interest rate with step interest - this is impossible, hence the need to throw an error */
+    if(inputs.interesttype) {
+      helpers.errors.set("Für die guthabenabhängige Verzinsung kann der Zinssatz nicht eindeutig berechnet werden, da es mehrere Zinssätze gibt. Bitte wählen Sie einen anderen Parameter im Feld 'Was soll berechnet werden?' bzw. wählen Sie 'NEIN' im Feld 'guthabenabhängige Verzinsung'.", undefined, true);
+      return helpers.errors.errorMap;
+
+    /** compute interest rate w/o step interest */
+    } else {
+      interestMap = [undefined, helper.denom, 12, 4, 2, 1];
+      if (inputs.interestperiod === 0) {  /** case no compounding */
+        if(inputs.taxes){
+          helper.interestgain = (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate) < inputs.taxfree ? inputs.interestgain :  (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate);
+          helper.interest = helper.interestgain / (inputs.principal * helper.factor);
+          helper.taxes = -Math.max(0, helper.interestgain - inputs.taxfree) * inputs.taxrate;
+        } else {
+          helper.interest = inputs.interestgain / (inputs.principal * helper.factor);
+        }
+      } else {  /** case compounding */
+        /** wrapper function for rootfinder that accepts the interest rate (x) as only free var */
+        function fun3(x){
+          return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, x, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
+        }
+
+        helper.temp = math.roots(fun3,0.02,1500);
+
+        if(!validator.isFloat(helper.temp)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich niedrig (negativ) oder hoch ist.",undefined , true);
+          return helpers.errors.errorMap;
+        } else {
+          helper.interest = helper.temp;
+        }
+        if(inputs.taxes){
+          helper.taxes = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, helper.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).tax;
           helper.interestgain = inputs.interestgain - helper.taxes;
         }
       }
@@ -1418,6 +1461,18 @@ exports.overnight = function(inputs) {
     }
     result._1.interestfactor = _.extend(localElems['interestfactor'], {"value": helper.factor});
     (inputs.interesttype) ? result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest}) : null;
+
+  } else if (inputs.calcselect === 3){
+    result._1.interest       = _.extend(localElems['interest'], {"value": helper.interest * 100});
+    result._1.terminal       = _.extend(localElems['terminal'], {"value": inputs.principal + inputs.interestgain});
+    if(inputs.taxes){
+      result._1.interestgainAfterTax  = _.extend(localElems['interestgainaftertax'], {"value": inputs.interestgain});
+      result._1.interestgainBeforeTax = _.extend(localElems['interestgainbeforetax'], {"value": helper.interestgain});
+      result._1.taxes                 = _.extend(localElems['taxes'], {"value": helper.taxes});
+    } else {
+      result._1.interestgain = _.extend(localElems['interestgain'], {"value": inputs.interestgain});
+    }
+    result._1.interestfactor = _.extend(localElems['interestfactor'], {"value": helper.factor});
   }
 
   /** attach messages */
