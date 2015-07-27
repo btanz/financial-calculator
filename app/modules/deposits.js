@@ -211,7 +211,6 @@ exports.savings = function(inputs){
 
     // compute terminal value for saving period (not dynamic)
     if (d === 0) {
-      console.log('Here we are');
       helper.result = principalCompounded + R * (Math.pow(1 + r / mz, n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz) / 2 * (mr / mz + (inputs.inflowtype === 1) * (-1) + (inputs.inflowtype === 2))) / (r / mz) + (mr < mz) * ((inputs.inflowtype === 1) * 1 + (inputs.inflowtype === 2) * Math.pow(1 + r / mz, mz / mr)) / (Math.pow(1 + r / mz, mz / mr) - 1));
 
       //result.terminal = principalCompounded + inflow * (Math.pow(1+interest/mz,n*mz) - 1) * ((mr>= mz)*(mr/mz + (interest/mz)/2*(mr/mz+(inflowType===1)*(-1)+(inflowType===2)))/(interest/mz) + (mr<mz)*((inflowType===1)*1+(inflowType===2)*Math.pow(1+interest/mz,mz/mr))/(Math.pow(1+interest/mz,mz/mr) - 1));
@@ -263,7 +262,6 @@ exports.savings = function(inputs){
       } else if (mr >= mz) {
         helper.result = E - dynamicPeriod_2(n, 'post');
       } else {
-        console.log('here we are');
         helper.result = E - dynamicPeriod_1(n, 'post');
       }
     }
@@ -356,7 +354,6 @@ exports.savings = function(inputs){
     }
   // 4A.5. INTEREST
   } else if (inputs.select === 4){
-    console.log("Here we are");
 
     if (d === 0){
       (function(){
@@ -1177,11 +1174,19 @@ exports.overnight = function(inputs) {
   delete inputs[selectMap[inputs.calcselect]];
   delete _expectedInputs[selectMap[inputs.calcselect]];
 
+  if(inputs.periodselect === 'false'){
+    delete inputs.begindate;   delete _expectedInputs.begindate;
+    delete inputs.enddate;     delete _expectedInputs.enddate;
+  }
+
   /** run validation method */
   errorMap = helpers.validate(inputs, _expectedInputs);
   if (errorMap.length !== 0) {
     return errorMap;
   }
+
+
+
 
   /** extract denominator from interestmethod */
   if (inputs.daycount === 'a30E360' || inputs.daycount === 'a30360' || inputs.daycount === 'act360') {
@@ -1194,6 +1199,7 @@ exports.overnight = function(inputs) {
     helpers.errors.set("Beim auslesen der Zinsmethode ist ein unerwarteter Fehler aufgetreten. Bitte versuchen Sie es noch einmal.", undefined, true);
     return helpers.errors.errorMap;
   }
+
 
   /** compute interestdays and interestfactor if period given as date range */
   if (inputs.periodselect) {

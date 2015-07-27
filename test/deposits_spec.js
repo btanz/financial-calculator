@@ -591,4 +591,108 @@ describe("Deposits calculators are correct", function() {
   });
 
 
+
+
+  describe("Deposits-overnight correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+
+      data[0] = {calcselect: '1', principal: '45896.49',  interest: '9.97', interestperiod: '0', periodselect: 'false', interestdays: '290',  interestgain: '260.76', daycount: 'act365', taxes: 'true',  taxrate: '12.11', taxfree: '463.35', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '1.36', specialinterestthreshold1: '2781.67', specialinterest1: '0.35', specialinterestthreshold2: '14740.55', specialinterest2: '6.47'};
+      data[1] = {calcselect: '1', principal: '341044.52', interest: '8.94', interestperiod: '0', periodselect: 'false', interestdays: '226',  interestgain: '640.76', daycount: 'act365', taxes: 'false', taxrate: '6.01', taxfree: '102.1', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '1.77', specialinterestthreshold1: '4555.57', specialinterest1: '6.51', specialinterestthreshold2: '18228.12', specialinterest2: '7.32'};
+      data[2] = {calcselect: '1', principal: '312003.84', interest: '0.94', interestperiod: '2', periodselect: 'false', interestdays: '1497', interestgain: '105.95', daycount: 'act360', taxes: 'true',  taxrate: '0.54', taxfree: '413.82', interesttype: 'false' ,specialinterestpositions: '0'};
+      data[3] = {calcselect: '1', principal: '12432.1',   interest: '1.5',  interestperiod: '2', periodselect: 'false', interestdays: '776',  interestgain: '497.54', daycount: 'actact', taxes: 'false', taxrate: '0', taxfree: '69.97', interesttype: 'false' ,specialinterestpositions: '0'};
+      data[4] = {calcselect: '1', principal: '312761.36', interest: '2.91', interestperiod: '0', periodselect: 'false', interestdays: '210',  interestgain: '258.63', daycount: 'act360', taxes: 'true', taxrate: '17.11', taxfree: '444.6', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '0.37', specialinterestthreshold1: '4269.52', specialinterest1: '5.99', specialinterestthreshold2: '25247.72', specialinterest2: '9.68'};
+      data[5] = {calcselect: '1', principal: '125226.8',  interest: '1.96', interestperiod: '0', periodselect: 'false', interestdays: '78',   interestgain: '497.07', daycount: 'act365', taxes: 'false', taxrate: '3.21', taxfree: '232.61', interesttype: 'false' ,specialinterestpositions: '0'};
+      data[6] = {calcselect: '1', principal: '353596.57', interest: '6.84', interestperiod: '0', periodselect: 'false', interestdays: '224',  interestgain: '242.36', daycount: 'a30360', taxes: 'true', taxrate: '14.32', taxfree: '36.98', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '4.62', specialinterestthreshold1: '429.97', specialinterest1: '2.23', specialinterestthreshold2: '23853.39', specialinterest2: '4.03'};
+      data[7] = {calcselect: '1', principal: '42666.15',  interest: '5.08', interestperiod: '0', periodselect: 'false', interestdays: '955',  interestgain: '341.38', daycount: 'act360', taxes: 'false', taxrate: '2.42', taxfree: '178.96', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '2.5', specialinterestthreshold1: '2053.59', specialinterest1: '0.06', specialinterestthreshold2: '9689.16', specialinterest2: '7.22'};
+      data[8] = {calcselect: '1', principal: '326600.35', interest: '3.98', interestperiod: '0', periodselect: 'false', interestdays: '1314', interestgain: '847.74', daycount: 'a30360', taxes: 'false', taxrate: '10.55', taxfree: '309.96', interesttype: 'true' ,specialinterestpositions: '3', specialinterestthreshold0: '0', specialinterest0: '0.82', specialinterestthreshold1: '4340.25', specialinterest1: '7.4', specialinterestthreshold2: '42827.7', specialinterest2: '2.83'};
+      data[9] = {calcselect: '1', principal: '375207.9',  interest: '0.61', interestperiod: '1', periodselect: 'false', interestdays: '1304', interestgain: '684.83', daycount: 'act360', taxes: 'true',  taxrate: '16.76', taxfree: '261.7', interesttype: 'false' ,specialinterestpositions: '0'};
+
+      expectations[0] = {interestgainAfterTax: 1519.39, taxes: -145.51, interestfactor: 0.79};
+      expectations[1] = {value: 15232.32, interestfactor: 0.62};
+      expectations[2] = {interestgainAfterTax: 12375.21, taxes: -55.96, interestfactor: 4.16};
+      expectations[3] = {value: 402.32, interestfactor: 2.12};
+      expectations[4] = {interestgainAfterTax: 14148.44, taxes: -2828.72, interestfactor: 0.58};
+      expectations[5] = {value: 524.51, interestfactor: 0.21};
+      expectations[6] = {interestgainAfterTax: 7378.8, taxes: -1227.06, interestfactor: 0.62};
+      expectations[7] = {value: 6464.45, interestfactor: 2.65};
+      expectations[8] = {value: 39837.66, interestfactor: 3.65};
+      expectations[9] = {interestgainAfterTax: 7142.05, taxes: -1227.25, interestfactor: 3.62};
+
+    });
+
+
+    it('Passes 1st test set', function(){
+      var results = deposits.overnight(data[0]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[0]));
+    });
+
+    it('Passes 2nd test set', function(){
+      var results = deposits.overnight(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = deposits.overnight(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = deposits.overnight(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = deposits.overnight(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = deposits.overnight(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = deposits.overnight(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = deposits.overnight(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = deposits.overnight(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = deposits.overnight(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[9]));
+    });
+
+  });
+
 });
