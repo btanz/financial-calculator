@@ -25,3 +25,20 @@ script(id='deposits-overnight-interesttypeInput-template', type='text/x-handleba
         div.input-group.m-b-sm
           input(placeholder='', id='{{obj.id2}}', type='number', value='{{obj.interest}}', class="form-control")
           span.input-group-addon % p. a.
+
+
+
+// modals
+div.modal.inmodal.fade#deposits-overnight-interestperiodModal(tabindex='-1', role='dialog')
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') x
+          span.sr-only Close
+        i.fa.fa-laptop.modal-icon
+        h4.modal-title Hinweis
+      div.modal-body
+        p Leider können bei guthabenabhängiger Verzinsung keine Zinseszinsen berücksichtigt werden. Ihre vorherige Auswahl im Feld 'Zinsperiode' wurde auf 'Auszahlung / kein Zinseszins' gesetzt.
+      div.modal-footer
+        button(type='button', class='btn btn-primary', data-dismiss='modal') OK

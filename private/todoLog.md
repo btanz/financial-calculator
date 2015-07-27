@@ -23,6 +23,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * more effient frontent-code for showing and hiding inputs
 * function for initializing calculators (i.e. outsource 'init and assign')
 * customizable HTML emails that can be sent to clients (use app.render insted of res.render on the server to create emails)
+* pro and basic versions for calculators
 
 
 

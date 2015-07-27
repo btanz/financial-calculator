@@ -1153,7 +1153,7 @@ exports.interestpenalty = function(inputs) {
 
  */
 exports.overnight = function(inputs) {
-  // todo: relax assumptions: * interestgain only is calculated; * no 'Zinsstaffel';
+  // todo: relax assumptions: * interestgain only is calculated;
 
   /** ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
@@ -1167,8 +1167,10 @@ exports.overnight = function(inputs) {
   var expectedInputs = calcElems.overnight.inputs;
   var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
+  var interestSteps = [];
   var selectMap = [undefined, 'interestgain', 'principal', 'interest', 'interestdays'];
   var interestMap = [];
+  var i;
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   /** drop elements that are to be computed from input and expectedinputs object */
@@ -1223,28 +1225,66 @@ exports.overnight = function(inputs) {
   inputs.interest  = inputs.interest / 100;
   inputs.taxrate   = inputs.taxrate / 100;
 
-  // todo: add 'Staffelzins'
-
 
   /** ******** 3. COMPUTATIONS ******** */
 
-  /** compute interestgain */
-  interestMap = [undefined, helper.denom, 12, 4, 2, 1];
-  if (inputs.interestperiod === 0) {
-    inputs.interestgain = inputs.interestgain || inputs.principal * inputs.interest * helper.factor;
-    if(inputs.taxes){
-      helper.taxes = - Math.max(0, inputs.interestgain - inputs.taxfree) * inputs.taxrate;
-      helper.interestgainAfterTax = inputs.interestgain + helper.taxes;
-    } else {
-      helper.interestgainAfterTax = inputs.interestgain;
+  /** construct step interest array if necessary */
+  if(inputs.interesttype){
+    helper.length = inputs.specialinterestpositions;
+    for (i = 0; i < helper.length; i++){
+      helper.step = _.find(inputs, function(val, ind){return ind === ('specialinterestthreshold' + i);});
+      helper.int  = _.find(inputs, function(val, ind){return ind === ('specialinterest' + i);});
+      if(isFinite(helper.step) && isFinite(helper.int)){
+        interestSteps.push([helper.step, helper.int / 100]);
+      }
     }
-  } else {
-    helper.result = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree);
-    helper.interestgainAfterTax = inputs.interestgain || helper.result.principal - inputs.principal;
-    inputs.interestgain = inputs.interestgain || helper.result.principal - inputs.principal - helper.result.tax;
-    helper.taxes = helper.result.tax;
+    interestSteps = interestSteps.sort(function(a,b){ return a[0] > b[0]; });
+    if(interestSteps[0][0] !== 0){  /** warn that interest is set to zero for first step */
+      helpers.messages.set("Hinweis: Bei den Eingaben zur guthabenabhängigen Verzinsung wurde kein Zinssatz für Guthaben ab 0,00 EUR eingebenen. Der Zinssatz für die erste Staffel wurde daher auf null gesetzt. Überprüfen Sie, ob dies korrekt ist und geben Sie gegebenenfalls einen Zinssatz für die 1. Guthabenstaffel ein.",2);
+      interestSteps.unshift([0, 0]);
+    }
   }
 
+
+  if(inputs.interesttype){
+    /** compute interestgain with step interest */
+    if (inputs.interestperiod === 0) {
+      helper.interestgain = 0;
+      interestSteps.forEach(function (val, ind, arr) {
+        ind < (arr.length - 1) ? helper.nextval = arr[ind + 1][0] : helper.nextval = Infinity;
+        inputs.principal > helper.nextval ? helper.interestgain += (helper.nextval - val[0]) * val[1] * helper.factor : helper.interestgain += Math.max(0, inputs.principal - val[0]) * val[1] * helper.factor;
+      });
+      inputs.interestgain = inputs.interestgain || helper.interestgain;
+      helper.averageinterest = (inputs.interestgain / (inputs.principal * helper.factor)) * 100;
+
+      if (inputs.taxes) {
+        helper.taxes = -Math.max(0, inputs.interestgain - inputs.taxfree) * inputs.taxrate;
+        helper.interestgainAfterTax = inputs.interestgain + helper.taxes;
+      } else {
+        helper.interestgainAfterTax = inputs.interestgain;
+      }
+    } else {
+      helpers.errors.set("Leider können bei guthabenabhängiger Verzinsung keine Zinseszinsen berücksichtigt werden. Bitte wählen Sie 'Auszahlung / kein Zinseszins' im Feld 'Zinsperiode'",undefined , true);
+      return helpers.errors.errorMap;
+    }
+  } else {
+    /** compute interestgain w/o step interest */
+    interestMap = [undefined, helper.denom, 12, 4, 2, 1];
+    if (inputs.interestperiod === 0) {
+      inputs.interestgain = inputs.interestgain || inputs.principal * inputs.interest * helper.factor;
+      if(inputs.taxes){
+        helper.taxes = - Math.max(0, inputs.interestgain - inputs.taxfree) * inputs.taxrate;
+        helper.interestgainAfterTax = inputs.interestgain + helper.taxes;
+      } else {
+        helper.interestgainAfterTax = inputs.interestgain;
+      }
+    } else {
+      helper.result = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree);
+      helper.interestgainAfterTax = inputs.interestgain || helper.result.principal - inputs.principal;
+      inputs.interestgain = inputs.interestgain || helper.result.principal - inputs.principal - helper.result.tax;
+      helper.taxes = helper.result.tax;
+    }
+  }
 
 
   /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
@@ -1262,8 +1302,12 @@ exports.overnight = function(inputs) {
     result._1.value                = _.extend(localElems[selectMap[inputs.calcselect]], {"value": inputs[selectMap[inputs.calcselect]]});
   }
   result._1.interestfactor       = _.extend(localElems['interestfactor'],{"value": helper.factor});
-  (inputs.periodselect) ? result._1.interestdays = _.extend(localElems['interestdays'],{"value": inputs.interestdays}) : null;
+  (inputs.periodselect) ? result._1.interestdays    = _.extend(localElems['interestdays'],    {"value": inputs.interestdays}) : null;
+  (inputs.interesttype) ? result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest}) : null;
 
+
+  /** attach messages */
+  result.messages = helpers.messages.messageMap;
 
   return result;
 

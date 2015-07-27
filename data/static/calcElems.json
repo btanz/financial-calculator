@@ -4622,7 +4622,7 @@
           5
         ],
         "options": {
-          "0": "Auszahlung",
+          "0": "Auszahlung / kein Zinseszins",
           "1": "täglich",
           "2": "monatlich",
           "3": "vierteljährlich",
@@ -4776,8 +4776,8 @@
         "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
       },
       "interestfactor": {
-        "tooltip": "TBD",
-        "omittooltip": true,
+        "tooltip": "Der aus den Zinstagen errechnete Faktor, mit welchem der Zinssatz multipliziert wird, um das Endkapital zu berechnen.",
+        "omittooltip": false,
         "description": "Zinsfaktor",
         "unit": "",
         "digits": 4,
@@ -4817,6 +4817,13 @@
         "unit": "EUR",
         "digits": 2,
         "importance": "first"
+      },
+      "averageinterest": {
+        "tooltip": "Der Zinssatz, welcher bei guthabenunabhäniger Verzinsung das gleiche Endkapital wie die eingegebenem Staffelzinsen ergeben würde.",
+        "description": "Durchschnittlicher Zinssatz",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "second"
       }
     }
   }

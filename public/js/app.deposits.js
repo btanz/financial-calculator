@@ -66,17 +66,25 @@ app.deposits = (function() {
   function toggleOvernightInteresttype (e){
     e.preventDefault();
     var elem = $('#deposits-overnight-specialinterestpositions');
+    var elemInterestperiod = $('#deposits-overnight-interestperiod');
     var state = $('#deposits-overnight-interesttype').val();
     if (state === 'true'){
+      elemInterestperiod.prop('disabled', 'disabled');
       elem.closest('div[class^="form-group"]').removeClass('hide');
-      elem.val(3);  // todo: trigger calcs
+      elem.val(3);
       elem.trigger('change');
       $('#deposits-overnight-interest').closest('div[class^="form-group"]').addClass('hide');
+      /** disable interestperiod select and set it to no compounding, as only then computations can be done */
+      if(elemInterestperiod.val() !== "0"){
+        $('#deposits-overnight-interestperiodModal').modal();
+      }
+      elemInterestperiod.val("0");
     } else if (state === 'false'){
       elem.closest('div[class^="form-group"]').addClass('hide');
       $('.interesttypeInput').children().remove();
       elem.val(0);
       $('#deposits-overnight-interest').closest('div[class^="form-group"]').removeClass('hide');
+      $('#deposits-overnight-interestperiod').prop('disabled', false);
     }
   }
 
