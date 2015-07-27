@@ -4691,11 +4691,11 @@
         "linetop": false,
         "optional": false,
         "disabled": true,
-        "label": "Zinsertrag",
+        "label": "Zinsertrag (nach Steuern)",
         "value": "",
         "placeholder": "Zinsertrag",
         "addon": "EUR",
-        "tooltip": "Geben Sie den Zinsertrag an, welchen die Anlage erzielt.",
+        "tooltip": "Geben Sie den Zinsertrag an, welchen die Anlage erzielt. Falls Steuern berücksichtigt werden, geben Sie bitte den Zinsertrag nach Abzug der Steuern an.",
         "type": "number",
         "vtype": "number",
         "args": [
@@ -4814,6 +4814,13 @@
       "terminal": {
         "tooltip": "Das Endkapital ergibt sich aus dem Anfangskapital zusammen mit dem Zinsertrag",
         "description": "Endkapital",
+        "unit": "EUR",
+        "digits": 2,
+        "importance": "first"
+      },
+      "principal": {
+        "tooltip": "Das zur Erzielung des angegebenen Zinsertrags erforderliche Anfangskapital",
+        "description": "Anfangskapital",
         "unit": "EUR",
         "digits": 2,
         "importance": "first"

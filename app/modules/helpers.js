@@ -169,7 +169,7 @@ exports.validate = function(inputs, _expectedInputs){
       // check boundary conditions supplied with args
       if (elem.args && typeof Number(elem.args[0]) === 'number' && typeof Number(elem.args[1]) === 'number' ){
         if (inputs[key] < elem.args[0] || inputs[key] > elem.args[1]){
-          error.setError('Die Wert für ' + elem.label + ' muss zwischen ' + elem.args[0] + ' und ' + elem.args[1] + ' liegen.', key, true);
+          error.setError('Der Wert für ' + elem.label + ' muss zwischen ' + elem.args[0] + ' und ' + elem.args[1] + ' liegen.', key, true);
         }
       }
     }
