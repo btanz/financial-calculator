@@ -9,6 +9,7 @@
  *    SIMPLYFI COLORS
  *    - dark blue/grey        #333D47
  *    - ligh blue             #2DA9E1
+ *    - light blue (darker)   #2d8ec5
  *    - orange                #FAA43D
  *    - (signal) purple       #E6178B
  *    - background lightgr    #F3F5F5
@@ -46,7 +47,7 @@ h5 {
   font-weight: 600;
 }
 .nav > li > a {
-  color: #a7b1c2;
+  color: #e0e0e0;
   font-weight: 600;
   padding: 14px 20px 14px 25px;
 }
@@ -58,7 +59,7 @@ h5 {
 }
 .navbar-default .nav > li > a:hover,
 .navbar-default .nav > li > a:focus {
-  background-color: #293846;
+  background-color: #333D47;
   color: white;
 }
 .nav .open > a,
@@ -78,7 +79,7 @@ h5 {
 }
 .navbar-default {
   background-color: transparent;
-  border-color: #2f4050;
+  border-color: #333D47;
 }
 .navbar-top-links li {
   display: inline-block;
@@ -165,14 +166,14 @@ h5 {
 }
 .nav-header {
   padding: 33px 25px;
-  background: url("patterns/header-profile.png") no-repeat;
+  background: url("patterns/header-profile-sf.png") no-repeat;
 }
 .pace-done .nav-header {
   transition: all 0.5s;
 }
 .nav > li.active {
-  border-left: 4px solid #19aa8d;
-  background: #293846;
+  border-left: 4px solid #2DA9E1;
+  background: #333D47;
 }
 .nav.nav-second-level > li.active {
   border: none;
@@ -264,12 +265,12 @@ body.mini-navbar .navbar-default .nav > li > .nav-second-level li a {
   position: absolute;
   left: 70px;
   top: 0px;
-  background-color: #2f4050;
+  background-color: #333D47;
   padding: 10px 10px 10px 10px;
   font-size: 12px;
 }
 .canvas-menu.mini-navbar .nav-second-level {
-  background: #293846;
+  background: #333D47;
 }
 .mini-navbar li.active .nav-second-level {
   left: 65px;
@@ -448,7 +449,7 @@ body.canvas-menu.mini-navbar .navbar-default .nav li .profile-element a span {
 }
 body.canvas-menu nav.navbar-static-side {
   z-index: 2001;
-  background: #2f4050;
+  background: #333D47;
   height: 100%;
   position: fixed;
   display: none;
@@ -580,7 +581,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   min-width: 120px;
 }
 .btn-primary.btn-outline {
-  color: #1ab394;
+  color: #2DA9E1;
 }
 .btn-success.btn-outline {
   color: #1c84c6;
@@ -602,8 +603,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   color: #fff;
 }
 .btn-primary {
-  background-color: #1ab394;
-  border-color: #1ab394;
+  background-color: #2DA9E1;
+  border-color: #2DA9E1;
   color: #FFFFFF;
 }
 .btn-primary:hover,
@@ -611,8 +612,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: #18a689;
-  border-color: #18a689;
+  background-color: #2d8ec5;
+  border-color: #2d8ec5;
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -1185,19 +1186,19 @@ button.dim:active:before {
 }
 /* TOOLTIPS */
 .tooltip-inner {
-  background-color: #2F4050;
+  background-color: #333D47;
 }
 .tooltip.top .tooltip-arrow {
-  border-top-color: #2F4050;
+  border-top-color: #333D47;
 }
 .tooltip.right .tooltip-arrow {
-  border-right-color: #2F4050;
+  border-right-color: #333D47;
 }
 .tooltip.bottom .tooltip-arrow {
-  border-bottom-color: #2F4050;
+  border-bottom-color: #333D47;
 }
 .tooltip.left .tooltip-arrow {
-  border-left-color: #2F4050;
+  border-left-color: #333D47;
 }
 /* EASY PIE CHART*/
 .easypiechart {
@@ -2834,7 +2835,7 @@ a.forum-item-title:hover {
   padding: 12px 10px;
   margin: 0;
   border-radius: 0;
-  background: #2f4050;
+  background: #333D47;
   color: #fff;
   text-align: center;
   border-right: 1px solid #334556;
@@ -2903,7 +2904,7 @@ a.forum-item-title:hover {
 }
 body {
   font-family: "open sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background-color: #2f4050;
+  background-color: #333D47;
   font-size: 13px;
   color: #676a6c;
   overflow-x: hidden;
@@ -2923,7 +2924,7 @@ body.boxed-layout {
   background: url('patterns/shattered.png');
 }
 body.boxed-layout #wrapper {
-  background-color: #2f4050;
+  background-color: #333D47;
   max-width: 1200px;
   margin: 0 auto;
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.75);
@@ -3543,6 +3544,11 @@ table.table-mail tr td {
 .jumbotron h1 {
   margin-top: 0;
 }
+
+.text-lightblue{
+  color: #2DA9E1;
+}
+
 /* COLORS */
 .text-navy {
   color: #1ab394;
@@ -4603,7 +4609,7 @@ dd.project-people {
 .article h1 {
   font-size: 48px;
   font-weight: 700;
-  color: #2F4050;
+  color: #333D47;
 }
 .article p {
   font-size: 15px;
@@ -4733,7 +4739,7 @@ del {
   display: block;
 }
 .small-chat-box .heading {
-  background: #2f4050;
+  background: #333D47;
   padding: 8px 15px;
   font-weight: bold;
   color: #fff;

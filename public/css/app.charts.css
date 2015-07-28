@@ -11,7 +11,8 @@
   stroke: white;
   stroke: rgba(28,132,198,0.7);*/
   stroke: white;
-  fill: rgba(28,132,198,0.7);
+  fill: #FAA43D;
+  /*fill: rgba(28,132,198,0.7);*/
   stroke-width: 2px;
 }
 
@@ -21,7 +22,8 @@
 
   /*stroke: rgba(28,132,198,0.5);*/
   stroke: white;
-  fill: rgba(28,132,198,0.5);
+  fill: #2DA9E1;
+  /*fill: rgba(28,132,198,0.5);*/
 
   stroke-width: 2px;
 }
@@ -32,16 +34,16 @@
 /* STANDARD BAR WIDTH */
 .ct-series-a .ct-bar {
   stroke-width: 12px;
-
-  stroke: rgba(28,132,198,0.7);
+  stroke: #FAA43D;
+  /*stroke: rgba(28,132,198,0.7);*/
   /*stroke: rgba(26,179,148,0.2); */
   /* stroke: rgba(237,85,101,0.2); */
 }
 
 .ct-series-b .ct-bar {
   stroke-width: 12px;
-
-  stroke: rgba(28,132,198,0.5);
+  stroke: #2DA9E1;
+  /*stroke: rgba(28,132,198,0.5);*/
   /*stroke: rgba(26,179,148,0.7);*/
   /*stroke: rgba(237,85,101,0.7);*/
 
@@ -50,7 +52,8 @@
 .ct-series-c .ct-bar {
   stroke-width: 12px;
 
-  stroke: rgba(28,132,198,0.3);
+  stroke: #333D47;
+/*stroke: rgba(28,132,198,0.3);*/
   /*stroke: rgba(26,179,148,1);*/
   /*stroke: rgba(237,85,101,1);*/
 
@@ -64,17 +67,20 @@
 /* SLIM BAR WIDTH */
 .ct-series-a .ct-bar-slim {
   stroke-width: 6px;
-  stroke: rgba(28,132,198,0.7);
+  stroke: #FAA43D;
+  /*stroke: rgba(28,132,198,0.7);*/
 }
 
 .ct-series-b .ct-bar-slim {
   stroke-width: 6px;
-  stroke: rgba(28,132,198,0.5);
+  stroke: #2DA9E1;
+  /*stroke: rgba(28,132,198,0.5);*/
 }
 
 .ct-series-c .ct-bar-slim {
   stroke-width: 6px;
-  stroke: rgba(28,132,198,0.3);
+  stroke: #333D47;
+  /*stroke: rgba(28,132,198,0.3);*/
 }
 
 .ct-series-d .ct-bar-slim {
@@ -86,17 +92,20 @@
 /* THICK BARS  */
 .ct-series-a .ct-bar-thick {
   stroke-width: 18px;
-  stroke: rgba(28,132,198,0.7);
+  stroke: #FAA43D;
+  /*stroke: rgba(28,132,198,0.7);*/
 }
 
 .ct-series-b .ct-bar-thick {
   stroke-width: 18px;
-  stroke: rgba(28,132,198,0.5);
+  stroke: #2DA9E1;
+  /*stroke: rgba(28,132,198,0.5);*/
 }
 
 .ct-series-c .ct-bar-thick {
   stroke-width: 18px;
-  stroke: rgba(28,132,198,0.3);
+  stroke: #333D47;
+  /*stroke: rgba(28,132,198,0.3);*/
 }
 
 .ct-series-d .ct-bar-thick {
@@ -108,17 +117,20 @@
 /* VERY THICK BARS  */
 .ct-series-a .ct-bar-verythick {
   stroke-width: 30px;
-  stroke: rgba(28,132,198,0.7);
+  stroke: #FAA43D;
+  /*stroke: rgba(28,132,198,0.7);*/
 }
 
 .ct-series-b .ct-bar-verythick {
   stroke-width: 30px;
-  stroke: rgba(28,132,198,0.5);
+  stroke: #2DA9E1;
+  /*stroke: rgba(28,132,198,0.5);*/
 }
 
 .ct-series-c .ct-bar-verythick {
   stroke-width: 30px;
-  stroke: rgba(28,132,198,0.3);
+  stroke: #333D47;
+  /*stroke: rgba(28,132,198,0.3);*/
 }
 
 .ct-series-d .ct-bar-verythick {
@@ -155,15 +167,18 @@
 }
 
 .ct-legend .ct-series-a::before {
-  background-color: rgba(28,132,198,0.7);
+  background-color: #2DA9E1;
+  /*background-color: rgba(28,132,198,0.7);*/
 }
 
 .ct-legend .ct-series-b::before {
-  background-color: rgba(28,132,198,0.5);
+  background-color: #FAA43D;
+  /*background-color: rgba(28,132,198,0.5);*/
 }
 
 .ct-legend .ct-series-c::before {
-  background-color: rgba(28,132,198,0.3);
+  background-color: #333D47;
+  /*background-color: rgba(28,132,198,0.3);*/
 }
 
 /******* LABELS **********/
