@@ -1178,6 +1178,11 @@ exports.overnight = function(inputs) {
     delete inputs.enddate;     delete _expectedInputs.enddate;
   }
 
+
+  if(inputs.interesttype === 'true'){
+    delete inputs.interest;   delete _expectedInputs.interest;
+  }
+
   /** run validation method */
   errorMap = helpers.validate(inputs, _expectedInputs);
   if (errorMap.length !== 0) {
@@ -1239,6 +1244,31 @@ exports.overnight = function(inputs) {
       principal > nextVal ? interestgain += (nextVal - val[0]) * val[1] * factor : interestgain += Math.max(0, principal - val[0]) * val[1] * factor;
     });
     return interestgain;
+  }
+
+  /** wrapper function for rootfinder that accepts principal (x) as only free var (stepinterest) */
+  function fun(x){
+    return stepInterest(interestSteps, x, helper.factor) - helper.interestgain;
+  }
+
+  /** wrapper function for rootfinder that accepts principal (x) as only free var */
+  function fun2(x){
+    return f.basic.tvInterestdaysSubperiodsLinear(x, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - x - inputs.interestgain;
+  }
+
+  /** wrapper function for rootfinder that accepts the interest rate (x) as only free var */
+  function fun3(x){
+    return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, x, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
+  }
+
+  /** wrapper function for rootfinder that accepts factor (x) as only free variable */
+  function fun4(x){
+    return stepInterest(interestSteps, inputs.principal, x) - helper.interestgain;
+  }
+
+  /** wrapper function for rootfinder that accepts interestdays (x) as only free variable */
+  function fun5(x){
+    return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, x, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
   }
 
 
@@ -1323,11 +1353,6 @@ exports.overnight = function(inputs) {
           helper.interestgain = inputs.interestgain;
         }
 
-        /** wrapper function for rootfinder that accepts principal (x) as only free var */
-        function fun(x){
-          return stepInterest(interestSteps, x, helper.factor) - helper.interestgain;
-        }
-
         helper.temp = math.roots(fun,12,1500);
         if(!validator.isFloat(helper.temp)){  // sanitize result and return if sthg wring
           helpers.errors.set("Leider konnte das Anfangskapital für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass das Anfangskapital für die eingegebenen Parameter außergewöhnlich niedrig oder hoch ist. Falls Sie eine guthabenabhängige Verzinsung eingegeben haben, müssen alle Zinssätze (von Guthaben ab 0 EUR) positiv sein, damit das Anfangskapital berechnet werden kann.",undefined , true);
@@ -1362,10 +1387,6 @@ exports.overnight = function(inputs) {
         inputs.principal = inputs.principal || helper.interestgain / (inputs.interest * helper.factor);
 
       } else {  /** case compounding */
-        /** wrapper function for rootfinder that accepts principal (x) as only free var */
-        function fun2(x){
-          return f.basic.tvInterestdaysSubperiodsLinear(x, inputs.interest, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - x - inputs.interestgain;
-        }
 
         helper.temp = math.roots(fun2,12,1500);
 
@@ -1405,10 +1426,6 @@ exports.overnight = function(inputs) {
           helper.interest = inputs.interestgain / (inputs.principal * helper.factor);
         }
       } else {  /** case compounding */
-        /** wrapper function for rootfinder that accepts the interest rate (x) as only free var */
-        function fun3(x){
-          return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, x, helper.denom, inputs.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
-        }
 
         helper.temp = math.roots(fun3,0.02,1500);
 
@@ -1442,11 +1459,6 @@ exports.overnight = function(inputs) {
         helper.interestgain = inputs.interestgain;
       }
 
-      /** wrapper function for rootfinder */
-      function fun4(x){
-        return stepInterest(interestSteps, inputs.principal, x) - helper.interestgain;
-      }
-
       /** compute factor */
       helper.temp = math.roots(fun4,10,1500);
 
@@ -1458,7 +1470,7 @@ exports.overnight = function(inputs) {
         helper.interestdays = helper.factor * helper.denom;
       }
 
-      helper.averageinterest = (inputs.interestgain / (inputs.principal * helper.factor)) * 100;
+      helper.averageinterest = (helper.interestgain / (inputs.principal * helper.factor)) * 100;
 
     /** compute interest days w/o step interest */
     } else {
@@ -1475,11 +1487,6 @@ exports.overnight = function(inputs) {
         helper.averageinterest = (inputs.interestgain / (inputs.principal * helper.factor)) * 100;
 
       } else {  /** case compounding */
-
-        /** wrapper function for rootfinder */
-        function fun5(x){
-          return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, x, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
-        }
 
         helper.temp = math.roots(fun5,20,1500);
 
@@ -1555,6 +1562,11 @@ exports.overnight = function(inputs) {
     }
     result._1.interestfactor = _.extend(localElems['interestfactor'], {"value": helper.factor});
     (inputs.interesttype) ? result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest}) : null;
+  }
+
+  /** add final messages */
+  if(!inputs.periodselect && inputs.daycount === 'actact'){
+    helpers.messages.set("Hinweis: Für die korrekte Anwendung der taggenauen Zinsmethode act / act muss der Zeitraum als Datum angegeben werden. Um dennoch Ergebnisse berechnen zu können wurde das Basisjahr auf die durchschnittliche Anzahl von Tagen in einem Jahr gesetzt (365,25).",2);
   }
 
   /** attach messages */

@@ -63,9 +63,16 @@ app.deposits = (function() {
       }
     });
 
-    /** show modal is interest rate is computation mode and step interest are chosen (not computable) */
-    if(interesttypeElem.val() && state === "3"){
+    /** show modal if interest rate is computation mode and step interest are chosen (not computable) */
+    if(interesttypeElem.val() === 'true' && state === "3"){
       $('#deposits-overnight-calcselectModal').modal();
+    }
+
+    /** turn off period input choice */
+    if(state === "4"){
+      $('#deposits-overnight-periodselect').prop("disabled", true);
+    } else {
+      $('#deposits-overnight-periodselect').prop("disabled", false);
     }
 
   }
@@ -87,7 +94,7 @@ app.deposits = (function() {
         $('#deposits-overnight-interestperiodModal').modal();
       }
       /** show modal is interest rate is computation mode and step interest are chosen (not computable) */
-      if(elemCalcselect.val() === "3"){
+      if(elemCalcselect.val() === "3" && state === 'true'){
         $('#deposits-overnight-calcselectModal').modal();
       }
 
