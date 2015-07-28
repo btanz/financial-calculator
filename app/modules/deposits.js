@@ -1158,6 +1158,7 @@ exports.overnight = function(inputs) {
   var result = {};
   result._1 = {};
   result._2 = {};
+  result._chart1 = {};
   var helper = {};
   var localElems = calcElems.overnight.results_1;
   var expectedInputs = calcElems.overnight.inputs;
@@ -1571,6 +1572,22 @@ exports.overnight = function(inputs) {
 
   /** attach messages */
   result.messages = helpers.messages.messageMap;
+
+  /** construct chart 1 */
+  result._chart1.data = {
+    series: [inputs.principal, helper.interestgainAfterTax || inputs.interestgain]
+
+  };
+
+  console.log(helper.interestgainAfterTax || inputs.interestgain);
+
+  result._chart1.id = 'chart1';
+  result._chart1.title = 'Zusammensetzung Endkapital';
+  result._chart1.legend = ['Anfangskapital', 'Zinsertrag (nach Steuer)'];
+  result._chart1.options = {showLabel: false, donut: false, labelOffset: 0};
+  result._chart1.type = 'Pie';
+
+
 
   return result;
 
