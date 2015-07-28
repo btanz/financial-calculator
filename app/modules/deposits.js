@@ -1150,7 +1150,6 @@ exports.interestpenalty = function(inputs) {
 
  */
 exports.overnight = function(inputs) {
-  // todo: relax assumptions: * interestgain only is calculated;
 
   /** ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
@@ -1231,7 +1230,6 @@ exports.overnight = function(inputs) {
 
 
   /** ******** 3. HELPER FUNCTIONS ******** */
-  // todo: fix headline numbering
 
   /** function that returns interestgain with step interest */
   function stepInterest (interestSteps, principal, factor){
@@ -1244,10 +1242,10 @@ exports.overnight = function(inputs) {
   }
 
 
-  /** ******** 3. COMPUTATIONS ******** */
+  /** ******** 4. COMPUTATIONS ******** */
 
   /**
-   * 3.A PREPARATIONS
+   * 4.A PREPARATIONS
    */
 
   /** construct step interest array if necessary */
@@ -1269,7 +1267,7 @@ exports.overnight = function(inputs) {
 
 
   /**
-   * 3.B COMPUTE INTERESTGAIN
+   * 4.B COMPUTE INTERESTGAIN
    */
   if(inputs.calcselect === 1){
 
@@ -1309,7 +1307,7 @@ exports.overnight = function(inputs) {
     }
 
   /**
-   * 3.C COMPUTE PRINCIPAL/INITIAL CAPITAL
+   * 4.C COMPUTE PRINCIPAL/INITIAL CAPITAL
    */
   } else if(inputs.calcselect === 2){
 
@@ -1386,7 +1384,7 @@ exports.overnight = function(inputs) {
 
 
   /**
-   * 3.D COMPUTE INTEREST RATE
+   * 4.D COMPUTE INTEREST RATE
    */
   } else if (inputs.calcselect === 3){
 
@@ -1426,15 +1424,88 @@ exports.overnight = function(inputs) {
         }
       }
     }
+
+
+  /**
+   * 4.E COMPUTE INTEREST DAYS / TERM
+   */
+  } else if (inputs.calcselect === 4){
+
+    /** interest days with step interest */
+    if(inputs.interesttype){
+
+      /** in case of taxes, compute interestgain before taxes */
+      if (inputs.taxes) {
+        helper.interestgain = (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate) < inputs.taxfree ? inputs.interestgain :  (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate);
+        helper.taxes = -Math.max(0, helper.interestgain - inputs.taxfree) * inputs.taxrate;
+      } else {
+        helper.interestgain = inputs.interestgain;
+      }
+
+      /** wrapper function for rootfinder */
+      function fun4(x){
+        return stepInterest(interestSteps, inputs.principal, x) - helper.interestgain;
+      }
+
+      /** compute factor */
+      helper.temp = math.roots(fun4,10,1500);
+
+      if(!validator.isFloat(helper.temp)){  // sanitize result and return if sthg wring
+        helpers.errors.set("Leider konnte die Laufzeit in Zinstagen nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+        return helpers.errors.errorMap;
+      } else {
+        helper.factor = helper.temp;
+        helper.interestdays = helper.factor * helper.denom;
+      }
+
+      helper.averageinterest = (inputs.interestgain / (inputs.principal * helper.factor)) * 100;
+
+    /** compute interest days w/o step interest */
+    } else {
+      interestMap = [undefined, helper.denom, 12, 4, 2, 1];
+      if (inputs.interestperiod === 0) {  /** case no compounding */
+        if(inputs.taxes){
+          helper.interestgain = (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate) < inputs.taxfree ? inputs.interestgain :  (inputs.interestgain - inputs.taxfree * inputs.taxrate) / (1 - inputs.taxrate);
+          helper.taxes = -Math.max(0, helper.interestgain - inputs.taxfree) * inputs.taxrate;
+        } else {
+          helper.interestgain = inputs.interestgain;
+        }
+        helper.factor = helper.interestgain / (inputs.principal * inputs.interest);
+        helper.interestdays = helper.factor * helper.denom;
+        helper.averageinterest = (inputs.interestgain / (inputs.principal * helper.factor)) * 100;
+
+      } else {  /** case compounding */
+
+        /** wrapper function for rootfinder */
+        function fun5(x){
+          return f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, x, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).terminal - inputs.principal - inputs.interestgain;
+        }
+
+        helper.temp = math.roots(fun5,20,1500);
+
+        if(!validator.isFloat(helper.temp)){  // sanitize result and return if sthg wring
+          helpers.errors.set("Leider konnte die Laufzeit in Zinstagen nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+          return helpers.errors.errorMap;
+        } else {
+          helper.interestdays = helper.temp;
+          helper.factor = helper.interestdays / helper.denom;
+        }
+
+        if(inputs.taxes){
+          helper.taxes = f.basic.tvInterestdaysSubperiodsLinear(inputs.principal, inputs.interest, helper.denom, helper.interestdays, interestMap[inputs.interestperiod], inputs.taxes, inputs.taxrate, inputs.taxfree).tax;
+          helper.interestgain = inputs.interestgain - helper.taxes;
+        }
+      }
+    }
   }
 
 
 
-  /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+  /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
   result.id = calcElems.overnight.id;
 
   /**
-   * 4.A FIRST RESULT CONTAINER
+   * 5.A FIRST RESULT CONTAINER
    */
   if(inputs.calcselect === 1) {
     result._1.terminal = _.extend(localElems['terminal'], {"value": inputs.principal + helper.interestgainAfterTax});
@@ -1473,6 +1544,17 @@ exports.overnight = function(inputs) {
       result._1.interestgain = _.extend(localElems['interestgain'], {"value": inputs.interestgain});
     }
     result._1.interestfactor = _.extend(localElems['interestfactor'], {"value": helper.factor});
+
+  } else if (inputs.calcselect === 4){
+    result._1.interestdays   = _.extend(localElems['interestdaysfirst'], {"value": helper.interestdays});
+    result._1.terminal       = _.extend(localElems['terminal'], {"value": inputs.principal + inputs.interestgain});
+    if(inputs.taxes){
+      result._1.interestgainAfterTax  = _.extend(localElems['interestgainaftertax'],  {"value": inputs.interestgain});
+      result._1.interestgainBeforeTax = _.extend(localElems['interestgainbeforetax'], {"value": helper.interestgain});
+      result._1.taxes                 = _.extend(localElems['taxes'], {"value": helper.taxes});
+    }
+    result._1.interestfactor = _.extend(localElems['interestfactor'], {"value": helper.factor});
+    (inputs.interesttype) ? result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest}) : null;
   }
 
   /** attach messages */

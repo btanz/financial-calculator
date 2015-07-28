@@ -42,3 +42,18 @@ div.modal.inmodal.fade#deposits-overnight-interestperiodModal(tabindex='-1', rol
         p Leider können bei guthabenabhängiger Verzinsung keine Zinseszinsen berücksichtigt werden. Ihre vorherige Auswahl im Feld 'Zinsperiode' wurde auf 'Auszahlung / kein Zinseszins' gesetzt.
       div.modal-footer
         button(type='button', class='btn btn-primary', data-dismiss='modal') OK
+
+
+div.modal.inmodal.fade#deposits-overnight-calcselectModal(tabindex='-1', role='dialog')
+  div.modal-dialog
+    div.modal-content
+      div.modal-header
+        button.close(type='button', data-dismiss='modal')
+          span(aria-hidden='true') x
+          span.sr-only Close
+        i.fa.fa-laptop.modal-icon
+        h4.modal-title Hinweis
+      div.modal-body
+        p Leider kann bei guthabenabhängiger Verzinsung der Zinssatz nicht eindeutig berechnet werden, da es mehrere guthabenabhänige Zinssätze gibt. Bitte wählen Sie einen anderen Parameter im Feld 'Was soll berechnet werden?' bzw. wählen Sie 'NEIN' im Feld 'guthabenabhängige Verzinsung'.
+      div.modal-footer
+        button(type='button', class='btn btn-primary', data-dismiss='modal') OK

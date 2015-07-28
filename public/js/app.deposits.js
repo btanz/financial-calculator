@@ -53,6 +53,7 @@ app.deposits = (function() {
 
     var state = $('#deposits-overnight-calcselect').val();
     var disabledMap = [undefined,'#deposits-overnight-interestgain','#deposits-overnight-principal','#deposits-overnight-interest','#deposits-overnight-interestdays'];
+    var interesttypeElem = $('#deposits-overnight-interesttype');
 
     disabledMap.forEach(function(ind, value){
       $(ind).prop("disabled", false);
@@ -61,12 +62,19 @@ app.deposits = (function() {
         $(ind).val('');
       }
     });
+
+    /** show modal is interest rate is computation mode and step interest are chosen (not computable) */
+    if(interesttypeElem.val() && state === "3"){
+      $('#deposits-overnight-calcselectModal').modal();
+    }
+
   }
 
   function toggleOvernightInteresttype (e){
     e.preventDefault();
     var elem = $('#deposits-overnight-specialinterestpositions');
     var elemInterestperiod = $('#deposits-overnight-interestperiod');
+    var elemCalcselect = $('#deposits-overnight-calcselect');
     var state = $('#deposits-overnight-interesttype').val();
     if (state === 'true'){
       elemInterestperiod.prop('disabled', 'disabled');
@@ -78,6 +86,11 @@ app.deposits = (function() {
       if(elemInterestperiod.val() !== "0"){
         $('#deposits-overnight-interestperiodModal').modal();
       }
+      /** show modal is interest rate is computation mode and step interest are chosen (not computable) */
+      if(elemCalcselect.val() === "3"){
+        $('#deposits-overnight-calcselectModal').modal();
+      }
+
       elemInterestperiod.val("0");
     } else if (state === 'false'){
       elem.closest('div[class^="form-group"]').addClass('hide');

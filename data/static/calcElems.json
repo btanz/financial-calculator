@@ -4507,7 +4507,7 @@
       "calcselect": {
         "id": "deposits-overnight-calcselect",
         "label": "Was soll berechnet werden?",
-        "tooltip": "Wählen Sie hier aus, ob der Zinsertrag, das Anfangskapital, der Zinssatz oder die Zinstage berechnet werden sollen. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
+        "tooltip": "Wählen Sie hier aus, ob der Zinsertrag, das Anfangskapital, der Zinssatz oder die Laufzeit in Zinstagen berechnet werden sollen. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.",
         "type": "select",
         "vtype": "number",
         "args": [
@@ -4518,7 +4518,7 @@
           "1": "Zinsertrag",
           "2": "Anfangskapital",
           "3": "Zinssatz",
-          "4": "Zinstage"
+          "4": "Laufzeit"
         }
       },
       "principal": {
@@ -4671,8 +4671,8 @@
       "interestdays": {
         "id": "deposits-overnight-interestdays",
         "linetop": false,
-        "label": "Zinstage",
-        "placeholder": "Zinstage",
+        "label": "Laufzeit / Zinstage",
+        "placeholder": "Laufzeit / Zinstage",
         "addon": "Tage",
         "value": "100",
         "optional": false,
@@ -4773,6 +4773,13 @@
         "unit": "Tage",
         "digits": 0,
         "importance": "second",
+        "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
+      },
+      "interestdaysfirst": {
+        "description": "Zinstage",
+        "unit": "Tage",
+        "digits": 0,
+        "importance": "first",
         "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
       },
       "interestfactor": {
