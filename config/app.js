@@ -1,9 +1,13 @@
-// *** 1. Require dependencies ***
+/**
+ * 1. REQUIRE DEPENDENCIES
+ */
 
-// A. Config dependencies
+/** A. Config dependencies */
+
 var config = require('./config');
 
-// B. External dependencies
+/** B. External dependencies */
+var mongoose = require('../config/mongoose');
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -12,26 +16,30 @@ var compress = require('compression');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-// C. Internal dependencies / Routes
+/** C. Internal dependencies / Routes */
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
 var navElems = require('./../data/static/navElems.json');
 
-// D. Init
+/** D. Init */
+var db;
 var app = express();
 
 
-// *** 2. Configure settings ***
 
-// compression module setup
+/**
+ * 2. CONFIGURE SETTINGS
+ */
+
+/** compression module setup */
 if(config.compression){
   app.use(compress());
 }
 
-
-// view engine setup
+/** view engine setup */
 app.set('views', path.join(__dirname, '/../app/views'));
 app.set('view engine', 'jade');
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -43,23 +51,38 @@ app.use(express.static(path.join(__dirname, '/../public')));
 
 
 
-// *** 3. Connect to database ***
+
+/**
+ * 3. DATABASE CONNECTION
+ */
+db = mongoose();
 
 
-
-// *** 4. Define app-level local vars
+/**
+ * 4. APP-LEVEL LOCAL VARS
+ */
 app.locals.navElems = navElems;
 
 
-// *** 5. Define middleware ***
+
+/**
+ * 5. MIDDLEWARE
+ */
 
 
-// *** 6. Define routes ***
+
+/**
+ * 6. ROUTES
+ */
 app.use('/', routes);
 app.use('/', index);
 
 
-// *** 7. Do error handling ***
+
+/**
+ * 7. ERROR HANDLING
+ */
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -92,5 +115,8 @@ app.use(function(err, req, res, next) {
 });
 
 
-// *** 8. Export the app and start server ***
+/**
+ * 8. EXPORT
+ */
+
 module.exports = app;

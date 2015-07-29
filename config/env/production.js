@@ -1,4 +1,9 @@
+/**
+ * PRODUCTION environment config
+ */
+
 module.exports = {
-  // configurations for production environment
+
+  /** response compression */
   compression: true
 };

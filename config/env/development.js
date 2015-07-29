@@ -1,4 +1,12 @@
+/**
+ * DEV environment config
+ */
+
 module.exports = {
-  // configurations for development environment
+
+  /** MongoDB connection URI */
+  db: 'mongodb://localhost/simplyfi',
+
+  /** response compression */
   compression: false
 };
