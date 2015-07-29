@@ -20,6 +20,7 @@ var bodyParser = require('body-parser');
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
 var navElems = require('./../data/static/navElems.json');
+var seed = require('../data/dbseeds/calc.elem.seed');
 
 /** D. Init */
 var db;
@@ -55,7 +56,12 @@ app.use(express.static(path.join(__dirname, '/../public')));
 /**
  * 3. DATABASE CONNECTION
  */
+
+/** establish connection */
 db = mongoose();
+
+/** seed DB CALC Model if empty */
+seed.seedDB();
 
 
 /**
