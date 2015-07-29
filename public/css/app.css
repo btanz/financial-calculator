@@ -1,6 +1,11 @@
 /*************************************/
 /* Individual Elements
 /*************************************/
+.color-lightblue {
+  color: #2DA9E1;
+}
+
+
 .hr-line-dashed {
   border-top: 1px dashed #aaadaf;
   color: #40dfff;
@@ -46,5 +51,11 @@
 .img-rectangle {
   width: 126px;
   height: 42px;
+}
+
+/* INDEX PAGE STYLES */
+#img-indexpage {
+  width:  147px;
+  height: 168px;
 }
 

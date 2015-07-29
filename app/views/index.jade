@@ -3,10 +3,15 @@ extends layout
 block content
   div.section.no-pad-bot#index-banner
     div.container
-      h1.header.center-align #{appTitle}
-      div.row.center
+      span
+        img(alt='image', class='img-rectangle', id='img-indexpage', style='margin-top: -30px;',src='../images/logos/simplyfi_logo_whiteback_cubeonly.png')
+        p(style='display: inline-block; font-size: 7rem; text-transform: uppercase; font-weight:100; margin-left: 30px; margin-top: 30px; padding-top: 20px;')
+          | Simply
+          span.color-lightblue Fi
+      h1.header.center-align Die Plattform für Finanzplaner
+      //div.row.center
         h4.header.col.s12.light.center Die Plattform für Finanzberater
-      div.row.center
+      //div.row.center
         a(href='http://materializecss.com/getting-started.html', id='download-button', class='btn-large waves-effect waves-light') Erste Schritte
     div.container
       div.section
