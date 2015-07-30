@@ -4356,7 +4356,7 @@
       },
       "specialrepay": {
         "id": "property-mortgage-specialrepay",
-        "label": "Gibt es individuelle Sondertilungen?",
+        "label": "Gibt es individuelle Sondertilgungen?",
         "tooltip": "TBD",
         "linetop": true,
         "type": "select",
@@ -4493,6 +4493,13 @@
         "digits": 2,
         "importance": "second",
         "tooltip": "TBD"
+      },
+      "irr": {
+        "description": "Rendite/IRR",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "Dieses Feld gibt die berechnete Rendite an. Die Rendite entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
       }
     }
   },

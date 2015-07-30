@@ -1167,12 +1167,15 @@ exports.mortgage = function(inputs){
   inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
   inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-  if(helper.term !== inputs.term){
+  if(helper.term * inputs.repayfreq !== inputs.term){
+    console.log(helper.term);
+    console.log(inputs.term);
     helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
   }
 
 
   // todo: send message to user that only full period values are possible (?)
+
 
   /** convert percentage values to decimals */
   inputs.disagioamount = inputs.disagioamount / 100;
@@ -1250,6 +1253,8 @@ exports.mortgage = function(inputs){
   helper.totalinterest  = dyn.totalinterest;
   helper.totalreduction = dyn.totalreduction;
   helper.totalrepaymentfreeinterest = dyn.totalrepaymentfreeinterest;
+  helper.irr            = dyn.irr;
+
 
   /** re-convert */
   inputs.interest        *= 100;
@@ -1270,6 +1275,8 @@ exports.mortgage = function(inputs){
   (inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal = _.extend(localElems['repaymentfreetotal'],     {"value": helper.totalrepaymentfreeinterest}) : null;
   (inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
   (inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
+  result._1.irr            = _.extend(localElems['irr'],                        {"value": helper.irr * 100});
+
 
   /**
    * 4.B SECOND RESULT CONTAINER

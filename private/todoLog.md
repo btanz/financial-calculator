@@ -24,10 +24,12 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * function for initializing calculators (i.e. outsource 'init and assign')
 * customizable HTML emails that can be sent to clients (use app.render insted of res.render on the server to create emails)
 * pro and basic versions for calculators
-
+* make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
+* spinner for waiting times (press calculate, load page, etc)
 
 
 ***** LOCAL APP TASKS ******
+* create favicon from logo
 * see also the todo-log
 * Bildschirmausgaben Annuitätenrechner
 * Funktionality to let users switch from month to year in tables
