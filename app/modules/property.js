@@ -568,7 +568,6 @@ exports.homesave = function(inputs){
   // STATIC CALCS
   helper.finalsavings = terminal[5];  // final w/o Wohnungsbau
   helper.wohnungsbauent = inputs.income <= (1 + Number(inputs.marriage)) * 25600 ? true : false;   // entitled to 'Wohnungsbauprämie?'
-  //helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * Math.min(helper.finalsavings * 0.088, termsaveFullY * 45.06 * (1 + Number(inputs.marriage)));  // amount of Wohnungsbauprämie for full year
   helper.wohnungsbau = Number(inputs.bonus) * Number(helper.wohnungsbauent) * helper.wohnungsbau;
   // total available savings w wohnungsbauprämie
   helper.finalsavingswohnungsbau = helper.finalsavings + helper.wohnungsbau;
@@ -596,12 +595,6 @@ exports.homesave = function(inputs){
   // number of inflow payments
   helper.numberpays = termsaveFullMth * 12;
 
-  // total available savings w/o wohnungsbauprämie // commented out, since no shortcut formula for replacement rate with period ending between years
-  /*helper.accrue = inputs.interestsave === 0 ? inputs.saving * 12 * termsaveFullMth : replacementrate * (Math.pow(q,termsaveFullMth)-1)/(q-1);
-  helper.finalsavings = helper.accrue + inputs.initialpay * Math.pow(q,termsaveFullMth)  - inputs.initialfee * Math.pow(q,termsaveFullMth);
-  partialMth = (inputs.termsave - termsaveFullMth) * inputs.interestsave * helper.finalsavings; // accrue terminal amount for partial month
-  helper.finalsavings += partialMth;*/
-
   // total payments
   helper.totalpays = helper.numberpays * inputs.saving;
 
@@ -616,12 +609,6 @@ exports.homesave = function(inputs){
 
   // term loan
   helper.termloan = inputs.interestdebt === 0 ? helper.totalloan / (12 * inputs.repay) : Math.log(( inputs.repay / (r * helper.totalloan)) / ((inputs.repay / (r * helper.totalloan)) - 1)) / (12 * Math.log(1 + r));
-
-  // interest loan
-  //helper.interestloan = inputs.interestdebt === 0 ? 0 : helper.totalloan * ((Math.pow(1 + r, 12 * helper.termloan)) * (r * 12 * helper.termloan - 1) + 1) / ( Math.pow(1 + r, 12 * helper.termloan) -1);
-
-  // amount loan w interest
-  //helper.totalloanwinterest = helper.totalloan + helper.interestloan;
 
   // "Ansparquote"
   helper.savingratio = (helper.finalsavingswohnungsbau / inputs.principal) * 100;
