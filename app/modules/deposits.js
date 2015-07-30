@@ -1579,7 +1579,6 @@ exports.overnight = function(inputs) {
 
   };
 
-  console.log(helper.interestgainAfterTax || inputs.interestgain);
 
   result._chart1.id = 'chart1';
   result._chart1.title = 'Zusammensetzung Endkapital';
