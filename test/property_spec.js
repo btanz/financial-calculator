@@ -10,8 +10,49 @@ describe("Property calculators correct", function() {
     var data = [],
         expectations = [];
     before(function () {
-      data[0] = {principal: '50000.00', interestsave: '0.50', saving: '250.00', termsave: '10', initialfee: '0.00', initialpay: '0.00', income: '30000.00', interestdebt: '2.50', repay: '300', paypercent: '100', bonus: 'true', marriage: 'false'};
+
+      data[0] = {principal: '50000.00', interestsave: '0.50', saving: '250.00', termsave: '10',    initialfee: '0.00',    initialpay: '0.00', income: '30000.00', interestdebt: '2.50', repay: '300', paypercent: '100', bonus: 'true', marriage: 'false'};
+      data[1] = {principal: '15135.31', interestsave: '0.74', saving: '71.72',  termsave: '13.05', initialfee: '0',       initialpay: '0', bonus: 'true', marriage: 'true',  income: '14775.34', interestdebt: '2.71', paypercent: '100', repay: '1430.29'};
+      data[2] = {principal: '27452.79', interestsave: '2.67', saving: '430.89', termsave: '13.14', initialfee: '1601.08', initialpay: '0', bonus: 'true', marriage: 'false', income: '26329.92', interestdebt: '1.13', paypercent: '100', repay: '188.21'};
+      data[3] = {principal: '66450.57', interestsave: '3.22', saving: '517.57', termsave: '10.37', initialfee: '904.59',  initialpay: '0', bonus: 'true', marriage: 'false', income: '27719.64', interestdebt: '5.28', paypercent: '100', repay: '175.57'};
+      data[4] = {principal: '64286.94', interestsave: '0.35', saving: '8.11',   termsave: '11.91', initialfee: '914.41',  initialpay: '0', bonus: 'true', marriage: 'false', income: '14880.8',  interestdebt: '0.62', paypercent: '100', repay: '807.87'};
+      data[5] = {principal: '21335.94', interestsave: '1.2',  saving: '809.67', termsave: '11.99', initialfee: '1916.02', initialpay: '0', bonus: 'true', marriage: 'false', income: '26878.59', interestdebt: '3.77', paypercent: '100', repay: '505.01'};
+      data[6] = {principal: '80528.26', interestsave: '1.24', saving: '964.09', termsave: '7.31',  initialfee: '985.46',  initialpay: '0', bonus: 'true', marriage: 'false', income: '36602.27', interestdebt: '4.08', paypercent: '100', repay: '841.83'};
+      data[7] = {principal: '3831.61',  interestsave: '2.82', saving: '366.1',  termsave: '16.87', initialfee: '1259.29', initialpay: '0', bonus: 'true', marriage: 'true',  income: '21691.5',  interestdebt: '5.88', paypercent: '100', repay: '1038.32'}
+      data[8] = {principal: '7144.21',  interestsave: '2.45', saving: '720.68', termsave: '5.6',   initialfee: '1244.85', initialpay: '0', bonus: 'true', marriage: 'true',  income: '26287.28', interestdebt: '4.97', paypercent: '100', repay: '1055.79'}
+      data[9]= {principal: '124028.2', interestsave: '0.33', saving: '741.25', termsave: '4.2',   initialfee: '788.42',  initialpay: '0', bonus: 'true', marriage: 'true',  income: '39929',    interestdebt: '3.67', paypercent: '100', repay: '244.32'}
+      data[10]= {principal: '162580.39',interestsave: '0.5',  saving: '281.85', termsave: '18.39', initialfee: '972.97',  initialpay: '0', bonus: 'true', marriage: 'true',  income: '37417.58', interestdebt: '0.54', paypercent: '100', repay: '1473.16'}
+      data[11]= {principal: '166903.55',interestsave: '1.4',  saving: '269.38', termsave: '18.65', initialfee: '723.35',  initialpay: '0', bonus: 'true', marriage: 'false', income: '9137.33',  interestdebt: '2.72', paypercent: '100', repay: '538.33'}
+      data[12]= {principal: '157400.22',interestsave: '3.06', saving: '493.02', termsave: '2.7',   initialfee: '1109.28', initialpay: '0', bonus: 'true', marriage: 'false', income: '33367.34', interestdebt: '3.22', paypercent: '100', repay: '34.6'}
+      data[13]= {principal: '25576.3',  interestsave: '3.82', saving: '374.96', termsave: '6.64',  initialfee: '832.25',  initialpay: '0', bonus: 'true', marriage: 'false', income: '27788.45', interestdebt: '0.54', paypercent: '100', repay: '654.53'}
+      data[14]= {principal: '113483.93',interestsave: '0.46', saving: '756.01', termsave: '14.94', initialfee: '1540.94', initialpay: '0', bonus: 'true', marriage: 'false', income: '5148.43',  interestdebt: '1.82', paypercent: '100', repay: '1084.85'}
+      data[15]= {principal: '212973.96',interestsave: '0.49', saving: '100.16', termsave: '2.73',  initialfee: '1170.23', initialpay: '0', bonus: 'true', marriage: 'true',  income: '23444.63', interestdebt: '4.44', paypercent: '100', repay: '1427.4'}
+      data[16]= {principal: '209145.78',interestsave: '2.4',  saving: '762.95', termsave: '6.3',   initialfee: '645.22',  initialpay: '0', bonus: 'true', marriage: 'false', income: '26635.23', interestdebt: '4.48', paypercent: '100', repay: '485.5'}
+      data[17]= {principal: '98515.38', interestsave: '1.77', saving: '338.94', termsave: '16.69', initialfee: '386.22',  initialpay: '0', bonus: 'true', marriage: 'true',  income: '7823.83',  interestdebt: '1.42', paypercent: '100', repay: '1412.51'}
+      data[18]= {principal: '136736.85',interestsave: '0.63', saving: '597.67', termsave: '11.94', initialfee: '1052.85', initialpay: '0', bonus: 'true', marriage: 'false', income: '13936.06', interestdebt: '4.12', paypercent: '100', repay: '1486.05'}
+      data[19]= {principal: '36470.85', interestsave: '1.49', saving: '450.97', termsave: '19.03', initialfee: '1770.02', initialpay: '0', bonus: 'true', marriage: 'false', income: '36203.33', interestdebt: '5.84', paypercent: '100', repay: '298.61'}
+
       expectations[0] = {finalsavingswohnungsbau: 30754.396906030467, totalpays: 30000, totalinterest: 754.3969060304662, wohnungsbau: 0, numberpays: 120, savingratio: 61.50879381206094, totalloanpay: 50000, totalloanwinterest: 20680.681357957463, totalloan: 19245.603093969534, interestloan: 1435.0782639879276, totalloanpays: 68.93554179484084, termloan: 5.744628482903403};
+      expectations[1] = {finalsavingswohnungsbau: 12857.39, totalpays: 11260.04, totalinterest: 557.41, wohnungsbau: 1039.94,  savingratio: 84.95,  irrSave: 2.02, totalloanwinterest: 2284.99, totalloan: 2277.92, termloan: 0.13, irrLoan: 2.74};
+      expectations[2] = {finalsavingswohnungsbau: 79037.49, totalpays: 68080.62, totalinterest: 12557.95, wohnungsbau: 0,      savingratio: 287.9,  irrSave: 2.25};
+      expectations[3] = {finalsavingswohnungsbau: 75309.86, totalpays: 64696.25, totalinterest: 11518.2,  wohnungsbau: 0,      savingratio: 113.33, irrSave: 2.91};
+      expectations[4] = {finalsavingswohnungsbau: 331.51,   totalpays: 1159.73,  totalinterest: -14.57,   wohnungsbau: 100.76, savingratio: 0.52, totalloanwinterest: 65317.07, totalloan: 63955.43, termloan: 6.74, irrLoan: 0.62};
+      expectations[5] = {finalsavingswohnungsbau: 123078.3, totalpays: 116592.48, totalinterest: 8401.84, wohnungsbau: 0, savingratio: 576.86, irrSave: 0.9};
+      expectations[6] = {finalsavingswohnungsbau: 87669.99, totalpays: 84839.92, totalinterest: 3815.53, wohnungsbau: 0, savingratio: 108.87, irrSave: 0.9};
+      expectations[7] = {finalsavingswohnungsbau: 94311.27, totalpays: 74318.3, totalinterest: 19720.39, wohnungsbau: 1531.87, savingratio: 2461.4, irrSave: 2.76};
+      expectations[8] = {finalsavingswohnungsbau: 51591.5,  totalpays: 49006.24, totalinterest: 3289.45, wohnungsbau: 540.66, savingratio: 722.14, irrSave: 1.84};
+      expectations[9] = {finalsavingswohnungsbau: 37715.51, totalpays: 37803.75, totalinterest: 249.63, wohnungsbau: 450.55, savingratio: 30.41, irrSave: -0.11, totalloanwinterest: 86312.69, totalloan: 86312.69, termloan: 0, irrLoan: 0};
+      expectations[10]= {finalsavingswohnungsbau: 65871.51, totalpays: 62288.85, totalinterest: 2843.54, wohnungsbau: 1712.09, savingratio: 40.52, irrSave: 0.61, totalloanwinterest: 98188.26, totalloan: 96708.88, termloan: 5.55, irrLoan: 0.54};
+      expectations[11]= {finalsavingswohnungsbau: 68775.75, totalpays: 60341.12, totalinterest: 8301.84, wohnungsbau: 856.14, savingratio: 41.21, irrSave: 1.39, totalloanwinterest: 126735.97, totalloan: 98127.8, termloan: 19.62, irrLoan: 2.75};
+      expectations[12]= {};
+      expectations[13]= {finalsavingswohnungsbau: 32964.93, totalpays: 29996.8, totalinterest: 3800.38, wohnungsbau: 0, savingratio: 128.89, irrSave: 2.86};
+      expectations[14]= {finalsavingswohnungsbau: 139873.67,totalpays: 136081.8, totalinterest: 4656.91, wohnungsbau: 675.9, savingratio: 123.25, irrSave: 0.37};
+      expectations[15]= {finalsavingswohnungsbau: 2400.94,  totalpays: 3305.28, totalinterest: 5.81, wohnungsbau: 260.08, savingratio: 1.13, irrSave: -22.51, totalloanwinterest: 305057.8, totalloan: 210573.02, termloan: 17.81, irrLoan: 4.53};
+      expectations[16]= {};
+      expectations[17]= {finalsavingswohnungsbau: 80154.74, totalpays: 68126.94, totalinterest: 10882.15, wohnungsbau: 1531.87, savingratio: 81.36, irrSave: 1.92, totalloanwinterest: 18514.34, totalloan: 18360.64, termloan: 1.09, irrLoan: 1.43, };
+      expectations[18]= {finalsavingswohnungsbau: 88772.9,  totalpays: 86064.48, totalinterest: 3220.55, wohnungsbau: 540.72, savingratio: 64.92, irrSave: 0.52, totalloanwinterest: 50923.47, totalloan: 47963.95, termloan: 2.86, irrLoan: 4.2};
+      expectations[19]= {finalsavingswohnungsbau: 116902.11,totalpays: 103272.13, totalinterest: 15400, wohnungsbau: 0, savingratio: 320.54, irrSave: 1.29};
+
     });
 
     it('Passes 1st test set', function(){
@@ -19,10 +60,142 @@ describe("Property calculators correct", function() {
           values = {};
       _.each(results._1, function(el, ind, list){ values[ind]= el.value});
       assert(_.isMatch(values, expectations[0]));
-
     });
 
-    // todo: add more test cases
+
+    it('Passes 2nd test set', function(){
+      var results = property.homesave(data[1]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[1]));
+    });
+
+    it('Passes 3rd test set', function(){
+      var results = property.homesave(data[2]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[2]));
+    });
+
+    it('Passes 4th test set', function(){
+      var results = property.homesave(data[3]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[3]));
+    });
+
+    it('Passes 5th test set', function(){
+      var results = property.homesave(data[4]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[4]));
+    });
+
+    it('Passes 6th test set', function(){
+      var results = property.homesave(data[5]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[5]));
+    });
+
+    it('Passes 7th test set', function(){
+      var results = property.homesave(data[6]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[6]));
+    });
+
+    it('Passes 8th test set', function(){
+      var results = property.homesave(data[7]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[7]));
+    });
+
+    it('Passes 9th test set', function(){
+      var results = property.homesave(data[8]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[8]));
+    });
+
+    it('Passes 10th test set', function(){
+      var results = property.homesave(data[9]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, {}));
+    });
+
+    it('Passes 11th test set', function(){
+      var results = property.homesave(data[10]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[10]));
+    });
+
+    it('Passes 12th test set', function(){
+      var results = property.homesave(data[11]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[11]));
+    });
+
+    it('Passes 13th test set', function(){
+      var results = property.homesave(data[12]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[12]));
+    });
+
+    it('Passes 14th test set', function(){
+      var results = property.homesave(data[13]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[13]));
+    });
+
+    it('Passes 15th test set', function(){
+      var results = property.homesave(data[14]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[14]));
+    });
+
+    it('Passes 16th test set', function(){
+      var results = property.homesave(data[15]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[15]));
+    });
+
+    it('Passes 17th test set', function(){
+      var results = property.homesave(data[16]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[16]));
+    });
+
+    it('Passes 18th test set', function(){
+      var results = property.homesave(data[17]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[17]));
+    });
+
+    it('Passes 19th test set', function(){
+      var results = property.homesave(data[18]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[18]));
+    });
+
+    it('Passes 20th test set', function(){
+      var results = property.homesave(data[19]),
+          values = {};
+      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+      assert(_.isMatch(values, expectations[19]));
+    });
+
   });
 
 

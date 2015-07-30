@@ -474,7 +474,7 @@ exports.transfertax = function(inputs){
  */
 exports.homesave = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();  helpers.errors.clear();
   var result = {}; result._1 = {}; result._2 = {}; result._chart1 = {}; result._chart2 = {};
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = []; dyn[9] = []; var dynT;
@@ -484,9 +484,10 @@ exports.homesave = function(inputs){
   var expectedInputs = calcElems.homesave.inputs;
   var errorMap;
   var termsaveFullMth, partialMth, i, j, interestaccum = 0;
+  var cfSave = [], cfLoan = [];
 
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
   errorMap = helpers.validate(inputs, expectedInputs);
   if (errorMap.length !== 0){
     return errorMap;
@@ -495,21 +496,26 @@ exports.homesave = function(inputs){
   inputs.interestsave /= 100;
   inputs.interestdebt /= 100;
 
-  /* ******** 3. HELPER FUNCTIONS ******** */
+  /** ******** 3. HELPER FUNCTIONS ******** */
   // function that returns the month into the full year for any month; example: intoyear(18) = 6, intoyear(12) = 12
   helper.intoyear = function(month){
     return (month % 12 === 0) * 12 + month % 12;
   };
 
 
-  /* ******** 4. COMPUTATIONS SAVINGS PERIOD ******** */
+  /** ******** 4. COMPUTATIONS SAVINGS PERIOD ******** */
 
   // HELPER VARS
   q = 1 + inputs.interestsave;
   r = inputs.interestdebt / 12;
   replacementrate = inputs.saving * (12 + (11/2)*(q-1));
-  termsaveFullMth = Math.floor(inputs.termsave/(1/12))/12;
+  termsaveFullMth = Math.ceil(inputs.termsave/(1/12))/12;
   termsaveFullY = Math.floor(termsaveFullMth);
+
+  /** in case savingperiod has been adjusted, inform user */
+  if(termsaveFullMth !== inputs.termsave){
+    helpers.messages.set("Hinweis: Die angegebene Anspardauer von " + f.basic.round(inputs.termsave,2) + " Jahren ist kein Vielfaches des Einzahlungsintervalls (monatlich). Die Anspardauer wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(termsaveFullMth,2) + " Jahre (" + f.basic.round(termsaveFullMth * 12,2) + " Monate).",2);
+  }
 
 
   // DYNAMIC COMPUTATIONS
@@ -535,6 +541,8 @@ exports.homesave = function(inputs){
       (i === 1) ? dyn[0][i-1] = 1 : dyn[0][i-1] = dyn[0][i-2-jumper] + 1;                                                      // month
       (i === 1) ? dyn[1][i-1] = 0 - inputs.initialfee + inputs.initialpay : dyn[1][i-1] = dyn[5][i-2-jumper];                  // balance bop
       dyn[2][i-1] = inputs.saving;                                              // savings
+      /** push savings time and amount value to cfSave */
+      cfSave.push([dyn[0][i-1] ,dyn[2][i-1]]);
       interestaccum += dyn[1][i-1] * (inputs.interestsave / 12);
       if ((dyn[0][i-1] % 12 === 0) || (i === termsaveFullMth * 12 + termsaveFullY)){ // end of year or last period in term
         dyn[3][i-1] = interestaccum; interestaccum = 0;                         // interest
@@ -621,7 +629,18 @@ exports.homesave = function(inputs){
   // number of loan payments
   helper.totalloanpays = helper.termloan * 12;
 
-  /* ******** 5. COMPUTATIONS LOAN PERIOD ******** */
+  /** COMPUTE IRR FOR SAVINGSPERIOD */
+  /** add initial special pay */
+  cfSave[0][1] += inputs.initialpay;
+  /** subtract end value of savings */
+  cfSave[cfSave.length - 1][1] -= helper.finalsavingswohnungsbau;
+  /** compute irr */
+  helper.irrSave = f.basic.irr(0 ,cfSave, 12);
+  helper.irrSave = typeof helper.irrSave !== 'undefined' ? helper.irrSave : null;
+
+
+
+  /** ******** 5. COMPUTATIONS LOAN PERIOD ******** */
   jumper = 0;
   var initSaldo = 0, repayHelper = 0; interestHelper = 0;
   terminalLoan = [];
@@ -649,6 +668,8 @@ exports.homesave = function(inputs){
       interestHelper += dynloan[3][i-1];
       terminalLoan[3] += dynloan[3][i-1];
       dynloan[2][i-1] = Math.min(inputs.repay, -(dynloan[1][i-1] + dynloan[3][i-1]));
+      /** push repayment time and amount value to cfLoan */
+      cfLoan.push([dynloan[0][i-1] - terminal[0] ,dynloan[2][i-1]]);
       terminalLoan[2] += dynloan[2][i-1];
       repayHelper += dynloan[2][i-1];
       //dynloan[4][i-1] = 5;  switched off
@@ -682,11 +703,15 @@ exports.homesave = function(inputs){
   helper.totalloanwinterest = helper.totalloan + helper.interestloan;
 
 
-  /* ******** 6. CONSTRUCT RESULT DATA OBJECT ******** */
+  /** COMPUTE IRR FOR LOANPERIOD */
+  helper.irrLoan = f.basic.irr(helper.totalloan ,cfLoan, 12);
+  helper.irrLoan = typeof helper.irrLoan !== 'undefined' ? helper.irrLoan : null;
+
+  /** ******** 6. CONSTRUCT RESULT DATA OBJECT ******** */
   result.id = calcElems.homesave.id;
-  /*
-    6.A FIRST RESULT CONTAINER
-  */
+  /**
+   * 6.A FIRST RESULT CONTAINER
+   */
 
   //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
   result._1.finalsavingswohnungsbau = _.extend(localElems['finalsavingswohnungsbau'], {"value": helper.finalsavingswohnungsbau});
@@ -697,15 +722,18 @@ exports.homesave = function(inputs){
   if(inputs.initialfee != 0){ result._1.initialfee               = _.extend(localElems['initialfee'],             {"value": -inputs.initialfee}); };
   result._1.numberpays              = _.extend(localElems['numberpays'],              {"value": helper.numberpays});
   result._1.savingratio             = _.extend(localElems['savingratio'],             {"value": helper.savingratio});
+  //if(helper.irrSave !== null){result._1.irrSave = _.extend(localElems['irrsave'],     {"value": helper.irrSave * 100}); };
+  if(helper.irrSave !== null && isFinite(helper.irrSave)){result._1.irrSave = _.extend(localElems['irrsave'],     {"value": helper.irrSave * 100}); };
   result._1.totalloanpay            = _.extend(localElems['totalloanpay'],            {"value": helper.totalloanpay});
   result._1.totalloanwinterest      = _.extend(localElems['totalloanwinterest'],      {"value": helper.totalloanwinterest});
   result._1.totalloan               = _.extend(localElems['totalloan'],               {"value": helper.totalloan});
   result._1.interestloan            = _.extend(localElems['interestloan'],            {"value": helper.interestloan});
   result._1.totalloanpays           = _.extend(localElems['totalloanpays'],           {"value": helper.totalloanpays});
   result._1.termloan                = _.extend(localElems['termloan'],                {"value": helper.termloan});
+  if(helper.irrLoan !== null && isFinite(helper.irrLoan)){result._1.irrLoan = _.extend(localElems['irrloan'],     {"value": helper.irrLoan * 100}); };
 
-  /*
-   6.B SECOND RESULT CONTAINER
+  /**
+   * 6.B SECOND RESULT CONTAINER
    */
   // a) saving period
   result._2.title = 'Entwicklung Bausparguthaben';
@@ -715,8 +743,8 @@ exports.homesave = function(inputs){
   result._2.header2 = ['Monat', 'Saldo Monatsanfang', 'Rückzahlungsrate', 'Zinsen','Prämien','Saldo Monatsende'];
   result._2.body2 = dynloanT;
 
-  /*
-   6.C FIRST CHART
+  /**
+   * 6.C FIRST CHART
    */
   var labels1 = [];
   var series1 = []; series1[0] = []; series1[1] = []; series1[2] = [];
@@ -734,8 +762,8 @@ exports.homesave = function(inputs){
   result._chart1.data = {labels: labels1, series: series1};
   result._chart1.options = {stackBars: true, seriesBarDistance: 10};
 
-  /*
-   6.D SECOND CHART
+  /**
+   * 6.D SECOND CHART
    */
   var labels2 = [];
   var series2 = []; series2[0] = []; series2[1] = [];
@@ -755,7 +783,7 @@ exports.homesave = function(inputs){
 
 
 
-  /* ******** 7. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
+  /** ******** 7. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
   if (helper.totalloan <= 0.004999){  // case where no loan is necessary
     helpers.messages.set("Hinweis: Das Bausparguthaben am Ende der Ansparphase übersteigt die (ggf. um den Auszahlungsprozentsatz adjustierte) Bausparsumme. Daher  wird kein Darlehen gewährt und ein Darlehen ist auch nicht notwendig.",2);
     result._1.totalloanwinterest      = _.extend(localElems['totalloanwinterest'],      {"value": 0});
@@ -775,7 +803,6 @@ exports.homesave = function(inputs){
     helpers.errors.set("Realistische Ergebnisse konnten nicht berechnet werden, da die monatliche Zinslast von " + Math.round(helper.totalloan * (inputs.interestdebt / 12) * 100)/100 + " für das Darlehen in diesem Szenario nicht kleiner ist als die Rückzahlungsrate von " + inputs.repay + ". Das Darlehen kann also nicht getilgt werden. Verringern Sie die Bausparsumme bzw. erhöhen Sie den Sparbeitrag, die Rückzahlungsrate oder die Anspardauer.",undefined , true);
     return helpers.errors.errorMap;
   }
-
 
   // attach messages
   result.messages = helpers.messages.messageMap;

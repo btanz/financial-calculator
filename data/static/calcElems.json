@@ -2686,7 +2686,7 @@
         "placeholder": "Abschlussgebühr",
         "addon": "EUR",
         "value": "0.00",
-        "tooltip": "Geben Sie hier evenutelle einmalige Gebühren ein, welche beim Abschluss des Vertrages anfallen. Falls keine einmaligen Gebühren anfallen, tragen Sie einfach 0 ein.",
+        "tooltip": "Geben Sie hier eventuelle einmalige Gebühren ein, welche beim Abschluss des Vertrages anfallen. Dies Gebühren werden mit den Einzahlungen verrechnet. Falls keine einmaligen Gebühren anfallen, tragen Sie einfach 0 ein.",
         "type": "number",
         "vtype": "number",
         "args": [
@@ -2907,6 +2907,20 @@
         "unit": "EUR",
         "digits": 2,
         "importance": "second"
+      },
+      "irrsave": {
+        "description": "Effektiver Jahreszins/IRR Ansparphase",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
+      },
+      "irrloan": {
+        "description": "Effektiver Jahreszins/IRR Rückzahlungsphase",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "second",
+        "tooltip": "Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
       }
     }
   },
@@ -4495,11 +4509,11 @@
         "tooltip": "TBD"
       },
       "irr": {
-        "description": "Rendite/IRR",
+        "description": "Effektiver Jahreszins/IRR",
         "unit": "% p. a.",
         "digits": 2,
         "importance": "first",
-        "tooltip": "Dieses Feld gibt die berechnete Rendite an. Die Rendite entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
+        "tooltip": "Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr."
       }
     }
   },
