@@ -12,6 +12,12 @@ var InputsSchema = new Schema({
   type: String,
   vtype: String,
   value: String,
+  linetop: Boolean,
+  secondary: Boolean,
+  optional: Boolean,
+  hide: Boolean,
+  array: Boolean,
+  arrayParent: String,
   args: [Number],
   options: [{
     id: String,

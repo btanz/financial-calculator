@@ -12,7 +12,7 @@ exports.seedDB = function(){
         console.log('Seeding DB.calcs');
         seeder();
       } else {
-        return
+
       }
     }
   });
@@ -1747,19 +1747,608 @@ function seeder() {
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
+      },
+      {
+        name: 'buy',
+        id: 'boerse-equityreturn-buy',
+        label: 'Kaufkurs',
+        addon: 'EUR',
+        placeholder: 'Kaufkurs',
+        value: '68.12',
+        tooltip: 'Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'sell',
+        id: 'boerse-equityreturn-sell',
+        label: 'Verkaufskurs',
+        addon: 'EUR',
+        placeholder: 'Verkaufskurs',
+        value: '92.65',
+        tooltip: 'Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'buydate',
+        id: 'boerse-equityreturn-buydate',
+        linetop: true,
+        label: 'Kaufdatum',
+        addon: 'Datum',
+        value: '08.01.2013',
+        tooltip: 'Gebe hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'selldate',
+        id: 'boerse-equityreturn-selldate',
+        label: 'Verkaufsdatum',
+        addon: 'Datum',
+        value: '28.04.2015',
+        tooltip: 'Gebe hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'fees',
+        id: 'boerse-equityreturn-fees',
+        linetop: true,
+        label: 'Sind Gebühren angefallen?',
+        placeholder: 'Gebühren',
+        tooltip: 'Gebe hier ja an, falls bei Kauf oder Verlauf der Aktie Gebühren angefallen sind. Du kannst dann die Gebühren in den entsprechenden Feldern eingeben. Diese Gebühren werden in der Berechnung der Rendite berücksichtigt. Dabei wird angenommen, dass die Gebühren entsprechend am Kauf- bzw. Verkaufsdatum anfielen. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'NEIN'
+          },
+          {
+            id: 'true',
+            description: 'JA'
+          }
+        ]
+      },
+      {
+        name: 'feebuy',
+        id: 'boerse-equityreturn-feebuy',
+        secondary: true,
+        hide: true,
+        label: 'Kaufgebühren',
+        addon: 'EUR',
+        placeholder: 'Kaufgebühren',
+        value: '',
+        tooltip: 'Gebe hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000],
+        optional: true
+      },
+      {
+        name: 'feesell',
+        id: 'boerse-equityreturn-feesell',
+        secondary: true,
+        hide: true,
+        label: 'Verkaufsgebühren',
+        addon: 'EUR',
+        placeholder: 'Verkaufsgebühren',
+        value: '',
+        tooltip: 'Gebe hier die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000],
+        optional: true
+      },
+      {
+        name: 'dividends',
+        id: 'boerse-equityreturn-dividends',
+        linetop: true,
+        label: 'Wie viele Dividendenzahlungen fanden statt?',
+        placeholer: 'Dividendenzahlungen',
+        tooltip: 'Gebe hier die Anzahl der Dividendenzahlungen an, die während der Halteperiode der Aktie/Aktien erfolgten. Falls keine Dividendenzahlungen erfolgten bzw. Dividenden nicht in der Berechnung berücksichtigt werden sollen, so setze den Wert auf 0. Falls Zahlungen erfolgten, kannst du in den folgenden Feldern für jede Zahlung jeweils das Datum sowie den Dividendenbetrag eingeben. Falls ein freier Wert für das Datum in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Dividendenzahlung pro Aktie an.',
+        type: 'select',
+        vtype: 'number',
+        args: [0, 20],
+        options: [
+          {
+            id: '0',
+            description: '0'
+          },
+          {
+            id: '1',
+            description: '1'
+          },
+          {
+            id: '2',
+            description: '2'
+          },
+          {
+            id: '3',
+            description: '3'
+          },
+          {
+            id: '4',
+            description: '4'
+          },
+          {
+            id: '5',
+            description: '5'
+          },
+          {
+            id: '6',
+            description: '6'
+          },
+          {
+            id: '7',
+            description: '7'
+          },
+          {
+            id: '8',
+            description: '8'
+          },
+          {
+            id: '9',
+            description: '9'
+          },
+          {
+            id: '10',
+            description: '10'
+          },
+          {
+            id: '11',
+            description: '11'
+          },
+          {
+            id: '12',
+            description: '12'
+          },
+          {
+            id: '13',
+            description: '13'
+          },
+          {
+            id: '14',
+            description: '14'
+          },
+          {
+            id: '15',
+            description: '15'
+          },
+          {
+            id: '16',
+            description: '16'
+          },
+          {
+            id: '17',
+            description: '17'
+          },
+          {
+            id: '18',
+            description: '18'
+          },
+          {
+            id: '19',
+            description: '19'
+          },
+          {
+            id: '20',
+            description: '20'
+          }
+        ]
+      },
+      { 
+        name: 'dividendDate',
+        id: 'boerse-equityreturn-dividendDate',
+        type: 'custom',
+        vtype: 'date',
+        label: 'Dividendendatum',
+        optional: false,
+        array: true,
+        arrayParent: 'dividends'
+      },
+      { 
+        name: 'dividendAmount',
+        id: 'boerse-equityreturn-dividendAmount',
+        type: 'custom',
+        vtype: 'number',
+        args: [0, 1000000000],
+        label: 'Dividendenbetrag',
+        optional: false,
+        array: true,
+        arrayParent: 'dividends'
+      }
+    ],
+    results_1: [
+      {
+        name: 'irr',
+        description: 'Rendite/IRR',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'first',
+        tooltip: 'Dieses Feld gibt die berechnete Rendite an. Die Rendite entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.'
+      },
+      {
+        name: 'holding',
+        description: 'Haltedauer',
+        unit: 'Tage',
+        digits: 1,
+        importance: 'second',
+        tooltip: 'Dieses Feld gibt die aus den Eingaben berechnete Haltedauer in Tagen wieder.'
       }
     ]
-    
-    
+
   });
 
   equityreturn.save(function (err) {
     if (err) {
       console.log(err);
-      console.log('Seed Failed for Calc.Elem.Model.FX');
+      console.log('Seed Failed for Calc.Elem.Model.Equityreturn');
       return next(err);
     } else {
-      console.log('Calc.Elem.Model.FX successfully seeded');
+      console.log('Calc.Elem.Model.Equityreturn successfully seeded');
+    }
+  });
+
+
+
+  /**
+   * SEED PLANNING-RETIRE
+   * */
+  var retire = new Calc({
+    name: 'retire',
+    id: 'planning-retire',
+    designation: 'Altersvorsorgerechner',
+    description: 'Dieser Rechner kalkuliert dein monatliches Einkommen ab Eintritt des Ruhestandes auf Basis deiner Ersparnisse, deiner Lebenserwartung und aktuellen Kapitalmarktparametern. Der Rechner berücksichtigt nur deine private Altersversorge, evenutelle Bezüge aus der gesetzlichen Rentenversicherung sind nicht berücksichtigt und würden dein monatliches Ruhestandseinkommen entsprechend erhöhen.',
+    inputs: [
+      {
+        name: 'age',
+        id: 'planning-retire-age',
+        label: 'Aktuelles Lebensalter',
+        placeholder: 'Alter',
+        addon: 'Jahre',
+        value: '43',
+        tooltip: 'Gebe hier das aktuelle Alter in Jahren ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 150]
+      },
+      {
+        name: 'retireAge',
+        id: 'planning-retire-retireAge',
+        label: 'Ruhestandsalter',
+        placeholder: 'Ruhestandsalter',
+        addon: 'Jahre',
+        value: '67',
+        tooltip: 'Gebe hier das geplante Ruhestandsalter in Jahren ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 150]
+      },
+      {
+        name: 'lifeExpectancy',
+        id: 'planning-retire-lifeExpectancy',
+        label: 'Lebenserwartung',
+        placeholder: 'Lebenserwartung',
+        addon: 'Jahre',
+        value: '80',
+        tooltip: 'Gebe hier die Lebenserwartung in Jahren ein. Um konservative Ergebnisse zu erhalten, ist es sinnvoll, eine eher höhere Lebenserwartung anzugeben. Dies stellt sicher, dass auch am Ende eines sehr langen Lebens hinreichend Kapital zur Verfügung steht.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 150]
+      },
+      {
+        name: 'savings', 
+        id: 'planning-retire-savings',
+        label: 'Heutige Ruhestandsersparnisse',
+        placeholder: 'Ruhestandsersparnisse',
+        addon: 'EUR',
+        value: '25000',
+        tooltip: 'Gebe hier den Betrag an, welchen du bereits für deinen Ruhestand gespart hast. ',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'futureSavings',
+        id: 'planning-retire-futureSavings',
+        label: 'Zukünftige jährliche Ersparnisse',
+        placeholder: 'Zukünftige jährliche Ersparnisse',
+        addon: 'EUR',
+        value: '4000',
+        tooltip: 'Gebe hier den Betrag an, welchen du in Zukunft pro Jahr bis zu Eintritt deines Ruhestandsalters für deine Altersvorsorge sparen wirst.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'rate',
+        id: 'planning-retire-rate',
+        label: 'Erwartete Rendite/Verzinsung',
+        addon: '% p. a.',
+        placeholder: 'Erwartete Rendite',
+        value: '4.00',
+        tooltip: 'Hier kannst du die erwartete Rendite auf deine Ersparnisse angeben. Mit dieser Rendite werden deine Ersparnisse verzinst. Der voreingestellte Wert entspricht etwa der langfristigen Rendite für Festgeldanlagen.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'inflation',
+        id: 'planning-retire-inflation',
+        label: 'Inflationsrate',
+        addon: '% p. a.',
+        placeholder: 'Inflationsrate',
+        value: '4.00',
+        tooltip: 'Gebe hier die erwartete Inflationsrate an. Der voreingestellte Wert entspricht etwa der langfristigen Inflationsrate.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      }
+    ],
+    results_1: [
+      {
+        name: "balance",
+        tooltip: "Die gesamten Ersparnisse zum Ruhestandsalter unter Berücksichtigung von Zinsen. Diese Zahl wird berechnet auf Basis der heutigen Ruhestandsersparnisse sowie der zuküntigen jährlichen Ersparnisse. Die Ersparnisse werden mit der erwarteten Rendite verzinst.",
+        description: '',
+        unit: '',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: "balanceInfl",
+        tooltip: "Die gesamten realen/inflationsangepassten Ersparnisse zum Ruhestandsalter unter Berücksichtigung von Zinsen.",
+        description: '',
+        unit: '',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: "annuityMth",
+        tooltip: "Das maximale monatliche nominale Einkommen ab dem Ruhestandsalter bis zum Lebenserwartungsalter, welches aus dem Kapitalstock (angespart bis zum Ruhestandsalter) gezahlt werden kann.",
+        description: '',
+        unit: '',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: "annuityMthRetire",
+        tooltip: "Der heutige reale Wert des monatlichen Einkommens zu Beginn des Ruhestandes. Dies ist die Antwort auf folgende Frage: Wie viel Wert, in heutigen Geldeinheiten, ist das monatliche Einkommen am Eintritt des Ruhestandes.",
+        description: '',
+        unit: '',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: "annuityMthLifeend",
+        tooltip: "Der heutige reale Wert des monatlichen Einkommens zum Alter der Lebenserwartung. Dies ist die Antwort auf folgende Frage: Wie viel Wert, in heutigen Geldeinheiten, ist das monatliche Einkommen zum Zeitpunkt der Lebenserwartung/am erwarteten Lebensende.",
+        description: '',
+        unit: '',
+        digits: 2,
+        importance: 'first'
+      }
+    ]
+  });
+
+
+  retire.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Retire');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Retire successfully seeded');
+    }
+  });
+
+
+
+  /**
+   * SEED PROPERTY-PROPERTYRETURN
+   * */
+  var propertyreturn = new Calc({
+    name: 'property',
+    id: 'property-propertyreturn',
+    designation: 'Immobilienrenditerechner',
+    description: 'Mit dem Immobilienrenditerechner können Rendite und Zahlungsströme einer Investition in Immobilien errechnet und dargestellt werden.',
+    inputs: [
+      {
+        name: 'equity',
+        id: 'property-propertyreturn-equity',
+        label: 'Investition aus Eigenkapital',
+        placeholder: 'Investition',
+        addon: 'EUR',
+        value: '180000.00',
+        tooltip: 'Gebe hier den Betrag der Anfangsinvestition aus Eigenkapital ein. Dieser Betrag setzt sich zusammen aus allen Kosten, die durch den Erwerb der Immobilien entstehen und nicht durch ein Darlehen gezahlt werden. Kostet eine Immobilien zum Beispiel 400.000 € inkl. aller Anschaffungsnebenkosten und du zahlst am Anfang aus deinem Vermögen 50.000 €, dann sind diese 50.000 € die Investition aus Eigenkapital.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'repay',
+        id: 'property-propertyreturn-repay',
+        label: 'Rückzahlungsrate Darlehen',
+        placeholder: 'Rückzahlungsrate',
+        addon: 'EUR/Monat',
+        value: '600.00',
+        tooltip: 'Sofern du ein Darlehen zur Finanzierung der Immobilien eingesetzt hast, gebe hier bitte die monatliche Rückzahlungsrate für das Darlehen ein. Diese Rückzahlungsrate sollte alle monatlichen Zahlungen zur Rückzahlung des Darlehens enthalten und setzt sich meist aus Zins- und Tilgungszahlungen zusammen. Im Falle der Zahlung einer Immobilien zum Preis von 400.000 € mit 50.000 € Eigenkapital und 350.000 € Fremdkapital aus einem Darlehen ist dies die monatliche Rate, welche für die Rückzahlung des Darlehens zu 350.000 € anfällt. Falls du kein Darlehen eingesetzt hast gebe als Darlehensrate null ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'termLoan',
+        id: 'property-propertyreturn-termLoan',
+        label: 'Darlehenslaufzeit',
+        placeholder: 'Darlehenslaufzeit',
+        addon: 'Jahre',
+        value: '10',
+        tooltip: 'Gebe hier die Laufzeit des Darlehens in Jahren oder Monaten ein, welches zur Finanzierung der Immobilie aufgenommen wurde. Die Laufzeit ist die Zeit bis zur kompletten Rückzahlung des Darlehens unter der angegebenen Rückzahlungsrate. Falls du kein Darlehen eingesetzt hast gebe hier null ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 150]
+      },
+      {
+        name: 'maintenance',
+        id: 'property-propertyreturn-maintenance',
+        label: 'Monatliche Instandhaltungskosten',
+        placeholder: 'Instandhaltungskosten',
+        addon: 'EUR/Monat',
+        value: '200.00',
+        tooltip: 'Die monatlichen Instandhaltungskosten sind alle laufenden Kosten, welche monatlich über die gesamte Anlagedauer zur Pflege und zum Erhalt der Immobilien anfallen. Dies sind etwa Kosten für Reparaturen der Heizung oder für die Modernisierung von Bädern.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'costDynamic',
+        id: 'property-propertyreturn-costDynamic',
+        label: 'Kostendynamik',
+        placeholder: 'Kostendynamik',
+        addon: '% p. a.',
+        value: '0.0',
+        tooltip: 'Gebe hier die jährliche prozentale Steigerungsrate der Instandhaltungskosten an. Diese wird jeweils am Jahresende den angegebenen Instandhaltungskosten zugeschlagen. Belaufen sich die Instandhaltungskosten im ersten Jahr zum Beispiel auf 300 € und die Kostendynamik ist 10 %, dann werden im zweiten Jahr Instandhaltungskosten von 330 € angesetz. Auch in den folgenden Jahren wachsen die Instandhaltungskosten jeweils um 10 %. Den Prozentsatz für die Kostendynamik kann man nutzen, um etwa erwartete Preissteigerungen für Instandhaltungsdienstleistungen oder höhere Kosten durch eine alternde Immobilie abzubilden. Sollen die Instandhaltungskosten nicht jedes Jahr ansteigen, dann gebe hier eine null ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'revenue',
+        id: 'property-propertyreturn-revenue',
+        label: 'Monatliche Mieteinnahmen',
+        addon: 'EUR/Monat',
+        placeholder: 'Mieteinnahmen',
+        value: '900.00',
+        tooltip: 'Hier kannst du alle laufenden monatlichen Einnahmen aus der Immobilie eingeben. Hauptkomponente dieser Einnahmen sind meist Zuflüsse aus der Vermietung der Immobilie.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'revDynamic',
+        id: 'property-propertyreturn-revDynamic',
+        label: 'Einnahmedynamik',
+        addon: '% p. a.',
+        placeholder: 'Einnahmedynamik',
+        value: '1.0',
+        tooltip: 'Gebe hier die jährliche prozentale Steigerungsrate der monatlichen Einnahmen aus der Immobilie an. Diese wird jeweils am Jahresende den angegebenen Einnahmen zugeschlagen. Belaufen sich die Einnahmen im ersten Jahr zum Beispiel auf 2000 € und die Kostendynamik ist 1 %, dann werden im zweiten Jahr Einnahmen von 2020 € angesetz. Auch in den folgenden Jahren wachsen die Einnahmen jeweils um 1 %. Sollen die Einnahmen nicht jedes Jahr ansteigen, dann gebe hier eine null ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'term',
+        id: 'property-propertyreturn-term',
+        label: 'Anlagedauer',
+        addon: 'Jahre',
+        placeholder: 'Anlagedauer',
+        value: '30',
+        tooltip: 'Gebe hier die Gesamtlaufzeit der Immobilieninvestition in Jahren oder Monaten an. Diese Laufzeit beginnt mit der Anfangsinvestition und endet in der Regel mit dem Verkauf oder der weitern Verwertung der Immobilie zum definierten Verkaufs-/Endwert.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'terminal',
+        id: 'property-propertyreturn-terminal',
+        label: 'Verkaufs-/Endwert',
+        addon: 'EUR',
+        placeholder: 'Verkaufs-/Endwert',
+        value: '240000.00',
+        tooltip: 'Gebe hier den Wert der Immobilie zum Ende der Anlagedauer ein. Im Falle eines Verkaufs entspricht dieser Wert dem Verkaufspreis der Immobilie. Ansonsten ist der Endwert derjenige Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      }
+    ],
+    results_1: [
+      {
+        name: 'irr',
+        description: 'Rendite (Effektivzins, IRR)',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'profit',
+        description: 'Gewinn',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'revenue',
+        description: 'Gesamte Einnahmen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'rentRevenue',
+        description: 'Mieteinnahmen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      { 
+        name: 'sellRevenue', 
+        description: 'Verkaufs-/Endwert',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      { 
+        name: 'investment', 
+        description: 'Gesamte Ausgaben',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      { 
+        name: 'initialInvestment', 
+        description: 'Anfangsinvestition',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'maintenance',
+        description: 'Instandhaltungskosten',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'loan',
+        description: 'Darlehenszahlungen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      }
+    ]
+  });
+
+
+
+  propertyreturn.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Propertyreturn');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Propertyreturn successfully seeded');
     }
   });
 
