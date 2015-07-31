@@ -3,8 +3,8 @@ var Schema = mongoose.Schema;
 
 /** InputsSchema is the Schema for the inputs fields text content of calculators */
 var InputsSchema = new Schema({
-  name: {type: String, required: true},
-  id: {type: String, required: true, unique: true},
+  name: {type: String, required: true, unique: true},
+  id: {type: String, required: true},
   label: String,
   placeholder: String,
   addon: String,
@@ -33,8 +33,8 @@ var Results1Schema = new Schema({
 
 /** CalcSchema is the Schema for the text content of calculators */
 var CalcSchema = new Schema({
-  name: {type: String, required: true, unique: true},
-  id: {type: String, required: true, unique: true},
+  name: {type: String, required: true},
+  id: {type: String, required: true},
   designation: String,
   description: String,
   inputs: [InputsSchema],

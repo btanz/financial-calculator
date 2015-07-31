@@ -24,7 +24,9 @@ exports.seedDB = function(){
 function seeder() {
   var Calc = require('mongoose').model('Calc');
 
-  /** SEED BOERSE-OPTIONS */
+  /**
+   * SEED BOERSE-OPTIONS
+   **/
   var options = new Calc({
     name: 'options',
     id: 'boerse-options',
@@ -192,7 +194,9 @@ function seeder() {
   });
 
 
-  /** SEED BOERSE-FX */
+  /**
+   * SEED BOERSE-FX
+   * */
   var fx = new Calc({
     name: 'fx',
     id: 'boerse-fx',
@@ -1700,18 +1704,56 @@ function seeder() {
       }
     ],
 
-    results_1: [{
-      name: 'value',
-      description: 'Betrag in Zielwährung',
-      digits: 2,
-      importance: 'first',
-      tooltip: 'Dieses Ergebnisfeld gibt den in die Zielwährung umgerechneten Betrag wieder. Beim Geldumtausch ist dies der Betrag, welchen du nach dem Umtausch in der Zielwährung zur Verfügung hast.'
-    }]
+    results_1: [
+      {
+        name: 'value',
+        description: 'Betrag in Zielwährung',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'Dieses Ergebnisfeld gibt den in die Zielwährung umgerechneten Betrag wieder. Beim Geldumtausch ist dies der Betrag, welchen du nach dem Umtausch in der Zielwährung zur Verfügung hast.'
+      }]
+  });
+
+
+  fx.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.FX');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.FX successfully seeded');
+    }
   });
 
 
 
-  fx.save(function (err) {
+  /**
+   * SEED BOERSE-EQUITYRETURN
+   * */
+  var equityreturn = new Calc({
+    name: 'equityreturn',
+    id: 'boerse-equityreturn',
+    designation: 'Aktienrenditerechner',
+    description: 'Mit dem Aktienrenditerechner kannst du die annualisierte Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.',
+    inputs: [
+      {
+        name: 'quantity',
+        id: 'boerse-equityreturn-quantity',
+        label: 'Anzahl Aktien',
+        addon: 'Stück',
+        placeholder: 'Anzahl Aktien',
+        value: '1',
+        tooltip: 'Gebe hier die Gesamtzahl der gekauften Aktien ein.',
+        type: 'number',
+        vtype: 'number',
+        args: [0,1000000000]
+      }
+    ]
+    
+    
+  });
+
+  equityreturn.save(function (err) {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.FX');
