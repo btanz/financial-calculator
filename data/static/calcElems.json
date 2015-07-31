@@ -150,6 +150,7 @@
       }
     }
   },
+
   "fx": {
     "id": "boerse-fx",
     "name": "Währungsrechner",
