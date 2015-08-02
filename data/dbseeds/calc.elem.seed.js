@@ -2150,7 +2150,7 @@ function seeder() {
    * SEED PROPERTY-PROPERTYRETURN
    * */
   var propertyreturn = new Calc({
-    name: 'property',
+    name: 'propertyreturn',
     id: 'property-propertyreturn',
     designation: 'Immobilienrenditerechner',
     description: 'Mit dem Immobilienrenditerechner können Rendite und Zahlungsströme einer Investition in Immobilien errechnet und dargestellt werden.',
@@ -2342,6 +2342,7 @@ function seeder() {
 
 
 
+
   propertyreturn.save(function (err) {
     if (err) {
       console.log(err);
@@ -2352,5 +2353,512 @@ function seeder() {
     }
   });
 
+
+
+  /**
+   * SEED PROPERTY-PROPERTYBUYRENT
+   * */
+  var propertybuyrent = new Calc({
+    name: 'propertybuyrent',
+    id: 'property-buyrent',
+    designation: 'Vergleichsrechner Immobilien kaufen oder mieten',
+    description: 'Lohnt sich der Kauf einer Immobilie als Eigenheim oder ist es besser, zur Miete zu wohnen und sein Geld anzulegen? Dieser Rechner hilft bei der Entscheidung',
+    inputs: [
+      {
+        name: 'price',
+        id: 'property-buyrent-price',
+        label: 'Kaufpreis der Immobilie',
+        placeholder: 'Kaufpreis',
+        addon: 'EUR',
+        value: '200000.00',
+        tooltip: 'Geben Sie hier den (voraussichtlichen) Kaufpreis der Immobilie ohne Kaufnebenkosten an',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'priceaddon',
+        id: 'property-buyrent-priceaddon',
+        label: 'Kaufnebenkosten',
+        placeholder: 'Kaufnebenkosten',
+        addon: 'EUR',
+        value: '15000.00',
+        tooltip: 'Geben Sie hier die Nebenkosten an, welche beim Immobilienkauf entstehen würden. Diese enthalten meist Grunderwerbssteuer sowie Notar- und Grundbuchgebühren.',
+        type: 'number',
+        vtype: 'number',
+        args: [0,10000000]
+      },
+      {
+        name: 'maintenance',
+        id: 'property-buyrent-maintenance',
+        label: 'Laufende Kosten und Instandhaltungskosten',
+        placeholder: 'Laufende Kosten und Instandhaltungskosten',
+        addon: 'EUR/Monat',
+        value: '200',
+        tooltip: 'Geben Sie hier die monatlichen laufenden Kosten (Wasserversorgung, Müllentsorgung, Heizung, etc.) sowie die Instandhaltungskosten der Immobilie an.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 100000]
+      },
+      {
+        name: 'rent',
+        id: 'property-buyrent-rent',
+        label: 'Vergleichsmiete inkl. Nebenkosten',
+        linetop: true,
+        placeholder: 'Vergleichsmiete',
+        addon: 'EUR/Monat',
+        value: '700',
+        tooltip: 'Geben Sie die monatliche Warmmiete an, die bei der Anmietung anfallen würde',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 100000]
+      },
+      { 
+        name: 'equity', 
+        id: 'property-buyrent-equity',
+        label: 'Eigenkapital',
+        linetop: true,
+        placeholder: 'Eigenkapital',
+        addon: 'EUR',
+        value: '50000',
+        tooltip: 'Geben Sie das zum Immobilienerwerb verfügbare Eigenkapital an. Der nicht durch Eigenkapital gedeckte Anteil des Kaufpreises wird entsprechend durch ein Darlehen finanziert. Falls keine Immobilie gekauft wird kann dieser Betrag angelegt werden.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'income',
+        id: 'property-buyrent-income',
+        label: 'Verfügbares Einkommen zum Wohnen',
+        linetop: false,
+        placeholder: 'Einkommen zum Wohnen',
+        addon: 'EUR/Monat',
+        value: '1500',
+        tooltip: 'Geben Sie hier den monatlichen Betrag an, welchen Sie für Wohnzwecke (Kauf und Unterhaltung einer Immobilie bzw. Anmietung) ausgeben möchten',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 10000000]
+      },
+      { 
+        name: 'equityinterest',  
+        id: 'property-buyrent-equityinterest',
+        label: 'Zinssatz Geldanlage',
+        linetop: false,
+        placeholder: 'Zinssatz Geldanlage',
+        addon: '% p. a.',
+        value: '1.50',
+        tooltip: 'Geben Sie hier den Zinssatz an, zu welchem Kapital angelegt werden kann. Beträge, welche nach Zahlung von Miet- bzw. Finanzierungs- und Entstandhaltungskosten übrig bleiben, werden mit diesem Zinssatz verzinst.',
+        type: 'number',
+        vtype: 'number',
+        args: [0,200]
+      },
+      { 
+        name: 'debtinterest', 
+        id: 'property-buyrent-debtinterest',
+        label: 'Zinssatz Darlehen',
+        linetop: false,
+        placeholder: 'Zinssatz Darlehen',
+        addon: '% p. a.',
+        value: '3.00',
+        tooltip: 'Geben Sie hier den jährlichen Kreditzinssatz des Darlehens an',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 200]
+      },
+      {
+        name: 'debtpay',
+        id: 'property-buyrent-debtpay',
+        label: 'Rückzahlungsrate Darlehen',
+        linetop: false,
+        placeholder: 'Rückzahlungsrate Darlehen',
+        addon: 'EUR/Monat',
+        value: '1000',
+        tooltip: 'Geben Sie hier die Höhe der monatliche Zahlungen an, die der Rückzahlung des Darlehens dienen. Diese konstante Rate deckt die Zins- und Tilgungsleistungen ab.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'period',
+        id: 'property-buyrent-period',
+        label: 'Analysezeitraum',
+        linetop: true,
+        placeholder: 'Analysezeitraum',
+        addon: 'Jahre',
+        value: '20',
+        tooltip: 'Hier können Sie den Referenzzeitraum für die Vergleichsrechnung angeben.',
+        type: 'number',
+        vtype: 'number',
+        args: [0,60]
+      },
+      { 
+        name: 'dynamics', 
+        id: 'property-buyrent-dynamics',
+        linetop: true,
+        label: 'Jährliche Steigerungen berücksichtigen?',
+        tooltip: 'Wählen Sie hier JA, um jährliche Steigerungen von Miete, Immobilienwert, Kosten und Einkommen in der Rechnung zu berücksichtigen.',
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'NEIN'
+          },
+          {
+            id: 'true',
+            description: 'JA'
+          }
+        ]
+      },
+      { 
+        name: 'incomedynamic', 
+        id: 'property-buyrent-incomedynamic',
+        secondary: true,
+        hide: true,
+        label: 'Einkommenssteigerung',
+        addon: '% p. a.',
+        placeholder: 'Einkommenssteigerung',
+        value: '0.00',
+        tooltip: 'Hier können Sie die jährliche Steigerung des zum Wohnen verfügbaren Einkommens angeben.',
+        type: 'number',
+        vtype: 'number',
+        args: [-200, 200],
+        optional: true
+      },
+      {
+        name: 'rentdynamic',
+        id: 'property-buyrent-rentdynamic',
+        secondary: true,
+        hide: true,
+        label: 'Mietkostensteigerung',
+        addon: '% p. a.',
+        placeholder: 'Mietkostensteigerung',
+        value: '0.00',
+        tooltip: 'Hier können Sie die jährliche Steigerung der Mietkosten angeben.',
+        type: 'number',
+        vtype: 'number',
+        args: [-200, 200],
+        optional: true
+      },
+      {
+        name: 'valuedynamic',
+        id: 'property-buyrent-valuedynamic',
+        secondary: true,
+        hide: true,
+        label: 'Wertsteigerung Immobilie',
+        addon: '% p. a.',
+        placeholder: 'Wertsteigerung Immobilie',
+        value: '0.00',
+        tooltip: 'Hier können Sie die jährliche Steigerung des Immobilienwertes angeben.',
+        type: 'number',
+        vtype: 'number',
+        args: [-200, 200],
+        optional: true
+      },
+      {
+        name: 'costdynamic',
+        id: 'property-buyrent-costdynamic',
+        secondary: 'true',
+        hide: 'true',
+        label: 'Steigerung der laufenden Kosten/Instandhaltungskosten',
+        addon: '% p. a.',
+        placeholder: 'Steigerung der laufenden Kosten/Instandhaltungskosten',
+        value: '0.00',
+        tooltip: 'Hier können Sie die jährliche Steigerung der laufenden Kosten bzw. der Instandhaltungskosten angeben.',
+        type: 'number',
+        vtype: 'number',
+        args: [ -200,200],
+        optional: true
+      }
+    ],
+    results_1: [
+      { 
+        name: 'rentfinalwealth', 
+        description: 'Vermögen Mieten',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'rentfinalincome',
+        description: 'davon verfügbares Wohneinkommen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'rentfinalcost',
+        description: 'davon Mietkosten',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'rentfinalinterest',
+        description: 'davon Zinsertrag',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'rentequity',
+        description: 'davon Eigenkapital',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyfinalwealth',
+        description: 'Vermögen Kaufen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyequity',
+        description: 'davon Eigenkapital',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyprice',
+        description: 'davon Kaufpreis incl. Nebenkosten',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyloan',
+        description: 'davon Darlehen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyfinalincome',
+        description: 'davon verfügbares Wohneinkommen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyinterestsave',
+        description: 'davon Zinsertrag',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyinterestloan',
+        description: 'davon Zinsaufwand',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buypropertyincrease',
+        description: 'davon Wertanstieg Immobilie',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buymaintenance',
+        description: 'davon laufende Kosten und Instandhaltung',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyrepay',
+        description: 'davon Darlehenstilgung',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buyresidual',
+        description: 'davon Restschuld Darlehen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'buypropvalue',
+        description: 'davon Immobilienwert',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'TBD'
+      }
+    ]
+  });
+
+
+  propertybuyrent.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Propertybuyrent');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Propertybuyrent successfully seeded');
+    }
+  });
+
+
+
+  /**
+   * SEED DEPOSITS-INTEREST
+   * */
+  var depinterest = new Calc({
+    name: 'depinterest',
+    id: 'deposits-interest',
+    designation: 'Zinsrechner',
+    description: 'Mit dem Zinsrechner kann wahlweise der Zinssatz, das Anfangskapital, das Endkapital oder die Laufzeit einer einmaligen Festgeldanlage oder Investition berechnet werden.',
+    inputs: [
+      { 
+        name: 'select',
+        id: 'deposits-interest-select',
+        label: 'Was soll berechnet werden?',
+        tooltip: 'Wähle hier, welche der Größen Anfangskapital, Endkapital, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
+        type: 'select',
+        vtype: 'number',
+        args: [0, 3],
+        options: [
+          {
+            id: '0',
+            description: 'Endkapital'
+          },
+          {
+            id: '1',
+            description: 'Anfangskapital'
+          },
+          {
+            id: '2',
+            description: 'Zinssatz'
+          },
+          {
+            id: '3',
+            description: 'Laufzeit'
+          }
+        ]
+      },
+      {
+        name: 'start',
+        id: 'deposits-interest-start',
+        label: 'Anfangskapital',
+        addon: 'EUR',
+        placeholder: 'Anfangskapital',
+        value: '15000.00',
+        tooltip: 'Das Anfangskapital ist der anfängliche Anlagebetrag bzw. der Betrag der Investition. Wenn man also 1.000 € bei der Bank zur Anlage bringt, so entspricht dies dem Anfangskapital.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'period',
+        id: 'deposits-interest-period',
+        label: 'Laufzeit',
+        addon: 'Jahre',
+        placeholder: 'Laufzeit',
+        value: '6',
+        tooltip: 'Die Laufzeit ist der Zeitraum zwischen Beginn und Ende der Geldanlage oder Investition. Wenn man also 1.000 € vom 01.03.2015 bis zum 01.03.2017 anlegt, dann beträgt die Laufzeit 2 Jahre.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 200]
+      },
+      {
+        name: 'rate',
+        id: 'deposits-interest-rate',
+        label: 'Zinssatz',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '3.00',
+        tooltip: 'Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'end',
+        id: 'deposits-interest-end',
+        label: 'Endkapital',
+        addon: 'EUR',
+        placeholder: 'Endkapital',
+        value: '',
+        disabled: true,
+        tooltip: 'Das Endkapital ist das gesamte Kapital am Ende der Laufzeit der Geldanlage.',
+        type: 'number',
+        vtype: 'number',
+        args: [0,1000000000]
+      }
+    ],
+    results_1: [
+      {
+        name: 'start',
+        tooltip: 'Das Anfangskapital ist der anfängliche Anlagebetrag bzw. der Betrag der Investition. Wenn man also 1.000 € bei der Bank zur Anlage bringt, so entspricht dies dem Anfangskapital.',
+        description: 'Anfangskapital',
+        unit: 'EUR',
+        digits: 2
+      },
+      {
+        name: 'end',
+        tooltip: 'Das Endkapital ist das gesamte Kapital am Ende der Laufzeit der Geldanlage.',
+        description: 'Endkapital',
+        unit: 'EUR',
+        digits: 2
+      },
+      {
+        name: 'rate',
+        tooltip: 'Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.',
+        description: 'Zinssatz',
+        unit: '% p. a.',
+        digits: 3
+      },
+      {
+        name: 'period',
+        tooltip: 'Die Laufzeit ist der Zeitraum zwischen Beginn und Ende der Geldanlage oder Investition. Wenn man also 1.000 € vom 01.03.2015 bis zum 01.03.2017 anlegt, dann beträgt die Laufzeit 2 Jahre.',
+        description: 'Laufzeit',
+        unit: 'Jahre',
+        digits: 2
+      },
+      {
+        name: 'gain',
+        tooltip: 'Der akkumulierte Zinsgewinn entspricht dem gesamten Zinsgewinn über die Laufzeit der Anlage/Investition. Mathematisch entspricht der akkumulierte Zinsgewinn dem Endkapital minus dem Anfangskapital.',
+        description: 'Zinsgewinn (akkumuliert)',
+        unit: 'EUR',
+        digits: 2
+      }
+    ]
+    
+  });
+
+
+  depinterest.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Depinterest');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Depinterest successfully seeded');
+    }
+  });
 
 }
