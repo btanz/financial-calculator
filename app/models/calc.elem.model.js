@@ -33,7 +33,8 @@ var Results1Schema = new Schema({
   unit: String,
   digits: String,
   importance: String,
-  tooltip: String
+  tooltip: String,
+  omittooltip: Boolean
 });
 
 
