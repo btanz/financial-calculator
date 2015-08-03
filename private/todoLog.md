@@ -13,7 +13,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * search for calculators / tasks on the landing page
 * landing-page animations
 * modals for zoom -> popups for results etc
-* invert question marks + put them at the end
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables
 * mocha testing for finance library
