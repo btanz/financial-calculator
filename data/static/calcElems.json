@@ -2065,6 +2065,8 @@
       }
     }
   },
+
+
   "daycount": {
     "id": "misc-daycount",
     "name": "Zinstagerechner",
@@ -2261,6 +2263,8 @@
       }
     }
   },
+
+
   "dispo": {
     "id": "debt-dispo",
     "name": "Dispozinsrechner",
@@ -2408,6 +2412,8 @@
       }
     }
   },
+
+
   "rent": {
     "id": "property-rent",
     "name": "Mietrechner",

@@ -2861,4 +2861,1678 @@ function seeder() {
     }
   });
 
+
+  /**
+   * SEED DEPOSITS-SAVINGS
+   * */
+  var depsaving = new Calc({
+    name: 'depsaving',
+    id: 'deposits-savings',
+    designation: 'Sparrechner',
+    description: 'Mit dem Sparrechner kannst du je nach Auswahl verschiedene Parameter wie etwa des Endkapital für einen Sparplan berechnen.',
+    inputs: [
+      {
+        name: 'select',
+        id: 'deposits-savings-select',
+        label: 'Was soll berechnet werden?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [0, 5],
+        options: [
+          {
+            id: '0',
+            descriptions: 'Endkapital',
+          },
+          {
+            id: '1',
+            descriptions: 'Anfangskapital',
+          },
+          {
+            id: '2',
+            descriptions: 'Sparrate',
+          },    {
+            id: '3',
+            descriptions: 'Ansparzeit',
+          },
+          {
+            id: '4',
+            descriptions: 'Zinssatz',
+          }
+        ]
+      },
+      {
+        name: 'principal',
+        id: 'deposits-savings-principal',
+        label: 'Anfangskapital',
+        addon: 'EUR',
+        placeholder: 'Anfangskapital',
+        value: '10000.00',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0,1000000000]
+      },
+      {
+        name: 'term',
+        id: 'deposits-savings-term',
+        label: 'Ansparzeitraum',
+        addon: 'Jahre',
+        placeholder: 'Ansparzeitraum',
+        value: '6',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 200]
+      },
+      {
+        name: 'termfix',
+        id: 'deposits-savings-termfix',
+        label: 'Anlagezeitraum',
+        addon: 'Jahre',
+        placeholder: 'Anlagezeitraum',
+        value: '4',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0,200]
+      },
+      {
+        name: 'inflow',
+        id: 'deposits-savings-inflow',
+        label: 'Sparrate',
+        addon: 'EUR',
+        placeholder: 'Sparrate',
+        value: '100',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0,1000000000]
+      },
+      {
+        name: 'inflowfreq',
+        id: 'deposits-savings-inflowfreq',
+        label: 'Sparintervall',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [1, 12],
+        options: [
+          {
+            id: '12',
+            description: 'monatlich'
+          },
+          {
+            id: '4',
+            description: 'vierteljährlich'
+          },
+          {
+            id: '2',
+            description: 'halbjährlich'
+          },
+          {
+            id: '1',
+            description: 'jährlich'
+          }
+        ]
+      },
+      {
+        name: 'inflowtype',
+        id: 'deposits-savings-inflowtype',
+        label: 'Einzahlungsart',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [1, 2],
+        options: [
+          {
+            id: '1',
+            description: 'nachschüssig'
+          },
+          {
+            id: '2',
+            description: 'vorschüssig'
+          }
+        ]
+      },
+      {
+        name: 'interest',
+        id: 'deposits-savings-interest',
+        label: 'Zinssatz',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '3.50',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'dynamic',
+        id: 'deposits-savings-dynamic',
+        label: 'Dynamisierung',
+        addon: '% p. a.',
+        placeholder: 'Dynamisierung',
+        value: '1.20',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      { 
+        name: 'interestperiod', 
+        id: 'deposits-savings-interestperiod',
+        label: 'Zinsperiode',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [1, 12],
+        options: [
+          {
+            id: '1',
+            description: 'jährlich'
+          },
+          {
+            id: '2',
+            description: 'halbjährlich'
+          },
+          {
+            id: '4',
+            description: 'vierteljährlich'
+          },   
+          {
+            id: '12',
+            description: 'monatlich'
+          }
+        ]
+      },
+      { 
+        name: 'compounding', 
+        id: 'deposits-savings-compounding',
+        label: 'Zinseszins',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [1, 12],
+        options: [
+          {
+            id: '1',
+            description: 'Ja, Zinsansammlung'
+          },
+          {
+            id: '2',
+            description: 'Nein, Zinsauszahlung'
+          }
+        ]
+      },
+      { 
+        name: 'terminal', 
+        id: 'deposits-savings-terminal',
+        label: 'Endkapital',
+        addon: 'EUR',
+        placeholder: 'Endkapital',
+        value: '',
+        disabled: true,
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0,1000000000]
+      }
+    ],
+    results_1: [
+      {
+        name: 'terminal',
+        tooltip: 'TBD',
+        description: 'Endkapital',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'principal',
+        tooltip: 'TBD',
+        description: 'Anfangskapital',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'inflow',
+        tooltip: 'TBD',
+        description: 'Sparrate',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'term',
+        tooltip: 'TBD',
+        description: 'Ansparzeitraum',
+        unit: 'Jahre',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'interest',
+        tooltip: 'TBD',
+        description: 'Zinssatz',
+        unit: '% p. a.',
+        digits: 2,
+        importance: 'first'
+      }
+    ]
+  });
+
+
+  depsaving.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Depsaving');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Depsaving successfully seeded');
+    }
+  });
+
+
+  /**
+   * SEED DEBT-ANNUITY
+   * */
+  var annuity = new Calc({
+    name: 'annuity',
+    id: 'debt-annuity',
+    designation: 'Tilgungsrechner Annuitätendarlehen',
+    description: 'Mit dem Tilgungsrechner für Annuitätendarlehen kannst du je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
+    inputs: [
+      {
+        name: 'select',
+        id: 'debt-annuity-select',
+        label: 'Was soll berechnet werden?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [0, 5],
+        options: [
+          {
+            id: '0',
+            description: 'Rate/Annuität'
+          },
+          {
+            id: '1',
+            description: 'Restschuld'
+          },
+          {
+            id: '2',
+            description: 'Laufzeit'
+          },
+          {
+            id: '3',
+            description: 'Zinssatz'
+          },
+          {
+            id: '4',
+            description: 'Kreditsumme'
+          }
+        ]
+      },
+      {
+        name: 'principal',
+        id: 'debt-annuity-principal',
+        label: 'Kreditsumme',
+        addon: 'EUR',
+        placeholder: 'Kreditsumme',
+        value: '15000.00',
+        tooltip: 'Geben Sie die Kredit- bzw. Darlehenssumme ein. Dies ist der Betrag, welcher bei Auszahlung des Kredites zur Verfügung gestellt wird.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'term',
+        id: 'debt-annuity-term',
+        label: 'Laufzeit Ratenzahlungen',
+        addon: 'Jahre',
+        placeholder: 'Laufzeit Ratenzahlungen',
+        value: '3',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0,200]
+      },
+      {
+        name: 'repay',
+        id: 'debt-annuity-repay',
+        label: 'Rate/Annuität',
+        addon: 'EUR',
+        placeholder: 'Rate/Annuität',
+        value: '',
+        disabled: true,
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'repayfreq',
+        id: 'debt-annuity-repayfreq',
+        label: 'Zahlungsintervall für Rate',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [1, 12],
+        options: [
+          {
+            id: '12',
+            description: 'monatlich'
+          },
+          {
+            id: '4',
+            description: 'vierteljährlich'
+          },
+          {
+            id: '2',
+            description: 'halbjährlich'
+          },
+          {
+            id: '1',
+            description: 'jährlich'
+          }
+        ]
+      },
+      {
+        name: 'rate',
+        id: 'debt-annuity-rate',
+        label: 'Zinssatz',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '3.50',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'residual',
+        id: 'debt-annuity-residual',
+        label: 'Restschuld',
+        addon: 'EUR',
+        placeholder: 'Restschuld',
+        value: '4000',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'fees',
+        id: 'debt-annuity-fees',
+        linetop: true,
+        label: 'Sind Gebühren angefallen?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'nein'
+          },
+          {
+            id: 'true',
+            description: 'ja'
+          }
+        ]
+      },
+      {
+        name: 'feeamount',
+        id: 'debt-annuity-feeamount',
+        secondary: 'true',
+        hide: 'true',
+        label: 'Gebühren',
+        addon: 'EUR',
+        placeholder: 'Gebühren',
+        value: '',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000],
+        optional: true
+      },
+      {
+        name: 'feetype',
+        id: 'debt-annuity-feetype',
+        linetop: false,
+        hide: true,
+        secondary: 'true',
+        label: 'Wie sollen die Gebühren verrechnet werden?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        optional: true,
+        args: [2, 3],
+        options: [
+          {
+            id: '2',
+            description: 'Verrechnung mit der Ratenzahlung/Annuität'
+          },
+          {
+            id: '3',
+            description: 'keine Verrechnung, sondern gesonderte Zahlung'
+          }
+        ]
+      },
+      {
+        name: 'disagio',
+        id: 'debt-annuity-disagio',
+        label: 'Gab es ein Disagio?',
+        tooltip: 'TBD',
+        linetop: true,
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'nein'
+          },
+          {
+            id: 'true',
+            description: 'ja'
+          }
+        ]
+      },
+      {
+        name: 'disagioamount',
+        id: 'debt-annuity-disagioamount',
+        secondary: 'true',
+        hide: 'true',
+        label: 'Disago',
+        addon: '%',
+        placeholder: 'Disago',
+        value: '',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 100],
+        optional: true
+      },
+      { 
+        name: 'repaymentfree', 
+        id: 'debt-annuity-repaymentfree',
+        label: 'Gab es eine tilgungsfreie Zeit?',
+        tooltip: 'TBD',
+        linetop: true,
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'nein'
+          },
+          {
+            id: 'true',
+            description: 'ja'
+          }
+        ] 
+      },
+      { 
+        name: 'repaymentfreeterm', 
+        id: 'debt-annuity-repaymentfreeterm',
+        secondary: 'true',
+        hide: 'true',
+        label: 'Zeitraum',
+        addon: 'Jahre',
+        placeholder: 'Zeitraum',
+        value: '',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        'args': [0, 1000],
+        'optional': true
+      },
+      { 
+        name: 'repaymentfreetype', 
+        id: 'debt-annuity-repaymentfreetype',
+        linetop: false,
+        hide: true,
+        secondary: 'true',
+        label: 'Wie sollen die Zinsen für die tilgungsfreie Zeit verrechnet werden?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        optional: true,
+        args: [2,3],
+        options: [
+          {
+            id: '2',
+            desciption: 'Verrechnung mit der Ratenzahlung/Annuität'
+          },
+          {
+            id: '3',
+            desciption: 'keine Verrechnung, sondern gesonderte Zahlung'
+          }
+        ]
+      }
+    ],
+    results_1: [
+      {
+        name: 'repay',
+        tooltip: 'TBD',
+        description: 'Rate/Annuität',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'residual',
+        tooltip: 'TBD',
+        description: 'Restschuld',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second'
+      },
+      {
+        name: 'term',
+        tooltip: 'TBD',
+        description: 'Laufzeit der Ratenzahlungen',
+        unit: 'Jahre',
+        digits: 2,
+        importance: 'second'
+      },
+      {
+        name: 'rate',
+        tooltip: 'TBD',
+        description: 'Zinssatz',
+        unit: '% p. a.',
+        digits: 2,
+        importance: 'second'
+      },
+      {
+        name: 'principal',
+        tooltip: 'TBD',
+        description: 'Kreditsumme',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second'
+      },
+      {
+        name: 'irr',
+        tooltip: 'TBD',
+        description: 'Effektiver Jahreszins / IRR',
+        unit: '% p. a.',
+        digits: 2,
+        importance: 'second'
+      }
+    ] 
+
+  });
+
+
+  annuity.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Annuity');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Annuity successfully seeded');
+    }
+  });
+
+
+  /**
+   * SEED MISC-DAYCOUNT
+   * */
+  var daycount = new Calc({
+    name: 'daycount',
+    id: 'misc-daycount',
+    designation: 'Zinstagerechner',
+    description: 'Mit dem Zinsrechner kann die Anzahl der Zinstage und der Zinsfaktor zwischen zwei Daten nach verschiedenen Zinsmethoden berechnet werden.',
+    inputs: [
+      {
+        name: 'begindate',
+        id: 'misc-daycount-begindate',
+        linetop: false,
+        label: 'Anfangsdatum',
+        addon: 'Datum',
+        value: '08.01.2013',
+        tooltip: 'Geben Sie hier das Anfangsdatum der Zinsperiode ein.',
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'enddate',
+        id: 'misc-daycount-enddate',
+        linetop: false,
+        label: 'Enddatum',
+        addon: 'Datum',
+        value: '08.05.2015',
+        tooltip: 'Geben Sie hier das Enddatum der Zinsperiode ein.',
+        type: 'date',
+        vtype: 'date'
+      }
+    ],
+    results_1: [
+      {
+        name: 'actdays',
+        tooltip: 'Die Anzahl abgelaufener Kalendertage vom Anfangs- bis zum Endddatum. Bei der Berechnung wird - wie gewöhnlich - das Anfangsdatum als voller Tag mitgezählt, während der Tag des Enddatums nicht gezählt wird. Zum Beispiel wird bei der Berechnung der Kalendertage vom 01.01.2015 bis zum 02.01.2015 der Tag des Enddatums (02.01.2015) nicht gezählt. Die Anzahl abgelaufener Kalendertage ist in diesem Beispiel also 1.',
+        description: 'Anzahl der Kalendertage',
+        unit: 'Tage',
+        digits: 0,
+        importance: 'first'
+      },
+      {
+        name: 'act360',
+        tooltip: 'Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/360-Konvention, welche auch als französische Zinsmethode bezeichnet wird. Diese Methode wird allgemein häufig für Geldmarktinstrumente angewendet. Man nutzt sie für Bundesanleihen mit variablem Zins, Floating Rate Notes, unverzinslichen Schatzanweisungen und Refinanzierungen sowie Anlagen bei der EZB.',
+        description: 'act / 360',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        type: 'string'
+      },
+      {
+        name: 'act360interestdays',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Zinstage',
+        unit: ' Tage',
+        digits: 0,
+        importance: 'second'
+      },
+      {
+        name: 'act360factor',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Dezimal)',
+        unit: '',
+        digits: 6,
+        importance: 'second'
+      },
+      {
+        name: 'act360factorF',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Bruch)',
+        unit: '',
+        type: 'string',
+        importance: 'second'
+      },
+      {
+        name: 'act365',
+        tooltip: 'Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/365-Konvention, welche auch als englische Zinsmethode bezeichnet wird. Sie kommt zum Beispiel bei englischen oder belgischen Geldmarktpapieren zur Anwendung.',
+        description: 'act / 365',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        type: 'string'
+      },
+      {
+        name: 'act365interestdays',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Zinstage',
+        unit: ' Tage',
+        digits: 0,
+        importance: 'second'
+      },
+      {
+        name: 'act365factor',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Dezimal)',
+        unit: '',
+        digits: 6,
+        importance: 'second'
+      },
+      {
+        name: 'act365factorF',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Bruch)',
+        unit: '',
+        type: 'string',
+        importance: 'second'
+      },
+      {
+        name: 'a30E360',
+        tooltip: 'Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der deutschen Zinsrechnung, welche der Rechnungskonvention nach 30E/360 ISDA entspricht. Bei praktisch allen Zinsberechnungen für deutsche Sparkonten, Festgeldkonten, Kontokorrentkonten, Ratenkredite und langfristigen Darlehen kommt diese Berechnungsmethode zur Anwendung.',
+        description: '30E / 360 ISDA, Deutsche Zinsmethode',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        type: 'string'
+      },
+      {
+        name: 'a30E360interestdays',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Zinstage',
+        unit: ' Tage',
+        digits: 0,
+        importance: 'second'
+      },
+      {
+        name: 'a30E360factor',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Dezimal)',
+        unit: '',
+        digits: 6,
+        importance: 'second'
+      },
+      {
+        name: 'a30E360factorF',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Bruch)',
+        unit: '',
+        type: 'string',
+        importance: 'second'
+      },
+      {
+        name: 'a30360',
+        tooltip: 'Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der ISDA-30/360-Bond-Basis-Methode. Diese Methode kommt oft bei gehandelten US-amerikanischen Anleihen zur Anwendung.',
+        description: '30 / 360, ISDA Anleihenbasis',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        type: 'string'
+      },
+      {
+        name: 'a30360interestdays',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Zinstage',
+        unit: ' Tage',
+        digits: 0,
+        importance: 'second'
+      },
+      {
+        name: 'a30360factor',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Dezimal)',
+        unit: '',
+        digits: 6,
+        importance: 'second'
+      },
+      {
+        name: 'a30360factorF',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Bruch)',
+        unit: '',
+        type: 'string',
+        importance: 'second'
+      },
+      {
+        name: 'actact',
+        tooltip: 'Die folgenden Angaben enthalten die Zinstage und den Zinsfaktor berechnet nach der act/act Zinsmethode, auch bezeichnet als tagesgenaue oder Effektivzinsmethode. Diese Methode verwendet man zum Beispiel für Bundesanleihen mit festem Zins, Bundesobligationen, Bundesschatzanweisungen, Bundesschatzbriefe sowie für viele börsennotierte Anleihen.',
+        description: 'act / act, Taggenau',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        type: 'string'
+      },
+      {
+        name: 'actactinterestdays',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Zinstage',
+        unit: ' Tage',
+        digits: 0,
+        importance: 'second'
+      },
+      {
+        name: 'actactfactor',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Dezimal)',
+        unit: '',
+        digits: 6,
+        importance: 'second'
+      },
+      {
+        name: 'actactfactorF',
+        tooltip: 'TBD',
+        omittooltip: true,
+        description: 'Faktor (Bruch)',
+        unit: '',
+        type: 'string',
+        importance: 'second'
+      }
+    ]
+  });
+
+
+  daycount.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Daycount');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Daycount successfully seeded');
+    }
+  });
+
+
+  /**
+   * SEED DEBT-DISPO
+   * */
+  var dispo = new Calc({
+    name: 'dispo',
+    id: 'debt-dispo',
+    designation: 'Dispozinsrechner',
+    description: 'Mit dem Dispozinsrechner können die für einen Dispo anfallenden Dispo- und Überziehungszinsen berechnet werden.',
+    inputs: [
+      {
+        name: 'principal',
+        id: 'debt-dispo-principal',
+        linetop: false,
+        label: 'Betrag Kontoüberziehung',
+        addon: 'EUR',
+        value: '1000.00',
+        tooltip: 'Dies ist der Betrag, um den das Konto 'im Minus' ist.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'limit',
+        id: 'debt-dispo-limit',
+        linetop: false,
+        label: 'Kreditlinie Dispo',
+        addon: 'EUR',
+        value: '2000.00',
+        tooltip: 'Die Kreditlinie für den Dispo ist der Betrag, bis zu dem der Dispositionskredit in Anspruch genommen werden darf. Auf diesen Betrag kommt der Zinssatz für den Dispokredit zur Anwendung. Falls kein Dispositionskredit besteht tragen sie hier eine 0 ein. Der Überziehungsbetrag wird dann direkt mit dem Zinssatz für weitere Überziehungen verzinst.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000000000]
+      },
+      {
+        name: 'dispointerest',
+        id: 'debt-dispo-dispointerest',
+        label: 'Zinssatz Dispo',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '12.50',
+        tooltip: 'Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für die Nutzung des Dispositionskredites berechnet.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'otherinterest',
+        id: 'debt-dispo-otherinterest',
+        label: 'Zinssatz weitere Überziehung',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '15.50',
+        tooltip: 'Geben Sie hier den nominalen Jahreszinssatz ein, welchen die Bank für Überziehungen berechnet, die über die Kreditlinie des Dispositionskredits hinausgehen ("geduldete Überziehung").',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
+        name: 'periodchoice',
+        id: 'debt-dispo-periodchoice',
+        linetop: true,
+        label: 'Zeitraum eingeben über...',
+        tooltip: 'Entscheiden Sie hier, ob der Zeitraum als Datumsbereich (von / bis) oder mittels Zinstagen eingegeben werden soll.',
+        type: 'select',
+        vtype: 'string',
+        options: [
+          {
+            id: 'dates',
+            description: 'Datumsbereich'
+          },
+          {
+            id: 'days',
+            description: 'Zinstage'
+          }
+        ]
+      },
+      {
+        name: 'startdate',
+        id: 'debt-dispo-startdate',
+        linetop: false,
+        optional: true,
+        label: 'Anfangsdatum',
+        addon: 'Datum',
+        value: '14.04.2015',
+        tooltip: 'Erster Tag der Berechnungsperiode',
+        secondary: true,
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'enddate',
+        id: 'debt-dispo-enddate',
+        linetop: false,
+        optional: true,
+        label: 'Enddatum',
+        addon: 'Datum',
+        value: '10.05.2015',
+        tooltip: 'Letzter Tag der Berechnungsperiode',
+        secondary: true,
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'days',
+        id: 'debt-dispo-days',
+        linetop: false,
+        label: 'Zinstage',
+        addon: 'Tage',
+        value: '100',
+        optional: true,
+        hide: true,
+        secondary: true,
+        tooltip: 'Die Dauer der Zinsperiode in Tagen nach der gewählten Zinsmethode.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 10000]
+      },
+      {
+        name: 'daycount',
+        id: 'debt-dispo-daycount',
+        linetop: true,
+        label: 'Zinsmethode',
+        tooltip: 'Anzuwendendes Verfahren zur Berechnung der Zins- und Basistage.',
+        type: 'select',
+        vtype: 'string',
+        options: [
+          {
+            id: 'a30E360',
+            description: '30E / 360 ISDA, Deutsche Zinsmethode'
+          },
+          {
+            id: 'a30360',
+            description: '30E / 360, ISDA Anleihenbasis'
+          },
+          {
+            id: 'act360',
+            description: 'act / 360'
+          },
+          {
+            id: 'act365',
+            description: 'act / 365'
+          },
+          {
+            id: 'actact',
+            description: 'act / act, Taggenaue Methode'
+          }
+        ]
+      }
+    ],
+    results_1: [
+      {
+        name: 'interestamount',
+        tooltip: 'Der aufgrund der Überziehung zu zahlende Zinsbetrag.',
+        description: 'Überziehungszinsen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'averageinterest',
+        tooltip: 'Dieser Wert gibt den auf die Überziehung zutreffenden annualisierten Sollzinssatz wieder. Sofern der Betrag der Kontoüberziehung unter der Kreditlinie bleibt entspricht der Sollzinssatz dem Dispozinssatz. Übersteigt die Kontoüberziehung die Kreditlinie, so berechnet sich der Sollzinssatz als entsprechend gewichtetes Mittel aus dem Dispozinssatz und dem Zinssatz für weitere Überziehungen.',
+        description: 'Gewichteter Sollzinssatz',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'first'
+      }
+    ]
+  });
+
+
+  dispo.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Dispo');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Dispo successfully seeded');
+    }
+  });
+
 }
+
+
+/**
+ * SEED PROPERTY-RENT
+ * */
+var rent = new Calc({
+  name: 'rent',
+  id: 'property-rent',
+  designation: 'Mietrechner',
+  description: 'Mit dem Mietrechner können Sie analysieren, wie viel Miete Sie über einen bestimmten Zeitraum insgesamt zahlen. Der Rechner wird oft zur Berechnung der über die Lebenszeit anfallenden Miete genutzt. ',
+  inputs: [
+    {
+      name: 'select',
+      id: 'property-rent-select',
+      label: 'Was soll berechnet werden?',
+      tooltip: 'Wähle hier, welche der Größen Monatsmiete, Mietsteigerung, Mietdauer oder Gesamtmiete berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
+      type: 'select',
+      vtype: 'number',
+      args: [0,3],
+      options: [
+        {
+          id: '0',
+          description: 'Gesamtmiete'
+        },
+        {
+          id: '1',
+          description: 'Mietsteigerung'
+        },
+        {
+          id: '2',
+          description: 'Mietdauer'
+        },
+        {
+          id: '3',
+          description: 'Monatsmiete'
+        }
+      ]
+    },
+    {
+      name: 'rent',
+      id: 'property-rent-rent',
+      linetop: false,
+      optional: false,
+      label: 'Monatsmiete',
+      placeholder: 'Monatsmiete',
+      addon: 'EUR',
+      value: '800.00',
+      tooltip: 'Geben Sie hier die aktuelle monatliche Gesamtmiete ein.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 1000000]
+    },
+    {
+      name: 'dynamic',
+      id: 'property-rent-dynamic',
+      label: 'Jährliche Mietsteigerung',
+      addon: '% p. a.',
+      optional: false,
+      placeholder: 'Mietsteigerung',
+      value: '2.00',
+      tooltip: 'Geben Sie hier die erwartete jährliche Mietsteigerung über die Mietdauer an. Falls keine Mietsteigerung berücksichtigt werden soll, geben Sie bitte 0 ein.',
+      type: 'number',
+      vtype: 'number',
+      args: [ -30,30]
+    },
+    {
+      name: 'term',
+      id: 'property-rent-term',
+      linetop: false,
+      label: 'Mietdauer',
+      placeholder: 'Mietdauer',
+      optional: false,
+      addon: 'Jahre',
+      value: '25',
+      tooltip: 'Geben Sie hier die insgesamt zu betrachtende Mietdauer ein.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 75]
+    },
+    {
+      name: 'renttotal',
+      id: 'property-rent-renttotal',
+      linetop: false,
+      label: 'Gesamte Miete',
+      placeholder: 'Gesamte Miete',
+      addon: 'EUR',
+      disabled: true,
+      optional: false,
+      value: '',
+      tooltip: 'Die Summe aller in der Mietdauer zu zahlenden Monatsmieten.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 1000000000]
+    }
+  ],
+  results_1: [
+    {
+      name: 'renttotal',
+      tooltip: '',
+      omittooltip: true,
+      description: 'Gesamte Miete',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'rent',
+      tooltip: '',
+      omittooltip: true,
+      description: 'Monatsmiete',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'dynamic',
+      tooltip: '',
+      omittooltip: true,
+      description: 'Jährliche Mietsteigerung',
+      unit: '% p. a.',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'term',
+      tooltip: '',
+      omittooltip: true,
+      description: 'Mietdauer',
+      unit: 'Jahre',
+      digits: 2,
+      importance: 'first'
+    }
+  ]
+});
+
+
+
+rent.save(function (err) {
+  if (err) {
+    console.log(err);
+    console.log('Seed Failed for Calc.Elem.Model.Rent');
+    return next(err);
+  } else {
+    console.log('Calc.Elem.Model.Rent successfully seeded');
+  }
+});
+
+
+
+/**
+ * SEED PROPERTY-TRANSFERTAX
+ * */
+var transfertax = new Calc({
+  name: 'transfertax',
+  id: 'property-transfertax',
+  designation: 'Grunderwerbssteuer-Rechner',
+  description: 'Mit dem Grunderwerbssteuer-Rechner lässt sich die Steuer berechnen, welche beim Erwerb eines Grundstücks oder Grundstücksanteils anfällt. Ökonomisch erhöht die Grunderwerbssteuer den Gesamtpreis beim Kauf einer Immobilie bzw. eines Grundstücks.',
+  inputs: [
+    { 
+      name: 'price', 
+      id: 'property-transfertax-price',
+      linetop: false,
+      optional: false,
+      label: 'Kaufpreis Immobilie/Grundstück',
+      placeholder: 'Kaufpreis',
+      addon: 'EUR',
+      value: '350000.00',
+      tooltip: 'Geben Sie hier den Kaufpreis des Grundstücks an. Sofern eine Immobilie auf dem Grundstück steht ist der Kaufpreis zu verstehen als Gesamtpreis aus Grundstück und Immobilien.',
+      type: 'number',
+      vtype: 'number',
+      args: [0,100000000000]
+    },
+    { 
+      name: 'state', 
+      id: 'property-transfertax-state',
+      label: 'Bundesland',
+      placeholder: 'Bundesland',
+      tooltip: 'Geben Sie das Bundesland des Standorts der zu erwerbenden Immobilie an.',
+      type: 'select',
+      vtype: 'string',
+      options: [
+        {
+          id: 'BAD',
+          description: 'Baden-Württemberg'
+        },
+        {
+          id: 'BAY',
+          description: 'Bayern'
+        },
+        {
+          id: 'BER',
+          description: 'Berlin'
+        },    {
+          id: 'BRA',
+          description: 'Brandenburg'
+        },    
+        {
+          id: 'BRE',
+          description: 'Bremen'
+        },
+        {
+          id: 'HAM',
+          description: 'Hamburg'
+        },
+        {
+          id: 'HES',
+          description: 'Hessen'
+        },
+        {
+          id: 'MEC',
+          description: 'Mecklenburg-Vorpommern'
+        },
+        {
+          id: 'NIE',
+          description: 'Niedersachsen'
+        },
+        {
+          id: 'NOR',
+          description: 'Nordrhein-Westfalen'
+        },
+        {
+          id: 'RHE',
+          description: 'Rheinland-Pfalz'
+        },
+        {
+          id: 'SAR',
+          description: 'Saarland'
+        },
+        {
+          id: 'SAC',
+          description: 'Sachsen'
+        },
+        {
+          id: 'SAA',
+          description: 'Sachsen-Anhalt'
+        },
+        {
+          id: 'SCH',
+          description: 'Schleswig-Holstein'
+        },
+        {
+          id: 'THU',
+          description: 'Thüringen'
+        }
+      ]
+    }      
+  ],
+  results_1: [
+    {
+      name: 'total',
+      tooltip: 'Der Gesamtbetrag bestehend aus dem Kaufpreis und der anfallenden Grunderwerbssteuer.',
+      omittooltip: false,
+      description: 'Gesamtbetrag inkl. Steuer',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'tax',
+      tooltip: 'Bei der Transaktion anfallender Betrag der Grunderwerbssteuer.',
+      description: 'Grunderwerbssteuer',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'rate',
+      tooltip: 'Der im gewählten Bundesland aktuell anwendbare Steuersatz.',
+      description: 'Anzuwendender Steuersatz',
+      unit: '% p. a.',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'taxfree',
+      tooltip: 'Es besteht eine Freigrenze von 2500 EUR. Sofern der Kaufpreis darunter liegt, fällt keine Grunderwerbssteuer an.',
+      description: 'Freigrenze anwendbar?',
+      type: 'string',
+      unit: '',
+      importance: 'second'
+    }
+  ]
+  
+});
+
+
+transfertax.save(function (err) {
+  if (err) {
+    console.log(err);
+    console.log('Seed Failed for Calc.Elem.Model.Transfertax');
+    return next(err);
+  } else {
+    console.log('Calc.Elem.Model.Transfertax successfully seeded');
+  }
+});
+
+
+
+
+/**
+ * SEED PROPERTY-HOMESAVE
+ * */
+var homesave = new Calc({
+  name: 'homesave',
+  id: 'property-homesave',
+  designation: 'Bausparrechner',
+  description: 'Mit dem Bausparrechner können Sie Bausparverträge berechnen und Spar- sowie Tilgungspläne analysieren. Ermitteln Sie, ob sich ein Bausparvertrag für Sie lohnt oder vergleichen Sie die Angebote verschiedener Bausparkassen.',
+  inputs: [
+    {
+      name: 'principal',
+      id: 'property-homesave-principal',
+      linetop: false,
+      optional: false,
+      label: 'Bausparsumme',
+      placeholder: 'Bausparsumme',
+      addon: 'EUR',
+      value: '50000.00',
+      tooltip: 'Geben Sie hier den Gesamtbetrag ein, über den der Bausparvertrag abgeschlossen wird. Dies ist der Betrag, welcher bei Zuteilung des Bausparvertrages ausgezahlt wird.',
+      type: 'number',
+      vtype: 'number',
+      args: [0,1000000000]
+    },
+    {
+      name: 'interestsave',
+      id: 'property-homesave-interestsave',
+      linetop: true,
+      optional: false,
+      label: 'Guthabenzinssatz',
+      placeholder: 'Guthabenzinssatz',
+      addon: '% p. a.',
+      value: '0.50',
+      tooltip: 'Geben Sie den jährlichen Zinssatz ein, welchen Sie laut Bausparvertrag auf das angesparte Kapital erhalten.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 20]
+    },
+    {
+      name: 'saving',
+      id: 'property-homesave-saving',
+      linetop: false,
+      optional: false,
+      label: 'Sparbeitrag',
+      placeholder: 'Monatlicher Sparbeitrag',
+      addon: 'EUR / Monat',
+      value: '250.00',
+      tooltip: 'Geben Sie den Beitrag ein, welcher in der Ansparphase monatlich in den Bausparvertrag eingezahlt wird. Es wird unterstellt, dass die Zahlung jeweils am Monatsende (nachschüssig) erfolgt.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 100000]
+    },
+    {
+      name: 'termsave',
+      id: 'property-homesave-termsave',
+      linetop: false,
+      optional: false,
+      label: 'Anspardauer',
+      placeholder: 'Anspardauer',
+      addon: 'Jahre',
+      value: '10',
+      tooltip: 'Geben Sie die Anspardauer in Jahren ein. Während der Anspardauer erfolgen die monatlichen Sparbeiträge',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 100]
+    },
+    {
+      name: 'initialfee',
+      id: 'property-homesave-initialfee',
+      linetop: false,
+      optional: false,
+      label: 'Abschlussgebühr',
+      placeholder: 'Abschlussgebühr',
+      addon: 'EUR',
+      value: '0.00',
+      tooltip: 'Geben Sie hier eventuelle einmalige Gebühren ein, welche beim Abschluss des Vertrages anfallen. Dies Gebühren werden mit den Einzahlungen verrechnet. Falls keine einmaligen Gebühren anfallen, tragen Sie einfach 0 ein.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 100000]
+    },
+    {
+      name: 'initialpay',
+      id: 'property-homesave-initialpay',
+      linetop: false,
+      optional: false,
+      label: 'Sondereinzahlung bei Beginn',
+      placeholder: 'Sondereinzahlung',
+      addon: 'EUR',
+      value: '0.00',
+      tooltip: 'Hier können Sie einmalige Sparbeiträge eingeben, welche bei manchen Verträgen zu Beginn der Vertragsperiode möglich sind. Diese Sondereinzahlungen werden entsprechend über die Ansparperiode verzinst.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 100000]
+    },
+    {
+      name: 'bonus',
+      id: 'property-homesave-bonus',
+      linetop: true,
+      label: 'Wohnungsbauprämie berücksichtigen?',
+      tooltip: 'Geben Sie an, ob die Wohnungsbauprämie berücksichtigt werden soll. Falls Sie 'JA' angeben, wird der Rechner mittels weiterer Fragen zunächst feststellen, ob und in welchem Umfang Anspruch auf die Wohnungsbauprämie besteht. Sofern Anspruch besteht wird die entsprechende Prämie automatisch in die Berechnung einbezogen.',
+      type: 'select',
+      vtype: 'bool',
+      options: [
+        {
+          id: 'true',
+          descriptions: 'JA'
+        },
+        {
+          id: 'false',
+          descriptions: 'NEIN'
+        }
+      ]
+    },
+    {
+      name: 'marriage',
+      id: 'property-homesave-marriage',
+      linetop: false,
+      secondary: true,
+      optional: true,
+      label: 'Familienstand',
+      tooltip: 'Geben Sie den Familienstand zur Berechnung von Förderansprüchen an.',
+      type: 'select',
+      vtype: 'bool',
+      options: [
+        {
+          id: 'false',
+          description: 'ledig'
+        },
+        {
+          id: 'true',
+          description: 'verheiratet'
+        }
+      ]
+    },
+    {
+      name: 'income',
+      id: 'property-homesave-income',
+      linetop: false,
+      optional: true,
+      secondary: true,
+      label: 'Bruttoeinkommen',
+      placeholder: 'Bruttoeinkommen',
+      addon: 'EUR',
+      value: '30000.00',
+      tooltip: 'Geben Sie das Bruttoeinkommen zur Berechnung von Förderansprüchen an. Falls Sie verheiratet sind geben Sie hier bitte die Summe der Einkommen beider Ehepartner an.',
+      type: 'number',
+      vtype: 'number',
+      args: [0, 10000000]
+    },
+    {
+      name: 'interestdebt',
+      id: 'property-homesave-interestdebt',
+      linetop: true,
+      optional: false,
+      label: 'Darlehenszinssatz',
+      placeholder: 'Darlehenszinssatz',
+      addon: '% p. a.',
+      value: '2.50',
+      tooltip: 'Geben Sie den jährlichen Zinssatz ein, welchen Sie laut Bausparvertrag für das Bauspardarlehen zahlen.',
+      type: 'number',
+      vtype: 'number',
+      args: [0,20]
+    },
+    {
+      name: 'repay',
+      id: 'property-homesave-repay',
+      linetop: false,
+      optional: false,
+      label: 'Rückzahlungsrate Darlehen (Zins + Tilgung)',
+      placeholder: 'Rückzahlungsrate',
+      addon: 'EUR / Monat',
+      value: '300',
+      tooltip: 'Geben Sie den monatlichen Betrag zur Rückzahlung des Darlehens ein. Dieser Betrag fällt nach Zuteilung während der Rückzahlungsphase an und besteht aus Zins und Tilgung. Es wird unterstellt, dass die Zahlung jeweils am Monatsende (nachschüssig) erfolgt.',
+      type: 'number',
+      vtype: 'number',
+      args: [0,100000]
+    },
+    {
+      name: 'paypercent',
+      id: 'property-homesave-paypercent',
+      linetop: false,
+      optional: false,
+      label: 'Auszahlungsprozentsatz der Bausparsumme',
+      placeholder: 'Auszahlungsprozentsatz',
+      addon: '%',
+      value: '100',
+      tooltip: 'Bei Standardverträgen ist der Auszahlungsprozentsatz 100% der Bausparsumme. Bei einigen Verträgen kann jedoch davon nach oben oder unten abgewichen werden, was die Auszahlung relativ zur Bausparsumme entsprechend erhöht oder senkt. Im Zweifel sollten Sie hier 100% eingeben.',
+      type: 'number',
+      vtype: 'number',
+      args: [50,300]
+    }
+  ],
+  results_1: [
+    {
+      name: 'numberpays',
+      tooltip: 'TBD',
+      description: 'Anzahl Sparraten',
+      unit: '',
+      digits: 0,
+      importance: 'second'
+    },
+    {
+      name: 'finalsavings',
+      tooltip: 'TBD',
+      description: 'Sparguthaben Ende Ansparphase',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'finalsavingswohnungsbau',
+      tooltip: 'TBD',
+      description: 'Sparguthaben Ende Ansparphase',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'totalpays',
+      tooltip: 'TBD',
+      description: 'davon Spareinzahlungen',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'totalinterest',
+      tooltip: 'TBD',
+      description: 'davon Guthabenzinsen',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'wohnungsbau',
+      tooltip: 'TBD',
+      description: 'davon Wohnungsbauprämie',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'totalloanpay',
+      tooltip: 'TBD',
+      description: 'Auszahlungsbetrag bei Zuteilung',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'totalloan',
+      tooltip: 'TBD',
+      description: 'davon Darlehenshöhe',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'termloan',
+      tooltip: 'TBD',
+      description: 'Laufzeit des Darlehens',
+      unit: 'Jahre',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'interestloan',
+      tooltip: 'TBD',
+      description: 'davon Darlehenszinsaufwand',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'totalloanwinterest',
+      tooltip: 'TBD',
+      description: 'Rückzahlungsaufwand insgesamt',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'first'
+    },
+    {
+      name: 'savingratio',
+      tooltip: 'TBD',
+      description: 'Ansparquote',
+      unit: '%',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'totalloanpays',
+      tooltip: 'TBD',
+      description: 'Anzahl Darlehensraten',
+      unit: '',
+      digits: 1,
+      importance: 'second'
+    },
+    {
+      name: 'initialfee',
+      tooltip: 'TBD',
+      description: 'Verrechnete Abschlussgebühr',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'initialpay',
+      tooltip: 'TBD',
+      description: 'davon Sondereinzahlung',
+      unit: 'EUR',
+      digits: 2,
+      importance: 'second'
+    },
+    {
+      name: 'irrsave',
+      description: 'Effektiver Jahreszins/IRR Ansparphase',
+      unit: '% p. a.',
+      digits: 2,
+      importance: 'second',
+      tooltip: 'Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.'
+    },
+    {
+      name: 'irrloan',
+      description: 'Effektiver Jahreszins/IRR Rückzahlungsphase',
+      unit: '% p. a.',
+      digits: 2,
+      importance: 'second',
+      tooltip: 'Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.'
+    }
+  ]
+
+});
+
+
+
+homesave.save(function (err) {
+  if (err) {
+    console.log(err);
+    console.log('Seed Failed for Calc.Elem.Model.Homesave');
+    return next(err);
+  } else {
+    console.log('Calc.Elem.Model.Homesave successfully seeded');
+  }
+});
