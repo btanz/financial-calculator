@@ -11,6 +11,7 @@ var QuotesSchema = new Schema({
 /** DailyStockPrices is the Schema for documents containing daily stock prices */
 var DailyStockPricesSchema = new Schema({
   symbol: {type: String, required: true, unique: true},
+  description: {type: String},
   quotes: [QuotesSchema]
 });
 

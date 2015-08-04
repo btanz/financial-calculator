@@ -27,6 +27,7 @@ function seeder(){
   /** Seed Symbol AAPL */
   var aapl = new DailyStockPrices({
     symbol: 'AAPL',
+    description: 'Apple',
     quotes: [
       {date: new Date('2010-03-26'), closing: 230.9},
       {date: new Date('2010-04-02'), closing: 235.97},
@@ -76,6 +77,7 @@ function seeder(){
   /** Seed Symbol C */
   var c = new DailyStockPrices({
     symbol: 'C',
+    description: 'Citi Group',
     quotes: [
       {date: new Date('2010-03-26'), closing: 4.31},
       {date: new Date('2010-04-02'), closing: 4.18},
@@ -126,6 +128,7 @@ function seeder(){
   /** Seed Symbol GE */
   var ge = new DailyStockPrices({
     symbol: 'GE',
+    description: 'General Electric',
     quotes: [
       {date: new Date('2010-03-26'), closing: 18.34},
       {date: new Date('2010-04-02'), closing: 18.33},
@@ -176,6 +179,7 @@ function seeder(){
   /** Seed Symbol XOM */
   var xom = new DailyStockPrices({
     symbol: 'XOM',
+    description: 'Exxon Mobil',
     quotes: [
       {date: new Date('2010-03-26'), closing: 66.54},
       {date: new Date('2010-04-02'), closing: 67.61},

@@ -4927,7 +4927,7 @@
       }
     },
     "results_1": {
-      "interestdays": {
+      "test": {
         "description": "Zinstage",
         "unit": "Tage",
         "digits": 0,

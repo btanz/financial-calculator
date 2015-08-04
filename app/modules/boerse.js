@@ -227,9 +227,34 @@ exports.equityReturn = function(inputs, callback) {
 
 
 
+/** BOERSE-PORTFOLIO function that computes parameters for Markowitz portfolio optimization
+ * ARGUMENTS XXX todo: documenation
 
+ * ACTIONS
+ *   none
+ * RETURNS XXX
+
+ */
 exports.portfolio = function(inputs){
+
+  /** ******** 1. INIT AND ASSIGN ******** */
+  helpers.messages.clear();
+  helpers.errors.clear();
+
   var DailyStockPrices = require('mongoose').model('DailyStockPrices');
+  var result = {};
+  result._1 = {};
+  var localElems = calcElems.portfolio.results_1;
+
+  /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+
+
+  /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
+
+
+  /** ******** 4. COMPUTATIONS ******** */
+
+  // todo: write error messages to user
 
   DailyStockPrices.findBySymbol('AAPL', function (err, data) {
     if(err) {
@@ -243,7 +268,25 @@ exports.portfolio = function(inputs){
     }
   });
 
-  console.log(inputs);
+
+
+
+  /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
+  result.id = calcElems.portfolio.id;
+
+
+  /**
+   * 5.A FIRST RESULT CONTAINER
+   */
+  result._1.test = _.extend(localElems['test'], {"value": 123.45});
+
+  console.log('HI');
+
+  console.log(result);
+
+
+  return result;
+
 };
 
 
