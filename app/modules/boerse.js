@@ -246,8 +246,10 @@ exports.portfolio = function(inputs, callback){
   var DailyStockPrices = require('mongoose').model('DailyStockPrices');
   var result = {};
   result._1 = {};
+  result._2 = {};
   var stocks = [];
   var temp = [];
+  var u, uT, e = [], eT;
   var re = /(stock\d+)/;
   var localElems = calcElems.portfolio.results_1;
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -261,18 +263,12 @@ exports.portfolio = function(inputs, callback){
   });
 
   result.id = calcElems.portfolio.id;
+  result._2.title = 'Parameter Aktien';
+  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (% p. a.)', 'Standardabweichung <br> (% p. a.)'];
+  result._2.body = [];
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
-  function constructResult(data, ind){
-    //console.log(data[0].description);
-    console.log(ind);
-    result._1['stock' + ind]             = _.extend(localElems['stock'],          {"value": data[0].symbol});
-    result._1['stock' + ind].description = data[0].description ;
-    result._1['expectedreturn' + ind]    = _.extend(localElems['expectedreturn'], {"value": 100 * stats.mean(data[0].return.array)});
-    result._1['stdev' + ind]             = _.extend(localElems['stdev'],          {"value": 100 * stats.stdev(data[0].return.array,true)});
-    console.log(result._1);
-    return result;
-  };
+
 
 
   /** ******** 4. COMPUTATIONS ******** */
@@ -285,11 +281,20 @@ exports.portfolio = function(inputs, callback){
   return Promise.all(requests)
       .then(function(data){
 
-        data.forEach(function(val,ind){
-          constructResult(val, ind);
-          temp.push(val[0].symbol);
+        data.forEach(function(data, ind, arr){
+          var expReturn = 100 * stats.mean(data[0].return.array);
+          /** construct second result container */
+          result._2.body.push([data[0].description, data[0].symbol, expReturn, 100 * stats.stdev(data[0].return.array,true)]);
+          e.push([expReturn]);
         });
-        console.log(temp);
+        //console.log(data.length);
+        u = stats.ones(data.length,1);
+        //uT = stats.ones(1,data.length);
+        uT = stats.transpose(u);
+        eT = stats.transpose(e);
+        console.log(uT);
+        console.log(eT);
+
         return result;
       })
       .catch(function(){
@@ -298,53 +303,7 @@ exports.portfolio = function(inputs, callback){
 
 
 
-  //console.log(inputs.stock0);
 
-/*
-  DailyStockPrices.findBySymbol(inputs.stock0, function (err, data) {
-    if(err) {
-      console.log(err);
-    } else if (data.length === 0) {
-      console.log('The symbol could not be found in the database.')
-    } else if (data.length > 1) {
-      console.log('The symbol is ambiguous.')
-    } else {
-      result.id = calcElems.portfolio.id;
-      result._1.stock1             = _.extend(localElems['stock'],          {"value": data[0].symbol});
-      result._1.stock1.description = data[0].description ;
-      result._1.expectedreturn1    = _.extend(localElems['expectedreturn'], {"value": 100 * stats.mean(data[0].return.array)});
-      result._1.stdev1             = _.extend(localElems['stdev'],          {"value": 100 * stats.stdev(data[0].return.array,true)});
-      callback(null, result);
-
-    }
-  });*/
-
-  /*
-
-
-  Promise.all([DailyStockPrices.findBySymbol(inputs.stock0), DailyStockPrices.findBySymbol(inputs.stock1)]).then(function(data){
-    console.log('Got them all!');
-    data.forEach(function(val){
-      console.log(val[0].symbol);
-    });
-  });
-
-      /*
-      .then(function(data){
-        console.log('it worked');
-        console.log(data[0][0].symbol);
-      })
-      .err(function(){
-        console.log('error');
-      })
-
-/*
-  Promise.all([true, promise])
-      .then(function(values) {
-        console.log(values); // [true, 3]
-      });*/
-
-  console.log('HI');
 
 
 
