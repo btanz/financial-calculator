@@ -18,7 +18,12 @@ var DailyStockPricesSchema = new Schema({
 
 /** 2. ASSIGN STATIC METHODS */
 DailyStockPricesSchema.statics.findBySymbol = function(symbol, cb){
-  return this.find({ symbol: symbol }, cb);
+  return this.find({ symbol: symbol }).exec();
+
+/*
+  exports.process = function(r) {
+    return Content.find({route: r}).exec();
+  }*/
 };
 
 

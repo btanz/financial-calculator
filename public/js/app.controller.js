@@ -77,6 +77,7 @@ app.controller = (function() {
           // get, compile and fill results template
           if (!(data === null) && (typeof data.id === 'string')) {  // case where everything is alright
             if (data._1)
+              console.log(data._1);
               app.helpers.compileTemplate('#results-1', '#main-results-template', data);
 
             if (data._2)
