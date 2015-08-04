@@ -1,6 +1,7 @@
 var request = require('request');
 var fx = require('money');
 var _ = require('underscore');
+var stats = require('jStat').jStat;
 var math = require('./math');
 var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
@@ -235,7 +236,7 @@ exports.equityReturn = function(inputs, callback) {
  * RETURNS XXX
 
  */
-exports.portfolio = function(inputs){
+exports.portfolio = function(inputs, callback){
 
   /** ******** 1. INIT AND ASSIGN ******** */
   helpers.messages.clear();
@@ -255,8 +256,10 @@ exports.portfolio = function(inputs){
   /** ******** 4. COMPUTATIONS ******** */
 
   // todo: write error messages to user
+  //console.log(inputs.stock0);
 
-  DailyStockPrices.findBySymbol('AAPL', function (err, data) {
+
+  DailyStockPrices.findBySymbol(inputs.stock0, function (err, data) {
     if(err) {
       console.log(err);
     } else if (data.length === 0) {
@@ -264,28 +267,37 @@ exports.portfolio = function(inputs){
     } else if (data.length > 1) {
       console.log('The symbol is ambiguous.')
     } else {
-      console.log(data[0].return.array);
+      result.id = calcElems.portfolio.id;
+      result._1.stock1             = _.extend(localElems['stock'],          {"value": data[0].symbol});
+      result._1.stock1.description = data[0].description ;
+      result._1.expectedreturn1    = _.extend(localElems['expectedreturn'], {"value": 100 * stats.mean(data[0].return.array)});
+      result._1.stdev1             = _.extend(localElems['stdev'],          {"value": 100 * stats.stdev(data[0].return.array,true)});
+      callback(null, result);
+
     }
   });
 
 
 
 
+
+
+
   /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.portfolio.id;
+
 
 
   /**
    * 5.A FIRST RESULT CONTAINER
    */
-  result._1.test = _.extend(localElems['test'], {"value": 123.45});
-
-  console.log('HI');
-
-  console.log(result);
 
 
-  return result;
+
+
+
+
+
+
 
 };
 

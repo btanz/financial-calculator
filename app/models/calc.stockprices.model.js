@@ -48,8 +48,7 @@ DailyStockPricesSchema.virtual('return.array').get(function(){
   var returns = [];
   var lastclosing;
   this.quotes.forEach(function(val, ind){
-    if(ind === 0){
-      returns.push(null);
+    if(ind === 0){ // no return at first indicator
       lastclosing = val.closing;
     } else {
       returns.push(val.closing/lastclosing-1);

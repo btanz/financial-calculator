@@ -57,8 +57,15 @@ exports.portfolio = {
 
   calculate: function(req,res){
     var obj = req.query;
-    var results = boerse.portfolio(obj);
-    res.json(results);
+    boerse.portfolio(obj, function (err, results) {
+      if (results) {
+        res.json(results);
+      }
+      if (err) {
+        res.json(err)
+      }
+    });
+
   }
 };
 

@@ -4933,6 +4933,29 @@
         "digits": 0,
         "importance": "second",
         "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
+      },
+      "expectedreturn": {
+        "description": "Mittlere erwartete Rendite",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "second",
+        "tooltip": "Die erwartete Rendite der Aktie, berechnet aus dem Mittelwert der historischen Renditen."
+      },
+      "stdev": {
+        "description": "Standardabweichung",
+        "unit": "% p. a.",
+        "digits": 3,
+        "importance": "second",
+        "tooltip": "Die Standardabweichung der Aktie, welche ein Risikomaß darstellt."
+      },
+      "stock": {
+        "description": "",
+        "unit": "",
+        "digits": 0,
+        "importance": "first",
+        "tooltip": "TBD",
+        "type": "string",
+        "omittooltip": true
       }
     }
   }
