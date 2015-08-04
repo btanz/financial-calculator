@@ -12,7 +12,7 @@ exports.seedDB = function(){
         console.log('Seeding DB.calcs');
         seeder();
       } else {
-
+        console.log('DB.calcs already contains data');
       }
     }
   });

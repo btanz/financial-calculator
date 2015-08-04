@@ -4879,5 +4879,61 @@
         "importance": "first"
       }
     }
+  },
+
+  "portfolio": {
+    "id": "boerse-portfolio",
+    "name": "Portfoliorechner",
+    "description": "Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.",
+    "inputs": {
+      "stock0": {
+        "id": "boerse-portfolio-stock0",
+        "label": "Aktie 1",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "AAPL": "Apple",
+          "C": "City Group",
+          "GE": "General Electric",
+          "XOM": "Exxon Mobil"
+        }
+      },
+      "stock1": {
+        "id": "boerse-portfolio-stock1",
+        "label": "Aktie 2",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "AAPL": "Apple",
+          "C": "City Group",
+          "GE": "General Electric",
+          "XOM": "Exxon Mobil"
+        }
+      },
+      "stock2": {
+        "id": "boerse-portfolio-stock2",
+        "label": "Aktie 3",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "AAPL": "Apple",
+          "C": "City Group",
+          "GE": "General Electric",
+          "XOM": "Exxon Mobil"
+        }
+      }
+    },
+    "results_1": {
+      "interestdays": {
+        "description": "Zinstage",
+        "unit": "Tage",
+        "digits": 0,
+        "importance": "second",
+        "tooltip": "Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode."
+      }
+    }
   }
 }

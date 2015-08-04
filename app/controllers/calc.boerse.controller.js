@@ -49,3 +49,17 @@ exports.equityreturn = {
 };
 
 
+/** calculator-boerse-portfolio */
+exports.portfolio = {
+  render: function(req,res){
+    res.render('calculator', {obj: calcElems.portfolio});
+  },
+
+  calculate: function(req,res){
+    var obj = req.query;
+    var results = boerse.portfolio(obj);
+    res.json(results);
+  }
+};
+
+

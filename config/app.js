@@ -20,7 +20,7 @@ var bodyParser = require('body-parser');
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
 var navElems = require('./../data/static/navElems.json');
-var seed = require('../data/dbseeds/calc.elem.seed');
+var seed = require('../data/dbseeds/calc.seed');
 
 /** D. Init */
 var db;

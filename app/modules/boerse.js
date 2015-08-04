@@ -6,6 +6,7 @@ var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
 
 
+
 var cumNormalHelper, cumNormalPrimeHelper;
 
 /* ************************ BEGIN BOERSE MODULE PUBLIC FUNCTIONS *****************************/
@@ -223,6 +224,30 @@ exports.equityReturn = function(inputs, callback) {
   result._1.holding = _.extend(localElems.holding, {"value": holding});
   return result;
 };
+
+
+
+
+exports.portfolio = function(inputs){
+  var DailyStockPrices = require('mongoose').model('DailyStockPrices');
+
+  DailyStockPrices.findBySymbol('AAPL', function (err, data) {
+    if(err) {
+      console.log(err);
+    } else if (data.length === 0) {
+      console.log('The symbol could not be found in the database.')
+    } else if (data.length > 1) {
+      console.log('The symbol is ambiguous.')
+    } else {
+      console.log(data[0].return.array);
+    }
+  });
+
+  console.log(inputs);
+};
+
+
+
 
 
 /* ************************ END BOERSE MODULE PUBLIC FUNCTIONS *********************************/

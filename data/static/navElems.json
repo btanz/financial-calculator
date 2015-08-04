@@ -38,6 +38,10 @@
       "3": {
         "name": "Währungsrechner",
         "url": "/waehrungsrechner"
+      },
+      "4": {
+        "name": "Portfoliorechner",
+        "url": "/portfoliorechner"
       }
     }
   },
