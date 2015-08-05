@@ -315,6 +315,10 @@ exports.portfolio = function(inputs, callback){
 
 
 
+
+
+
+
   /** ******** 4. COMPUTATIONS ******** */
 
   // todo: write error messages to user
