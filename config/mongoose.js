@@ -1,3 +1,4 @@
+/** config file for Mongoose */
 var config = require('./config');
 var mongoose = require('mongoose');
 

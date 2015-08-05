@@ -18,6 +18,7 @@
     "money": "^0.2.0",
     "mongoose": "^4.1.0",
     "morgan": "~1.5.3",
+    "quandl": "0.0.4",
     "request": "^2.57.0",
     "serve-favicon": "~2.2.1",
     "underscore": "^1.8.3",
