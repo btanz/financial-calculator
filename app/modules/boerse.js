@@ -279,6 +279,40 @@ exports.portfolio = function(inputs, callback){
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
 
+  /** function that computes efficient frontier and charts */
+  function efficientFrontier(pfReturn, returns){
+    var i, cReturn = [], cChart = [];
+
+    for(i = 1; i <= 20; i++){
+      cReturn.push(i * pfReturn / 10);
+    }
+
+    cReturn.forEach(function(val){
+      cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance),4), y: f.basic.round(100 * val,4)});
+    });
+
+    // create chart
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Effizienzlinie bei gegebener Aktienauswahl';
+    result._chart1.label = {x: 'Risiko (Standardabweichung, %)', y: "Erwartete Rendite (%)"};
+    result._chart1.type = 'Line';
+    result._chart1.data = {series: [cChart]};
+    result._chart1.options = {axisX: {onlyInteger: false, low: 0}};
+    result._chart1.autoscaleAxisX = true;
+  }
+
+
+  /** construct first result container */
+  function firstContainer(pfReturn, efficientPf, data){
+    /** construct first result container */
+    result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
+    result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
+    result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
+    data.forEach(function(data, ind){
+      result._1['portfolioWeight' + ind] = {description: data[0].description, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
+    });
+  }
+
 
 
   /** ******** 4. COMPUTATIONS ******** */
@@ -303,65 +337,16 @@ exports.portfolio = function(inputs, callback){
         helper = f.equity.efficientPortfolio(inputs.return, returns);
 
         /** construct first result container */
-        result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * inputs.return});
-        result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(helper.portfolioVariance)});
-        result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
-        data.forEach(function(data, ind){
+        firstContainer(inputs.return, helper, data);
 
-          result._1['portfolioWeight' + ind] = {description: data[0].description, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * helper.weights[ind]};
-        });
-
-
-        /** construct portfolio frontier */
-        var cReturn = [];
-        var cChart = [];
-
-        for(i = 1; i <= 20; i++){
-          cReturn.push(i * inputs.return / 10);
-        }
-
-
-        cReturn.forEach(function(val){
-          cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance),4), y: f.basic.round(100 * val,4)});
-        });
-
-        // create chart
-        result._chart1.id = 'chart1';
-        result._chart1.title = 'Effizienzlinie bei gegebener Aktienauswahl';
-        result._chart1.label = {x: 'Risiko (Standardabweichung, %)', y: "Erwartete Rendite (%)"};
-        result._chart1.type = 'Line';
-        result._chart1.data = {series: [cChart]};
-        result._chart1.options = {axisX: {onlyInteger: false, low: 0}};
-        result._chart1.autoscaleAxisX = true;
-
-
+        /** construct first chart with efficient frontier */
+        efficientFrontier(inputs.return, returns);
 
         return result;
       })
       .catch(function(){
         console.log('An error occured');
       });
-
-
-
-
-
-
-
-  /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
-
-
-
-  /**
-   * 5.A FIRST RESULT CONTAINER
-   */
-
-
-
-
-
-
-
 
 
 };
