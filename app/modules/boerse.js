@@ -313,44 +313,26 @@ exports.portfolio = function(inputs, callback){
 
 
         /** construct portfolio frontier */
-        var cRisk = [];
         var cReturn = [];
+        var cChart = [];
 
-        for(i = 1; i <= 10; i++){
+        for(i = 1; i <= 20; i++){
           cReturn.push(i * inputs.return / 10);
         }
 
 
         cReturn.forEach(function(val){
-          //console.log(f.equity.efficientPortfolio(val, returns).portfolioVariance);
-          cRisk.push(Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance));
+          cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance),4), y: f.basic.round(100 * val,4)});
         });
-
-
-        cRisk = _.map(cRisk, function(val){
-          return f.basic.round(val * 100,4)
-        });
-
-        cReturn = _.map(cReturn, function(val){
-          return f.basic.round(val * 100,4)
-        });
-
-
-        console.log(cRisk);
-        console.log(cReturn);
-
 
         // create chart
         result._chart1.id = 'chart1';
         result._chart1.title = 'Effizienzlinie bei gegebener Aktienauswahl';
-        //result._chart1.legend = ['Mieten', 'Kaufen'];
-        result._chart1.label = {x: 'Risiko (Standardabweichung)', y: "Erwartete Rendite"};
+        result._chart1.label = {x: 'Risiko (Standardabweichung, %)', y: "Erwartete Rendite (%)"};
         result._chart1.type = 'Line';
-        result._chart1.data = {labels: cRisk, series: [cReturn]};
-        result._chart1.options = {axisX: {showLabel: true}, reverseData: false};
-
-
-
+        result._chart1.data = {series: [cChart]};
+        result._chart1.options = {axisX: {onlyInteger: false, low: 0}};
+        result._chart1.autoscaleAxisX = true;
 
 
 
