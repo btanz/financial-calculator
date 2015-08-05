@@ -4924,6 +4924,19 @@
           "GE": "General Electric",
           "XOM": "Exxon Mobil"
         }
+      },
+      "stock3": {
+        "id": "boerse-portfolio-stock3",
+        "label": "Aktie 4",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "string",
+        "options": {
+          "AAPL": "Apple",
+          "C": "City Group",
+          "GE": "General Electric",
+          "XOM": "Exxon Mobil"
+        }
       }
     },
     "results_1": {
