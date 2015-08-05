@@ -3,6 +3,7 @@ var fx = require('money');
 var _ = require('underscore');
 var stats = require('jStat').jStat;
 var math = require('./math');
+var f = require('../../lib/finance');
 var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
 
@@ -254,8 +255,9 @@ exports.portfolio = function(inputs, callback){
   var re = /(stock\d+)/;
   var localElems = calcElems.portfolio.results_1;
   var returns = [];
+  var helper = {};
 
-
+  inputs.return = inputs.return / 100;
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -268,6 +270,8 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
+
+
   result.id = calcElems.portfolio.id;
   result._2.title = 'Parameter Aktien';
   result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (% p. a.)', 'Standardabweichung <br> (% p. a.)'];
@@ -275,105 +279,6 @@ exports.portfolio = function(inputs, callback){
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
 
-  /** function that computes the efficient portfolio given a matrix of individual stock returns and a desired return */
-  function efficientPortfolio(desiredPortfolioReturn, stockReturns){
-    var length = stockReturns.length;
-    var u = stats.ones(length,1);
-    var uT = stats.transpose(u);
-   // var e = expectedStockReturns;
-    var eT = stats.transpose(e);
-    var w = [], wT;
-    var i, j;
-    var covariance = stats.zeros(length), covarianceInv;
-    var temp, portfolioVariance;
-    var A, B, C, D, l, m, g, h;
-
-    /** compute initial weights */
-    for(i = 0; i < length; i++){
-      w.push(1/length);
-    }
-    wT = stats.transpose(w);
-
-    /** compute expected return */
-    stockReturns.forEach(function(val){
-      console.log(stats.mean(val));
-    });
-    console.log(e);
-
-
-
-    /** compute covariance matrix */
-    // todo: error handling when return vectors are not of same length
-    for(i = 0; i < length; i++){
-      for(j = 0; j < length; j++) {
-        covariance[i][j] = stats.covariance(stockReturns[i], stockReturns[j]) * 29 /30;
-        // todo: either remove 29/30 adjustment or generalize it
-      }
-    }
-
-    temp = stats.multiply(covariance, wT);
-    portfolioVariance = 0;
-    /** compute portfolio variance */
-    for(i = 0; i < length; i++){
-      portfolioVariance += w[i] * temp[i][0];
-    }
-
-    /** compute inverse of covariance matrix */
-    covarianceInv = stats.inv(covariance);
-
-    /** Define and compute scalars A, B, C, D and coefficients m, l */
-      // A
-    temp = stats.multiply(covarianceInv, u);
-    A = 0;
-    for(i = 0; i < length; i++){
-      A += e[i][0] * temp[i][0];
-    }
-
-    // B
-    temp = stats.multiply(covarianceInv, e);
-    B = 0;
-    for(i = 0; i < length; i++){
-      B += e[i][0] * temp[i][0];
-    }
-
-    // C
-    temp = stats.multiply(covarianceInv, u);
-    C = 0;
-    for(i = 0; i < length; i++){
-      C += u[i][0] * temp[i][0];
-    }
-
-    // D
-    D = B * C - A * A;
-
-    // l
-    temp = stats.multiply(covarianceInv, e);
-    l = [];
-    for(i = 0; i < length; i++){
-      l.push(temp[i][0]);
-    }
-
-    // m
-    temp = stats.multiply(covarianceInv, u);
-    m = [];
-    for(i = 0; i < length; i++){
-      m.push(temp[i][0]);
-    }
-
-    /** calculate portfolio coordinates g, h */
-      // g (portfolio with minimal expected return) g = (B*m - A*l)/D
-    g = stats.divide(stats.subtract(stats.multiply(m, B), stats.multiply(l, A)), D);
-
-    // h (portfolio with maximal expected return) h = (B*l - A*m)/D
-    h = stats.divide(stats.subtract(stats.multiply(l, C), stats.multiply(m, A)), D);
-
-
-    /** find efficient portfolio for given return */
-    // suppose portfolio return is 1.7 %
-    w = stats.add(g,stats.multiply(h, desiredPortfolioReturn));
-    console.log(w);
-
-  }
 
 
   /** ******** 4. COMPUTATIONS ******** */
@@ -394,9 +299,19 @@ exports.portfolio = function(inputs, callback){
           returns.push(data[0].return.array);
         });
 
-        efficientPortfolio(0.05, returns);
+        //console.log(f.equity.efficientPortfolio(inputs.return, returns));
+        helper = f.equity.efficientPortfolio(inputs.return, returns);
+        result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * inputs.return});
+        result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(helper.portfolioVariance)});
+        result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
+        data.forEach(function(data, ind){
+          /** construct first result container */
+          result._1['portfolioWeight' + ind] = {description: data[0].description, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * helper.weights[ind]};
+        });
 
 
+
+        //console.log(helper.weights[0]);
         return result;
       })
       .catch(function(){

@@ -4886,6 +4886,20 @@
     "name": "Portfoliorechner",
     "description": "Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.",
     "inputs": {
+      "return": {
+        "id": "boerse-portfolio-return",
+        "label": "Zielrendite",
+        "addon": "% p. a.",
+        "placeholder": "Zielrendite",
+        "value": "3.50",
+        "tooltip": "TBD",
+        "type": "number",
+        "vtype": "number",
+        "args": [
+          0,
+          100
+        ]
+      },
       "stock0": {
         "id": "boerse-portfolio-stock0",
         "label": "Aktie 1",
@@ -4969,6 +4983,35 @@
         "tooltip": "TBD",
         "type": "string",
         "omittooltip": true
+      },
+      "portfolioreturn": {
+        "description": "Erwartete Portfoliorendite",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "portfoliorisk": {
+        "description": "Erwartetes Portfoliorisiko (Standardabweichung)",
+        "unit": "% p. a.",
+        "digits": 2,
+        "importance": "first",
+        "tooltip": "TBD"
+      },
+      "portfolioweight": {
+        "description": "Portfoliogewicht",
+        "unit": "%",
+        "digits": 1,
+        "importance": "second",
+        "tooltip": "TBD"
+      },
+      "portfolioweightintro": {
+        "description": "Portfoliogewichte der Einzelaktien",
+        "unit": "",
+        "digits": 1,
+        "importance": "first",
+        "tooltip": "TBD",
+        "type": "string"
       }
     }
   }
