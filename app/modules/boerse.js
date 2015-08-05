@@ -256,8 +256,7 @@ exports.portfolio = function(inputs, callback){
   var localElems = calcElems.portfolio.results_1;
   var returns = [];
   var helper = {};
-
-  inputs.return = inputs.return / 100;
+  result._chart1 = {};
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -270,6 +269,7 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
+  inputs.return = inputs.return / 100;
 
 
   result.id = calcElems.portfolio.id;
@@ -299,19 +299,61 @@ exports.portfolio = function(inputs, callback){
           returns.push(data[0].return.array);
         });
 
-        //console.log(f.equity.efficientPortfolio(inputs.return, returns));
+        /** compute efficient portfolio */
         helper = f.equity.efficientPortfolio(inputs.return, returns);
+
+        /** construct first result container */
         result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * inputs.return});
         result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(helper.portfolioVariance)});
         result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
         data.forEach(function(data, ind){
-          /** construct first result container */
+
           result._1['portfolioWeight' + ind] = {description: data[0].description, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * helper.weights[ind]};
         });
 
 
+        /** construct portfolio frontier */
+        var cRisk = [];
+        var cReturn = [];
 
-        //console.log(helper.weights[0]);
+        for(i = 1; i <= 10; i++){
+          cReturn.push(i * inputs.return / 10);
+        }
+
+
+        cReturn.forEach(function(val){
+          //console.log(f.equity.efficientPortfolio(val, returns).portfolioVariance);
+          cRisk.push(Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance));
+        });
+
+
+        cRisk = _.map(cRisk, function(val){
+          return f.basic.round(val * 100,4)
+        });
+
+        cReturn = _.map(cReturn, function(val){
+          return f.basic.round(val * 100,4)
+        });
+
+
+        console.log(cRisk);
+        console.log(cReturn);
+
+
+        // create chart
+        result._chart1.id = 'chart1';
+        result._chart1.title = 'Effizienzlinie bei gegebener Aktienauswahl';
+        //result._chart1.legend = ['Mieten', 'Kaufen'];
+        result._chart1.label = {x: 'Risiko (Standardabweichung)', y: "Erwartete Rendite"};
+        result._chart1.type = 'Line';
+        result._chart1.data = {labels: cRisk, series: [cReturn]};
+        result._chart1.options = {axisX: {showLabel: true}, reverseData: false};
+
+
+
+
+
+
         return result;
       })
       .catch(function(){
