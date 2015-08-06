@@ -344,7 +344,7 @@ exports.portfolio = function(inputs, callback){
       .then(constructReturnMatrix)
       .then(computeEfficientPortfolio);
 
-  // todo: ensure correct order of operations
+
 
 
 
