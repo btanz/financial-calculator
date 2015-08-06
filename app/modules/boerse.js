@@ -3,6 +3,7 @@ var fx = require('money');
 var _ = require('underscore');
 var stats = require('jStat').jStat;
 var math = require('./math');
+var quandl = require('../../lib/quandl');
 var f = require('../../lib/finance');
 var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
@@ -314,8 +315,19 @@ exports.portfolio = function(inputs, callback){
   }
 
 
+  // todo: remove quandle tinkering
+  function handleReq(val){
+    var res = JSON.parse(val[0].body);
+    console.log(res.dataset.data);
+  }
 
 
+  quandl.getData({source: 'FSE', table: 'BAYN_X'},{collapse: 'quarterly', column: '4', rows: '5'})
+      .then(handleReq)
+
+  //Promise.all([quandl.getdata()]).then(console.log);
+  //quandl.request({}).then(console.log);
+  //quandl.testMe(4).then(console.log);
 
 
 
