@@ -44,3 +44,8 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ***** CALCULATORS TO BE ADDED ******
 * union-investment rechner auf www.geld-anlegen-klargemacht.de
 * Implement calculators from DWS homepage
+
+
+***** ONGOING TASKS ******
+* monitor database entries for error messages (given db error reporting is established)
+* monitor quandl API rate limits 

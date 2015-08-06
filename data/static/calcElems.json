@@ -4891,7 +4891,7 @@
         "label": "Zielrendite",
         "addon": "% p. a.",
         "placeholder": "Zielrendite",
-        "value": "3.50",
+        "value": "15.50",
         "tooltip": "TBD",
         "type": "number",
         "vtype": "number",
@@ -4900,6 +4900,23 @@
           100
         ]
       },
+      "frequency": {
+        "id": "boerse-portfolio-frequency",
+        "label": "Returnfrequenz",
+        "tooltip": "TBD",
+        "type": "select",
+        "vtype": "number",
+        "args": [
+          0,
+          3
+        ],
+        "options": {
+          "0": "wöchentlich",
+          "1": "monatlich",
+          "2":  "vierteljährlich",
+          "3":  "jährlich"
+        }
+      },
       "stock0": {
         "id": "boerse-portfolio-stock0",
         "label": "Aktie 1",
@@ -4907,10 +4924,11 @@
         "type": "select",
         "vtype": "string",
         "options": {
-          "AAPL": "Apple",
-          "C": "City Group",
-          "GE": "General Electric",
-          "XOM": "Exxon Mobil"
+          "FSE.BAYN_X": "Bayer AG",
+          "FSE.BMW_X": "BMW AG",
+          "FSE.CBK_X": "Commerzbank AG",
+          "FSE.SDF_X": "K+S AG",
+          "FSE.DBK_X": "Deutsche Bank AG"
         }
       },
       "stock1": {
@@ -4920,10 +4938,11 @@
         "type": "select",
         "vtype": "string",
         "options": {
-          "AAPL": "Apple",
-          "C": "City Group",
-          "GE": "General Electric",
-          "XOM": "Exxon Mobil"
+          "FSE.BAYN_X": "Bayer AG",
+          "FSE.BMW_X": "BMW AG",
+          "FSE.CBK_X": "Commerzbank AG",
+          "FSE.SDF_X": "K+S AG",
+          "FSE.DBK_X": "Deutsche Bank AG"
         }
       },
       "stock2": {
@@ -4932,11 +4951,13 @@
         "tooltip": "TBD",
         "type": "select",
         "vtype": "string",
+        "selectedoption": "FSE.CBK_X",
         "options": {
-          "AAPL": "Apple",
-          "C": "City Group",
-          "GE": "General Electric",
-          "XOM": "Exxon Mobil"
+          "FSE.BAYN_X": "Bayer AG",
+          "FSE.BMW_X": "BMW AG",
+          "FSE.CBK_X": "Commerzbank AG",
+          "FSE.SDF_X": "K+S AG",
+          "FSE.DBK_X": "Deutsche Bank AG"
         }
       },
       "stock3": {
@@ -4946,10 +4967,11 @@
         "type": "select",
         "vtype": "string",
         "options": {
-          "AAPL": "Apple",
-          "C": "City Group",
-          "GE": "General Electric",
-          "XOM": "Exxon Mobil"
+          "FSE.BAYN_X": "Bayer AG",
+          "FSE.BMW_X": "BMW AG",
+          "FSE.CBK_X": "Commerzbank AG",
+          "FSE.SDF_X": "K+S AG",
+          "FSE.DBK_X": "Deutsche Bank AG"
         }
       }
     },
