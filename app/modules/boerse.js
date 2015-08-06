@@ -270,6 +270,8 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
+
+
   inputs.return = inputs.return / 100;
 
 
@@ -316,18 +318,33 @@ exports.portfolio = function(inputs, callback){
 
 
   // todo: remove quandle tinkering
-  function handleReq(val){
-    var res = JSON.parse(val[0].body);
-    console.log(res.dataset.data);
+  var qReturn = [];
+  var helpReturn = [];
+
+  function constructReturnMatrix(data){
+    //console.log(data);
+    data.forEach(function(asset){
+      console.log(asset.qsymbol);
+      asset.data.forEach(function(val){
+        helpReturn.push(val[1]);
+        //console.log(val[1]);
+      });
+      qReturn.push(helpReturn);
+      helpReturn = [];
+    });
+
+    return qReturn;
   }
 
+  function computeEfficientPortfolio(data){
+    console.log(f.equity.efficientPortfolio(inputs.return, data));
+  }
 
-  quandl.getData({source: 'FSE', table: 'BAYN_X'},{collapse: 'quarterly', column: '4', rows: '5'})
-      .then(handleReq)
+  quandl.getMultiData([{source: 'FSE', table: 'BAYN_X'},{source: 'FSE', table: 'BMW_X'}],{collapse: 'quarterly', column_index: '4', transform: 'rdiff'})
+      .then(constructReturnMatrix)
+      .then(computeEfficientPortfolio);
 
-  //Promise.all([quandl.getdata()]).then(console.log);
-  //quandl.request({}).then(console.log);
-  //quandl.testMe(4).then(console.log);
+  // todo: ensure correct order of operations
 
 
 
@@ -341,6 +358,8 @@ exports.portfolio = function(inputs, callback){
   return Promise.all(requests)
       .then(function(data){
 
+
+
         data.forEach(function(data, ind, arr){
           var expReturn = stats.mean(data[0].return.array);
           /** construct second result container */
@@ -348,6 +367,7 @@ exports.portfolio = function(inputs, callback){
           e.push([expReturn]);
           returns.push(data[0].return.array);
         });
+
 
         /** compute efficient portfolio */
         helper = f.equity.efficientPortfolio(inputs.return, returns);
