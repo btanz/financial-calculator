@@ -255,7 +255,6 @@ exports.portfolio = function(inputs, callback){
   var u, uT, e = [], eT, w = [], wT;
   var re = /(stock\d+)/;
   var localElems = calcElems.portfolio.results_1;
-  var returns = [];
   var helper = {};
   result._chart1 = {};
 
@@ -277,7 +276,7 @@ exports.portfolio = function(inputs, callback){
 
   result.id = calcElems.portfolio.id;
   result._2.title = 'Parameter Aktien';
-  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (% p. a.)', 'Standardabweichung <br> (% p. a.)'];
+  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (% p. a.)', 'Standardabweichung <br> (% p. a.)', 'N'];
   result._2.body = [];
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
@@ -306,13 +305,13 @@ exports.portfolio = function(inputs, callback){
 
 
   /** construct first result container */
-  function firstContainer(pfReturn, efficientPf, data){
+  function firstContainer(pfReturn, efficientPf, assets){
     /** construct first result container */
     result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
-    data.forEach(function(data, ind){
-      result._1['portfolioWeight' + ind] = {description: data[0].description, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
+    assets.forEach(function(asset, ind){
+      result._1['portfolioWeight' + ind] = {description: asset, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
     });
   }
 
@@ -322,12 +321,10 @@ exports.portfolio = function(inputs, callback){
   var helpReturn = [];
 
   function constructReturnMatrix(data){
-    //console.log(data);
+
     data.forEach(function(asset){
-      console.log(asset.qsymbol);
       asset.data.forEach(function(val){
         helpReturn.push(val[1]);
-        //console.log(val[1]);
       });
       qReturn.push(helpReturn);
       helpReturn = [];
@@ -336,13 +333,49 @@ exports.portfolio = function(inputs, callback){
     return qReturn;
   }
 
-  function computeEfficientPortfolio(data){
-    console.log(f.equity.efficientPortfolio(inputs.return, data));
-  }
 
-  quandl.getMultiData([{source: 'FSE', table: 'BAYN_X'},{source: 'FSE', table: 'BMW_X'}],{collapse: 'quarterly', column_index: '4', transform: 'rdiff'})
+  /** set asset request matrix */
+  var assets = ['BAYN_X', 'BMW_X', 'CBK_X', 'SDF_X', 'DBK_X'];
+  var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
+  var freqInd = 3;
+
+
+  /** construct quandl request code */
+  var reqObj = [];
+  assets.forEach(function(val){
+    reqObj.push({source: 'FSE', table: val});
+  });
+
+
+  return quandl.getMultiData(reqObj,{collapse: frequency[0][freqInd], column_index: '4', transform: 'rdiff'})
       .then(constructReturnMatrix)
-      .then(computeEfficientPortfolio);
+      .then(function(data){
+
+        data.forEach(function(returnVector, ind){
+          var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
+          var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][freqInd]);
+
+          /** construct second result container */
+          result._2.body.push(['TODO', assets[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
+
+          e.push([expReturn]);
+
+        });
+
+
+        /** compute efficient portfolio */
+        helper = f.equity.efficientPortfolio(inputs.return, data);
+
+        /** construct first result container */
+        firstContainer(inputs.return, helper, assets);
+
+        /** construct first chart with efficient frontier */
+        efficientFrontier(inputs.return, data);
+
+        return result;
+
+      });
+
 
 
 
@@ -355,34 +388,35 @@ exports.portfolio = function(inputs, callback){
     return DailyStockPrices.findBySymbol(stocksymbol);
   });
 
-  return Promise.all(requests)
+ /* return Promise.all(requests)
       .then(function(data){
 
 
 
         data.forEach(function(data, ind, arr){
+          //console.log(data[0].return.array);
           var expReturn = stats.mean(data[0].return.array);
           /** construct second result container */
-          result._2.body.push([data[0].description, data[0].symbol, 100 * expReturn, 100 * stats.stdev(data[0].return.array,true)]);
+   /*       result._2.body.push([data[0].description, data[0].symbol, 100 * expReturn, 100 * stats.stdev(data[0].return.array,true)]);
           e.push([expReturn]);
           returns.push(data[0].return.array);
         });
 
 
         /** compute efficient portfolio */
-        helper = f.equity.efficientPortfolio(inputs.return, returns);
+   /*     helper = f.equity.efficientPortfolio(inputs.return, returns);
 
         /** construct first result container */
-        firstContainer(inputs.return, helper, data);
+    /*    firstContainer(inputs.return, helper, data);
 
         /** construct first chart with efficient frontier */
-        efficientFrontier(inputs.return, returns);
+    /*    efficientFrontier(inputs.return, returns);
 
         return result;
       })
       .catch(function(){
-        console.log('An error occured');
-      });
+        console.log('An error occured here');
+      });*/
 
 
 };

@@ -14,6 +14,7 @@ script(id='boerse-portfolio-results-2-template', type='text/x-handlebars-templat
             th(style='text-align: right;padding:2px;') {{{this.[1]}}}
             th(style='text-align: right;padding:2px;') {{{this.[2]}}}
             th(style='text-align: right;padding:2px;') {{{this.[3]}}}
+            th(style='text-align: right;padding:2px;') {{{this.[4]}}}
             | {{/with}}
         tbody
           | {{#each obj.body}}
@@ -23,4 +24,5 @@ script(id='boerse-portfolio-results-2-template', type='text/x-handlebars-templat
             td(style='text-align: right;padding:2px;') {{this.[1]}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[4] 0}}
           | {{/each}}
