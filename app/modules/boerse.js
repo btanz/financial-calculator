@@ -276,13 +276,13 @@ exports.portfolio = function(inputs, callback){
 
   result.id = calcElems.portfolio.id;
   result._2.title = 'Parameter Aktien';
-  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (% p. a.)', 'Standardabweichung <br> (% p. a.)', 'N'];
+  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
   result._2.body = [];
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
 
   /** function that computes efficient frontier and charts */
-  function efficientFrontier(pfReturn, returns){
+  function efficientFrontier(pfReturn, returns, effOptions){
     var i, cReturn = [], cChart = [];
 
     for(i = 1; i <= 20; i++){
@@ -290,7 +290,7 @@ exports.portfolio = function(inputs, callback){
     }
 
     cReturn.forEach(function(val){
-      cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns).portfolioVariance),4), y: f.basic.round(100 * val,4)});
+      cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns, effOptions).portfolioVariance),4), y: f.basic.round(100 * val,4)});
     });
 
     // create chart
@@ -309,7 +309,7 @@ exports.portfolio = function(inputs, callback){
     /** construct first result container */
     result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
-    result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});;
+    result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
     assets.forEach(function(asset, ind){
       result._1['portfolioWeight' + ind] = {description: asset, unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
     });
@@ -337,7 +337,10 @@ exports.portfolio = function(inputs, callback){
   /** set asset request matrix */
   var assets = ['BAYN_X', 'BMW_X', 'CBK_X', 'SDF_X', 'DBK_X'];
   var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
-  var freqInd = 3;
+  var freqInd = 2;
+
+  /** construct options object for efficientPortfolio calculation */
+  var effOptions = {freq: frequency[1][freqInd]};
 
 
   /** construct quandl request code */
@@ -364,13 +367,13 @@ exports.portfolio = function(inputs, callback){
 
 
         /** compute efficient portfolio */
-        helper = f.equity.efficientPortfolio(inputs.return, data);
+        helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
 
         /** construct first result container */
         firstContainer(inputs.return, helper, assets);
 
         /** construct first chart with efficient frontier */
-        efficientFrontier(inputs.return, data);
+        efficientFrontier(inputs.return, data, effOptions);
 
         return result;
 
