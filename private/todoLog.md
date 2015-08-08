@@ -2,7 +2,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ***** GLOBAL APP TASKS ******
 * testing sheet for each calculator
-* improved rootfinding algorithm
+* improved rootfinding algorithm (use rserve?)
 * graphs
 * pdf generator (create pdf an the server an d serve back as a static file)
 * useful print previews
