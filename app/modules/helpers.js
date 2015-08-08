@@ -120,14 +120,14 @@ exports.validate = function(inputs, _expectedInputs){
 
 
 
-  // *** check whether the input object is in correct shape regaring number of arguments and the like ***
+  // *** check whether the input object is in correct shape regarding number of arguments and the like ***
 
   // check whether input property is in expectedInputs and trim all inputs
   _.each(inputs, function(elem, key){
 
     inputs[key] = validator.trim(inputs[key]);
 
-    if (!expectedInputs.hasOwnProperty(key)) {
+    if (_.where(expectedInputs, {name: key}).length === 0) {
       error.setError('Die Eingabe ' + key + ' ist unerwartet.', key, false);
     }
   });
@@ -135,12 +135,11 @@ exports.validate = function(inputs, _expectedInputs){
   // check whether expectedInputproperty is in inputs and not empty
   _.each(expectedInputs, function(elem, key){
 
-
-    if(!inputs.hasOwnProperty(key)){
+    if(!inputs.hasOwnProperty(elem.name)){
       if(!(elem.optional === 'true') && !(elem.optional === true)){
-        error.setError('Die Eingabe ' + key + ' ist notwendig, fehlt jedoch.', key, false);
+        error.setError('Die Eingabe ' + elem.name + ' ist notwendig, fehlt jedoch.', elem.name, false);
       }
-    } else if (typeof inputs[key] === 'undefined' || inputs[key] === ''){
+    } else if (typeof inputs[elem.name] === 'undefined' || inputs[elem.name] === ''){
       if(!(elem.optional === 'true') && !(elem.optional === true)){
         error.setError('Das Feld ' + elem.label + ' muss korrekt ausgefüllt sein.', key, false);
       }

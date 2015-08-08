@@ -3,8 +3,16 @@ var calcElems = require('../../data/static/calcElems.json');
 
 /** calculator-boerse-options */
 exports.options = {
+
   render: function(req, res) {
-    res.render('calculator', {obj: calcElems.options });
+    var Calc = require('mongoose').model('Calc');
+
+    // todo: promisify
+    Calc.find({name: 'options'}, function(err, data){
+      if(err) console.log('ERROR OCCURED');
+      res.render('calculator', {obj: data[0]});
+    });
+
   },
 
   calculate: function(req,res){

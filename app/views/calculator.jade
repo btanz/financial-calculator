@@ -14,7 +14,7 @@ block content
 
   div.row.wrapper.border-bottom.white-bg.page-heading
     div.col-lg-12
-      h2= obj.name
+      h2= obj.designation
       h3= obj.description
     //
       ol.breadcrumb
@@ -81,9 +81,9 @@ block content
                           button(id=input.idselect, value=input.selectedoption, data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
                             span.caret
                           ul.dropdown-menu.pull-right
-                            each option, index in input.options
+                            each option in input.options
                               li
-                                a(href=index)= option
+                                a(href=option.id)= option.description
 
 
                   //- template for select input fields
@@ -95,12 +95,12 @@ block content
                         | #{input.label} &nbsp
                         i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
                       select(id=input.id, class="form-control")
-                        each option, index in input.options
-                          - var optgroup = (option === '_OPTGROUP')
+                        each option in input.options
+                          - var optgroup = (option.description === '_OPTGROUP')
                             if optgroup
-                              optgroup(label=index)
+                              optgroup(label=option.id)
                             else
-                              option(value=index)= option
+                              option(value=option.id)= option.description
 
                   //- template for date input fields
                   if input.type === 'date'
