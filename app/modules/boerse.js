@@ -268,6 +268,7 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
+  console.log(inputs);
 
   /** set return frequency */
   var freqInd = inputs.frequency;

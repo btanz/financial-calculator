@@ -1,8 +1,14 @@
 
 app.boerse = (function() {
+
+  // set counter for positions in boerse-portfolio
+  var positioncounter = 0;
+
   /*********************** BEGIN BOERSE DOCUMENT READY TASKS ***********************/
   $(document).ready(function () {
 
+
+    /** boerse-equityreturn */
     // attach a div where dividend dates and amounts will be added dynamically
     $('#boerse-equityreturn-dividends').closest('div[class^="form-group"]').after('<div class="dividendsInput"></div>');
 
@@ -12,10 +18,55 @@ app.boerse = (function() {
     // attach event handler for fee inputs
     $('#boerse-equityreturn-fees').on('change', toggleInputsFees);
 
+    /** boerse-portfolio */
+    // attach a div where stocks will be added dynamically
+    $('#boerse-portfolio-frequency').closest('div[class^="form-group"]').after('<h3 style="margin-top: 25px; margin-bottom: 0px;">Portfoliozusammensetzung</h3><div class="hr-line-dashed"></div><div class="stocksInput"><div class="stockElems"></div><div class="addBtn"></div></div>');
+
+    // initialize portfolio calculator inputs
+    portfolioInit();
+
+    // attach event handler for remove button
+    $('.boerse-portfolio-remove').on('click', removeAsset);
+
+    // attach event handler for add button
+    $('#boerse-portfolio-add').on('click', addAsset);
+
+
   });
   /*********************** END BOERSE DOCUMENT READY TASKS *************************/
 
   /*********************** BEGIN BOERSE EVENT HANDLERS ***********************/
+
+
+  /** boerse-portfolio */
+  function portfolioInit(){
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter, select1: 'selected'}, true);
+    positioncounter += 1;
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter, select2: 'selected'}, true);
+    positioncounter += 1;
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter, select3: 'selected'}, true);
+    positioncounter += 1;
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter, select4: 'selected'}, true);
+    positioncounter += 1;
+    app.helpers.compileTemplate('.addBtn','#boerse-portfolio-stocksAddButton-template', {}, true);
+  }
+
+  function removeAsset(e){
+    e.preventDefault();
+    e.currentTarget.closest('div[class^="form-group"]').remove();
+  }
+
+  function addAsset(e){
+    e.preventDefault();
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    positioncounter += 1;
+    $('.boerse-portfolio-remove').on('click', removeAsset);
+  }
+
+
+
+
+  /** boerse-equityreturn */
   function toggleInputsFees (e){
     e.preventDefault();
     var state = $('#boerse-equityreturn-fees').val();

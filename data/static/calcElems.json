@@ -4916,63 +4916,6 @@
           "2":  "vierteljährlich",
           "3":  "jährlich"
         }
-      },
-      "stock0": {
-        "id": "boerse-portfolio-stock0",
-        "label": "Aktie 1",
-        "tooltip": "TBD",
-        "type": "select",
-        "vtype": "string",
-        "options": {
-          "FSE.BAYN_X": "Bayer AG",
-          "FSE.BMW_X": "BMW AG",
-          "FSE.CBK_X": "Commerzbank AG",
-          "FSE.SDF_X": "K+S AG",
-          "FSE.DBK_X": "Deutsche Bank AG"
-        }
-      },
-      "stock1": {
-        "id": "boerse-portfolio-stock1",
-        "label": "Aktie 2",
-        "tooltip": "TBD",
-        "type": "select",
-        "vtype": "string",
-        "options": {
-          "FSE.BAYN_X": "Bayer AG",
-          "FSE.BMW_X": "BMW AG",
-          "FSE.CBK_X": "Commerzbank AG",
-          "FSE.SDF_X": "K+S AG",
-          "FSE.DBK_X": "Deutsche Bank AG"
-        }
-      },
-      "stock2": {
-        "id": "boerse-portfolio-stock2",
-        "label": "Aktie 3",
-        "tooltip": "TBD",
-        "type": "select",
-        "vtype": "string",
-        "selectedoption": "FSE.CBK_X",
-        "options": {
-          "FSE.BAYN_X": "Bayer AG",
-          "FSE.BMW_X": "BMW AG",
-          "FSE.CBK_X": "Commerzbank AG",
-          "FSE.SDF_X": "K+S AG",
-          "FSE.DBK_X": "Deutsche Bank AG"
-        }
-      },
-      "stock3": {
-        "id": "boerse-portfolio-stock3",
-        "label": "Aktie 4",
-        "tooltip": "TBD",
-        "type": "select",
-        "vtype": "string",
-        "options": {
-          "FSE.BAYN_X": "Bayer AG",
-          "FSE.BMW_X": "BMW AG",
-          "FSE.CBK_X": "Commerzbank AG",
-          "FSE.SDF_X": "K+S AG",
-          "FSE.DBK_X": "Deutsche Bank AG"
-        }
       }
     },
     "results_1": {

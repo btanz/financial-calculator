@@ -1,4 +1,29 @@
 //- boerse-portfolio-template
+script(id='boerse-portfolio-stocksInput-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-xs-10
+        select(id='{{obj.id1}}', class='form-control')
+          option(value="FSE.BAYN_X", '{{obj.select1}}') Bayer AG
+          option(value="FSE.BMW_X",  '{{obj.select2}}') BMW AG
+          option(value="FSE.CBK_X",  '{{obj.select3}}') Commerzbank AG
+          option(value="FSE.SDF_X",  '{{obj.select4}}') K+S AG
+          option(value="FSE.DBK_X",  '{{obj.select5}}') Deutsche Bank AG
+      div.col-xs-2
+        button.btn.btn-default(type='button', id='{{obj.id2}}', class='boerse-portfolio-remove')
+          i.fa.fa-times
+
+
+
+script(id='boerse-portfolio-stocksAddButton-template', type='text/x-handlebars-template')
+  div.form-group.m-l-lg
+    div.row
+      div.col-xs-2
+        button.btn.btn-primary(type='button', id='boerse-portfolio-add')
+          i.fa.fa-plus &nbsp Position hinzufügen
+
+
+
 script(id='boerse-portfolio-results-2-template', type='text/x-handlebars-template')
   div.ibox.float-e-margins
     div.ibox-title
