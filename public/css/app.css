@@ -59,3 +59,13 @@
   height: 168px;
 }
 
+/* overlay for waiting times */
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #333D47;
+  opacity: .7;
+  z-index: 2000;
+}
+

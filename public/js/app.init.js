@@ -1,6 +1,6 @@
 /*
  * app.init.js
- * Client initialization function that is called on app init
+ * Client initialization function that is called on document ready
  *
  */
 
@@ -16,6 +16,7 @@ app.init = function(){
     calendarWeeks: true,
     autoclose: true
   });
+
 
   // initialize numeral.js package for number formatting
   (function(){
@@ -77,8 +78,6 @@ app.init = function(){
       return '';
     }
   });
-
-
 
 
 };

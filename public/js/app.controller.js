@@ -74,6 +74,10 @@ app.controller = (function() {
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data) {
 
+          // stop wait spinner
+          app.spinner.stop();
+          $('#wrapper').removeClass('overlay');
+
           // get, compile and fill results template
           if (!(data === null) && (typeof data.id === 'string')) {  // case where everything is alright
             if (data._1)
@@ -120,6 +124,13 @@ app.controller = (function() {
           console.log('Leider ist ein Fehler aufgetreten');
           app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
         });
+
+
+    // run spinner to bridge waiting times
+    app.spinner.spin($('#wrapper')[0]);
+    $('#wrapper').toggleClass('overlay');
+
+
   }
 
   /**
