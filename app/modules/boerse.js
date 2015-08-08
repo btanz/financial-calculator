@@ -1,3 +1,4 @@
+//var Calc = require('mongoose').model('DailyStockprices');
 var request = require('request');
 var fx = require('money');
 var _ = require('underscore');
@@ -7,6 +8,7 @@ var quandl = require('../../lib/quandl');
 var f = require('../../lib/finance');
 var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
+//var Calc = require('../../app/models/calc.elem.model');
 
 
 
@@ -50,6 +52,9 @@ exports.blackScholes = function (inputs) {
   var expectedInputs = calcElems.options.inputs;
   var errorMap;
   var helper = {};
+
+  // todo: remove mongoose tinkering
+  console.log(Calc);
 
 
   /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
