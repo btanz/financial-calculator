@@ -52,7 +52,8 @@ app.init = function(){
 
       var formatString = '0,0.';
 
-      if(typeof digits != 'number') digits = 2;
+      //if(typeof digits != 'number') digits = 2;
+      if(!(isFinite(digits)) || digits === '' || digits === null) digits = 2;
 
       for (var i = 0; i<digits; i++) {
         formatString += '0';

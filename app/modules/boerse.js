@@ -101,7 +101,7 @@ exports.blackScholes = function (inputs,cb) {
     /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     ['value','delta','gamma','theta','vega','rho','intrinsicValue','timeValue'].forEach(function(val){
-      result._1[val] = _.extend(calcElems.options.results_1[val], {"value": helper[val]});
+      result._1[val]   = _.extend(_.findWhere(data[0].results_1,{name: val}), {"value": helper[val]});
     });
 
     return result;
@@ -125,57 +125,68 @@ exports.blackScholes = function (inputs,cb) {
 exports.fxConvert = function (inputs,callback) {
 
   /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var value, returnResults;
-  var localElems = calcElems.fx.results_1;
   var result = {}; result._1 = {}; result._2 = {};
-  var expectedInputs = calcElems.fx.inputs;
   var errorMap;
   var adjustment = 1, rate;
 
+  function compute(data){
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
+    /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
 
-  if (errorMap.length !== 0){
-    callback(errorMap);
-    return;
-  }
-
-  /* ******** 3. COMPUTATIONS ******** */
-  request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
-    if (!error && response.statusCode == 200) {
-      var fxData = JSON.parse(body);
-      fx.rates = fxData.rates;
-      fx.base = fxData.base;
-      value = fx.convert(inputs.principal, {from: inputs.from, to: inputs.to});
-      returnResults(value);
-    } else {
-      return null;
+    if (errorMap.length !== 0){
+      callback(errorMap);
+      return;
     }
-  });
 
-  returnResults = function(value){
-    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
 
-    // calc_id
-    result.id = calcElems.fx.id;
-
-    rate = value/inputs.principal;
-    while(Math.abs(rate/adjustment)>10){adjustment *= 10;}
-    while(Math.abs(rate/adjustment)<0.1){adjustment /= 10;}
-
-    // first result container
-    result._1.value = _.extend(localElems.value, {"value": value, 'unit': inputs.to});
-
-    // second result container
-    result._2.title = 'Umrechnungstabelle';
-    result._2.header = [inputs.from, inputs.to, inputs.to, inputs.from];
-    result._2.body = [];
-    [1,2,3,4,5,10,15,20,25,50,100,250,500,1000,10000,100000].forEach(function(element, index){
-      result._2.body.push([(element/adjustment), (element/adjustment)*(value/inputs.principal), (element*adjustment), (element*adjustment)/(value/inputs.principal)]);
+    /* ******** 3. COMPUTATIONS ******** */
+    request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
+      if (!error && response.statusCode == 200) {
+        var fxData = JSON.parse(body);
+        fx.rates = fxData.rates;
+        fx.base = fxData.base;
+        value = fx.convert(inputs.principal, {from: inputs.from, to: inputs.to});
+        returnResults(value);
+      } else {
+        return null;
+      }
     });
-  callback(null, result);
+
+    returnResults = function(value){
+      /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+
+      // calc_id
+      result.id = data[0].id;
+
+      rate = value/inputs.principal;
+      while(Math.abs(rate/adjustment)>10){adjustment *= 10;}
+      while(Math.abs(rate/adjustment)<0.1){adjustment /= 10;}
+
+      // first result container
+      result._1.value = _.extend(_.findWhere(data[0].results_1,{name: 'value'}),{"value": value, 'unit': inputs.to});
+
+      // second result container
+      result._2.title = 'Umrechnungstabelle';
+      result._2.header = [inputs.from, inputs.to, inputs.to, inputs.from];
+      result._2.body = [];
+      [1,2,3,4,5,10,15,20,25,50,100,250,500,1000,10000,100000].forEach(function(element, index){
+        result._2.body.push([(element/adjustment), (element/adjustment)*(value/inputs.principal), (element*adjustment), (element*adjustment)/(value/inputs.principal)]);
+      });
+    callback(null, result);
+    }
   }
+
+  Calc.findByCalcname('fx')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
+
 
 };
 
@@ -190,9 +201,7 @@ exports.equityReturn = function(inputs) {
   var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {}; result._2 = {};
   var i, dividendData = [], helper, holding, irr;
-  var expectedInputs = calcElems.equityreturn.inputs;
   var errorMap;
-  var localElems = calcElems.equityreturn.results_1;
   helpers.errors.clear();
   helpers.messages.clear();
 
@@ -247,9 +256,10 @@ exports.equityReturn = function(inputs) {
     if(!isFinite(irr)){ return false; }
 
     /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-    result.id = calcElems.equityreturn.id;
-    result._1.irr = _.extend(localElems.irr, {"value": irr});
-    result._1.holding = _.extend(localElems.holding, {"value": holding});
+    result.id = data[0].id;
+    result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),     {"value": irr});
+    result._1.holding = _.extend(_.findWhere(data[0].results_1,{name: 'holding'}), {"value": holding});
+
     return result;
   }
 

@@ -32,8 +32,18 @@ exports.options = {
 
 /** calculator-boerse-fx */
 exports.fx = {
-  render: function(req, res){
-    res.render('calculator', {obj: calcElems.fx});
+
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('fx')
+        .then(function(data){
+          console.log(data[0].inputs[0]);
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-fx calculator.");
+        });
   },
 
   calculate: function(req,res) {

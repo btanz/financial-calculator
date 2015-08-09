@@ -218,7 +218,7 @@ function seeder() {
           },
           {
             id: 'EUR',
-            descriptions: 'Euro - EUR'
+            description: 'Euro - EUR'
           },
           {
             id: 'USD ',
@@ -294,7 +294,7 @@ function seeder() {
           },
           {
             id: 'BHD',
-            descriptions: 'Bahrain-Dinar - BHD'
+            description: 'Bahrain-Dinar - BHD'
           },
           {
             id: 'BDT',
@@ -973,7 +973,7 @@ function seeder() {
           },
           {
             id: 'EUR',
-            descriptions: 'Euro - EUR'
+            description: 'Euro - EUR'
           },
           {
             id: 'USD ',
@@ -1049,7 +1049,7 @@ function seeder() {
           },
           {
             id: 'BHD',
-            descriptions: 'Bahrain-Dinar - BHD'
+            description: 'Bahrain-Dinar - BHD'
           },
           {
             id: 'BDT',
@@ -2882,22 +2882,22 @@ function seeder() {
         options: [
           {
             id: '0',
-            descriptions: 'Endkapital',
+            description: 'Endkapital',
           },
           {
             id: '1',
-            descriptions: 'Anfangskapital',
+            description: 'Anfangskapital',
           },
           {
             id: '2',
-            descriptions: 'Sparrate',
+            description: 'Sparrate',
           },    {
             id: '3',
-            descriptions: 'Ansparzeit',
+            description: 'Ansparzeit',
           },
           {
             id: '4',
-            descriptions: 'Zinssatz',
+            description: 'Zinssatz',
           }
         ]
       },
@@ -4297,11 +4297,11 @@ function seeder() {
         options: [
           {
             id: 'true',
-            descriptions: 'JA'
+            description: 'JA'
           },
           {
             id: 'false',
-            descriptions: 'NEIN'
+            description: 'NEIN'
           }
         ]
       },
