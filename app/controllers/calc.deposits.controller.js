@@ -124,28 +124,59 @@ exports.savingscheme = {
 /** calculator-deposits-interestpenalty */
 exports.interestpenalty = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.interestpenalty});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('interestpenalty')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = deposits.interestpenalty(obj);
-    res.json(results);
+    deposits.interestpenalty(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 
 /** calculator-deposits-timedeposit */
 exports.overnightdeposit = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.overnight});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('overnight')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = deposits.overnight(obj);
-    res.json(results);
+    deposits.overnight(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
+
 };
