@@ -7063,4 +7063,140 @@ function seeder() {
 
 
 
+
+  /**
+   * SEED BOERSE-PORTFOLIO
+   * */
+  var portfolio = new Calc({
+    name: 'portfolio',
+    id: 'boerse-portfolio',
+    designation: 'Portfoliorechner',
+    description: 'Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.',
+    inputs: [
+      {
+        name: 'return',
+        id: 'boerse-portfolio-return',
+        label: 'Zielrendite',
+        addon: '% p. a.',
+        placeholder: 'Zielrendite',
+        value: '15.50',
+        tooltip: 'TBD',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 100]
+      },
+      {
+        name: 'frequency',
+        id: 'boerse-portfolio-frequency',
+        label: 'Returnfrequenz',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'number',
+        args: [0, 3],
+        options: [
+          {
+            id: '0',
+            description: 'wöchentlich'
+          },
+          {
+            id: '1',
+            description: 'monatlich'
+          },
+          {
+            id: '2',
+            description: 'vierteljährlich'
+          },
+          {
+            id: '3',
+            description: 'jährlich'
+          }
+        ]
+      }
+    ],
+    results_1: [
+      {
+        name: 'test',
+        description: 'Zinstage',
+        unit: 'Tage',
+        digits: 0,
+        importance: 'second',
+        tooltip: 'Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode.'
+      },
+      {
+        name: 'expectedreturn',
+        description: 'Mittlere erwartete Rendite',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'second',
+        tooltip: 'Die erwartete Rendite der Aktie, berechnet aus dem Mittelwert der historischen Renditen.'
+      },
+      {
+        name: 'stdev',
+        description: 'Standardabweichung',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'second',
+        tooltip: 'Die Standardabweichung der Aktie, welche ein Risikomaß darstellt.'
+      },
+      {
+        name: 'stock',
+        description: '',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        tooltip: 'TBD',
+        type: 'string',
+        omittooltip: true
+      },
+      {
+        name: 'portfolioreturn',
+        description: 'Erwartete Portfoliorendite',
+        unit: '% p. a.',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'portfoliorisk',
+        description: 'Erwartetes Portfoliorisiko (Standardabweichung)',
+        unit: '% p. a.',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'portfolioweight',
+        description: 'Portfoliogewicht',
+        unit: '%',
+        digits: 1,
+        importance: 'second',
+        tooltip: 'TBD'
+      },
+      {
+        name: 'portfolioweightintro',
+        description: 'Portfoliogewichte der Einzelaktien',
+        unit: '',
+        digits: 1,
+        importance: 'first',
+        tooltip: 'TBD',
+        type: 'string'
+      }
+    ]
+  });
+
+
+
+  portfolio.save(function (err) {
+    if (err) {
+      console.log(err);
+      console.log('Seed Failed for Calc.Elem.Model.Portfolio');
+      return next(err);
+    } else {
+      console.log('Calc.Elem.Model.Portfolio successfully seeded');
+    }
+  });
+
+
+
+
 }  /** /function seeder */

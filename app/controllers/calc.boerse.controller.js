@@ -92,9 +92,19 @@ exports.equityreturn = {
 
 /** calculator-boerse-portfolio */
 exports.portfolio = {
-  render: function(req,res){
-    res.render('calculator', {obj: calcElems.portfolio});
+
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('portfolio')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-portfolio calculator.");
+        });
   },
+
 
   calculate: function(req,res){
     var obj = req.query;
