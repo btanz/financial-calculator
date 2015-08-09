@@ -891,10 +891,11 @@ exports.timedeposit = function(inputs) {
  */
 exports.savingscheme = function(inputs) {
 
+
   /* ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   helpers.messages.clear();
   helpers.errors.clear();
-
   var result = {}, helper = {};
   result._1 = {};  result._2 = {};
   result._chart1 = {};  result._chart2 = {};
@@ -902,200 +903,241 @@ exports.savingscheme = function(inputs) {
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = [];  dyn[6] = [];  dyn[7] = [];  dyn[8] = [];  dyn[9] = [];
   var dynT;
   var interest = [];
-  var localElems = calcElems.savingscheme.results_1;
-  var expectedInputs = calcElems.savingscheme.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var i;
 
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed
-  if(inputs.calcselect === "2"){
-    delete inputs['terminal']; delete _expectedInputs['terminal'];
-  } else if(inputs.calcselect === "3") {
-    delete inputs['principal']; delete _expectedInputs['principal'];
-  }
+  function compute(data) {
 
-  inputs.taxrate  = inputs.taxrate / 100;
-
-  if(inputs.taxes === 'false'){
-    delete inputs['taxrate'];   delete _expectedInputs['taxrate'];
-    delete inputs['taxfree'];   delete _expectedInputs['taxfree'];
-    delete inputs['taxtime'];   delete _expectedInputs['taxtime'];
-  }
-
-
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
-
-  helper.averageinterest = 0;
-  for (i = 0; i < inputs.term; i++){
-    interest.push(inputs['interest'.concat(i)] / 100);
-    helper.averageinterest += inputs['interest'.concat(i)] / 100;
-  }
-  helper.averageinterest /= inputs.term;
-
-
-  /* ******** 3. HELPER FUNCTION ******** */
-  function computePrincipal(principal){
-    for (i = 1; i <= inputs.term; i++) {
-      dyn[1][i - 1] = (i === 1) ? principal : dyn[4][i - 2];               // initial capital
-      dyn[2][i - 1] = (inputs.interestselection) ? dyn[1][i - 1] * interest[i - 1] : interest[i - 1] * principal;       // flow interest
-      (inputs.taxes && inputs.taxtime === false) ? dyn[5][i - 1] = -Math.max(0, dyn[2][i - 1] - inputs.taxfree) * inputs.taxrate : dyn[5][i - 1] = 0;   // taxes
-      dyn[3][i - 1] = (i === 1) ? dyn[2][i - 1] + dyn[5][i - 1] : dyn[3][i - 2] + dyn[2][i - 1] + dyn[5][i - 1];      // accumulated interest after taxes
-      dyn[4][i - 1] = principal + dyn[3][i - 1];                         // terminal capital
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    /** drop elems that are to be computed */
+    if (inputs.calcselect === "2") {
+      delete inputs['terminal'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'terminal'}), 1);
+    } else if (inputs.calcselect === "3") {
+      delete inputs['principal'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'principal'}), 1);
     }
+
+    inputs.taxrate = inputs.taxrate / 100;
+
+
+    if (inputs.taxes === 'false') {
+      delete inputs['taxrate'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxrate'}), 1);
+      delete inputs['taxfree'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxfree'}), 1);
+      delete inputs['taxtime'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxtime'}), 1);
+    }
+
+
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0) {
+      return errorMap;
+    }
+
+    helper.averageinterest = 0;
+    for (i = 0; i < inputs.term; i++) {
+      interest.push(inputs['interest'.concat(i)] / 100);
+      helper.averageinterest += inputs['interest'.concat(i)] / 100;
+    }
+    helper.averageinterest /= inputs.term;
+
+
+    /* ******** 3. HELPER FUNCTION ******** */
+    function computePrincipal(principal) {
+      for (i = 1; i <= inputs.term; i++) {
+        dyn[1][i - 1] = (i === 1) ? principal : dyn[4][i - 2];               // initial capital
+        dyn[2][i - 1] = (inputs.interestselection) ? dyn[1][i - 1] * interest[i - 1] : interest[i - 1] * principal;       // flow interest
+        (inputs.taxes && inputs.taxtime === false) ? dyn[5][i - 1] = -Math.max(0, dyn[2][i - 1] - inputs.taxfree) * inputs.taxrate : dyn[5][i - 1] = 0;   // taxes
+        dyn[3][i - 1] = (i === 1) ? dyn[2][i - 1] + dyn[5][i - 1] : dyn[3][i - 2] + dyn[2][i - 1] + dyn[5][i - 1];      // accumulated interest after taxes
+        dyn[4][i - 1] = principal + dyn[3][i - 1];                         // terminal capital
+      }
+      helper.terminal = dyn[4][i - 2];
+      helper.interest = _.reduce(dyn[2], helpers.add, 0);
+
+      if (inputs.taxes && inputs.taxtime === false) {
+        helper.taxtotal = _.reduce(dyn[5], helpers.add, 0);
+      } else if (inputs.taxes && inputs.taxtime === true) {
+        helper.taxtotal = -Math.max(0, helper.interest - inputs.taxfree) * inputs.taxrate;
+        helper.terminal += helper.taxtotal;
+      }
+      return inputs.terminal - helper.terminal;
+    }
+
+
+    /* ******** 4. COMPUTATIONS ******** */
+    if (inputs.calcselect === 3) {   // compute principle if only terminal is supplied
+      inputs.principal = math.roots(computePrincipal, 1000, 1500);
+      if (!validator.isFloat(inputs.principal)) {  // sanitize result and return if sthg wring
+        helpers.errors.set("Leider konnte die Anlagesumme für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Anlagesumme außergewöhnlich niedrig oder hoch ist.", undefined, true);
+        return helpers.errors.errorMap;
+      }
+    }
+
+    for (i = 1; i <= inputs.term; i++) {
+      dyn[0][i - 1] = i;        // period
+      dyn[1][i - 1] = (i === 1) ? inputs.principal : dyn[4][i - 2];               // initial capital
+      dyn[2][i - 1] = (inputs.interestselection) ? dyn[1][i - 1] * interest[i - 1] : interest[i - 1] * inputs.principal;       // flow interest
+      (inputs.taxes && inputs.taxtime === false) ? dyn[5][i - 1] = -Math.max(0, dyn[2][i - 1] - inputs.taxfree) * inputs.taxrate : dyn[5][i - 1] = 0;   // taxes
+      dyn[6][i - 1] = dyn[2][i - 1] + dyn[5][i - 1];                                                                         // flow interest after tax
+      (inputs.interestselection) ? cf.push([i, 0]) : cf.push([i, dyn[6][i - 1]]);                                          // cash flow array
+      dyn[3][i - 1] = (i === 1) ? dyn[2][i - 1] + dyn[5][i - 1] : dyn[3][i - 2] + dyn[2][i - 1] + dyn[5][i - 1];      // accumulated interest after taxes
+      dyn[4][i - 1] = inputs.principal + dyn[3][i - 1];                         // terminal capital
+    }
+
+    // transpose dyn
+    dynT = math.transpose(dyn);
+
+
+    /*
+     * COMPUTE AGGREGATE VALUES
+     */
     helper.terminal = dyn[4][i - 2];
     helper.interest = _.reduce(dyn[2], helpers.add, 0);
+    helper.linearinterest = (helper.interest / inputs.term) / inputs.principal;
 
     if (inputs.taxes && inputs.taxtime === false) {
       helper.taxtotal = _.reduce(dyn[5], helpers.add, 0);
+      helper.interestwtax = _.reduce(dyn[6], helpers.add, 0);
+      helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
     } else if (inputs.taxes && inputs.taxtime === true) {
       helper.taxtotal = -Math.max(0, helper.interest - inputs.taxfree) * inputs.taxrate;
+      helper.interestwtax = helper.interest + helper.taxtotal;
       helper.terminal += helper.taxtotal;
+      helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
     }
-    return inputs.terminal - helper.terminal;
-  }
 
-
-  /* ******** 4. COMPUTATIONS ******** */
-  if (inputs.calcselect === 3) {   // compute principle if only terminal is supplied
-    inputs.principal = math.roots(computePrincipal, 1000, 1500);
-    if (!validator.isFloat(inputs.principal)) {  // sanitize result and return if sthg wring
-      helpers.errors.set("Leider konnte die Anlagesumme für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Anlagesumme außergewöhnlich niedrig oder hoch ist.",undefined , true);
-      return helpers.errors.errorMap;
+    if (inputs.interestselection) { // add initial/final value to last cash flow
+      cf[i - 2][1] = dyn[4][i - 2];
+    } else {
+      cf[i - 2][1] += inputs.principal;
+      if (inputs.taxes && inputs.taxtime === true) {
+        cf[i - 2][1] += helper.taxtotal;
+      }
     }
-  }
 
-  for (i = 1; i <= inputs.term; i++) {
-    dyn[0][i - 1] = i;        // period
-    dyn[1][i - 1] = (i === 1) ? inputs.principal : dyn[4][i - 2];               // initial capital
-    dyn[2][i - 1] = (inputs.interestselection) ? dyn[1][i - 1] * interest[i - 1] : interest[i - 1] * inputs.principal;       // flow interest
-    (inputs.taxes && inputs.taxtime === false) ? dyn[5][i - 1] = -Math.max(0, dyn[2][i - 1] - inputs.taxfree) * inputs.taxrate : dyn[5][i - 1] = 0;   // taxes
-    dyn[6][i - 1] = dyn[2][i - 1] + dyn[5][i - 1];                                                                         // flow interest after tax
-    (inputs.interestselection) ? cf.push([i, 0]) : cf.push([i, dyn[6][i - 1]]);                                          // cash flow array
-    dyn[3][i - 1] = (i === 1) ? dyn[2][i - 1] + dyn[5][i - 1] : dyn[3][i - 2] + dyn[2][i - 1] + dyn[5][i - 1];      // accumulated interest after taxes
-    dyn[4][i - 1] = inputs.principal + dyn[3][i - 1];                         // terminal capital
-  }
-
-  // transpose dyn
-  dynT = math.transpose(dyn);
-
-
-  /*
-   * COMPUTE AGGREGATE VALUES
-   */
-  helper.terminal = dyn[4][i - 2];
-  helper.interest = _.reduce(dyn[2], helpers.add, 0);
-  helper.linearinterest = (helper.interest / inputs.term) / inputs.principal;
-
-  if (inputs.taxes && inputs.taxtime === false) {
-    helper.taxtotal = _.reduce(dyn[5], helpers.add, 0);
-    helper.interestwtax = _.reduce(dyn[6], helpers.add, 0);
-    helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
-  } else if (inputs.taxes && inputs.taxtime === true) {
-    helper.taxtotal = -Math.max(0, helper.interest - inputs.taxfree) * inputs.taxrate;
-    helper.interestwtax = helper.interest + helper.taxtotal;
-    helper.terminal += helper.taxtotal;
-    helper.linearinterest = (helper.interestwtax / inputs.term) / inputs.principal;
-  }
-
-  if (inputs.interestselection) { // add initial/final value to last cash flow
-    cf[i - 2][1] = dyn[4][i - 2];
-  } else {
-    cf[i - 2][1] += inputs.principal;
-    if (inputs.taxes && inputs.taxtime === true) {
-      cf[i - 2][1] += helper.taxtotal;
+    // use simple calculation for irr if there is compounding, as there is a single cash flow only; else, use rootfinder
+    if (inputs.interestselection) {
+      helper.effectiveinterest = Math.pow(helper.terminal / inputs.principal, 1 / inputs.term) - 1;
+    } else {
+      helper.effectiveinterest = math.roots(function (i) {
+        return inputs.principal - f.basic.pv(i, cf)
+      }, 0.01, 1500);
+      if (!validator.isFloat(helper.effectiveinterest)) {  // sanitize result and return if sthg wring
+        helpers.messages.set("Leider konnte der Effektivzins für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Effektivzins außergewöhnlich hoch oder niedrig ist.", 2);
+      }
     }
-  }
 
-  // use simple calculation for irr if there is compounding, as there is a single cash flow only; else, use rootfinder
-  if (inputs.interestselection) {
-    helper.effectiveinterest = Math.pow(helper.terminal / inputs.principal, 1 / inputs.term) - 1;
-  } else {
-    helper.effectiveinterest = math.roots(function (i) {
-      return inputs.principal - f.basic.pv(i, cf)
-    }, 0.01, 1500);
-    if (!validator.isFloat(helper.effectiveinterest)) {  // sanitize result and return if sthg wring
-      helpers.messages.set("Leider konnte der Effektivzins für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Effektivzins außergewöhnlich hoch oder niedrig ist.", 2);
+    // attach final rows
+    dynT.push(['Summen', inputs.principal, helper.interest, helper.interest, helper.terminal, helper.taxtotal, helper.interestwtax, undefined, undefined, true]);
+
+
+    /* ******** 5. CONSTRUCT RESULT DATA OBJECT ******** */;
+    result.id = data[0].id;
+
+    /*
+     5.A FIRST RESULT CONTAINER
+     */
+    if (inputs.calcselect === 2) {
+      //result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminalmain'}), {"value": helper.terminal});
+      //result._1.terminal = _.extend(localElems['terminalmain'], {"value": helper.terminal});
+      result._1.principal = _.extend(_.findWhere(data[0].results_1,{name: 'principal'}), {"value": helper.principal});
+      //result._1.principal = _.extend(localElems['principal'], {"value": inputs.principal || helper.principal});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}), {"value": helper.interest});
+      //result._1.interest = _.extend(localElems['interest'], {"value": helper.interest});
+    } else {
+      result._1.principal = _.extend(_.findWhere(data[0].results_1,{name: 'principalmain'}), {"value": inputs.principal || helper.principal});
+      //result._1.principal = _.extend(localElems['principalmain'], {"value": inputs.principal || helper.principal});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}), {"value": helper.interest});
+      //result._1.interest = _.extend(localElems['interest'], {"value": helper.interest});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}), {"value": helper.terminal});
+      //result._1.terminal = _.extend(localElems['terminal'], {"value": helper.terminal});
     }
+    if (inputs.taxes) {
+      result._1.taxes = _.extend(_.findWhere(data[0].results_1,{name: 'taxes'}), {"value": helper.taxtotal});
+      //result._1.taxes = _.extend(localElems['taxes'], {"value": helper.taxtotal})
+    }
+    result._1.averageinterest   = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": helper.averageinterest * 100});
+    //result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest * 100});
+    result._1.linearinterest    = _.extend(_.findWhere(data[0].results_1,{name: 'linearinterest'}), {"value": helper.linearinterest * 100});
+    //result._1.linearinterest  = _.extend(localElems['linearinterest'], {"value": helper.linearinterest * 100});
+    result._1.effectiveinterest = _.extend(_.findWhere(data[0].results_1,{name: 'effectiveinterest'}), {"value": helper.effectiveinterest * 100});
+    //result._1.effectiveinterest= _.extend(localElems['effectiveinterest'], {"value": helper.effectiveinterest * 100});
+
+
+    /*
+     5.B SECOND RESULT CONTAINER
+     */
+    result._2.title = 'Entwicklung Sparguthaben';
+    result._2.header = ['Jahr', 'Guthaben Jahresanfang', 'Zinsertrag', 'Summe Zinsertrag', 'Guthaben Jahresende', 'Steuerlast', 'Zinsertrag nach Steuer'];
+    result._2.body = dynT;
+    result._2.tax = inputs.taxes;
+
+    /*
+     5.C FIRST CHART
+     */
+    var labels1 = dyn[0];
+    var series1 = [dyn[1], dyn[6]];
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Entwicklung des Sparguthabens';
+    result._chart1.legend = ['Guthaben Start', 'Zinsertrag nach Steuer'];
+    result._chart1.label = {x: 'Jahr', y: "Guthaben Ende"};
+    result._chart1.type = 'Bar';
+    result._chart1.data = {labels: labels1, series: series1};
+    if (inputs.term >= 15) {  // use slim bars if more than 20 periods
+      result._chart1.options = {
+        stackBars: true,
+        axisY: {offset: 60},
+        seriesBarDistance: 6,
+        classNames: {bar: 'ct-bar-slim'}
+      };
+    } else if (inputs.period >= 6) {
+      result._chart1.options = {
+        stackBars: true,
+        axisY: {offset: 60},
+        seriesBarDistance: 12,
+        classNames: {bar: 'ct-bar'}
+      };
+    } else {
+      result._chart1.options = {
+        stackBars: true,
+        axisY: {offset: 60},
+        seriesBarDistance: 18,
+        classNames: {bar: 'ct-bar-thick'}
+      };
+    }
+
+    /*
+     5.D SECOND CHART
+     */
+    result._chart2.data = {
+      //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
+      series: [inputs.principal || helper.principal, helper.interest]
+    };
+    result._chart2.id = 'chart2';
+    result._chart2.title = 'Zusammensetzung Endwert';
+    result._chart2.legend = ['Anlagesumme', 'Zinsertrag'];
+    result._chart2.options = {showLabel: false, donut: false, labelOffset: 0};
+    result._chart2.type = 'Pie';
+
+
+    // attach messages
+    result.messages = helpers.messages.messageMap;
+
+    return result;
   }
 
-  // attach final rows
-  dynT.push(['Summen', inputs.principal, helper.interest, helper.interest, helper.terminal, helper.taxtotal, helper.interestwtax, undefined, undefined, true]);
+  return Calc.findByCalcname('savingscheme')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-
-  /* ******** 5. CONSTRUCT RESULT DATA OBJECT ******** */
-  result.id = calcElems.savingscheme.id;
-
-  /*
-   5.A FIRST RESULT CONTAINER
-   */
-  if(inputs.calcselect === 2){
-    result._1.terminal         = _.extend(localElems['terminalmain'],     {"value": helper.terminal});
-    result._1.principal        = _.extend(localElems['principal'],        {"value": inputs.principal || helper.principal});
-    result._1.interest         = _.extend(localElems['interest'],         {"value": helper.interest});
-  } else {
-    result._1.principal        = _.extend(localElems['principalmain'],    {"value": inputs.principal || helper.principal});
-    result._1.interest         = _.extend(localElems['interest'],         {"value": helper.interest});
-    result._1.terminal         = _.extend(localElems['terminal'],         {"value": helper.terminal});
-  }
-  if(inputs.taxes) {result._1.taxes = _.extend(localElems['taxes'],     {"value": helper.taxtotal})}
-  result._1.averageinterest  = _.extend(localElems['averageinterest'],  {"value": helper.averageinterest * 100});
-  result._1.linearinterest   = _.extend(localElems['linearinterest'],   {"value": helper.linearinterest * 100});
-  result._1.effectiveinterest= _.extend(localElems['effectiveinterest'],{"value": helper.effectiveinterest * 100});
-
-
-  /*
-   5.B SECOND RESULT CONTAINER
-   */
-  result._2.title = 'Entwicklung Sparguthaben';
-  result._2.header = ['Jahr', 'Guthaben Jahresanfang', 'Zinsertrag', 'Summe Zinsertrag','Guthaben Jahresende','Steuerlast','Zinsertrag nach Steuer'];
-  result._2.body = dynT;
-  result._2.tax = inputs.taxes;
-
-  /*
-   5.C FIRST CHART
-   */
-  var labels1 = dyn[0];
-  var series1 = [dyn[1], dyn[6]];
-  result._chart1.id = 'chart1';
-  result._chart1.title = 'Entwicklung des Sparguthabens';
-  result._chart1.legend = ['Guthaben Start', 'Zinsertrag nach Steuer'];
-  result._chart1.label = {x: 'Jahr', y: "Guthaben Ende"};
-  result._chart1.type = 'Bar';
-  result._chart1.data = {labels: labels1, series: series1};
-  if (inputs.term >=15){  // use slim bars if more than 20 periods
-    result._chart1.options = {stackBars: true, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
-  } else if (inputs.period >=6) {
-    result._chart1.options = {stackBars: true, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
-  } else {
-    result._chart1.options = {stackBars: true, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
-  }
-
-  /*
-   5.D SECOND CHART
-   */
-  result._chart2.data = {
-    //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
-    series: [inputs.principal || helper.principal, helper.interest]
-  };
-  result._chart2.id = 'chart2';
-  result._chart2.title = 'Zusammensetzung Endwert';
-  result._chart2.legend = ['Anlagesumme', 'Zinsertrag'];
-  result._chart2.options = {showLabel: false, donut: false, labelOffset: 0};
-  result._chart2.type = 'Pie';
-
-
-
-
-  // attach messages
-  result.messages = helpers.messages.messageMap;
-
-  return result;
 
 };
 
