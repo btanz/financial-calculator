@@ -28,72 +28,85 @@ var terminalValueHelper, annualCashHelper;
  */
 exports.interest = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {}; result._2 = {};
   var helper, helperAnnual, helperAnnualT;
-  var localElems = calcElems.depinterest.results_1;
-  var expectedInputs = calcElems.depinterest.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = ['end','start','rate','period'];
-  var outputMap = ['Endkapital', 'Anfangskapital', 'Zinssatz', 'Laufzeit'];
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed form input and expectedinputs object
-  delete inputs[selectMap[inputs.select]];
-  delete _expectedInputs[selectMap[inputs.select]];
 
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    // drop elems that are to be computed form input and expectedinputs object
+    delete inputs[selectMap[inputs.select]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.select]}),1);
+    //delete _expectedInputs[selectMap[inputs.select]];
+
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
+    }
+
+    inputs.rate = inputs.rate/100;
+
+    /* ******** 3. COMPUTATIONS ******** */
+    // 3A. Compute main result
+    if (inputs.select === 0){ // compute end value end
+      helper =  terminalValueHelper(inputs.start, inputs.period, inputs.rate);
+    } else if (inputs.select === 1) {  // compute initial value start
+      helper = (inputs.end / Math.pow(1 + inputs.rate, inputs.period));
+    } else if (inputs.select === 2){  // compute rate
+      helper = ((-1 + Math.pow((inputs.end / inputs.start),(1 / inputs.period))));
+    } else if (inputs.select === 3){  // compute period
+      helper = ((Math.log(inputs.end) - Math.log(inputs.start)) / Math.log(1 + inputs.rate));
+    } else {  // sth wrong
+      return null;
+    }
+
+    // 3B. Compute single-period values
+    inputs[selectMap[inputs.select]] = helper;
+    helperAnnual= annualCashHelper(inputs['start'],inputs['period'],inputs['rate']);
+
+    // transpose helperAnnual
+    helperAnnualT = helperAnnual[0].map(function(col,i){
+      return helperAnnual.map(function(row){
+        return row[i];
+      })
+    });
+
+
+
+    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+    // first result container
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {'value': inputs.select == 2 ? helper * 100 : helper});
+    //result._1.value = _.extend(localElems[selectMap[inputs.select]], {'value': inputs.select == 2 ? helper * 100 : helper});
+    result._1.gain  = _.extend(_.findWhere(data[0].results_1,{name: 'gain'}),  {'value': inputs.end - inputs.start});
+    //result._1.gain  = _.extend(localElems['gain'], {'value': inputs.end - inputs.start});
+
+
+    //result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': inputs.select == 2 ? helper * 100 : helper,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
+    //result._1.gain  =          {'description': localElems['gain'].description,                    'value': inputs.end - inputs.start, 'unit': localElems['gain'].unit                  , 'digits': localElems['gain'].digits,                   'tooltip': localElems['gain'].tooltip};
+    // second result container
+    result._2.title = 'Kapitalentwicklung';
+    result._2.header = ['Jahr', 'Kapitalwert Beginn', 'Zins', 'Zins akkumuliert', 'Kapitalwert Ende'];
+    result._2.body = helperAnnualT;
+
+    return result;
+
   }
 
-  inputs.rate = inputs.rate/100;
-
-  /* ******** 3. COMPUTATIONS ******** */
-  // 3A. Compute main result
-  if (inputs.select === 0){ // compute end value end
-    helper =  terminalValueHelper(inputs.start, inputs.period, inputs.rate);
-  } else if (inputs.select === 1) {  // compute initial value start
-    helper = (inputs.end / Math.pow(1 + inputs.rate, inputs.period));
-  } else if (inputs.select === 2){  // compute rate
-    helper = ((-1 + Math.pow((inputs.end / inputs.start),(1 / inputs.period))));
-  } else if (inputs.select === 3){  // compute period
-    helper = ((Math.log(inputs.end) - Math.log(inputs.start)) / Math.log(1 + inputs.rate));
-  } else {  // sth wrong
-    return null;
-  }
-
-  // 3B. Compute single-period values
-  inputs[selectMap[inputs.select]] = helper;
-  helperAnnual= annualCashHelper(inputs['start'],inputs['period'],inputs['rate']);
-
-  // transpose helperAnnual
-  helperAnnualT = helperAnnual[0].map(function(col,i){
-    return helperAnnual.map(function(row){
-      return row[i];
-    })
-  });
-
-
-
-  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.depinterest.id;
-  // first result container
-  result._1.value = _.extend(localElems[selectMap[inputs.select]], {'value': inputs.select == 2 ? helper * 100 : helper});
-  result._1.gain  = _.extend(localElems['gain'], {'value': inputs.end - inputs.start});
-
-
-  //result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': inputs.select == 2 ? helper * 100 : helper,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
-  //result._1.gain  =          {'description': localElems['gain'].description,                    'value': inputs.end - inputs.start, 'unit': localElems['gain'].unit                  , 'digits': localElems['gain'].digits,                   'tooltip': localElems['gain'].tooltip};
-  // second result container
-  result._2.title = 'Kapitalentwicklung';
-  result._2.header = ['Jahr', 'Kapitalwert Beginn', 'Zins', 'Zins akkumuliert', 'Kapitalwert Ende'];
-  result._2.body = helperAnnualT;
-
-  return result;
+  return Calc.findByCalcname('depinterest')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
 };
+
 
 /* DEPOSITS-SAVINGS function that computes parameters for a savings plan
  * ARGUMENTS XXX
