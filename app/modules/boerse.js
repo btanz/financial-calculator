@@ -117,7 +117,6 @@ exports.blackScholes = function (inputs,cb) {
         return helpers.errors.errorMap;
       });
 
-
 };
 
 
@@ -125,7 +124,7 @@ exports.blackScholes = function (inputs,cb) {
 // todo: documentation
 exports.fxConvert = function (inputs,callback) {
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
   var value, returnResults;
   var localElems = calcElems.fx.results_1;
   var result = {}; result._1 = {}; result._2 = {};
@@ -184,69 +183,84 @@ exports.fxConvert = function (inputs,callback) {
 
 // compute return from equity investment
 // todo: documentation
-exports.equityReturn = function(inputs, callback) {
+// todo: sensible error messages and error checking for divindend dates
+exports.equityReturn = function(inputs) {
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {}; result._2 = {};
   var i, dividendData = [], helper, holding, irr;
   var expectedInputs = calcElems.equityreturn.inputs;
   var errorMap;
   var localElems = calcElems.equityreturn.results_1;
+  helpers.errors.clear();
+  helpers.messages.clear();
 
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
+  function compute(data){
 
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
 
-  // write dividendData to array dividends array
-  for (i = 0; i < inputs.dividends; i++){
-    helper = ['dividendDate'.concat(i),'dividendAmount'.concat(i)];
-    dividendData.push([inputs[helper[0]],inputs[helper[1]]]);
-  }
-
-
-  /* ******** 3. COMPUTATIONS ******** */
-  // check for fees and adjust buy and sell
-  if (isFinite(inputs.feebuy)){inputs.buy += inputs.feebuy};
-  if (isFinite(inputs.feesell)){inputs.sell -= inputs.feesell};
-
-
-  // function to compute NPV for guess; function is 0 at the correct discount rate XXX
-  function NPV(discountRate){
-    var npv = 0;
-    for(var t = 0; t < dividendData.length; t++) {
-      npv += dividendData[t][1] / Math.pow((1+ discountRate),dividendData[t][2]/365);
+    if (errorMap.length !== 0){
+      return errorMap;
     }
-    return npv-inputs.buy;
+
+    // write dividendData to array dividends array
+    for (i = 0; i < inputs.dividends; i++){
+      helper = ['dividendDate'.concat(i),'dividendAmount'.concat(i)];
+      dividendData.push([inputs[helper[0]],inputs[helper[1]]]);
+    }
+
+
+    /** ******** 3. COMPUTATIONS ******** */
+    // check for fees and adjust buy and sell
+    if (inputs.fees && isFinite(inputs.feebuy)){inputs.buy += inputs.feebuy};
+    if (inputs.fees && isFinite(inputs.feesell)){inputs.sell -= inputs.feesell};
+
+
+    // function to compute NPV for guess; function is 0 at the correct discount rate XXX
+    function NPV(discountRate){
+      var npv = 0;
+      for(var t = 0; t < dividendData.length; t++) {
+        npv += dividendData[t][1] / Math.pow((1+ discountRate),dividendData[t][2]/365);
+      }
+      return npv-inputs.buy;
+    }
+
+    // convert date sequence in holding time sequence
+    var ONE_DAY = 1000 * 60 * 60 * 24;
+    holding = (inputs.selldate-inputs.buydate)/ONE_DAY;
+
+    // attach holding time to dividend array + plus check for invalid dividend dates
+    for(i=0; i < inputs.dividends; i++){
+      if (dividendData[i][0] < inputs.buyDate || dividendData[i][0] > inputs.sellDate){return null;}
+      dividendData[i].push((dividendData[i][0] - inputs.buydate)/ONE_DAY);
+    }
+
+    // attach final payment to dividend array and make it a payments array
+    dividendData.push([inputs.selldate,inputs.sell,holding]);
+
+    // compute irr
+    irr = math.roots(NPV,0.1,1500) * 100;
+
+    if(!isFinite(irr)){ return false; }
+
+    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = calcElems.equityreturn.id;
+    result._1.irr = _.extend(localElems.irr, {"value": irr});
+    result._1.holding = _.extend(localElems.holding, {"value": holding});
+    return result;
   }
 
-  // convert date sequence in holding time sequence
-  var ONE_DAY = 1000 * 60 * 60 * 24;
-  holding = (inputs.selldate-inputs.buydate)/ONE_DAY;
+  return Calc.findByCalcname('equityreturn')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-  // attach holding time to dividend array + plus check for invalid dividend dates
-  for(i=0; i < inputs.dividends; i++){
-    if (dividendData[i][0] < inputs.buyDate || dividendData[i][0] > inputs.sellDate){return null;}
-    dividendData[i].push((dividendData[i][0] - inputs.buydate)/ONE_DAY);
-  }
-
-  // attach final payment to dividend array and make it a payments array
-  dividendData.push([inputs.selldate,inputs.sell,holding]);
-
-  // compute irr
-  irr = math.roots(NPV,0.1,1500) * 100;
-
-  if(!isFinite(irr)){ return false; }
-
-  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.equityreturn.id;
-  result._1.irr = _.extend(localElems.irr, {"value": irr});
-  result._1.holding = _.extend(localElems.holding, {"value": holding});
-  console.log(result._1);
-  return result;
 };
 
 

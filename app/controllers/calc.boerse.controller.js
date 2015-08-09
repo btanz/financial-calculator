@@ -52,15 +52,31 @@ exports.fx = {
 
 /** calculator-boerse-equityreturn */
 exports.equityreturn = {
-  render: function(req,res){
-    res.render('calculator', {obj: calcElems.equityreturn});
+
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('equityreturn')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-equityreturn calculator.");
+        });
   },
 
-  calculate: function(req,res){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = boerse.equityReturn(obj);
-    res.json(results);
+    boerse.equityReturn(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 

@@ -89,35 +89,43 @@ exports.validate = function(inputs, _expectedInputs){
     }
   };
 
+
+
   // *** extend expectedInputs with array values ***
   // this appends keys for array elements
   // it is assumed that each key with array = true has a parent, defined in arrayParent, which contains the number
   // of elements of the array; the function then creates new keys with arrayName0, arrayName1, ... arrayName{#elements}
   // and deletes the original array key
-  _.each(expectedInputs, function(elem, key) {
+  for (var i = 0; i < expectedInputs.length; i++){
+    (function(){
+      var elem = expectedInputs[i];
 
-    // check for arrays
-    if( elem.array === 'true' || elem.array === true ){
+      // check for arrays
+      if( elem.array === 'true' || elem.array === true ){
+        // check whether parentElem is defined properly
+        if (!elem.arrayParent){ // parentElem not defined in ArrayElem
+          error.setError('Das Mutterelement für Array ' + elem.name + ' ist nicht definiert.', elem.name, false);
+        } else if (_.findIndex(expectedInputs, {name: elem.arrayParent}) === -1) { // parentElem defined in ArrayElem, but not in schema
+          error.setError('Das Mutterelement für Array ' + elem.name + ' konnte nicht gefunden werden.', elem.name, false);
+        } else if (!inputs[elem.arrayParent]){ // value for parentElem is not in Schema (parentElems are always required)
+          error.setError('Die Eingabe ' + elem.arrayParent + ' ist notwendig, fehlt jedoch.', elem.name, false);
+        }
 
-      // check whether parentElem is defined properly
-      if (!elem.arrayParent){ // parentElem not defined in ArrayElem
-        error.setError('Das Mutterelement für Array ' + key + ' ist nicht definiert.', key, false);
-      } else if (!expectedInputs[elem.arrayParent]) { // parentElem defined in ArrayElem, but not in schema
-        error.setError('Das Mutterelement für Array ' + key + ' konnte nicht gefunden werden.', key, false);
-      } else if (!inputs[elem.arrayParent]){ // value for parentElem is not in Schema (parentElems are always required)
-        error.setError('Die Eingabe ' + elem.arrayParent + ' ist notwendig, fehlt jedoch.', key, false);
+        // attach array keys to main obj
+        for (var j = 0; j < inputs[elem.arrayParent]; j++ ){
+          //expectedInputs[String(elem.name) + String(j)] = _.omit(expectedInputs[elem.name],'array');
+          //console.log(_.omit(_.findWhere(expectedInputs, {name: elem.name}),'array'));
+          //expectedInputs.push(_extend(_.omit(_.findWhere(expectedInputs, {name: elem.name}),'array')),{name: String(elem.name) + String(j)});
+          expectedInputs.push(_.extend(_.omit(_.findWhere(expectedInputs, {name: elem.name}),['array', 'name']),{name: String(elem.name) + String(j)}));
+        }
+
+        // remove original array
+        expectedInputs.splice(_.findIndex(expectedInputs, {name: elem.name}),1);
+        i--;
       }
 
-      // attach array keys to main obj
-      for (var i = 0; i < inputs[elem.arrayParent]; i++ ){
-        expectedInputs[String(key) + String(i)] = _.omit(expectedInputs[key],'array');
-      }
-
-      // remove original array
-      delete expectedInputs[key];
-    }
-  });
-
+    })();
+  }
 
 
   // *** check whether the input object is in correct shape regarding number of arguments and the like ***
@@ -133,20 +141,26 @@ exports.validate = function(inputs, _expectedInputs){
   });
 
 
+
+
   // check whether expectedInputproperty is in inputs and not empty
   _.each(expectedInputs, function(elem, key){
+
+    //console.log('Elem label is: ' + elem.label + ' Key is: ' + key);
+    //console.log(inputs);
 
     if(!inputs.hasOwnProperty(elem.name)){
       if(!(elem.optional === 'true') && !(elem.optional === true)){
         error.setError('Die Eingabe ' + elem.name + ' ist notwendig, fehlt jedoch.', elem.name, false);
       }
     } else if (typeof inputs[elem.name] === 'undefined' || inputs[elem.name] === ''){
+
       if(!(elem.optional === 'true') && !(elem.optional === true)){
-        error.setError('Das Feld ' + elem.label + ' muss korrekt ausgefüllt sein.', key, false);
+        error.setError('Das Feld ' + elem.label + ' muss korrekt ausgefüllt sein.', elem.name, false);
       }
     }
-
   });
+
 
 
   _.each(expectedInputs, function(elem, key){
@@ -208,7 +222,6 @@ exports.validate = function(inputs, _expectedInputs){
 
 
   });
-
 
   expectedInputs = null;
   return error.errorMap;
