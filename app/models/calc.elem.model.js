@@ -17,6 +17,7 @@ var InputsSchema = new Schema({
   linetop: Boolean,
   secondary: Boolean,
   optional: Boolean,
+  disabled: Boolean,
   hide: Boolean,
   array: Boolean,
   arrayParent: String,

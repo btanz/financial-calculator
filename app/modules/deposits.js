@@ -112,315 +112,328 @@ exports.interest = function(inputs){
  */
 exports.savings = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var helper = {}, inflowHelper = null;
   var cash = [], cashT;
   var q, a, principalCompounded;
   var result = {}; result._1 = {}; result._2 = {};
-  var localElems = calcElems.depsaving.results_1;
-  var expectedInputs = calcElems.depsaving.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = ['terminal','principal','inflow','term','interest'];
 
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed form input and expectedinputs object
-  delete inputs[selectMap[inputs.select]];
-  delete _expectedInputs[selectMap[inputs.select]];
-
-  // run validations
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
-
-  // assign to shortcuts for convenience (XXX check whether this can be moved down a bit to avoid the undef-option
-  var mz = inputs.interestperiod;     // number interest periods within a year
-  var mr = inputs.inflowfreq;         // number of cash payments within a year
-  var n =  inputs.term;               // term in years
-  var nf = inputs.termfix;            // fix termin in years
-  var r =  inputs.interest / 100;     // interest
-  var K = inputs.principal;           // principal
-  var R = inputs.inflow;              // principal
-  var d = inputs.dynamic / 100;       // dynamics
-  var E = inputs.terminal;            // terminal value
-
-  // compute helpers
-  q = (1 + r / mz);
-  a = (1 + inputs.dynamic);
+  function compute(data){
 
 
-  /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
-  var dynamicPeriod_1 = function(term, payPoint,inflowCompute){
-    var result = 0, multiplier = null;
-    if (payPoint === 'pre'){
-      multiplier = Math.pow(1 + r / mz, mz / mr);
-    } else if (payPoint === 'post'){
-      multiplier = 1;
-    } else {return;}
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    // drop elems that are to be computed form input and expectedinputs object
+    delete inputs[selectMap[inputs.select]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.select]}),1);
 
-    function iterator(l){
-      return (Math.pow(q,mz * term - l * mz - mz / mr)/(1-Math.pow(q,-mz / mr)))*(1-Math.pow(q,-mz));
+    // run validations
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
     }
 
-    for (i = 0; i < term; i++){
-      result += Math.pow(1 + d,i) * iterator(i);
-    }
-    if (inflowCompute){
-      return result * multiplier;
-    } else {
-      return result * R * multiplier;
-    }
-  };
+    // assign to shortcuts for convenience (XXX check whether this can be moved down a bit to avoid the undef-option
+    var mz = inputs.interestperiod;     // number interest periods within a year
+    var mr = inputs.inflowfreq;         // number of cash payments within a year
+    var n =  inputs.term;               // term in years
+    var nf = inputs.termfix;            // fix termin in years
+    var r =  inputs.interest / 100;     // interest
+    var K = inputs.principal;           // principal
+    var R = inputs.inflow;              // principal
+    var d = inputs.dynamic / 100;       // dynamics
+    var E = inputs.terminal;            // terminal value
 
-  var dynamicPeriod_2 = function(term, payPoint,inflowCompute){
-    if (payPoint === 'pre'){
-      payPoint = 1;
-    } else if (payPoint === 'post'){
-      payPoint = -1;
-    } else {return;}
-
-    var m = mr / mz; // number of payments within interest period
-    var ersatzrate = inputs.inflow * (m + ((r / mz) / 2) * (m + payPoint));  // ersatzrate; P*phi
-    var result = 0;
-
-    function iterator(l){
-      return (Math.pow(q,mz * term - l * mz - 1)/(1-Math.pow(q,-1)))*(1-Math.pow(q,-mz));
-    }
-
-    for (i=0; i < term; i++){
-      result += Math.pow(1 + d,i) * iterator(i);
-    }
-    if(inflowCompute){
-      return result;
-    } else {
-      return result * ersatzrate;
-    }
-  };
+    // compute helpers
+    q = (1 + r / mz);
+    a = (1 + inputs.dynamic);
 
 
+    /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
+    var dynamicPeriod_1 = function(term, payPoint,inflowCompute){
+      var result = 0, multiplier = null;
+      if (payPoint === 'pre'){
+        multiplier = Math.pow(1 + r / mz, mz / mr);
+      } else if (payPoint === 'post'){
+        multiplier = 1;
+      } else {return;}
 
-  /* ******** 4. COMPUTATIONS ******** */
-  /* 4A. NON-PERIODICAL CALCULATIONS */
-  // compound principal
-  principalCompounded = K * Math.pow(1 + r / mz, n * mz);
-
-  // 4A.1. TERMINAL VALUE
-  if (inputs.select === 0) {
-
-    // compute terminal value for saving period (not dynamic)
-    if (d === 0) {
-      helper.result = principalCompounded + R * (Math.pow(1 + r / mz, n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz) / 2 * (mr / mz + (inputs.inflowtype === 1) * (-1) + (inputs.inflowtype === 2))) / (r / mz) + (mr < mz) * ((inputs.inflowtype === 1) * 1 + (inputs.inflowtype === 2) * Math.pow(1 + r / mz, mz / mr)) / (Math.pow(1 + r / mz, mz / mr) - 1));
-
-      //result.terminal = principalCompounded + inflow * (Math.pow(1+interest/mz,n*mz) - 1) * ((mr>= mz)*(mr/mz + (interest/mz)/2*(mr/mz+(inflowType===1)*(-1)+(inflowType===2)))/(interest/mz) + (mr<mz)*((inflowType===1)*1+(inflowType===2)*Math.pow(1+interest/mz,mz/mr))/(Math.pow(1+interest/mz,mz/mr) - 1));
-      // find out last full period
-      // TODO: mention in explanations: wenn vorschüssig und periode ist nicht voll wird von voller (nicht anteiliger) Zahlung am Beginn der Periode ausgegangen; eventuell sit dies auch geklärt durch die entsprechende Tabelle
-
-      // compute terminal value for saving period (nachschüssig, dynamic)
-    } else if (inputs.inflowtype === 1 && d !== 0) {
-
-      // TODO: deal with denominator zero corner case
-      if (mz === 1 || mr === 1) {
-        helper.result = principalCompounded + R * (mr + ((mr - 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
-      } else if (mr >= mz) {
-        helper.result = principalCompounded + dynamicPeriod_2(n, 'post');
-      } else {
-        helper.result = principalCompounded + dynamicPeriod_1(n, 'post');
+      function iterator(l){
+        return (Math.pow(q,mz * term - l * mz - mz / mr)/(1-Math.pow(q,-mz / mr)))*(1-Math.pow(q,-mz));
       }
-      // compute terminal value for saving period (vorschüssig, dynamic)
-    } else if (inputs.inflowtype === 2 && d !== 0) {
-      if (mz === 1) {
-        helper.result = principalCompounded + R * (mr + ((mr + 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
-      } else if (mr === 1) {
-        helper.result = principalCompounded + R * Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
-      } else if (mr >= mz) {
-        helper.result = principalCompounded + dynamicPeriod_2(n, 'pre');
-      } else {
-        helper.result = principalCompounded + dynamicPeriod_1(n, 'pre');
+
+      for (i = 0; i < term; i++){
+        result += Math.pow(1 + d,i) * iterator(i);
       }
-    } else {
-      helper.result = null;
-    }
-
-    // compound from end of saving period until end of "Ansparzeitraum"
-    helper.result = helper.result * Math.pow(1 + r / mz , nf * mz);
-
-
-  // 4A.2. PRINCIPAL
-  } else if (inputs.select === 1){
-    // discount terminal
-    E = E / Math.pow( 1 + r / mz, nf * mz);
-    // compute principal value for saving period (nachschüssig,not dynamic)
-    if (d === 0){
-      helper.result = E - R * (Math.pow(1 + r / mz, n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz) / 2 * (mr / mz + (inputs.inflowtype === 1) * (-1) + (inputs.inflowtype === 2))) / (r / mz) + (mr < mz) * ((inputs.inflowtype === 1) * 1 + (inputs.inflowtype === 2) * Math.pow(1 + r / mz, mz / mr)) / (Math.pow(1 + r / mz, mz / mr) - 1));
-    // compute principal value for saving period (nachschüssig, dynamic)
-    } else if(inputs.inflowtype === 1 && d !== 0) {
-      // TODO deal with denominator zero corner case
-      if (mz === 1 || mr === 1) {
-        helper.result = E - R * (mr + ((mr - 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
-      } else if (mr >= mz) {
-        helper.result = E - dynamicPeriod_2(n, 'post');
+      if (inflowCompute){
+        return result * multiplier;
       } else {
-        helper.result = E - dynamicPeriod_1(n, 'post');
+        return result * R * multiplier;
       }
-    }
-    // compute principal value for saving period (vorschüssig, dynamic)
-    else if(inputs.inflowtype === 2 && d !== 0) {
-      if (mz === 1){
-        helper.result = E - R * (mr + ((mr +1)/2)*r) * (Math.pow(1+r/mz,n*mz)-Math.pow(1+d,n)) / (Math.pow(1+r/mz,mz)-(1+d));
-      } else if (mr === 1){
-        helper.result = E - R * Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1+d,n)) / (Math.pow(1 + r / mz, mz) - (1+d));
-      } else if (mr >= mz ){
-        helper.result = E - dynamicPeriod_2(n, 'pre');
-      } else {
-        helper.result = E - dynamicPeriod_1(n, 'pre');
-      }
-    } else {
-      helper.result = null;
-    }
+    };
 
-    helper.result = (helper.result/Math.pow(1+r/mz,n * mz));
-    // 4A.3. INFLOW
-  } else if (inputs.select === 2) {
-    // discount terminal
-    E = E / Math.pow( 1 + r / mz, nf * mz);
-    if (d === 0){
-      helper.result = (E - principalCompounded)/(Math.pow(1+r/mz,n * mz) - 1) * ((mr>= mz)*(mr/mz + (r/mz)/2*(mr/mz+(inputs.inflowtype===1)*(-1)+(inputs.inflowtype===2)))/(r/mz) + (mr<mz)*((inputs.inflowtype===1)*1+(inputs.inflowtype===2)*Math.pow(1+r/mz,mz/mr))/(Math.pow(1+r/mz,mz/mr) - 1));
-    // compute inflow value for saving period (nachschüssig, dynamic)
-    } else if(inputs.inflowtype === 1 && d !== 0) {
-      // TODO deal with denominator zero corner case
-      if (mz === 1 || mr === 1){
-        helper.result = (E-principalCompounded)/((mr + ((mr -1)/2)*r) * (Math.pow(1 + r / mz,n * mz) - Math.pow(1 + d,n)) / (Math.pow(1 + r / mz,mz) - (1 + d)));
-      } else if (mr >= mz ){
-        helper.result = (E-principalCompounded)/(dynamicPeriod_2(n, 'post',true)*(mr/mz + ((r/mz)/2)*(mr/mz-1)));
-      } else {
-        helper.result = (E-principalCompounded)/(dynamicPeriod_1(n, 'post',true));
-      }
-      // compute inflow value for saving period (vorschüssig, dynamic)
-    } else if(inputs.inflowtype === 2 && d !== 0) {
-      if (mz === 1){
-        //result.terminal = principalCompounded + inflow * (inflowFreq + ((inflowFreq +1)/2)*interest) * (Math.pow(1+interest/interestPeriod,term*interestPeriod)-Math.pow(1+dynamic,term)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
-        helper.result = (E - principalCompounded)/((mr + ((mr +1)/2)*r) * (Math.pow(1 + r / mz, n * mz)-Math.pow(1 + d, n)) / (Math.pow(1 + r/mz,mz)-(1+d)));
-      } else if (mr === 1){
-        //result.terminal = principalCompounded + inflow * Math.pow(1 + interest / interestPeriod, interestPeriod) * (Math.pow(1 + interest / interestPeriod, term * interestPeriod) - Math.pow(1+dynamic,term)) / (Math.pow(1 + interest / interestPeriod, interestPeriod) - (1+dynamic));
-        helper.result = (E - principalCompounded)/(Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d,n)) / (Math.pow(1 + r / mz, mz) - (1 + d)));
-      } else if (mr >= mz ){
-        //result.terminal = principalCompounded + dynamicPeriod_2(term,'pre');
-        helper.result = (E - principalCompounded)/(dynamicPeriod_2(n, 'pre',true)*(mr/mz + ((r/mz)/2)*(mr/mz+1)));
-      } else {
-        //result.terminal = principalCompounded + dynamicPeriod_1(term,'pre');
-        helper.result = (E - principalCompounded)/(dynamicPeriod_1(n, 'pre',true));
-      }
-    } else {
-      result.result = null;
-    }
-    // 4A.4. TERM
-  } else if (inputs.select === 3){
-    // discount terminal
-    E = E / Math.pow( 1 + r / mz, nf * mz);
+    var dynamicPeriod_2 = function(term, payPoint,inflowCompute){
+      if (payPoint === 'pre'){
+        payPoint = 1;
+      } else if (payPoint === 'post'){
+        payPoint = -1;
+      } else {return;}
 
-    if (d === 0){
+      var m = mr / mz; // number of payments within interest period
+      var ersatzrate = inputs.inflow * (m + ((r / mz) / 2) * (m + payPoint));  // ersatzrate; P*phi
+      var result = 0;
 
-      (function(){ /// XXX remove IFFE (also in the snippets below)- does not seem necessary
-        function findRootOf(n){
-          return E - K * Math.pow(1 + r / mz,n * mz) - R * (Math.pow(1+r / mz,n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz)/2 * (mr / mz+(inputs.inflowtype === 1) * (-1)+(inputs.inflowtype === 2)))/(r / mz) + (mr < mz)*((inputs.inflowtype === 1) * 1+(inputs.inflowtype === 2) * Math.pow(1 + r/mz,mz/mr))/(Math.pow(1+r/mz,mz/mr) - 1));
+      function iterator(l){
+        return (Math.pow(q,mz * term - l * mz - 1)/(1-Math.pow(q,-1)))*(1-Math.pow(q,-mz));
+      }
+
+      for (i=0; i < term; i++){
+        result += Math.pow(1 + d,i) * iterator(i);
+      }
+      if(inflowCompute){
+        return result;
+      } else {
+        return result * ersatzrate;
+      }
+    };
+
+
+
+    /* ******** 4. COMPUTATIONS ******** */
+    /* 4A. NON-PERIODICAL CALCULATIONS */
+    // compound principal
+    principalCompounded = K * Math.pow(1 + r / mz, n * mz);
+
+    // 4A.1. TERMINAL VALUE
+    if (inputs.select === 0) {
+
+      // compute terminal value for saving period (not dynamic)
+      if (d === 0) {
+        helper.result = principalCompounded + R * (Math.pow(1 + r / mz, n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz) / 2 * (mr / mz + (inputs.inflowtype === 1) * (-1) + (inputs.inflowtype === 2))) / (r / mz) + (mr < mz) * ((inputs.inflowtype === 1) * 1 + (inputs.inflowtype === 2) * Math.pow(1 + r / mz, mz / mr)) / (Math.pow(1 + r / mz, mz / mr) - 1));
+
+        //result.terminal = principalCompounded + inflow * (Math.pow(1+interest/mz,n*mz) - 1) * ((mr>= mz)*(mr/mz + (interest/mz)/2*(mr/mz+(inflowType===1)*(-1)+(inflowType===2)))/(interest/mz) + (mr<mz)*((inflowType===1)*1+(inflowType===2)*Math.pow(1+interest/mz,mz/mr))/(Math.pow(1+interest/mz,mz/mr) - 1));
+        // find out last full period
+        // TODO: mention in explanations: wenn vorschüssig und periode ist nicht voll wird von voller (nicht anteiliger) Zahlung am Beginn der Periode ausgegangen; eventuell sit dies auch geklärt durch die entsprechende Tabelle
+
+        // compute terminal value for saving period (nachschüssig, dynamic)
+      } else if (inputs.inflowtype === 1 && d !== 0) {
+
+        // TODO: deal with denominator zero corner case
+        if (mz === 1 || mr === 1) {
+          helper.result = principalCompounded + R * (mr + ((mr - 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
+        } else if (mr >= mz) {
+          helper.result = principalCompounded + dynamicPeriod_2(n, 'post');
+        } else {
+          helper.result = principalCompounded + dynamicPeriod_1(n, 'post');
         }
-        helper.result = math.roots(findRootOf,30,1500);
+        // compute terminal value for saving period (vorschüssig, dynamic)
+      } else if (inputs.inflowtype === 2 && d !== 0) {
+        if (mz === 1) {
+          helper.result = principalCompounded + R * (mr + ((mr + 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
+        } else if (mr === 1) {
+          helper.result = principalCompounded + R * Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
+        } else if (mr >= mz) {
+          helper.result = principalCompounded + dynamicPeriod_2(n, 'pre');
+        } else {
+          helper.result = principalCompounded + dynamicPeriod_1(n, 'pre');
+        }
+      } else {
+        helper.result = null;
+      }
 
-      })();
+      // compound from end of saving period until end of "Ansparzeitraum"
+      helper.result = helper.result * Math.pow(1 + r / mz , nf * mz);
 
-      // compute term for saving period (nachschüssig, dynamic)
-    } else if(inputs.inflowtype === 1 && d !== 0) {
-      // TODO deal with denominator zero corner case
-      if (mz === 1 || mr === 1){
-        //result.terminal = principalCompounded + inflow * (inflowFreq + ((inflowFreq -1)/2)*interest) * (Math.pow(1+interest/interestPeriod,term*interestPeriod)-Math.pow(1+dynamic,term)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
-        (function(){
-          function findRootOf(m){
-            // todo: issues with principalCompounded, as it depends on n
-            return E - principalCompounded - R * (mr + ((mr -1)/2) * r) * (Math.pow(1 + r / mz,m * mz)-Math.pow(1 + d,m)) / (Math.pow(1 + r / mz,mz)-(1 + d));
-           // return terminal - principalCompounded - inflow * (inflowFreq + ((inflowFreq -1)/2)*interest) * (Math.pow(1+interest/interestPeriod,n*interestPeriod)-Math.pow(1+dynamic,n)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
+
+    // 4A.2. PRINCIPAL
+    } else if (inputs.select === 1){
+      // discount terminal
+      E = E / Math.pow( 1 + r / mz, nf * mz);
+      // compute principal value for saving period (nachschüssig,not dynamic)
+      if (d === 0){
+        helper.result = E - R * (Math.pow(1 + r / mz, n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz) / 2 * (mr / mz + (inputs.inflowtype === 1) * (-1) + (inputs.inflowtype === 2))) / (r / mz) + (mr < mz) * ((inputs.inflowtype === 1) * 1 + (inputs.inflowtype === 2) * Math.pow(1 + r / mz, mz / mr)) / (Math.pow(1 + r / mz, mz / mr) - 1));
+      // compute principal value for saving period (nachschüssig, dynamic)
+      } else if(inputs.inflowtype === 1 && d !== 0) {
+        // TODO deal with denominator zero corner case
+        if (mz === 1 || mr === 1) {
+          helper.result = E - R * (mr + ((mr - 1) / 2) * r) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d, n)) / (Math.pow(1 + r / mz, mz) - (1 + d));
+        } else if (mr >= mz) {
+          helper.result = E - dynamicPeriod_2(n, 'post');
+        } else {
+          helper.result = E - dynamicPeriod_1(n, 'post');
+        }
+      }
+      // compute principal value for saving period (vorschüssig, dynamic)
+      else if(inputs.inflowtype === 2 && d !== 0) {
+        if (mz === 1){
+          helper.result = E - R * (mr + ((mr +1)/2)*r) * (Math.pow(1+r/mz,n*mz)-Math.pow(1+d,n)) / (Math.pow(1+r/mz,mz)-(1+d));
+        } else if (mr === 1){
+          helper.result = E - R * Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1+d,n)) / (Math.pow(1 + r / mz, mz) - (1+d));
+        } else if (mr >= mz ){
+          helper.result = E - dynamicPeriod_2(n, 'pre');
+        } else {
+          helper.result = E - dynamicPeriod_1(n, 'pre');
+        }
+      } else {
+        helper.result = null;
+      }
+
+      helper.result = (helper.result/Math.pow(1+r/mz,n * mz));
+      // 4A.3. INFLOW
+    } else if (inputs.select === 2) {
+      // discount terminal
+      E = E / Math.pow( 1 + r / mz, nf * mz);
+      if (d === 0){
+        helper.result = (E - principalCompounded)/(Math.pow(1+r/mz,n * mz) - 1) * ((mr>= mz)*(mr/mz + (r/mz)/2*(mr/mz+(inputs.inflowtype===1)*(-1)+(inputs.inflowtype===2)))/(r/mz) + (mr<mz)*((inputs.inflowtype===1)*1+(inputs.inflowtype===2)*Math.pow(1+r/mz,mz/mr))/(Math.pow(1+r/mz,mz/mr) - 1));
+      // compute inflow value for saving period (nachschüssig, dynamic)
+      } else if(inputs.inflowtype === 1 && d !== 0) {
+        // TODO deal with denominator zero corner case
+        if (mz === 1 || mr === 1){
+          helper.result = (E-principalCompounded)/((mr + ((mr -1)/2)*r) * (Math.pow(1 + r / mz,n * mz) - Math.pow(1 + d,n)) / (Math.pow(1 + r / mz,mz) - (1 + d)));
+        } else if (mr >= mz ){
+          helper.result = (E-principalCompounded)/(dynamicPeriod_2(n, 'post',true)*(mr/mz + ((r/mz)/2)*(mr/mz-1)));
+        } else {
+          helper.result = (E-principalCompounded)/(dynamicPeriod_1(n, 'post',true));
+        }
+        // compute inflow value for saving period (vorschüssig, dynamic)
+      } else if(inputs.inflowtype === 2 && d !== 0) {
+        if (mz === 1){
+          //result.terminal = principalCompounded + inflow * (inflowFreq + ((inflowFreq +1)/2)*interest) * (Math.pow(1+interest/interestPeriod,term*interestPeriod)-Math.pow(1+dynamic,term)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
+          helper.result = (E - principalCompounded)/((mr + ((mr +1)/2)*r) * (Math.pow(1 + r / mz, n * mz)-Math.pow(1 + d, n)) / (Math.pow(1 + r/mz,mz)-(1+d)));
+        } else if (mr === 1){
+          //result.terminal = principalCompounded + inflow * Math.pow(1 + interest / interestPeriod, interestPeriod) * (Math.pow(1 + interest / interestPeriod, term * interestPeriod) - Math.pow(1+dynamic,term)) / (Math.pow(1 + interest / interestPeriod, interestPeriod) - (1+dynamic));
+          helper.result = (E - principalCompounded)/(Math.pow(1 + r / mz, mz) * (Math.pow(1 + r / mz, n * mz) - Math.pow(1 + d,n)) / (Math.pow(1 + r / mz, mz) - (1 + d)));
+        } else if (mr >= mz ){
+          //result.terminal = principalCompounded + dynamicPeriod_2(term,'pre');
+          helper.result = (E - principalCompounded)/(dynamicPeriod_2(n, 'pre',true)*(mr/mz + ((r/mz)/2)*(mr/mz+1)));
+        } else {
+          //result.terminal = principalCompounded + dynamicPeriod_1(term,'pre');
+          helper.result = (E - principalCompounded)/(dynamicPeriod_1(n, 'pre',true));
+        }
+      } else {
+        result.result = null;
+      }
+      // 4A.4. TERM
+    } else if (inputs.select === 3){
+      // discount terminal
+      E = E / Math.pow( 1 + r / mz, nf * mz);
+
+      if (d === 0){
+
+        (function(){ /// XXX remove IFFE (also in the snippets below)- does not seem necessary
+          function findRootOf(n){
+            return E - K * Math.pow(1 + r / mz,n * mz) - R * (Math.pow(1+r / mz,n * mz) - 1) * ((mr >= mz) * (mr / mz + (r / mz)/2 * (mr / mz+(inputs.inflowtype === 1) * (-1)+(inputs.inflowtype === 2)))/(r / mz) + (mr < mz)*((inputs.inflowtype === 1) * 1+(inputs.inflowtype === 2) * Math.pow(1 + r/mz,mz/mr))/(Math.pow(1+r/mz,mz/mr) - 1));
           }
-          //helper.result = math.roots(findRootOf,30,1500);
+          helper.result = math.roots(findRootOf,30,1500);
+
         })();
-      } else if (mr >= mz ){
-        //result.terminal = principalCompounded + dynamicPeriod_2(term,'post');
-        // TODO: continue;
+
+        // compute term for saving period (nachschüssig, dynamic)
+      } else if(inputs.inflowtype === 1 && d !== 0) {
+        // TODO deal with denominator zero corner case
+        if (mz === 1 || mr === 1){
+          //result.terminal = principalCompounded + inflow * (inflowFreq + ((inflowFreq -1)/2)*interest) * (Math.pow(1+interest/interestPeriod,term*interestPeriod)-Math.pow(1+dynamic,term)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
+          (function(){
+            function findRootOf(m){
+              // todo: issues with principalCompounded, as it depends on n
+              return E - principalCompounded - R * (mr + ((mr -1)/2) * r) * (Math.pow(1 + r / mz,m * mz)-Math.pow(1 + d,m)) / (Math.pow(1 + r / mz,mz)-(1 + d));
+             // return terminal - principalCompounded - inflow * (inflowFreq + ((inflowFreq -1)/2)*interest) * (Math.pow(1+interest/interestPeriod,n*interestPeriod)-Math.pow(1+dynamic,n)) / (Math.pow(1+interest/interestPeriod,interestPeriod)-(1+dynamic));
+            }
+            //helper.result = math.roots(findRootOf,30,1500);
+          })();
+        } else if (mr >= mz ){
+          //result.terminal = principalCompounded + dynamicPeriod_2(term,'post');
+          // TODO: continue;
+        } else {
+          // result.terminal = principalCompounded + dynamicPeriod_1(term,'post');
+
+        }
+        // compute term for saving period (vorschüssig, dynamic)
+      }
+    // 4A.5. INTEREST
+    } else if (inputs.select === 4){
+
+      if (d === 0){
+        (function(){
+          function findRootOf(i){
+            return E/Math.pow(1 + i / mz,nf * mz) - K * Math.pow(1 + i / mz, n * mz) - R * (Math.pow(1 + i / mz , n * mz) - 1) * ((mr>= mz) * (mr / mz + (i / mz) / 2 *(mr / mz+(inputs.inflowtype===1) * (-1) + (inputs.inflowtype===2))) / ( i / mz) + (mr < mz) * ((inputs.inflowtype===1) * 1+(inputs.inflowtype===2) * Math.pow(1 + i / mz, mz / mr))/(Math.pow(1 + i / mz,mz / mr) - 1));
+          }
+          helper.result = math.roots(findRootOf,0.1,1500)*100;
+        })();
+
       } else {
-        // result.terminal = principalCompounded + dynamicPeriod_1(term,'post');
+        // TODO add code for dynamics
 
       }
-      // compute term for saving period (vorschüssig, dynamic)
-    }
-  // 4A.5. INTEREST
-  } else if (inputs.select === 4){
 
-    if (d === 0){
-      (function(){
-        function findRootOf(i){
-          return E/Math.pow(1 + i / mz,nf * mz) - K * Math.pow(1 + i / mz, n * mz) - R * (Math.pow(1 + i / mz , n * mz) - 1) * ((mr>= mz) * (mr / mz + (i / mz) / 2 *(mr / mz+(inputs.inflowtype===1) * (-1) + (inputs.inflowtype===2))) / ( i / mz) + (mr < mz) * ((inputs.inflowtype===1) * 1+(inputs.inflowtype===2) * Math.pow(1 + i / mz, mz / mr))/(Math.pow(1 + i / mz,mz / mr) - 1));
-        }
-        helper.result = math.roots(findRootOf,0.1,1500)*100;
-      })();
-
-    } else {
-      // TODO add code for dynamics
 
     }
 
+
+    /* 4B. NON-PERIODICAL CALCULATIONS */
+    var interestCalc = function(k){
+      var interestPayment = 0, ersatzRate;
+      if (mr === 1 || mz === 1){
+        ersatzRate = inflowHelper * (mr+(r/2)*(mr-1)) - inflowHelper * mr;
+        interestPayment = cash[1][k-(12/mz-1)] * (r/mz) + ersatzRate;
+      }
+      return interestPayment;
+    };
+
+    // construct cash flow series TODO: implement for nachschüssige Zahlungen
+    inflowHelper = R;
+    cash[0] = []; cash[1] = []; cash[2] = []; cash[3] = []; cash[4] = []; cash[5] = []; cash[6] = []; cash[7] = []; cash[8] = [];
+    cash[0][0] = 1;
+    cash[1][0] = K;       // b.o.p account balance
+    cash[2][0] = cash[0][0] % (12/mr) === 0 ? inflowHelper : 0;   // e.o.p account saving inflow
+    cash[3][0] = cash[0][0] % (12/mz) === 0 ? interestCalc(0) : 0;   // e.o.p interest inflow TODO: correct
+    cash[4][0] = cash[1][0] + cash[2][0] + cash[3][0];              // e.o.p account balance
+
+    for (i=1; i < (nf + n) * 12; i++){
+      cash[0][i] = i + 1;
+      cash[1][i] = cash[4][i-1];       // b.o.p account balance
+      cash[2][i] = cash[0][i] % (12/mr) === 0 ? inflowHelper : 0;   // e.o.p account saving inflow
+      cash[3][i] = cash[0][i] % (12/mz) === 0 ? interestCalc(i) : 0;   // e.o.p interest inflow TODO: correct
+      cash[4][i] = cash[1][i] + cash[2][i] + cash[3][i];              // e.o.p account balance
+      if (i === n * 12-1){
+        inflowHelper = 0;
+      }
+    }
+
+    // transpose cash
+    cashT = cash[0].map(function(col,i){
+      return cash.map(function(row){
+        return row[i];
+      })
+    });
+
+
+    /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+
+    // first result container
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+
+    // second result container
+    result._2.title = 'Sparkontoentwicklung';
+    result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
+    result._2.body = cashT;
+
+    return result;
 
   }
 
 
-  /* 4B. NON-PERIODICAL CALCULATIONS */
-  var interestCalc = function(k){
-    var interestPayment = 0, ersatzRate;
-    if (mr === 1 || mz === 1){
-      ersatzRate = inflowHelper * (mr+(r/2)*(mr-1)) - inflowHelper * mr;
-      interestPayment = cash[1][k-(12/mz-1)] * (r/mz) + ersatzRate;
-    }
-    return interestPayment;
-  };
-
-  // construct cash flow series TODO: implement for nachschüssige Zahlungen
-  inflowHelper = R;
-  cash[0] = []; cash[1] = []; cash[2] = []; cash[3] = []; cash[4] = []; cash[5] = []; cash[6] = []; cash[7] = []; cash[8] = [];
-  cash[0][0] = 1;
-  cash[1][0] = K;       // b.o.p account balance
-  cash[2][0] = cash[0][0] % (12/mr) === 0 ? inflowHelper : 0;   // e.o.p account saving inflow
-  cash[3][0] = cash[0][0] % (12/mz) === 0 ? interestCalc(0) : 0;   // e.o.p interest inflow TODO: correct
-  cash[4][0] = cash[1][0] + cash[2][0] + cash[3][0];              // e.o.p account balance
-
-  for (i=1; i < (nf + n) * 12; i++){
-    cash[0][i] = i + 1;
-    cash[1][i] = cash[4][i-1];       // b.o.p account balance
-    cash[2][i] = cash[0][i] % (12/mr) === 0 ? inflowHelper : 0;   // e.o.p account saving inflow
-    cash[3][i] = cash[0][i] % (12/mz) === 0 ? interestCalc(i) : 0;   // e.o.p interest inflow TODO: correct
-    cash[4][i] = cash[1][i] + cash[2][i] + cash[3][i];              // e.o.p account balance
-    if (i === n * 12-1){
-      inflowHelper = 0;
-    }
-  }
-
-  // transpose cash
-  cashT = cash[0].map(function(col,i){
-    return cash.map(function(row){
-      return row[i];
-    })
-  });
-
-
-  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.depsaving.id;
-  // first result container
-  result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper.result});
-
-  // second result container
-  result._2.title = 'Sparkontoentwicklung';
-  result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
-  result._2.body = cashT;
-
-  return result;
+  return Calc.findByCalcname('depsaving')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
 };
 

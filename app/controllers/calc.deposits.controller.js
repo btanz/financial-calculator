@@ -19,15 +19,37 @@ exports.depinterest = {
 /** calculator-deposits-depsaving */
 exports.depsaving = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.depsaving});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('depsaving')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
+
+  calculate: function(req, res){
+    var obj = req.query;
+    deposits.savings(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
+  }
+
+  /*
 
   calculate: function(req,res,next){
     var obj = req.query;
     var results = deposits.savings(obj);
     res.json(results);
-  }
+  }*/
 };
 
 
