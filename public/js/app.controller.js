@@ -74,6 +74,7 @@ app.controller = (function() {
     $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
         .done(function(data) {
 
+
           // stop wait spinner
           app.spinner.stop();
           $('#wrapper').removeClass('overlay');
@@ -120,8 +121,9 @@ app.controller = (function() {
             app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
           }
         })
-        .fail(function(){
+        .fail(function(e){
           console.log('Leider ist ein Fehler aufgetreten');
+          console.log(e);
           app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
         });
 

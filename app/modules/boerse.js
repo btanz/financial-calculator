@@ -41,28 +41,22 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *
  *     On calculation error, the function will return null;
  */
-exports.blackScholes = function (inputs, cb) {
-  var Calc = require('mongoose').model('Calc');
-  var Testmodel = require('mongoose').model('Testmodel');
-  helpers.errors.clear();
-  helpers.messages.clear();
+exports.blackScholes = function (inputs,cb) {
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
   var result = {}; result._1 = {};
-  var localElems = calcElems.options.results_1;
-  var expectedInputs = calcElems.options.inputs;
-
   var errorMap;
   var helper = {};
-
-
-  Calc.findByCalcname('options').then(
+  helpers.errors.clear();
+  helpers.messages.clear();
 
 
 
   function compute (data){
-    /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
     errorMap = helpers.validate(inputs, data[0].inputs);
 
     if (errorMap.length !== 0){
@@ -70,12 +64,12 @@ exports.blackScholes = function (inputs, cb) {
     }
 
     // do unit conversions
-    inputs.interest = inputs.interest/100;
-    inputs.maturity = inputs.maturity/365;
-    inputs.vola = inputs.vola/100;
+    inputs.interest = inputs.interest / 100;
+    inputs.maturity = inputs.maturity / 365;
+    inputs.vola = inputs.vola / 100;
 
 
-    /* ******** 3. COMPUTATIONS ******** */
+    /** ******** 3. COMPUTATIONS ******** */
     // compute d1 and d2 parameters
     d1 = (Math.log(inputs.price / inputs.strike) + (inputs.interest + inputs.vola * inputs.vola / 2.0) * inputs.maturity) / (inputs.vola * Math.sqrt(inputs.maturity));
     d2 = d1 - inputs.vola * Math.sqrt(inputs.maturity);
@@ -104,17 +98,24 @@ exports.blackScholes = function (inputs, cb) {
       return helpers.errors.errorMap;
     }
 
-    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     ['value','delta','gamma','theta','vega','rho','intrinsicValue','timeValue'].forEach(function(val){
       result._1[val] = _.extend(calcElems.options.results_1[val], {"value": helper[val]});
     });
 
-    return cb(null, result);
+    return result;
+
+  }
 
 
-  });
-
+  return Calc.findByCalcname('options')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
 
 };

@@ -7,33 +7,26 @@ exports.options = {
   render: function(req, res) {
     var Calc = require('mongoose').model('Calc');
 
-    // todo: promisify
-    Calc.find({name: 'options'}, function(err, data){
-      if(err) console.log('ERROR OCCURED');
-      res.render('calculator', {obj: data[0]});
-    });
-
+    Calc.findByCalcname('options')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-options calculator.");
+        });
   },
-
-  /*
-  calculate: function(req,res){
-    var obj = req.query;
-    var results = boerse.blackScholes(obj);
-    res.json(results);
-  }*/
 
   calculate: function(req, res){
     var obj = req.query;
-    boerse.blackScholes(obj,function(err, data){
-      if(err) console.log('ERROR OCCURED');
-      res.json(data);
-    });
-
+    boerse.blackScholes(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
-
-
-
-
 };
 
 
@@ -87,7 +80,6 @@ exports.portfolio = {
         console.log('An error occured');
         res.json([]);
       });
-
   }
 
 

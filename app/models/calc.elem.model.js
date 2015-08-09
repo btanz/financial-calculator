@@ -53,7 +53,7 @@ var CalcSchema = new Schema({
 
 /** 2. ASSIGN STATIC METHODS */
 CalcSchema.statics.findByCalcname = function(name, cb){
-  return this.find({ name: name }).exec();
+  return this.find({ name: name }).lean().exec();
 };
 
 
