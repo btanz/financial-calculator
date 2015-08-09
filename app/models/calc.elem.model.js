@@ -1,6 +1,8 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
+/** 1. DEFINE SCHEMAS */
+
 /** InputsSchema is the Schema for the inputs fields text content of calculators */
 var InputsSchema = new Schema({
   name: {type: String, required: true, unique: true},
@@ -47,5 +49,15 @@ var CalcSchema = new Schema({
   inputs: [InputsSchema],
   results_1: [Results1Schema]
 });
+
+
+/** 2. ASSIGN STATIC METHODS */
+CalcSchema.statics.findByCalcname = function(name, cb){
+  return this.find({ name: name }).exec();
+};
+
+
+
+
 
 mongoose.model('Calc', CalcSchema);

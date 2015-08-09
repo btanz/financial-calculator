@@ -7,7 +7,6 @@ var quandl = require('../../lib/quandl');
 var f = require('../../lib/finance');
 var helpers = require('./helpers');
 var calcElems = require('../../data/static/calcElems.json');
-//var Calc = require('../../app/models/calc.elem.model');
 
 
 
@@ -42,9 +41,11 @@ var cumNormalHelper, cumNormalPrimeHelper;
  *
  *     On calculation error, the function will return null;
  */
-exports.blackScholes = function (inputs) {
+exports.blackScholes = function (inputs, cb) {
   var Calc = require('mongoose').model('Calc');
   var Testmodel = require('mongoose').model('Testmodel');
+  helpers.errors.clear();
+  helpers.messages.clear();
 
   /* ******** 1. INIT AND ASSIGN ******** */
   var value, delta, gamma, vega, theta, intrinsicValue, timeValue, rho, d1, d2;
@@ -55,18 +56,12 @@ exports.blackScholes = function (inputs) {
   var errorMap;
   var helper = {};
 
-  // todo: remove mongoose tinkering
-  Calc.find({name: 'options'}, function(err, data){
-   // console.log(data[0].inputs);
-  });
 
-  //console.log('THIS IS THE JSON ONE *****************');
-  //console.log(expectedInputs);
+  Calc.findByCalcname('options').then(
 
 
-  Calc.find({name: 'options'}, function(err, data){
-    if(err) console.log('ERROR OCCURED');
 
+  function compute (data){
     /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
     errorMap = helpers.validate(inputs, data[0].inputs);
 
@@ -85,7 +80,6 @@ exports.blackScholes = function (inputs) {
     d1 = (Math.log(inputs.price / inputs.strike) + (inputs.interest + inputs.vola * inputs.vola / 2.0) * inputs.maturity) / (inputs.vola * Math.sqrt(inputs.maturity));
     d2 = d1 - inputs.vola * Math.sqrt(inputs.maturity);
 
-    console.log(typeof inputs.optiontype);  // todo: check place where something goes wrong in helpers
     // return value based on PutCallFlag
     if (inputs.optiontype === 1){ // call
       helper.value =  inputs.price * cumNormalHelper(d1)-inputs.strike * Math.exp(-inputs.interest * inputs.maturity) * cumNormalHelper(d2);
@@ -106,33 +100,22 @@ exports.blackScholes = function (inputs) {
       helper.intrinsicValue = Math.max(inputs.strike-inputs.price,0);
       helper.timeValue = helper.value - helper.intrinsicValue;
     } else {
-      // todo: return useful error message in this case
-      console.log('NULL');
-      return null;
+      helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+      return helpers.errors.errorMap;
     }
 
-    console.log('WORKS');
+    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+    ['value','delta','gamma','theta','vega','rho','intrinsicValue','timeValue'].forEach(function(val){
+      result._1[val] = _.extend(calcElems.options.results_1[val], {"value": helper[val]});
+    });
+
+    return cb(null, result);
 
 
   });
 
 
-
-
-
-
-
-
-
-
-
-  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.options.id;
-  ['value','delta','gamma','theta','vega','rho','intrinsicValue','timeValue'].forEach(function(val){
-    result._1[val] = _.extend(localElems[val], {"value": helper[val]});
-  });
-
-  return result;
 
 };
 

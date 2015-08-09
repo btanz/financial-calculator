@@ -132,6 +132,7 @@ exports.validate = function(inputs, _expectedInputs){
     }
   });
 
+
   // check whether expectedInputproperty is in inputs and not empty
   _.each(expectedInputs, function(elem, key){
 
@@ -147,63 +148,67 @@ exports.validate = function(inputs, _expectedInputs){
 
   });
 
+
   _.each(expectedInputs, function(elem, key){
 
     // *** jump over undefined and empty values
-    if (typeof inputs[key] === 'undefined' || inputs[key] === '')
+    if (typeof inputs[elem.name] === 'undefined' || inputs[elem.name] === '')
       return;
+
+
 
     // *** check Format 'Number' *** //
     if(elem.vtype === 'number'){
       // replace commas with dots
-      if (typeof inputs[key] === 'string'){
-        inputs[key] = inputs[key].replace(/,/g, '.')
+      if (typeof inputs[elem.name] === 'string'){
+        inputs[elem.name] = inputs[elem.name].replace(/,/g, '.')
       }
       // convert to number
-      if (validator.isFloat(inputs[key])){
-        inputs[key] = Number(inputs[key]);
+      if (validator.isFloat(inputs[elem.name])){
+        inputs[elem.name] = Number(inputs[elem.name]);
       } else {
-        error.setError('Die Eingabe für ' + elem.label + ' muss eine Zahl sein', key, true);
+        error.setError('Die Eingabe für ' + elem.label + ' muss eine Zahl sein', elem.name, true);
       }
       // check boundary conditions supplied with args
       if (elem.args && typeof Number(elem.args[0]) === 'number' && typeof Number(elem.args[1]) === 'number' ){
-        if (inputs[key] < elem.args[0] || inputs[key] > elem.args[1]){
-          error.setError('Der Wert für ' + elem.label + ' muss zwischen ' + elem.args[0] + ' und ' + elem.args[1] + ' liegen.', key, true);
+        if (inputs[elem.name] < elem.args[0] || inputs[elem.name] > elem.args[1]){
+          error.setError('Der Wert für ' + elem.label + ' muss zwischen ' + elem.args[0] + ' und ' + elem.args[1] + ' liegen.', elem.name, true);
         }
       }
     }
 
     // *** check Format 'String' *** //
     else if(elem.vtype === 'string'){
-      if (typeof inputs[key] === 'string'){
-        inputs[key] = validator.escape(inputs[key]);
+      if (typeof inputs[elem.name] === 'string'){
+        inputs[elem.name] = validator.escape(inputs[elem.name]);
       } else {
-        error.setError('Die Eingabe für ' + elem.label + ' muss ein String sein.', key, true);
+        error.setError('Die Eingabe für ' + elem.label + ' muss ein String sein.', elem.name, true);
       }
     }
 
     // *** check Format 'Bool' *** //
     else if(elem.vtype === 'bool'){
-      if (validator.isBoolean(inputs[key])){
-        inputs[key] = validator.toBoolean(inputs[key]);
+      if (validator.isBoolean(inputs[elem.name])){
+        inputs[elem.name] = validator.toBoolean(inputs[elem.name]);
       } else {
-        error.setError('Der Wert für ' + elem.label + ' muss ein Wahrheitswert (wahr / falsch) sein.', key, false);
+        error.setError('Der Wert für ' + elem.label + ' muss ein Wahrheitswert (wahr / falsch) sein.', elem.name, false);
       }
     }
 
     // *** check Format 'Date' *** //
     else if(elem.vtype === 'date'){
       // need to switch date and month for validator
-      inputs[key] = inputs[key].split('.')[1] + '.' + inputs[key].split('.')[0] + '.' + inputs[key].split('.')[2];
-      if (validator.isDate(inputs[key])){
-        inputs[key] = validator.toDate(inputs[key]);
+      inputs[elem.name] = inputs[elem.name].split('.')[1] + '.' + inputs[elem.name].split('.')[0] + '.' + inputs[elem.name].split('.')[2];
+      if (validator.isDate(inputs[elem.name])){
+        inputs[elem.name] = validator.toDate(inputs[elem.name]);
       } else {
-        error.setError('Die Eingabe für ' + elem.label + ' muss ein gültiges Datum sein.', key, true);
+        error.setError('Die Eingabe für ' + elem.label + ' muss ein gültiges Datum sein.', elem.name, true);
       }
     }
 
 
   });
+
 
   expectedInputs = null;
   return error.errorMap;

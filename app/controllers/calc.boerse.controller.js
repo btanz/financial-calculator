@@ -15,11 +15,25 @@ exports.options = {
 
   },
 
+  /*
   calculate: function(req,res){
     var obj = req.query;
     var results = boerse.blackScholes(obj);
     res.json(results);
+  }*/
+
+  calculate: function(req, res){
+    var obj = req.query;
+    boerse.blackScholes(obj,function(err, data){
+      if(err) console.log('ERROR OCCURED');
+      res.json(data);
+    });
+
   }
+
+
+
+
 };
 
 
