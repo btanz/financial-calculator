@@ -28,7 +28,6 @@ exports.depinterest = {
         });
   }
 
-
 };
 
 
@@ -64,15 +63,30 @@ exports.depsaving = {
 /** calculator-deposits-timedeposit */
 exports.timedeposit = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.timedeposit});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('timedeposit')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = deposits.timedeposit(obj);
-    res.json(results);
+    deposits.timedeposit(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 

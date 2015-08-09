@@ -463,7 +463,8 @@ exports.savings = function(inputs){
  */
 exports.timedeposit = function(inputs) {
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   helpers.messages.clear();
   helpers.errors.clear();
 
@@ -471,306 +472,296 @@ exports.timedeposit = function(inputs) {
   result._1 = {};
   result._chart1 = {};
   var localElems = calcElems.timedeposit.results_1;
-  var expectedInputs = calcElems.timedeposit.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined,undefined,'interestgain','principal','interest','term'];
   var i;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed
-  if(inputs.calcselect === "2"){
-    delete inputs['interestgain']; delete _expectedInputs['interestgain'];
-  } else if(inputs.calcselect === "3") {
-    delete inputs['principal']; delete _expectedInputs['principal'];
-  } else if(inputs.calcselect === "4") {
-    delete inputs['interest']; delete _expectedInputs['interest'];
-  } else if(inputs.calcselect === "5") {
-    delete inputs['term']; delete _expectedInputs['term'];
-  } else {  // sthg wrong
-    return;
-  }
+  function compute(data){
 
 
-  if(inputs.taxes === 'false'){
-    delete inputs['taxrate'];
-    delete inputs['taxfree'];
-    delete inputs['taxtime'];
-    delete _expectedInputs['taxrate'];
-    delete _expectedInputs['taxfree'];
-    delete _expectedInputs['taxtime'];
-  }
-
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
-
-  inputs.interest = inputs.interest / 100;
-  inputs.taxrate  = inputs.taxrate / 100;
-
-
-  if(inputs.term && validator.isFloat(inputs.term) && !validator.isInt(inputs.term)){
-    inputs.term = Math.ceil(inputs.term);
-    helpers.messages.set("Hinweis: Die Laufzeit wurde nicht in ganzen Monaten angegeben. Für die Berechnung wurde die Laufzeit auf den nächsten ganzen Monat gesetzt. Der Berechnung liegt also ein Laufzeit von " + inputs.term + " Monaten zugrunde.",2);
-  }
-
-  /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
-  function gain(r){
-    return inputs.interestgain - inputs.principal * (Math.pow(1 + r, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * r / 12) - 1);
-  }
-
-  function term(t){
-    return inputs.interestgain - inputs.principal * (Math.pow(1 + inputs.interest, Math.floor(t / 12)) * (1 + (t % 12) * inputs.interest / 12) - 1);
-  }
-
-  function termTaxesNoComp(t){
-    return inputs.interestgain + Math.max(0, inputs.principal * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(t/12) + Math.max(inputs.principal * inputs.interest * (t % 12) / 12 - inputs.taxfree, 0) * inputs.taxrate - inputs.principal * inputs.interest * t / 12;
-  }
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    // drop elems that are to be computed
+    if(inputs.calcselect === "2"){
+      delete inputs['interestgain'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'interestgain'}),1);
+      //delete _expectedInputs['interestgain'];
+    } else if(inputs.calcselect === "3") {
+      delete inputs['principal'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'principal'}),1);
+      //delete _expectedInputs['principal'];
+    } else if(inputs.calcselect === "4") {
+      delete inputs['interest'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'interest'}),1);
+      //delete _expectedInputs['interest'];
+    } else if(inputs.calcselect === "5") {
+      delete inputs['term'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'term'}),1);
+      //delete _expectedInputs['term'];
+    } else {  // sthg wrong
+      return;
+    }
 
 
-  /* ******** 3. COMPUTATIONS ******** */
+    if(inputs.taxes === 'false'){
+      delete inputs['taxrate'];
+      delete inputs['taxfree'];
+      delete inputs['taxtime'];
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxrate'}),1);
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxfree'}),1);
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxtime'}),1);
+      //delete _expectedInputs['taxrate'];
+      //delete _expectedInputs['taxfree'];
+      //delete _expectedInputs['taxtime'];
+    }
 
-  /*
-   * ******** 3A. CASE SIMPLE INTEREST ********
-   */
-  if(!inputs.selection){
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
+    }
+
+    inputs.interest = inputs.interest / 100;
+    inputs.taxrate  = inputs.taxrate / 100;
+
+
+    if(inputs.term && validator.isFloat(inputs.term) && !validator.isInt(inputs.term)){
+      inputs.term = Math.ceil(inputs.term);
+      helpers.messages.set("Hinweis: Die Laufzeit wurde nicht in ganzen Monaten angegeben. Für die Berechnung wurde die Laufzeit auf den nächsten ganzen Monat gesetzt. Der Berechnung liegt also ein Laufzeit von " + inputs.term + " Monaten zugrunde.",2);
+    }
+
+    /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
+    function gain(r){
+      return inputs.interestgain - inputs.principal * (Math.pow(1 + r, Math.floor(inputs.term / 12)) * (1 + (inputs.term % 12) * r / 12) - 1);
+    }
+
+    function term(t){
+      return inputs.interestgain - inputs.principal * (Math.pow(1 + inputs.interest, Math.floor(t / 12)) * (1 + (t % 12) * inputs.interest / 12) - 1);
+    }
+
+    function termTaxesNoComp(t){
+      return inputs.interestgain + Math.max(0, inputs.principal * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(t/12) + Math.max(inputs.principal * inputs.interest * (t % 12) / 12 - inputs.taxfree, 0) * inputs.taxrate - inputs.principal * inputs.interest * t / 12;
+    }
+
+
+    /* ******** 3. COMPUTATIONS ******** */
 
     /*
-     * ******** 3A1. CASE SIMPLE INTEREST AND NO TAX ********
+     * ******** 3A. CASE SIMPLE INTEREST ********
      */
-    if(!inputs.taxes){
-      if(inputs.calcselect === 2) { // interestgain
-        helper.result = inputs.principal * (inputs.interest * inputs.term / 12);
-        helper.terminalvalue = inputs.principal + helper.result;
-      }
-      else if(inputs.calcselect === 3) {   // principal
-        helper.result = inputs.interestgain / (inputs.interest * inputs.term / 12);
-        helper.terminalvalue = helper.result + inputs.interestgain;
-      }
-      else if(inputs.calcselect === 4) {   // interest
-        helper.result = (inputs.interestgain / inputs.principal) * (12 / inputs.term) * 100;
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      }
-      else if(inputs.calcselect === 5) {   // term
-        helper.result = (inputs.interestgain * 12) / (inputs.principal * inputs.interest);
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      }
+    if(!inputs.selection){
 
-    /*
-    * ******** 3A2. CASE SIMPLE INTEREST AND TERMINAL TAX ********
-    */
-    } else if(inputs.taxes && inputs.taxtime){
-      if(inputs.calcselect === 2) {   // interestgain
-        helper.interestgainwotax = inputs.principal * (inputs.interest * inputs.term / 12);
-        helper.taxes = - Math.max(helper.interestgainwotax - inputs.taxfree,0) * inputs.taxrate;
-        helper.result = helper.interestgainwotax + helper.taxes;
-        helper.terminalvalue = inputs.principal + helper.result;
-      } else if(inputs.calcselect === 3) {   // principal
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = helper.interestgainwotax / (inputs.interest * inputs.term / 12);
-        helper.terminalvalue = helper.result + inputs.interestgain;
-      } else if(inputs.calcselect === 4) {   // interest
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = (helper.interestgainwotax / inputs.principal) * (12 / inputs.term) * 100;
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      } else if(inputs.calcselect === 5) {   // term
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = (helper.interestgainwotax * 12) / (inputs.principal * inputs.interest);
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      } else {  // sthg wrong
-        return null;
-      }
-
-    /*
-     * ******** 3A3. CASE SIMPLE INTEREST AND PERIODICAL TAX ********
-     */
-    } else if(inputs.taxes && !inputs.taxtime){
-      if(inputs.calcselect === 2) {   // interestgain
-        helper.interestgainwotax = inputs.principal * (inputs.interest * inputs.term / 12);
-        helper.taxes = - Math.floor(inputs.term / 12) * Math.max(inputs.principal * inputs.interest - inputs.taxfree, 0) * inputs.taxrate;
-        helper.taxes -= Math.max(inputs.principal * (inputs.interest * (inputs.term % 12) / 12) - inputs.taxfree,0) * inputs.taxrate;
-        helper.result = helper.interestgainwotax + helper.taxes;
-        helper.terminalvalue = inputs.principal + helper.result;
-      } else if(inputs.calcselect === 3) {   // principal
-        // compute principal assuming no taxes are to be paid
-        helper.result = inputs.interestgain / (inputs.interest * inputs.term / 12);
-
-        // check whether assumption of no taxes was incorrect and assume taxes are only to be paid for full year
-        if(helper.result * inputs.interest - inputs.taxfree > 0){
-          helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12));
-          helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) + inputs.interest * inputs.term / 12);
+      /*
+       * ******** 3A1. CASE SIMPLE INTEREST AND NO TAX ********
+       */
+      if(!inputs.taxes){
+        if(inputs.calcselect === 2) { // interestgain
+          helper.result = inputs.principal * (inputs.interest * inputs.term / 12);
+          helper.terminalvalue = inputs.principal + helper.result;
+        }
+        else if(inputs.calcselect === 3) {   // principal
+          helper.result = inputs.interestgain / (inputs.interest * inputs.term / 12);
+          helper.terminalvalue = helper.result + inputs.interestgain;
+        }
+        else if(inputs.calcselect === 4) {   // interest
+          helper.result = (inputs.interestgain / inputs.principal) * (12 / inputs.term) * 100;
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+        }
+        else if(inputs.calcselect === 5) {   // term
+          helper.result = (inputs.interestgain * 12) / (inputs.principal * inputs.interest);
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
         }
 
-        // check whether assumption of taxes only for full year was incorrect and assume taxes are always to be paid
-        if(helper.result * inputs.interest * (inputs.term % 12) / 12 - inputs.taxfree > 0){
-          helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.taxfree * inputs.taxrate);
-          helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.interest * ((inputs.term % 12) / 12) * inputs.taxrate + inputs.interest * inputs.term / 12);
+      /*
+      * ******** 3A2. CASE SIMPLE INTEREST AND TERMINAL TAX ********
+      */
+      } else if(inputs.taxes && inputs.taxtime){
+        if(inputs.calcselect === 2) {   // interestgain
+          helper.interestgainwotax = inputs.principal * (inputs.interest * inputs.term / 12);
+          helper.taxes = - Math.max(helper.interestgainwotax - inputs.taxfree,0) * inputs.taxrate;
+          helper.result = helper.interestgainwotax + helper.taxes;
+          helper.terminalvalue = inputs.principal + helper.result;
+        } else if(inputs.calcselect === 3) {   // principal
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = helper.interestgainwotax / (inputs.interest * inputs.term / 12);
+          helper.terminalvalue = helper.result + inputs.interestgain;
+        } else if(inputs.calcselect === 4) {   // interest
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = (helper.interestgainwotax / inputs.principal) * (12 / inputs.term) * 100;
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+        } else if(inputs.calcselect === 5) {   // term
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = (helper.interestgainwotax * 12) / (inputs.principal * inputs.interest);
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+        } else {  // sthg wrong
+          return null;
         }
 
-        helper.taxes = - Math.max(0, helper.result * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(inputs.term / 12) - Math.max(helper.result * inputs.interest * (inputs.term % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
-        helper.interestgainwotax = inputs.interestgain - helper.taxes;
-        helper.terminalvalue = helper.result + inputs.interestgain;
+      /*
+       * ******** 3A3. CASE SIMPLE INTEREST AND PERIODICAL TAX ********
+       */
+      } else if(inputs.taxes && !inputs.taxtime){
+        if(inputs.calcselect === 2) {   // interestgain
+          helper.interestgainwotax = inputs.principal * (inputs.interest * inputs.term / 12);
+          helper.taxes = - Math.floor(inputs.term / 12) * Math.max(inputs.principal * inputs.interest - inputs.taxfree, 0) * inputs.taxrate;
+          helper.taxes -= Math.max(inputs.principal * (inputs.interest * (inputs.term % 12) / 12) - inputs.taxfree,0) * inputs.taxrate;
+          helper.result = helper.interestgainwotax + helper.taxes;
+          helper.terminalvalue = inputs.principal + helper.result;
+        } else if(inputs.calcselect === 3) {   // principal
+          // compute principal assuming no taxes are to be paid
+          helper.result = inputs.interestgain / (inputs.interest * inputs.term / 12);
 
-      } else if(inputs.calcselect === 4) {   // interest
-        // compute interest assuming no taxes are to be paid
-        helper.result = (inputs.interestgain / inputs.principal) * (12 / inputs.term);
+          // check whether assumption of no taxes was incorrect and assume taxes are only to be paid for full year
+          if(helper.result * inputs.interest - inputs.taxfree > 0){
+            helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12));
+            helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) + inputs.interest * inputs.term / 12);
+          }
 
-        // check whether assumption of no taxes was incorrect and assume taxes are only to be paid for full year
-        if(inputs.principal * helper.result - inputs.taxfree > 0){
-          helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12));
-          helper.result /= (-inputs.principal * inputs.taxrate * Math.floor(inputs.term / 12) + inputs.principal * inputs.term / 12);
+          // check whether assumption of taxes only for full year was incorrect and assume taxes are always to be paid
+          if(helper.result * inputs.interest * (inputs.term % 12) / 12 - inputs.taxfree > 0){
+            helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.taxfree * inputs.taxrate);
+            helper.result /= (-inputs.interest * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.interest * ((inputs.term % 12) / 12) * inputs.taxrate + inputs.interest * inputs.term / 12);
+          }
+
+          helper.taxes = - Math.max(0, helper.result * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(inputs.term / 12) - Math.max(helper.result * inputs.interest * (inputs.term % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
+          helper.interestgainwotax = inputs.interestgain - helper.taxes;
+          helper.terminalvalue = helper.result + inputs.interestgain;
+
+        } else if(inputs.calcselect === 4) {   // interest
+          // compute interest assuming no taxes are to be paid
+          helper.result = (inputs.interestgain / inputs.principal) * (12 / inputs.term);
+
+          // check whether assumption of no taxes was incorrect and assume taxes are only to be paid for full year
+          if(inputs.principal * helper.result - inputs.taxfree > 0){
+            helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12));
+            helper.result /= (-inputs.principal * inputs.taxrate * Math.floor(inputs.term / 12) + inputs.principal * inputs.term / 12);
+          }
+
+          // check whether assumption of taxes only for full year was incorrect and assume taxes are always to be paid
+          if(inputs.principal * helper.result * (inputs.term % 12) / 12 - inputs.taxfree > 0){
+            helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.taxfree * inputs.taxrate);
+            helper.result /= (-inputs.principal * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.principal * ((inputs.term % 12) / 12) * inputs.taxrate + inputs.principal * inputs.term / 12);
+          }
+
+          helper.taxes = - Math.max(0, inputs.principal * helper.result - inputs.taxfree) * inputs.taxrate * Math.floor(inputs.term / 12) - Math.max(inputs.principal * helper.result * (inputs.term % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
+          helper.interestgainwotax = inputs.interestgain - helper.taxes;
+          helper.result *= 100;
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+
+        } else if(inputs.calcselect === 5) {   // term
+          // case where no taxes are to be paid
+          if(inputs.principal * inputs.interest - inputs.taxfree <= 0){
+            helper.result = inputs.interestgain * 12 / (inputs.principal * inputs.interest);
+          } else {
+            helper.result = math.roots(termTaxesNoComp,12,1500);
+            if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+              helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+              return helpers.errors.errorMap;
+            }
+
+          }
+
+          helper.taxes = - Math.max(0, inputs.principal * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(helper.result / 12) - Math.max(inputs.principal * inputs.interest * (helper.result % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
+          helper.interestgainwotax = inputs.interestgain - helper.taxes;
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+
         }
 
-        // check whether assumption of taxes only for full year was incorrect and assume taxes are always to be paid
-        if(inputs.principal * helper.result * (inputs.term % 12) / 12 - inputs.taxfree > 0){
-          helper.result = (inputs.interestgain - inputs.taxfree * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.taxfree * inputs.taxrate);
-          helper.result /= (-inputs.principal * inputs.taxrate * Math.floor(inputs.term / 12) - inputs.principal * ((inputs.term % 12) / 12) * inputs.taxrate + inputs.principal * inputs.term / 12);
-        }
+      }
 
-        helper.taxes = - Math.max(0, inputs.principal * helper.result - inputs.taxfree) * inputs.taxrate * Math.floor(inputs.term / 12) - Math.max(inputs.principal * helper.result * (inputs.term % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
-        helper.interestgainwotax = inputs.interestgain - helper.taxes;
-        helper.result *= 100;
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-
-      } else if(inputs.calcselect === 5) {   // term
-        // case where no taxes are to be paid
-        if(inputs.principal * inputs.interest - inputs.taxfree <= 0){
-          helper.result = inputs.interestgain * 12 / (inputs.principal * inputs.interest);
-        } else {
-          helper.result = math.roots(termTaxesNoComp,12,1500);
+      /*
+      * ******** 3B. CASE COMPOUNDED INTEREST ********
+      */
+    } else {
+      /*
+       * ******** 3B1. CASE COMPOUNDED INTEREST AND NO TAX ********
+       */
+      if(!inputs.taxes){
+        if(inputs.calcselect === 2) { // interestgain
+          helper.result = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+          helper.terminalvalue = inputs.principal + helper.result;
+        } else if (inputs.calcselect === 3) {   // principal
+          helper.result = inputs.interestgain / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+          helper.terminalvalue = helper.result + inputs.interestgain;
+        } else if(inputs.calcselect === 4) {   // interest
+          helper.result = math.roots(function(i){
+            return inputs.interestgain - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
+          },0.1,1500);
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
+            return helpers.errors.errorMap;
+          }
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+          helper.result *= 100;
+        } else if(inputs.calcselect === 5) {   // term
+          helper.result = math.roots(function(t){
+            return inputs.interestgain - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
+          },5,1500);
           if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
             helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
             return helpers.errors.errorMap;
           }
-
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
         }
 
-        helper.taxes = - Math.max(0, inputs.principal * inputs.interest - inputs.taxfree) * inputs.taxrate * Math.floor(helper.result / 12) - Math.max(inputs.principal * inputs.interest * (helper.result % 12) / 12 - inputs.taxfree,0) * inputs.taxrate;
-        helper.interestgainwotax = inputs.interestgain - helper.taxes;
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
 
-      }
+      /*
+       * ******** 3A2. CASE COMPOUNDED INTEREST AND TERMINAL TAX ********
+       */
+      } else if(inputs.taxes && inputs.taxtime){
 
-    }
-
-    /*
-    * ******** 3B. CASE COMPOUNDED INTEREST ********
-    */
-  } else {
-    /*
-     * ******** 3B1. CASE COMPOUNDED INTEREST AND NO TAX ********
-     */
-    if(!inputs.taxes){
-      if(inputs.calcselect === 2) { // interestgain
-        helper.result = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
-        helper.terminalvalue = inputs.principal + helper.result;
-      } else if (inputs.calcselect === 3) {   // principal
-        helper.result = inputs.interestgain / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
-        helper.terminalvalue = helper.result + inputs.interestgain;
-      } else if(inputs.calcselect === 4) {   // interest
-        helper.result = math.roots(function(i){
-          return inputs.interestgain - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
-        },0.1,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
-          return helpers.errors.errorMap;
+        if(inputs.calcselect === 2) {   // interestgain
+          helper.interestgainwotax = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+          helper.taxes = - Math.max(helper.interestgainwotax - inputs.taxfree,0) * inputs.taxrate;
+          helper.result = helper.interestgainwotax + helper.taxes;
+          helper.terminalvalue = inputs.principal + helper.result;
+        } else if(inputs.calcselect === 3) {   // principal
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = helper.interestgainwotax / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
+          helper.terminalvalue = helper.result + inputs.interestgain;
+        } else if(inputs.calcselect === 4) {   // interest
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = math.roots(function(i){
+            return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
+          },0.1,1500);
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
+            return helpers.errors.errorMap;
+          }
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+          helper.result *= 100;
+        } else if(inputs.calcselect === 5) {   // term
+          helper.bool = (inputs.interestgain > inputs.taxfree);
+          helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
+          helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
+          helper.result = math.roots(function(t){
+            return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
+          },5,1500);
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+            return helpers.errors.errorMap;
+          }
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+        } else {  // sthg wrong
+          return null;
         }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-        helper.result *= 100;
-      } else if(inputs.calcselect === 5) {   // term
-        helper.result = math.roots(function(t){
-          return inputs.interestgain - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
-        },5,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      }
 
-
-    /*
-     * ******** 3A2. CASE COMPOUNDED INTEREST AND TERMINAL TAX ********
-     */
-    } else if(inputs.taxes && inputs.taxtime){
-
-      if(inputs.calcselect === 2) {   // interestgain
-        helper.interestgainwotax = inputs.principal * (Math.pow(1 + inputs.interest,Math.floor(inputs.term/12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
-        helper.taxes = - Math.max(helper.interestgainwotax - inputs.taxfree,0) * inputs.taxrate;
-        helper.result = helper.interestgainwotax + helper.taxes;
-        helper.terminalvalue = inputs.principal + helper.result;
-      } else if(inputs.calcselect === 3) {   // principal
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = helper.interestgainwotax / (Math.pow(1 + inputs.interest, Math.floor(inputs.term / 12)) * (1 + inputs.interest * (inputs.term % 12) / 12) - 1);
-        helper.terminalvalue = helper.result + inputs.interestgain;
-      } else if(inputs.calcselect === 4) {   // interest
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = math.roots(function(i){
-          return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + i, Math.floor(inputs.term / 12))) * (1 + i * (inputs.term % 12) / 12) - 1);
-        },0.1,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-        helper.result *= 100;
-      } else if(inputs.calcselect === 5) {   // term
-        helper.bool = (inputs.interestgain > inputs.taxfree);
-        helper.interestgainwotax = (inputs.interestgain - helper.bool * inputs.taxfree * inputs.taxrate) / (1 - helper.bool * inputs.taxrate);
-        helper.taxes = - (helper.interestgainwotax - inputs.interestgain);
-        helper.result = math.roots(function(t){
-          return helper.interestgainwotax - inputs.principal * ((Math.pow(1 + inputs.interest, Math.floor(t / 12))) * (1 + inputs.interest * (t % 12) / 12) - 1);
-        },5,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-      } else {  // sthg wrong
-        return null;
-      }
-
-    /*
-     * ******** 3A3. CASE COMPOUNDED INTEREST AND PERIODICAL TAX ********
-     */
-    } else if(inputs.taxes && !inputs.taxtime){
-      if(inputs.calcselect === 2) {   // interestgain
-        // compute total interestgain by looping over individual annual values
-        helper.taxes = 0; helper.result = 0;
-        helper.capital = inputs.principal;
-        for (i = 1; i <= Math.floor(inputs.term/12); i++){
-          helper.temp = helper.capital;
-          helper.capital *= (1 + inputs.interest);
-          helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
-          helper.result += helper.capital - helper.temp - helper.periodictax;
-          helper.capital -= helper.periodictax;
-          helper.taxes -= helper.periodictax;
-        }
-        // add semi-annual part
-        helper.temp = helper.capital;
-        helper.capital *= (1 + inputs.interest * (inputs.term % 12) / 12);
-        helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
-        helper.result += helper.capital - helper.temp - helper.periodictax;
-        helper.capital -= helper.periodictax;
-        helper.taxes -= helper.periodictax;
-        helper.interestgainwotax = helper.result - helper.taxes;
-        helper.terminalvalue = inputs.principal + helper.result;
-
-      } else if(inputs.calcselect === 3) {   // principal
-        helper.result = math.roots(function(p){
+      /*
+       * ******** 3A3. CASE COMPOUNDED INTEREST AND PERIODICAL TAX ********
+       */
+      } else if(inputs.taxes && !inputs.taxtime){
+        if(inputs.calcselect === 2) {   // interestgain
+          // compute total interestgain by looping over individual annual values
           helper.taxes = 0; helper.result = 0;
-          helper.capital = p;
+          helper.capital = inputs.principal;
           for (i = 1; i <= Math.floor(inputs.term/12); i++){
             helper.temp = helper.capital;
             helper.capital *= (1 + inputs.interest);
@@ -787,105 +778,140 @@ exports.timedeposit = function(inputs) {
           helper.capital -= helper.periodictax;
           helper.taxes -= helper.periodictax;
           helper.interestgainwotax = helper.result - helper.taxes;
-          return helper.result - inputs.interestgain;
-        },5,1500);
-        helper.terminalvalue = inputs.interestgain + helper.result;
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte die notwendige Anlagesumme für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Anlagesummer außergewöhnlich niedrig oder hoch ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
+          helper.terminalvalue = inputs.principal + helper.result;
 
-      } else if(inputs.calcselect === 4) {   // interest
-        helper.result = math.roots(function(interest){
-          helper.taxes = 0; helper.result = 0;
-          helper.capital = inputs.principal;
-          for (i = 1; i <= Math.floor(inputs.term/12); i++){
+        } else if(inputs.calcselect === 3) {   // principal
+          helper.result = math.roots(function(p){
+            helper.taxes = 0; helper.result = 0;
+            helper.capital = p;
+            for (i = 1; i <= Math.floor(inputs.term/12); i++){
+              helper.temp = helper.capital;
+              helper.capital *= (1 + inputs.interest);
+              helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
+              helper.result += helper.capital - helper.temp - helper.periodictax;
+              helper.capital -= helper.periodictax;
+              helper.taxes -= helper.periodictax;
+            }
+            // add semi-annual part
             helper.temp = helper.capital;
-            helper.capital *= (1 + interest);
+            helper.capital *= (1 + inputs.interest * (inputs.term % 12) / 12);
             helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
             helper.result += helper.capital - helper.temp - helper.periodictax;
             helper.capital -= helper.periodictax;
             helper.taxes -= helper.periodictax;
+            helper.interestgainwotax = helper.result - helper.taxes;
+            return helper.result - inputs.interestgain;
+          },5,1500);
+          helper.terminalvalue = inputs.interestgain + helper.result;
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte die notwendige Anlagesumme für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Anlagesummer außergewöhnlich niedrig oder hoch ist.",undefined , true);
+            return helpers.errors.errorMap;
           }
-          // add semi-annual part
-          helper.temp = helper.capital;
-          helper.capital *= (1 + interest * (inputs.term % 12) / 12);
-          helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
-          helper.result += helper.capital - helper.temp - helper.periodictax;
-          helper.capital -= helper.periodictax;
-          helper.taxes -= helper.periodictax;
-          helper.interestgainwotax = helper.result - helper.taxes;
-          return helper.result - inputs.interestgain;
-        },0.01,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
-        helper.result *= 100;
 
-      } else if(inputs.calcselect === 5) {   // term
-        helper.result = math.roots(function(term){
-          helper.taxes = 0; helper.result = 0;
-          helper.capital = inputs.principal;
-          for (i = 1; i <= Math.floor(term/12); i++){
+        } else if(inputs.calcselect === 4) {   // interest
+          helper.result = math.roots(function(interest){
+            helper.taxes = 0; helper.result = 0;
+            helper.capital = inputs.principal;
+            for (i = 1; i <= Math.floor(inputs.term/12); i++){
+              helper.temp = helper.capital;
+              helper.capital *= (1 + interest);
+              helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
+              helper.result += helper.capital - helper.temp - helper.periodictax;
+              helper.capital -= helper.periodictax;
+              helper.taxes -= helper.periodictax;
+            }
+            // add semi-annual part
             helper.temp = helper.capital;
-            helper.capital *= (1 + inputs.interest);
+            helper.capital *= (1 + interest * (inputs.term % 12) / 12);
             helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
             helper.result += helper.capital - helper.temp - helper.periodictax;
             helper.capital -= helper.periodictax;
             helper.taxes -= helper.periodictax;
+            helper.interestgainwotax = helper.result - helper.taxes;
+            return helper.result - inputs.interestgain;
+          },0.01,1500);
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte der Zinssatz für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass der Zinssatz außergewöhnlich hoch oder niedrig ist.",undefined , true);
+            return helpers.errors.errorMap;
           }
-          // add semi-annual part
-          helper.temp = helper.capital;
-          helper.capital *= (1 + inputs.interest * (term % 12) / 12);
-          helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
-          helper.result += helper.capital - helper.temp - helper.periodictax;
-          helper.capital -= helper.periodictax;
-          helper.taxes -= helper.periodictax;
-          helper.interestgainwotax = helper.result - helper.taxes;
-          return helper.result - inputs.interestgain;
-        },0.01,1500);
-        if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
-          helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
-          return helpers.errors.errorMap;
-        }
-        helper.terminalvalue = inputs.principal + inputs.interestgain;
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+          helper.result *= 100;
 
+        } else if(inputs.calcselect === 5) {   // term
+          helper.result = math.roots(function(term){
+            helper.taxes = 0; helper.result = 0;
+            helper.capital = inputs.principal;
+            for (i = 1; i <= Math.floor(term/12); i++){
+              helper.temp = helper.capital;
+              helper.capital *= (1 + inputs.interest);
+              helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
+              helper.result += helper.capital - helper.temp - helper.periodictax;
+              helper.capital -= helper.periodictax;
+              helper.taxes -= helper.periodictax;
+            }
+            // add semi-annual part
+            helper.temp = helper.capital;
+            helper.capital *= (1 + inputs.interest * (term % 12) / 12);
+            helper.periodictax = Math.max(0, helper.capital - helper.temp - inputs.taxfree) * inputs.taxrate;
+            helper.result += helper.capital - helper.temp - helper.periodictax;
+            helper.capital -= helper.periodictax;
+            helper.taxes -= helper.periodictax;
+            helper.interestgainwotax = helper.result - helper.taxes;
+            return helper.result - inputs.interestgain;
+          },0.01,1500);
+          if(!validator.isFloat(helper.result)){  // sanitize result and return if sthg wring
+            helpers.errors.set("Leider konnte die Laufzeit für die angegebenen Parameter nicht verlässlich berechnet werden. Meist ist der Grund dafür, dass die Laufzeit außergewöhnlich kurz oder lang ist.",undefined , true);
+            return helpers.errors.errorMap;
+          }
+          helper.terminalvalue = inputs.principal + inputs.interestgain;
+
+        }
       }
     }
+
+    /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+    result.id = data[0].id;
+
+    // first result container
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+    //result._1.value         = _.extend(localElems[selectMap[inputs.calcselect]], {"value": helper.result});
+    if(inputs.taxes){
+      result._1.interestgainwotax = _.extend(_.findWhere(data[0].results_1,{name: 'interestgainwotax'}), {"value": helper.interestgainwotax});
+      //result._1.interestgainwotax = _.extend(localElems['interestgainwotax'], {"value": helper.interestgainwotax});
+      result._1.taxes = _.extend(_.findWhere(data[0].results_1,{name: 'taxes'}), {"value": helper.taxes});
+      //result._1.taxes             = _.extend(localElems['taxes'], {"value": helper.taxes});
+    }
+    result._1.terminalValue = _.extend(_.findWhere(data[0].results_1,{name: 'terminalvalue'}), {"value": helper.terminalvalue});
+    //result._1.terminalValue = _.extend(localElems['terminalvalue'],      {"value": helper.terminalvalue});
+
+
+    // attach messages
+    result.messages = helpers.messages.messageMap;
+
+
+    // construct chart 1
+    result._chart1.data = {
+      //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
+      series: [inputs.principal || helper.result, inputs.interestgain || helper.result]
+
+    };
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Zusammensetzung Endwert';
+    result._chart1.legend = ['Anlagesumme', 'Zinsertrag'];
+    result._chart1.options = {showLabel: false, donut: false, labelOffset: 0};
+    result._chart1.type = 'Pie';
+
+
+    return result;
   }
 
-  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
-  result.id = calcElems.timedeposit.id;
-
-  // first result container
-  result._1.value         = _.extend(localElems[selectMap[inputs.calcselect]], {"value": helper.result});
-  if(inputs.taxes){
-    result._1.interestgainwotax = _.extend(localElems['interestgainwotax'], {"value": helper.interestgainwotax});
-    result._1.taxes             = _.extend(localElems['taxes'], {"value": helper.taxes});
-  }
-  result._1.terminalValue = _.extend(localElems['terminalvalue'],      {"value": helper.terminalvalue});
-
-
-  // attach messages
-  result.messages = helpers.messages.messageMap;
-
-
-  // construct chart 1
-  result._chart1.data = {
-    //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
-    series: [inputs.principal || helper.result, inputs.interestgain || helper.result]
-
-  };
-  result._chart1.id = 'chart1';
-  result._chart1.title = 'Zusammensetzung Endwert';
-  result._chart1.legend = ['Anlagesumme', 'Zinsertrag'];
-  result._chart1.options = {showLabel: false, donut: false, labelOffset: 0};
-  result._chart1.type = 'Pie';
-
-
-  return result;
+  return Calc.findByCalcname('timedeposit')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
 };
 
