@@ -3,12 +3,10 @@ script(id='boerse-portfolio-stocksInput-template', type='text/x-handlebars-templ
   div.form-group.m-l-lg
     div.row
       div.col-xs-10
+        - var test = [{id: 'FSE.BAYN_X', description: 'Bayer AG'}, {id: 'FSE.BMW_X', description: 'BMW AG'}, {id: 'FSE.CBK_X', description: 'Commerzbank AG'}, {id: 'FSE.SDF_X', description: 'K+S AG'}, {id: 'FSE.DBK_X', description: 'Deutsche Bank AG'}];
         select(id='{{obj.id1}}', class='form-control')
-          option(value="FSE.BAYN_X", '{{obj.select1}}') Bayer AG
-          option(value="FSE.BMW_X",  '{{obj.select2}}') BMW AG
-          option(value="FSE.CBK_X",  '{{obj.select3}}') Commerzbank AG
-          option(value="FSE.SDF_X",  '{{obj.select4}}') K+S AG
-          option(value="FSE.DBK_X",  '{{obj.select5}}') Deutsche Bank AG
+          each option, index in test
+            option(value=option.id, '#{select}')= option.description
       div.col-xs-2
         button.btn.btn-default(type='button', id='{{obj.id2}}', class='boerse-portfolio-remove')
           i.fa.fa-times
