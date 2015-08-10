@@ -821,224 +821,299 @@ exports.homesave = function(inputs){
  * RETURNS XXX
 
  */
-exports.buyrent = function(inputs){
+exports.buyrent = function(inputs) {
 
-  /* ******** 1. INIT AND ASSIGN ******** */
-  var result = {}; result._1 = {}; result._2 = {}; result._3 = {}; result._chart1 = {};
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
+  var result = {};
+  result._1 = {};
+  result._2 = {};
+  result._3 = {};
+  result._chart1 = {};
   var localElems = calcElems.propertybuyrent.results_1;
   var expectedInputs = calcElems.propertybuyrent.inputs;
   var errorMap;
   var temp1, temp2, temp3, temp11, temp12, temp13;
   var helper = {}, i;
-  var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; var dynT;
-  var dynBuy = []; dynBuy[0] = []; dynBuy[1] = []; dynBuy[2] = []; dynBuy[3] = []; dynBuy[4] = []; dynBuy[5] = []; dynBuy[6] = []; dynBuy[7] = []; dynBuy[8] = []; dynBuy[9] = []; dynBuy[10] = []; dynBuy[11] = []; dynBuy[12] = []; dynBuy[13] = []; dynBuy[14] = []; var dynBuyT;
+  var dyn = [];
+  dyn[0] = [];
+  dyn[1] = [];
+  dyn[2] = [];
+  dyn[3] = [];
+  dyn[4] = [];
+  dyn[5] = [];
+  var dynT;
+  var dynBuy = [];
+  dynBuy[0] = [];
+  dynBuy[1] = [];
+  dynBuy[2] = [];
+  dynBuy[3] = [];
+  dynBuy[4] = [];
+  dynBuy[5] = [];
+  dynBuy[6] = [];
+  dynBuy[7] = [];
+  dynBuy[8] = [];
+  dynBuy[9] = [];
+  dynBuy[10] = [];
+  dynBuy[11] = [];
+  dynBuy[12] = [];
+  dynBuy[13] = [];
+  dynBuy[14] = [];
+  var dynBuyT;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
-
-  inputs.equityinterest = inputs.equityinterest / 100;
-  inputs.debtinterest = inputs.debtinterest / 100;
-  inputs.rentdynamic = inputs.rentdynamic / 100;
-  inputs.incomedynamic = inputs.incomedynamic / 100;
-  inputs.valuedynamic = inputs.valuedynamic / 100;
-  inputs.costdynamic = inputs.costdynamic / 100;
-
-
-  /* ******** 3. COMPUTATIONS ******** */
-  /*
-   3.A STATIC COMPUTATIONS
-   */
-  //helper.rentFinalCost = inputs.period * 12 * inputs.rent;
-  helper.rentFinalCost = (inputs.dynamics && inputs.rentdynamic !== 0) ? (inputs.rent * 12) * (1 - Math.pow(1 + inputs.rentdynamic,inputs.period))/(-inputs.rentdynamic) : inputs.rent * 12 * inputs.period;
-  helper.rentFinalIncome = (inputs.dynamics && inputs.incomedynamic !== 0) ? (inputs.income * 12) * (1 - Math.pow(1 + inputs.incomedynamic,inputs.period))/(-inputs.incomedynamic) : inputs.income * 12 * inputs.period;
-  //helper.rentAvailableForSaving = (inputs.income - inputs.rent) * inputs.period * 12;
-  helper.rentAnnualReplacement = (inputs.income - inputs.rent) * (12 + (13 / 2) * inputs.equityinterest);
-  helper.rentAvailableForSavingValue = (inputs.equityinterest === 0) ? helper.rentAnnualReplacement : helper.rentAnnualReplacement * (Math.pow(1 + inputs.equityinterest, inputs.period) - 1) / inputs.equityinterest;
-
-
-  /*
-   3.B DYNAMIC COMPUTATIONS RENT
-   */
-
-  for (i = 1; i <= inputs.period; i++){
-    dyn[0][i-1] = i;                                        // period
-    dyn[1][i-1] = (i === 1)? inputs.equity : dyn[4][i-2];   // wealth start
-    dyn[2][i-1] = (inputs.income * 12) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic,i - 1) - (inputs.rent * 12) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic,i - 1);       // surplus income
-    temp11 = dyn[1][i-1]; temp12 = 0; temp13 = 0;
-    for (var k = 1; k <= 12; k++) {  // compute 'subannual' interest; this is necessary because wealth may become negative in a month between to years if the rent payments increase more than available income
-      temp12 = (inputs.equityinterest / 12) * (temp11 + (inputs.income) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic,i - 1) - (inputs.rent) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic,i - 1));
-      temp13 += temp12 >= 0 ? temp12 : 0;
-      temp11 += (inputs.income) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic,i - 1) - (inputs.rent) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic,i - 1);
+  function compute(data) {
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0) {
+      return errorMap;
     }
-    dyn[3][i-1] = temp13;
-    dyn[4][i-1] = dyn[1][i-1] + dyn[2][i-1] + dyn[3][i-1];   // wealth end
-  }
+
+    inputs.equityinterest = inputs.equityinterest / 100;
+    inputs.debtinterest = inputs.debtinterest / 100;
+    inputs.rentdynamic = inputs.rentdynamic / 100;
+    inputs.incomedynamic = inputs.incomedynamic / 100;
+    inputs.valuedynamic = inputs.valuedynamic / 100;
+    inputs.costdynamic = inputs.costdynamic / 100;
 
 
-  // transpose dyn
-  dynT = dyn[0].map(function(col,i){
-    return dyn.map(function(row){
-      return row[i];
-    })
-  });
-
-  // attach final rows
-  dynT.push(['&Sigma;', inputs.equity, _.reduce(dyn[2], helpers.add, 0), _.reduce(dyn[3], helpers.add, 0),dyn[4][inputs.period-1],true]);
-
-  helper.rentFinalInterest = _.reduce(dyn[3], helpers.add, 0);
-  helper.rentFinalWealth = inputs.equity + helper.rentFinalIncome + helper.rentFinalInterest - helper.rentFinalCost;
-  helper.buyLoan = inputs.price + inputs.priceaddon - inputs.equity;
-  helper.buyAnnualLoanPayment = inputs.debtpay * 12;
+    /** ******** 3. COMPUTATIONS ******** */
+    /*
+     3.A STATIC COMPUTATIONS
+     */
+    //helper.rentFinalCost = inputs.period * 12 * inputs.rent;
+    helper.rentFinalCost = (inputs.dynamics && inputs.rentdynamic !== 0) ? (inputs.rent * 12) * (1 - Math.pow(1 + inputs.rentdynamic, inputs.period)) / (-inputs.rentdynamic) : inputs.rent * 12 * inputs.period;
+    helper.rentFinalIncome = (inputs.dynamics && inputs.incomedynamic !== 0) ? (inputs.income * 12) * (1 - Math.pow(1 + inputs.incomedynamic, inputs.period)) / (-inputs.incomedynamic) : inputs.income * 12 * inputs.period;
+    //helper.rentAvailableForSaving = (inputs.income - inputs.rent) * inputs.period * 12;
+    helper.rentAnnualReplacement = (inputs.income - inputs.rent) * (12 + (13 / 2) * inputs.equityinterest);
+    helper.rentAvailableForSavingValue = (inputs.equityinterest === 0) ? helper.rentAnnualReplacement : helper.rentAnnualReplacement * (Math.pow(1 + inputs.equityinterest, inputs.period) - 1) / inputs.equityinterest;
 
 
-  /*
-   3.C DYNAMIC COMPUTATIONS BUY
-   */
-  for (i = 1; i <= inputs.period; i++){
-    dynBuy[0][i-1] = i;                                        // period
-    dynBuy[1][i-1] = (i === 1)? 0 : dynBuy[11][i-2];                                                              // money wealth bop
-    dynBuy[2][i-1] = (i === 1) ? inputs.equity - inputs.priceaddon : dynBuy[12][i-2];                             // total wealth bop
-    dynBuy[3][i-1] = (i === 1)? helper.buyLoan : dynBuy[6][i-2];                                                  // residual begin
-    dynBuy[4][i-1] = finance.annualInterestLinear(dynBuy[3][i-1], 12, inputs.debtinterest, inputs.debtpay);       // annual loan interest
-    dynBuy[5][i-1] = finance.annualAmortizationLinear(dynBuy[3][i-1], 12, inputs.debtinterest, inputs.debtpay);   // annual loan amortization
-    dynBuy[6][i-1] = finance.annualResidualLinear(dynBuy[3][i-1], 12, inputs.debtinterest, inputs.debtpay);       // residual end
-    dynBuy[7][i-1] = dynBuy[4][i-1] + dynBuy[5][i-1];                                                             // loan payment
-    dynBuy[8][i-1] = (inputs.income * 12) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic,i -1) - (inputs.maintenance * 12) * Math.pow(1 + inputs.dynamics * inputs.costdynamic,i -1) - dynBuy[7][i-1];                                  // annual surplus income
-    //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + ((inputs.income - inputs.maintenance) * (13/2) - ((dynBuy[7][i-1]/12) * 11 / 2)) * inputs.equityinterest;    // interest
-    temp1 = 0; temp2 = 0; temp3 = dynBuy[7][i-1];
-    for (var j = 1; j <= 12; j++){  // compute 'subannual' interest; this is necessary because the loan payments may end in a month between two years
-      temp1 += inputs.income * Math.pow(1 + inputs.dynamics * inputs.incomedynamic,i -1) - inputs.maintenance * Math.pow(1 + inputs.dynamics * inputs.costdynamic,i -1);
-      temp2 += temp1 >=0 ? temp1 * (inputs.equityinterest / 12) : 0;
-      if (temp3 >= inputs.debtpay){
-        temp1 -= inputs.debtpay;
-        temp3 -= inputs.debtpay;
-      } else if (temp3 < inputs.debtpay && temp3 > 0){
-        temp1 -= temp3;
-        temp3 -= temp3;
-      } else {
-        temp1 -= 0;
+    /*
+     3.B DYNAMIC COMPUTATIONS RENT
+     */
+
+    for (i = 1; i <= inputs.period; i++) {
+      dyn[0][i - 1] = i;                                        // period
+      dyn[1][i - 1] = (i === 1) ? inputs.equity : dyn[4][i - 2];   // wealth start
+      dyn[2][i - 1] = (inputs.income * 12) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - (inputs.rent * 12) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic, i - 1);       // surplus income
+      temp11 = dyn[1][i - 1];
+      temp12 = 0;
+      temp13 = 0;
+      for (var k = 1; k <= 12; k++) {  // compute 'subannual' interest; this is necessary because wealth may become negative in a month between to years if the rent payments increase more than available income
+        temp12 = (inputs.equityinterest / 12) * (temp11 + (inputs.income) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - (inputs.rent) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic, i - 1));
+        temp13 += temp12 >= 0 ? temp12 : 0;
+        temp11 += (inputs.income) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - (inputs.rent) * Math.pow(1 + inputs.dynamics * inputs.rentdynamic, i - 1);
       }
+      dyn[3][i - 1] = temp13;
+      dyn[4][i - 1] = dyn[1][i - 1] + dyn[2][i - 1] + dyn[3][i - 1];   // wealth end
     }
-    //dynBuy[9][i-1] = (dynBuy[8][i-1] >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
-    //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + temp2;
-    dynBuy[9][i-1] = ((dynBuy[8][i-1] + dynBuy[7][i-1]) >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
-    dynBuy[10][i-1] = inputs.price * (inputs.dynamics) * (Math.pow(1 + inputs.valuedynamic, i) - Math.pow(1 + inputs.valuedynamic, i-1));  //
-    dynBuy[11][i-1] = dynBuy[1][i-1] + dynBuy[8][i-1] + dynBuy[9][i-1];   // money wealth end
-    // other vals for table display
-    dynBuy[12][i-1] = dynBuy[2][i-1] + dynBuy[5][i-1] + dynBuy[8][i-1] + dynBuy[9][i-1] + dynBuy[10][i-1];   // total wealth eop
-
-  }
 
 
+    // transpose dyn
+    dynT = dyn[0].map(function (col, i) {
+      return dyn.map(function (row) {
+        return row[i];
+      })
+    });
 
-  // transpose dynBuy
-  dynBuyT = dynBuy[0].map(function(col,i){
-    return dynBuy.map(function(row){
-      return row[i];
-    })
-  });
+    // attach final rows
+    dynT.push(['&Sigma;', inputs.equity, _.reduce(dyn[2], helpers.add, 0), _.reduce(dyn[3], helpers.add, 0), dyn[4][inputs.period - 1], true]);
 
-  helper.termloan = Math.log(( inputs.debtpay / ((inputs.debtinterest/12) * helper.buyLoan)) / ((inputs.debtpay / ((inputs.debtinterest/12) * helper.buyLoan)) - 1)) / (12 * Math.log(1 + (inputs.debtinterest/12)));
-  helper.buyprice = (inputs.price + inputs.priceaddon);
-  helper.buyInterestSave = _.reduce(dynBuy[9], helpers.add, 0);
-
-  helper.buyInterestLoan = _.reduce(dynBuy[4], helpers.add, 0);
-  helper.buyIncomeSurplus = _.reduce(dynBuy[8], helpers.add, 0);
-  helper.buyPropertyIncrease = _.reduce(dynBuy[10], helpers.add, 0);
-  //helper.buyMaintenance = inputs.maintenance * 12 * inputs.period;
-  helper.buyMaintenance = (inputs.dynamics && inputs.costdynamic !== 0) ?  inputs.maintenance * 12 * (1 - Math.pow(1+inputs.costdynamic, inputs.period)) / (-inputs.costdynamic)  : inputs.maintenance * 12 * inputs.period;
-  helper.buyRepay = _.reduce(dynBuy[5], helpers.add, 0);
-  helper.buyResidual = - helper.buyLoan + helper.buyRepay;
-  helper.buyFinalWealth = inputs.equity - helper.buyprice + helper.buyLoan + helper.rentFinalIncome + helper.buyInterestSave - helper.buyInterestLoan + helper.buyPropertyIncrease - helper.buyMaintenance - helper.buyRepay + helper.buyResidual + inputs.price;
-
-  // attach final rows
-  dynBuyT.push(['&Sigma;',helper.buyLoan, inputs.equity - inputs.priceaddon, helper.buyInterestLoan, helper.buyRepay ,helper.buyRepay ,,_.reduce(dynBuy[8], helpers.add, 0),helper.buyIncomeSurplus,helper.buyInterestSave,helper.buyPropertyIncrease, dynBuy[11][inputs.period-1],dynBuy[12][inputs.period-1],dynBuy[12][inputs.period-1],true]);
-
-  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
-  result.id = calcElems.propertybuyrent.id;
-  /*
-   6.A FIRST RESULT CONTAINER
-   */
-  if (helper.buyFinalWealth > helper.rentFinalWealth){
-    result.resultheadline = 'Der <strong>Kauf</strong> einer Immobilie ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth)*100)/100 +' EUR.</strong>';
-  } else {
-    result.resultheadline = 'Die <strong>Anmietung</strong> ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth)*100)/100  + ' EUR.</strong>';
-  }
+    helper.rentFinalInterest = _.reduce(dyn[3], helpers.add, 0);
+    helper.rentFinalWealth = inputs.equity + helper.rentFinalIncome + helper.rentFinalInterest - helper.rentFinalCost;
+    helper.buyLoan = inputs.price + inputs.priceaddon - inputs.equity;
+    helper.buyAnnualLoanPayment = inputs.debtpay * 12;
 
 
-  //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
-  result._1.rentFinalWealth   = _.extend(localElems['rentfinalwealth'],   {"value": helper.rentFinalWealth});
-  result._1.rentEquity        = _.extend(localElems['rentequity'],        {"value": inputs.equity});
-  result._1.rentFinalIncome   = _.extend(localElems['rentfinalincome'],   {"value": helper.rentFinalIncome});
-  result._1.rentFinalCost     = _.extend(localElems['rentfinalcost'],     {"value": - helper.rentFinalCost});
-  result._1.rentFinalInterest = _.extend(localElems['rentfinalinterest'], {"value": helper.rentFinalInterest});
+    /*
+     3.C DYNAMIC COMPUTATIONS BUY
+     */
+    for (i = 1; i <= inputs.period; i++) {
+      dynBuy[0][i - 1] = i;                                        // period
+      dynBuy[1][i - 1] = (i === 1) ? 0 : dynBuy[11][i - 2];                                                              // money wealth bop
+      dynBuy[2][i - 1] = (i === 1) ? inputs.equity - inputs.priceaddon : dynBuy[12][i - 2];                             // total wealth bop
+      dynBuy[3][i - 1] = (i === 1) ? helper.buyLoan : dynBuy[6][i - 2];                                                  // residual begin
+      dynBuy[4][i - 1] = finance.annualInterestLinear(dynBuy[3][i - 1], 12, inputs.debtinterest, inputs.debtpay);       // annual loan interest
+      dynBuy[5][i - 1] = finance.annualAmortizationLinear(dynBuy[3][i - 1], 12, inputs.debtinterest, inputs.debtpay);   // annual loan amortization
+      dynBuy[6][i - 1] = finance.annualResidualLinear(dynBuy[3][i - 1], 12, inputs.debtinterest, inputs.debtpay);       // residual end
+      dynBuy[7][i - 1] = dynBuy[4][i - 1] + dynBuy[5][i - 1];                                                             // loan payment
+      dynBuy[8][i - 1] = (inputs.income * 12) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - (inputs.maintenance * 12) * Math.pow(1 + inputs.dynamics * inputs.costdynamic, i - 1) - dynBuy[7][i - 1];                                  // annual surplus income
+      //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + ((inputs.income - inputs.maintenance) * (13/2) - ((dynBuy[7][i-1]/12) * 11 / 2)) * inputs.equityinterest;    // interest
+      temp1 = 0;
+      temp2 = 0;
+      temp3 = dynBuy[7][i - 1];
+      for (var j = 1; j <= 12; j++) {  // compute 'subannual' interest; this is necessary because the loan payments may end in a month between two years
+        temp1 += inputs.income * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - inputs.maintenance * Math.pow(1 + inputs.dynamics * inputs.costdynamic, i - 1);
+        temp2 += temp1 >= 0 ? temp1 * (inputs.equityinterest / 12) : 0;
+        if (temp3 >= inputs.debtpay) {
+          temp1 -= inputs.debtpay;
+          temp3 -= inputs.debtpay;
+        } else if (temp3 < inputs.debtpay && temp3 > 0) {
+          temp1 -= temp3;
+          temp3 -= temp3;
+        } else {
+          temp1 -= 0;
+        }
+      }
+      //dynBuy[9][i-1] = (dynBuy[8][i-1] >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
+      //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + temp2;
+      dynBuy[9][i - 1] = ((dynBuy[8][i - 1] + dynBuy[7][i - 1]) >= 0) ? dynBuy[1][i - 1] * inputs.equityinterest + temp2 : temp2;
+      dynBuy[10][i - 1] = inputs.price * (inputs.dynamics) * (Math.pow(1 + inputs.valuedynamic, i) - Math.pow(1 + inputs.valuedynamic, i - 1));  //
+      dynBuy[11][i - 1] = dynBuy[1][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1];   // money wealth end
+      // other vals for table display
+      dynBuy[12][i - 1] = dynBuy[2][i - 1] + dynBuy[5][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1] + dynBuy[10][i - 1];   // total wealth eop
 
-  result._1.buyFinalWealth    = _.extend(localElems['buyfinalwealth'],    {"value": helper.buyFinalWealth});
-  result._1.buyEquity         = _.extend(localElems['buyequity'],         {"value": inputs.equity});
-  result._1.buyPrice          = _.extend(localElems['buyprice'],          {"value": - helper.buyprice});
-  result._1.buyLoan           = _.extend(localElems['buyloan'],           {"value": helper.buyLoan});
-  result._1.buyFinalIncome    = _.extend(localElems['buyfinalincome'],    {"value": helper.rentFinalIncome});
-  result._1.buyInterestSave   = _.extend(localElems['buyinterestsave'],   {"value": helper.buyInterestSave});
-  result._1.buyInterestLoan   = _.extend(localElems['buyinterestloan'],   {"value": - helper.buyInterestLoan});
- // result._1.buyPropertyIncrease=_.extend(localElems['buypropertyincrease'],{"value": helper.buyPropertyIncrease});
-  result._1.buyMaintenance    = _.extend(localElems['buymaintenance'],    {"value": - helper.buyMaintenance});
-  result._1.buyRepay          = _.extend(localElems['buyrepay'],          {"value": - helper.buyRepay});
-  result._1.buyResidual       = _.extend(localElems['buyresidual'],       {"value": helper.buyResidual });
-  result._1.buyPropValue      = _.extend(localElems['buypropvalue'],      {"value": inputs.price + helper.buyPropertyIncrease});
-
-  /*
-   6.B SECOND RESULT CONTAINER
-   */
-  // second result container
-  result._2.title = 'Vermögensentwicklung Mieten';
-  result._2.header = ['Jahr', 'Vermögen Anfang', 'Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
-  result._2.body = dynT;
-
-
-  /*
-   6.C THIRD RESULT CONTAINER
-   */
-  // second result container
-  result._3.title = 'Vermögensentwicklung Kaufen';
-  result._3.header = ['Jahr', 'Geldvermögen Anfang', 'Vermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen','Tilgung Darlehen','Restschuld Ende','Zahlung Darlehen','Überschuss Einkommen', 'Zinsertrag', 'Wertanstieg Immobilie','Vermögen Ende', 'Vermögen Ende'];
-  result._3.body = dynBuyT;
-
-  /*
-   6.D FIRST CHART
-   */
-  var labels1 = [];
-  var series1 = []; series1[0] = []; series1[1] = [];
-
-  dynT.forEach(function(element, index){
-    if(element[5] !== true) {
-      labels1.push(element[0]);
-      series1[0].push(element[4]);
     }
-  });
-  dynBuyT.forEach(function(element, index){
-    if(element[14] !== true) {
-      series1[1].push(element[12]);
-    }
-  });
 
-  result._chart1.id = 'chart1';
-  result._chart1.title = 'Vermögen Mieten vs. Kaufen nach Jahren';
-  result._chart1.legend = ['Mieten', 'Kaufen'];
-  result._chart1.label = {x: 'Jahr', y: "Stand Vermögen"};
-  result._chart1.type = 'Bar';
-  result._chart1.data = {labels: labels1, series: series1};
-  if (inputs.period >=20){  // use slim bars if more than 20 periods
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
-  } else if (inputs.period >=8) {
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
-  } else {
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
-  }
+
+    // transpose dynBuy
+    dynBuyT = dynBuy[0].map(function (col, i) {
+      return dynBuy.map(function (row) {
+        return row[i];
+      })
+    });
+
+    helper.termloan = Math.log(( inputs.debtpay / ((inputs.debtinterest / 12) * helper.buyLoan)) / ((inputs.debtpay / ((inputs.debtinterest / 12) * helper.buyLoan)) - 1)) / (12 * Math.log(1 + (inputs.debtinterest / 12)));
+    helper.buyprice = (inputs.price + inputs.priceaddon);
+    helper.buyInterestSave = _.reduce(dynBuy[9], helpers.add, 0);
+
+    helper.buyInterestLoan = _.reduce(dynBuy[4], helpers.add, 0);
+    helper.buyIncomeSurplus = _.reduce(dynBuy[8], helpers.add, 0);
+    helper.buyPropertyIncrease = _.reduce(dynBuy[10], helpers.add, 0);
+    //helper.buyMaintenance = inputs.maintenance * 12 * inputs.period;
+    helper.buyMaintenance = (inputs.dynamics && inputs.costdynamic !== 0) ? inputs.maintenance * 12 * (1 - Math.pow(1 + inputs.costdynamic, inputs.period)) / (-inputs.costdynamic) : inputs.maintenance * 12 * inputs.period;
+    helper.buyRepay = _.reduce(dynBuy[5], helpers.add, 0);
+    helper.buyResidual = -helper.buyLoan + helper.buyRepay;
+    helper.buyFinalWealth = inputs.equity - helper.buyprice + helper.buyLoan + helper.rentFinalIncome + helper.buyInterestSave - helper.buyInterestLoan + helper.buyPropertyIncrease - helper.buyMaintenance - helper.buyRepay + helper.buyResidual + inputs.price;
+
+    // attach final rows
+    dynBuyT.push(['&Sigma;', helper.buyLoan, inputs.equity - inputs.priceaddon, helper.buyInterestLoan, helper.buyRepay, helper.buyRepay, , _.reduce(dynBuy[8], helpers.add, 0), helper.buyIncomeSurplus, helper.buyInterestSave, helper.buyPropertyIncrease, dynBuy[11][inputs.period - 1], dynBuy[12][inputs.period - 1], dynBuy[12][inputs.period - 1], true]);
+
+    /** ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+    result.id = data[0].id;
+    /*
+     6.A FIRST RESULT CONTAINER
+     */
+    if (helper.buyFinalWealth > helper.rentFinalWealth) {
+      result.resultheadline = 'Der <strong>Kauf</strong> einer Immobilie ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100 + ' EUR.</strong>';
+    } else {
+      result.resultheadline = 'Die <strong>Anmietung</strong> ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100 + ' EUR.</strong>';
+    }
+
+
+    //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
+
+    result._1.rentFinalWealth = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalwealth'}), {"value": helper.rentFinalWealth});
+    //result._1.rentFinalWealth   = _.extend(localElems['rentfinalwealth'], {"value": helper.rentFinalWealth});
+    result._1.rentEquity      = _.extend(_.findWhere(data[0].results_1,{name: 'rentequity'}),  {"value": inputs.equity});
+    //result._1.rentEquity        = _.extend(localElems['rentequity'], {"value": inputs.equity});
+    result._1.rentFinalIncome      = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalincome'}),  {"value": helper.rentFinalIncome});
+    //result._1.rentFinalIncome   = _.extend(localElems['rentfinalincome'], {"value": helper.rentFinalIncome});
+    result._1.rentFinalCost      = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalcost'}),  {"value": -helper.rentFinalCost});
+    //result._1.rentFinalCost     = _.extend(localElems['rentfinalcost'], {"value": -helper.rentFinalCost});
+    result._1.rentFinalInterest = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalinterest'}),  {"value": helper.rentFinalInterest});
+    //result._1.rentFinalInterest = _.extend(localElems['rentfinalinterest'], {"value": helper.rentFinalInterest});
+    result._1.buyFinalWealth = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalwealth'}),  {"value": helper.buyFinalWealth});
+    //result._1.buyFinalWealth    = _.extend(localElems['buyfinalwealth'], {"value": helper.buyFinalWealth});
+    result._1.buyEquity = _.extend(_.findWhere(data[0].results_1,{name: 'buyequity'}),  {"value": inputs.equity});
+    //result._1.buyEquity         = _.extend(localElems['buyequity'], {"value": inputs.equity});
+    result._1.buyPrice = _.extend(_.findWhere(data[0].results_1,{name: 'buyprice'}),  {"value": -helper.buyprice});
+    //result._1.buyPrice          = _.extend(localElems['buyprice'], {"value": -helper.buyprice});
+    result._1.buyLoan  = _.extend(_.findWhere(data[0].results_1,{name: 'buyloan'}),  {"value": helper.buyLoan});
+    //result._1.buyLoan           = _.extend(localElems['buyloan'], {"value": helper.buyLoan});
+    result._1.buyFinalIncome  = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalincome'}),  {"value": helper.rentFinalIncome});
+    //result._1.buyFinalIncome    = _.extend(localElems['buyfinalincome'], {"value": helper.rentFinalIncome});
+    result._1.buyInterestSave  = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestsave'}),  {"value": helper.buyInterestSave});
+    //result._1.buyInterestSave   = _.extend(localElems['buyinterestsave'], {"value": helper.buyInterestSave});
+    result._1.buyInterestLoan  = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestloan'}),  {"value": -helper.buyInterestLoan});
+    //result._1.buyInterestLoan   = _.extend(localElems['buyinterestloan'], {"value": -helper.buyInterestLoan});
+    result._1.buyMaintenance  = _.extend(_.findWhere(data[0].results_1,{name: 'buymaintenance'}),  {"value": -helper.buyMaintenance});
+    //result._1.buyMaintenance    = _.extend(localElems['buymaintenance'], {"value": -helper.buyMaintenance});
+    result._1.buyRepay  = _.extend(_.findWhere(data[0].results_1,{name: 'buyrepay'}),  {"value": -helper.buyRepay});
+    //result._1.buyRepay          = _.extend(localElems['buyrepay'], {"value": -helper.buyRepay});
+    result._1.buyResidual  = _.extend(_.findWhere(data[0].results_1,{name: 'buyresidual'}),  {"value": helper.buyResidual});
+    //result._1.buyResidual       = _.extend(localElems['buyresidual'], {"value": helper.buyResidual});
+    result._1.buyPropValue  = _.extend(_.findWhere(data[0].results_1,{name: 'buypropvalue'}),  {"value": inputs.price + helper.buyPropertyIncrease});
+    //result._1.buyPropValue      = _.extend(localElems['buypropvalue'], {"value": inputs.price + helper.buyPropertyIncrease});
+
+    /*
+     6.B SECOND RESULT CONTAINER
+     */
+    // second result container
+    result._2.title = 'Vermögensentwicklung Mieten';
+    result._2.header = ['Jahr', 'Vermögen Anfang', 'Überschuss Einkommen', 'Zinsertrag', 'Vermögen Ende'];
+    result._2.body = dynT;
+
+
+    /*
+     6.C THIRD RESULT CONTAINER
+     */
+    // second result container
+    result._3.title = 'Vermögensentwicklung Kaufen';
+    result._3.header = ['Jahr', 'Geldvermögen Anfang', 'Vermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen', 'Tilgung Darlehen', 'Restschuld Ende', 'Zahlung Darlehen', 'Überschuss Einkommen', 'Zinsertrag', 'Wertanstieg Immobilie', 'Vermögen Ende', 'Vermögen Ende'];
+    result._3.body = dynBuyT;
+
+    /*
+     6.D FIRST CHART
+     */
+    var labels1 = [];
+    var series1 = [];
+    series1[0] = [];
+    series1[1] = [];
+
+    dynT.forEach(function (element, index) {
+      if (element[5] !== true) {
+        labels1.push(element[0]);
+        series1[0].push(element[4]);
+      }
+    });
+    dynBuyT.forEach(function (element, index) {
+      if (element[14] !== true) {
+        series1[1].push(element[12]);
+      }
+    });
+
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Vermögen Mieten vs. Kaufen nach Jahren';
+    result._chart1.legend = ['Mieten', 'Kaufen'];
+    result._chart1.label = {x: 'Jahr', y: "Stand Vermögen"};
+    result._chart1.type = 'Bar';
+    result._chart1.data = {labels: labels1, series: series1};
+    if (inputs.period >= 20) {  // use slim bars if more than 20 periods
+      result._chart1.options = {
+        stackBars: false,
+        axisY: {offset: 60},
+        seriesBarDistance: 6,
+        classNames: {bar: 'ct-bar-slim'}
+      };
+    } else if (inputs.period >= 8) {
+      result._chart1.options = {
+        stackBars: false,
+        axisY: {offset: 60},
+        seriesBarDistance: 12,
+        classNames: {bar: 'ct-bar'}
+      };
+    } else {
+      result._chart1.options = {
+        stackBars: false,
+        axisY: {offset: 60},
+        seriesBarDistance: 18,
+        classNames: {bar: 'ct-bar-thick'}
+      };
+    }
 
   return result;
+
+  }
+
+  return Calc.findByCalcname('propertybuyrent')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
+
 };
 
 

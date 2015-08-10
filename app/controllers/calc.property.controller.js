@@ -35,15 +35,35 @@ exports.propertyreturn = {
 /** calculator-property-buyrent */
 exports.buyrent = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.propertybuyrent});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertybuyrent')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
+  calculate: function(req, res){
+    var obj = req.query;
+    property.buyrent(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
+  }
+  /*
   calculate: function(req,res,next){
     var obj = req.query;
     var results = property.buyrent(obj);
     res.json(results);
-  }
+  }*/
 };
 
 
