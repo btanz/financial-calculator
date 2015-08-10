@@ -314,10 +314,7 @@ exports.portfolio = function(inputs, callback){
   });
 
 
-  // todo: put in right place
 
-
-  //console.log(inputs);
 
   /** set return frequency */
   var freqInd = inputs.frequency;
@@ -358,6 +355,16 @@ exports.portfolio = function(inputs, callback){
   /** construct first result container */
   function firstContainer(pfReturn, efficientPf, stocks){
     /** construct first result container */
+    Calc.findByCalcname('portfolio').then(function(data){
+      //console.log(data[0].inputs);
+      //var test = _.findWhere(data[0].inputs,{name: 'asset'}).options;
+      //console.log(_.findWhere(test,{id: 'FSE.O1BC_X'}));
+
+
+
+
+    });
+
     result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
@@ -367,22 +374,74 @@ exports.portfolio = function(inputs, callback){
   }
 
 
-  // todo: remove quandle tinkering
-  var qReturn = [];
-  var helpReturn = [];
 
-  function constructReturnMatrix(data){
 
-    data.forEach(function(asset){
+  function constructReturnMatrix(data, options){
+    options = options || {};
+    options.date       = options.date       || false;
+    options.transposed = options.transposed || true;
+    var returnDates = [];
+    var returns = [];
+    var returns2 = [];
+
+    // set a test message
+    //helpers.messages.set("This is a test message" ,2);
+
+    /** contruct an array (returnDates) that represents the intersection of all date values */
+
+    // construct individual arrays
+    data.forEach(function(asset, index){
+      returnDates[index] = [];
       asset.data.forEach(function(val){
-        helpReturn.push(val[1]);
+        returnDates[index].push(val[0]);
       });
-      qReturn.push(helpReturn);
-      helpReturn = [];
     });
 
-    return qReturn;
+    // compute intersection
+    returnDates =  _.intersection.apply(_, returnDates);
+
+
+    /** construct an array of arrays where a sub-array consists of a date (index 0) and each of the sub-assets' returns in order
+     *  Example: [['2014-09-30', -0.082055711509393, 0.034728033472803, 0.031358885017422], ['2014-06-30', 0.010914647456887, 0.0031479538300106, -0.13910761154856]]
+     *
+     * */
+    returnDates.forEach(function(date, dateIndex){
+      returns[dateIndex] = [];
+      returns2[dateIndex] = [];
+      returns[dateIndex].push(date);
+
+      data.forEach(function(asset, assetIndex){
+        asset.data.forEach(function(val){
+          if(val[0] === date){
+            returns[dateIndex].push(val[1]);
+            returns2[dateIndex].push(val[1]);
+          }
+        });
+      });
+    });
+
+
+    /** return values */
+    if(options.date && options.transposed){
+      return returns[0].map(function(col,i){
+        return returns.map(function(row){
+          return row[i];
+        })
+      })
+    } else if (options.date && !options.transposed){
+      return returns
+    } else if (!options.date && !options.transposed){
+      return returns2
+    } else if (!options.date && options.transposed){
+      return returns2[0].map(function(col,i){
+        return returns2.map(function(row){
+          return row[i];
+        })
+      })
+    }
+
   }
+
 
   // todo: move declarations up
 
@@ -415,6 +474,7 @@ exports.portfolio = function(inputs, callback){
       .then(constructReturnMatrix)
       .then(function(data){
 
+
         data.forEach(function(returnVector, ind){
           var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
           var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][freqInd]);
@@ -435,6 +495,8 @@ exports.portfolio = function(inputs, callback){
         /** construct first chart with efficient frontier */
         efficientFrontier(inputs.return, data, effOptions);
 
+        /** attach user messages */
+        result.messages = helpers.messages.messageMap;
         return result;
 
       });
