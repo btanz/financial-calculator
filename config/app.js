@@ -68,6 +68,7 @@ seed.seedDB();
  * 4. APP-LEVEL LOCAL VARS
  */
 app.locals.navElems = navElems;
+app.locals._ = require("underscore");
 
 
 

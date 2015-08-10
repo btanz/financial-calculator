@@ -3,10 +3,10 @@ script(id='boerse-portfolio-stocksInput-template', type='text/x-handlebars-templ
   div.form-group.m-l-lg
     div.row
       div.col-xs-10
-        - var test = [{id: 'FSE.BAYN_X', description: 'Bayer AG'}, {id: 'FSE.BMW_X', description: 'BMW AG'}, {id: 'FSE.CBK_X', description: 'Commerzbank AG'}, {id: 'FSE.SDF_X', description: 'K+S AG'}, {id: 'FSE.DBK_X', description: 'Deutsche Bank AG'}];
+        - var test = _.findWhere(obj.inputs, {name: 'asset'}).options;
         select(id='{{obj.id1}}', class='form-control')
           each option, index in test
-            option(value=option.id, '#{select}')= option.description
+            option(value=option.id)= option.description
       div.col-xs-2
         button.btn.btn-default(type='button', id='{{obj.id2}}', class='boerse-portfolio-remove')
           i.fa.fa-times

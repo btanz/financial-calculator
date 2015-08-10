@@ -287,6 +287,7 @@ exports.equityReturn = function(inputs) {
 exports.portfolio = function(inputs, callback){
 
   /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   helpers.messages.clear();
   helpers.errors.clear();
   var result = {};
@@ -312,7 +313,11 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
-  console.log(inputs);
+
+  // todo: put in right place
+
+
+  //console.log(inputs);
 
   /** set return frequency */
   var freqInd = inputs.frequency;

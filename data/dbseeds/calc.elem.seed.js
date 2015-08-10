@@ -1,3 +1,4 @@
+var qMeta = require(__dirname + '/../metadata/quandl/quandl');
 
 
 exports.seedDB = function(){
@@ -7111,6 +7112,15 @@ function seeder() {
             description: 'jährlich'
           }
         ]
+      },
+      {
+        name: 'asset',
+        id: 'boerse-portfolio-asset',
+        label: 'Position',
+        tooltip: 'TBD',
+        type: 'custom',
+        vtype: 'string',
+        options: qMeta.fse
       }
     ],
     results_1: [
@@ -7195,6 +7205,7 @@ function seeder() {
       console.log('Calc.Elem.Model.Portfolio successfully seeded');
     }
   });
+
 
 
 
