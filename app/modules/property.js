@@ -397,88 +397,102 @@ exports.rent = function(inputs){
 exports.transfertax = function(inputs){
 
   /* ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {}; result._chart1 = {};
   var tax, totalprice, free, rate;
-  var localElems = calcElems.transfertax.results_1;
-  var expectedInputs = calcElems.transfertax.inputs;
   var errorMap;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
+  function compute(data){
+    /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
+    }
+
+    /* ******** 3. COMPUTATIONS ******** */
+    switch(inputs.state) {
+      case "BAD":
+        rate = 0.05; break;
+      case "BAY":
+        rate = 0.035; break;
+      case "BER":
+        rate = 0.06; break;
+      case "BRA":
+        rate = 0.065; break;
+      case "BRE":
+        rate = 0.05; break;
+      case "HAM":
+        rate = 0.045; break;
+      case "HES":
+        rate = 0.06; break;
+      case "MEC":
+        rate = 0.05; break;
+      case "NIE":
+        rate = 0.05; break;
+      case "NOR":
+        rate = 0.065; break;
+      case "RHE":
+        rate = 0.05; break;
+      case "SAR":
+        rate = 0.065; break;
+      case "SAC":
+        rate = 0.035; break;
+      case "SAA":
+        rate = 0.05; break;
+      case "SCH":
+        rate = 0.065; break;
+      case "THU":
+        rate = 0.05; break;
+      default:
+        return [{errorMessage: 'Leider ist ein Fehler bei der Berechnung aufgetreten.', errorInput: '', errorPrint: true}];
+    }
+
+    if (inputs.price <= 2500){
+      totalprice = inputs.price;
+      tax = 0;
+      free = "JA";
+    } else {
+      totalprice = inputs.price * (1 + rate);
+      tax = inputs.price * rate;
+      free = "NEIN";
+    }
+
+    /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+    // first result container
+    result._1.total  = _.extend(_.findWhere(data[0].results_1,{name: 'total'}),  {"value": totalprice});
+    //result._1.total = _.extend(localElems.total,    {"value": totalprice});
+    result._1.tax  = _.extend(_.findWhere(data[0].results_1,{name: 'tax'}),  {"value": tax});
+    //result._1.tax   = _.extend(localElems.tax,      {"value": tax});
+    result._1.free  = _.extend(_.findWhere(data[0].results_1,{name: 'free'}),  {"value": free});
+    //result._1.free   = _.extend(localElems.taxfree, {"value": free});
+    result._1.rate  = _.extend(_.findWhere(data[0].results_1,{name: 'rate'}), {"value": rate * 100});
+    //result._1.rate   = _.extend(localElems.rate,    {"value": rate * 100});
+
+    // chart 1
+    result._chart1.data = {
+      //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
+      series: [totalprice - tax, tax]
+
+    };
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Chart';
+    //result._chart1.legend = ['First', 'Second', 'Third']; todo: add legend
+    result._chart1.options = {showLabel: true, donut: false, labelOffset: 10};
+    result._chart1.type = 'Pie';
+
+
+    return result
   }
 
-  /* ******** 3. COMPUTATIONS ******** */
-  switch(inputs.state) {
-    case "BAD":
-      rate = 0.05; break;
-    case "BAY":
-      rate = 0.035; break;
-    case "BER":
-      rate = 0.06; break;
-    case "BRA":
-      rate = 0.065; break;
-    case "BRE":
-      rate = 0.05; break;
-    case "HAM":
-      rate = 0.045; break;
-    case "HES":
-      rate = 0.06; break;
-    case "MEC":
-      rate = 0.05; break;
-    case "NIE":
-      rate = 0.05; break;
-    case "NOR":
-      rate = 0.065; break;
-    case "RHE":
-      rate = 0.05; break;
-    case "SAR":
-      rate = 0.065; break;
-    case "SAC":
-      rate = 0.035; break;
-    case "SAA":
-      rate = 0.05; break;
-    case "SCH":
-      rate = 0.065; break;
-    case "THU":
-      rate = 0.05; break;
-    default:
-      return [{errorMessage: 'Leider ist ein Fehler bei der Berechnung aufgetreten.', errorInput: '', errorPrint: true}];
-  }
+  return Calc.findByCalcname('transfertax')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-  if (inputs.price <= 2500){
-    totalprice = inputs.price;
-    tax = 0;
-    free = "JA";
-  } else {
-    totalprice = inputs.price * (1 + rate);
-    tax = inputs.price * rate;
-    free = "NEIN";
-  }
-
-  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.transfertax.id;
-  // first result container
-  result._1.total = _.extend(localElems.total,    {"value": totalprice});
-  result._1.tax   = _.extend(localElems.tax,      {"value": tax});
-  result._1.free   = _.extend(localElems.taxfree, {"value": free});
-  result._1.rate   = _.extend(localElems.rate,    {"value": rate * 100});
-
-  // chart 1
-  result._chart1.data = {
-    //labels: ['Kaufpreis Immobilie','Grunderwerbssteuer'],
-    series: [totalprice - tax, tax]
-
-  };
-  result._chart1.id = 'chart1';
-  result._chart1.title = 'Chart';
-  //result._chart1.legend = ['First', 'Second', 'Third']; todo: add legend
-  result._chart1.options = {showLabel: true, donut: false, labelOffset: 10};
-  result._chart1.type = 'Pie';
-
-
-  return result
 
 };
 
