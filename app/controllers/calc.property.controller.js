@@ -58,27 +58,43 @@ exports.buyrent = {
           res.json({});
         });
   }
-  /*
-  calculate: function(req,res,next){
-    var obj = req.query;
-    var results = property.buyrent(obj);
-    res.json(results);
-  }*/
 };
 
 
 /** calculator-property-rent */
 exports.rent = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.rent});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('rent')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
+
+  calculate: function(req, res){
+    var obj = req.query;
+    property.rent(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
+  }
+
+  /*
 
   calculate: function(req,res,next){
     var obj = req.query;
     var results = property.rent(obj);
     res.json(results);
-  }
+  }*/
 };
 
 

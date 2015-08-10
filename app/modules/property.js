@@ -224,146 +224,157 @@ exports.propertyreturn = function(inputs){
  */
 exports.rent = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var rootFun, helper, h1, i;
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; var dynT; var dynLast = [];
   var result = {}; result._1 = {}; result._2 = {};
   result._chart1 = {};
-  var localElems = calcElems.rent.results_1;
-  var expectedInputs = calcElems.rent.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = ['renttotal','dynamic','term','rent'];
 
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed form input and expectedinputs object
-  delete inputs[selectMap[inputs.select]];
-  delete _expectedInputs[selectMap[inputs.select]];
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    // drop elems that are to be computed form input and expectedinputs object
+    delete inputs[selectMap[inputs.select]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.select]}),1);
+    //delete _expectedInputs[selectMap[inputs.select]];
 
-  // run validations
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
-
-  inputs.dynamic = inputs.dynamic / 100;
-
-
-  /* ******** 3. HELPER FUNCTIONS ******** */
-  rootFun = function(d){
-    if ((d >= -0.0000000001 && d<= 0.0000000001)){
-      h1 =  inputs.renttotal - 12 * inputs.rent * inputs.term * (1 + Math.log(1 + d));
-    } else {
-      h1 = inputs.renttotal - 12 * inputs.rent * (1 - Math.pow(1 + d, inputs.term)) / (-d);
+    // run validations
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
     }
-    return h1;
-  };
 
-  /* ******** 4. COMPUTATIONS ******** */
+    inputs.dynamic = inputs.dynamic / 100;
 
-  // single period computations
-  switch(inputs.select){
-    case 0:
-      helper = inputs.dynamic === 0 ? 12 * inputs.rent * inputs.term : 12 * inputs.rent * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic);
-      inputs[selectMap[0]] = helper;
-      break;
-    case 1:
-      helper = math.roots(rootFun,0.1,1500);
-      if(helper === null){
-        return [{errorMessage: 'Leider kann die Mietsteigerung für diese Parameter nicht berechnet werden. Grund dafür ist meist, dass die Mietsteigerung extrem niedrig (kleiner -40% p. a.) oder extrem hoch (größer +40% p. a.) ist', errorInput: '', errorPrint: true}];
+
+    /** ******** 3. HELPER FUNCTIONS ******** */
+    rootFun = function(d){
+      if ((d >= -0.0000000001 && d<= 0.0000000001)){
+        h1 =  inputs.renttotal - 12 * inputs.rent * inputs.term * (1 + Math.log(1 + d));
       } else {
-        inputs[selectMap[1]] = helper;
-        helper *= 100;
+        h1 = inputs.renttotal - 12 * inputs.rent * (1 - Math.pow(1 + d, inputs.term)) / (-d);
       }
-      break;
-    case 2:
-      helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.rent) : Math.log(1 - (inputs.renttotal / (12 * inputs.rent)) * (- inputs.dynamic)) / Math.log(inputs.dynamic + 1);
-      inputs[selectMap[2]] = helper;
-      break;
-    case 3:
-      helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.term) : inputs.renttotal / (12 * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic));
-      inputs[selectMap[3]] = helper;
-      break;
+      return h1;
+    };
+
+    /** ******** 4. COMPUTATIONS ******** */
+
+    // single period computations
+    switch(inputs.select){
+      case 0:
+        helper = inputs.dynamic === 0 ? 12 * inputs.rent * inputs.term : 12 * inputs.rent * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic);
+        inputs[selectMap[0]] = helper;
+        break;
+      case 1:
+        helper = math.roots(rootFun,0.1,1500);
+        if(helper === null){
+          return [{errorMessage: 'Leider kann die Mietsteigerung für diese Parameter nicht berechnet werden. Grund dafür ist meist, dass die Mietsteigerung extrem niedrig (kleiner -40% p. a.) oder extrem hoch (größer +40% p. a.) ist', errorInput: '', errorPrint: true}];
+        } else {
+          inputs[selectMap[1]] = helper;
+          helper *= 100;
+        }
+        break;
+      case 2:
+        helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.rent) : Math.log(1 - (inputs.renttotal / (12 * inputs.rent)) * (- inputs.dynamic)) / Math.log(inputs.dynamic + 1);
+        inputs[selectMap[2]] = helper;
+        break;
+      case 3:
+        helper = inputs.dynamic === 0 ? inputs.renttotal / (12 * inputs.term) : inputs.renttotal / (12 * (1 - Math.pow(1 + inputs.dynamic, inputs.term)) / (-inputs.dynamic));
+        inputs[selectMap[3]] = helper;
+        break;
+    }
+
+    // dynamic computations
+    for(i = 1; i <= Math.floor(inputs.term); i++){
+      dyn[0][i-1] = i;
+      dyn[1][i-1] = inputs.rent * Math.pow(1 + inputs.dynamic,i-1);
+      dyn[2][i-1] = dyn[1][i-1] * 12;
+      i === 1 ? dyn[3][i-1] = dyn[2][i-1] : dyn[3][i-1] = dyn[2][i-1] + dyn[3][i-2];
+    }
+
+    // add partial years to end
+    if (inputs.term - Math.floor(inputs.term) > 0.01){
+      dynLast[0] = inputs.term;
+      dynLast[1] = inputs.rent * Math.pow(1 + inputs.dynamic,inputs.term - 1);;
+      inputs.term < 1 ? dynLast[2] = inputs.renttotal  : dynLast[2] = inputs.renttotal - dyn[3][i-2];
+      dynLast[3] = inputs.renttotal;
+    }
+
+
+    // transpose dyn
+    dynT = dyn[0].map(function(col,i){
+      return dyn.map(function(row){
+        return row[i];
+      })
+    });
+
+
+    /** ******** 5. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+
+    /*
+     5.A FIRST RESULT CONTAINER
+     */
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper});
+    //result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper});
+
+    /*
+     5.B SECOND RESULT CONTAINER
+     */
+    result._2.title = 'Übersicht Mietentwicklung';
+    result._2.header = ['Jahr', 'Monatsmiete', 'Jahresmiete', 'Summe bisher gezahlte Miete'];
+    result._2.body = dynT;
+    result._2.bodylast = dynLast;
+
+    /*
+     5.C FIRST CHART
+     */
+    var labels1 = dyn[0];
+    var series1 = [dyn[2]];
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Mietentwicklung';
+    result._chart1.label = {x: 'Jahr', y: "Jahresmiete"};
+    result._chart1.type = 'Bar';
+
+    if (inputs.term >=75) {  // remove chart if output is way to big
+      delete(result._chart1);
+    } else if (inputs.term >=40) {  // use slim bars and show only every fourth
+      labels1 = labels1.filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4});
+      series1 = [dyn[2].filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4})];
+      result._chart1.data = {labels: labels1, series: series1};
+      result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+    } else if (inputs.term >=25) {  // use slim bars and show only every second
+      labels1 = labels1.filter(function(val,ind){ return ind % 2 !== inputs.term % 2});
+      series1 = [dyn[2].filter(function(val,ind){ return ind % 2 !== inputs.term % 2})];
+      result._chart1.data = {labels: labels1, series: series1};
+      result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+    } else if (inputs.term >=15){  // use slim bars if more than 20 periods
+      result._chart1.data = {labels: labels1, series: series1};
+      result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
+    } else if (inputs.period >=6) {
+      result._chart1.data = {labels: labels1, series: series1};
+      result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
+    } else {
+      result._chart1.data = {labels: labels1, series: series1};
+      result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
+    }
+
+
+
+    return result;
   }
 
-  // dynamic computations
-  for(i = 1; i <= Math.floor(inputs.term); i++){
-    dyn[0][i-1] = i;
-    dyn[1][i-1] = inputs.rent * Math.pow(1 + inputs.dynamic,i-1);
-    dyn[2][i-1] = dyn[1][i-1] * 12;
-    i === 1 ? dyn[3][i-1] = dyn[2][i-1] : dyn[3][i-1] = dyn[2][i-1] + dyn[3][i-2];
-  }
+  return Calc.findByCalcname('rent')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-  // add partial years to end
-  if (inputs.term - Math.floor(inputs.term) > 0.01){
-    dynLast[0] = inputs.term;
-    dynLast[1] = inputs.rent * Math.pow(1 + inputs.dynamic,inputs.term - 1);;
-    inputs.term < 1 ? dynLast[2] = inputs.renttotal  : dynLast[2] = inputs.renttotal - dyn[3][i-2];
-    dynLast[3] = inputs.renttotal;
-  }
-
-
-  // transpose dyn
-  dynT = dyn[0].map(function(col,i){
-    return dyn.map(function(row){
-      return row[i];
-    })
-  });
-
-
-  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.rent.id;
-
-  /*
-   5.A FIRST RESULT CONTAINER
-   */
-  result._1.value = _.extend(localElems[selectMap[inputs.select]], {"value": helper});
-
-  /*
-   5.B SECOND RESULT CONTAINER
-   */
-  result._2.title = 'Übersicht Mietentwicklung';
-  result._2.header = ['Jahr', 'Monatsmiete', 'Jahresmiete', 'Summe bisher gezahlte Miete'];
-  result._2.body = dynT;
-  result._2.bodylast = dynLast;
-
-  /*
-   5.C FIRST CHART
-   */
-  var labels1 = dyn[0];
-  var series1 = [dyn[2]];
-  result._chart1.id = 'chart1';
-  result._chart1.title = 'Mietentwicklung';
-  result._chart1.label = {x: 'Jahr', y: "Jahresmiete"};
-  result._chart1.type = 'Bar';
-
-  if (inputs.term >=75) {  // remove chart if output is way to big
-    delete(result._chart1);
-  } else if (inputs.term >=40) {  // use slim bars and show only every fourth
-    labels1 = labels1.filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4});
-    series1 = [dyn[2].filter(function(val,ind){ return ind % 4 === (Math.floor(inputs.term)-1) % 4})];
-    result._chart1.data = {labels: labels1, series: series1};
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
-  } else if (inputs.term >=25) {  // use slim bars and show only every second
-    labels1 = labels1.filter(function(val,ind){ return ind % 2 !== inputs.term % 2});
-    series1 = [dyn[2].filter(function(val,ind){ return ind % 2 !== inputs.term % 2})];
-    result._chart1.data = {labels: labels1, series: series1};
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
-  } else if (inputs.term >=15){  // use slim bars if more than 20 periods
-    result._chart1.data = {labels: labels1, series: series1};
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 6, classNames:{bar: 'ct-bar-slim'}};
-  } else if (inputs.period >=6) {
-    result._chart1.data = {labels: labels1, series: series1};
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 12, classNames:{bar: 'ct-bar'}};
-  } else {
-    result._chart1.data = {labels: labels1, series: series1};
-    result._chart1.options = {stackBars: false, axisY: {offset: 60}, seriesBarDistance: 18, classNames:{bar: 'ct-bar-thick'}};
-  }
-
-
-
-  return result;
 
 };
 
