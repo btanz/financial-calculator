@@ -5,15 +5,30 @@ var property = require('../modules/property');
 /** calculator-property-propertyreturn */
 exports.propertyreturn = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.propertyreturn});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertyreturn')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = property.propertyreturn(obj);
-    res.json(results);
+    property.propertyreturn(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 
