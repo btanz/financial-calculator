@@ -65,6 +65,31 @@ exports.dispo = {
 /** calculator-debt-repaysurrogat */
 exports.repaysurrogat = {
 
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('repaysurrogat')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-options calculator.");
+        });
+  },
+
+  calculate: function(req, res){
+    var obj = req.query;
+    debt.repaysurrogat(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
+  }
+
+  /*
   render: function(req,res,next){
     res.render('calculator', {obj: calcElems.repaysurrogat});
   },
@@ -73,5 +98,5 @@ exports.repaysurrogat = {
     var obj = req.query;
     var results = debt.repaysurrogat(obj);
     res.json(results);
-  }
+  }*/
 };

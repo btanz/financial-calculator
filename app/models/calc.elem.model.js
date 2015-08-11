@@ -40,6 +40,7 @@ var Results1Schema = new Schema({
   digits: String,
   importance: String,
   tooltip: String,
+  type: String,
   omittooltip: Boolean
 });
 
