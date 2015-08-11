@@ -68,12 +68,19 @@ seed.seedDB();
 
 // todo: remove quandl tinkering
 
-var test = quandl2([{source: 'FSE', table: 'BAYN_X'},{source: 'FSE', table: 'BMW_X'}],{format: 'json', rows: 3,  column_index: '4', transform: 'rdiff'});
+var test = quandl2([{source: 'FSE', table: 'BMW_X'},{source: 'FSE', table: 'BAYN_X'}, {source: 'FSE', table: 'CBK_X'}],{format: 'json', collapse: 'monthly',  column_index: '4', transform: 'rdiff'});
 //var test = quandl2({source: 'FSE', table: 'BAYN_X'},{format: 'json', rows: 3,  column_index: '4', transform: 'rdiff'});
 test.then(function(response){
 
+
   //console.log(response.datasetColumn(1));
-  console.log(response.datasetColumn(undefined,{transposed: true}));
+  //console.log(response.dataNames());
+  //console.log(response.datasetColumn(undefined,{transposed: false}));
+  //console.log(response.datasets());
+  //console.log(response.dateIntersection());
+  var timer = Date.now();
+  console.log(response.datasetCommonDates({transposed: false}));
+  console.log(Date.now()-timer);
 });
 
 

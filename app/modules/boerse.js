@@ -377,6 +377,7 @@ exports.portfolio = function(inputs, callback){
 
 
   function constructReturnMatrix(data, options){
+
     options = options || {};
     options.date       = options.date       || false;
     options.transposed = options.transposed || true;
@@ -473,7 +474,7 @@ exports.portfolio = function(inputs, callback){
   return quandl.getMultiData(reqCode,reqObj)
       .then(constructReturnMatrix)
       .then(function(data){
-
+        console.log(data);
 
         data.forEach(function(returnVector, ind){
           var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
