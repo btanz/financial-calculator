@@ -3,7 +3,6 @@ var validator = require('validator');
 var helpers = require('./helpers');
 var math = require('./math');
 var misc = require('./misc');
-var calcElems = require('../../data/static/calcElems.json');
 var f = require('../../lib/finance');
 
 
@@ -327,8 +326,6 @@ exports.dispo = function(inputs){
   var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {};
   var amount, interest, factor, daycount, range;
-  var localElems = calcElems.dispo.results_1;
-  var expectedInputs = calcElems.dispo.inputs;
   var errorMap;
 
   function compute(data){
@@ -447,9 +444,6 @@ exports.repaysurrogat = function(inputs){
   helpers.errors.clear();
   var result = {}; result._1 = {}; result._2 = {}; helper = {};
   var i;
-  var localElems = calcElems.repaysurrogat.results_1;
-  var expectedInputs = calcElems.repaysurrogat.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; dyn[6] = []; dyn[7] = []; dyn[8] = []; dyn[9] = [];
   var dynT, dynAnnual, dynAnnualT;

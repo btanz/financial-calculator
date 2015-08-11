@@ -1,4 +1,3 @@
-var calcElems = require('../../data/static/calcElems.json');
 var debt = require('../modules/debt');
 
 
@@ -89,14 +88,4 @@ exports.repaysurrogat = {
         });
   }
 
-  /*
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.repaysurrogat});
-  },
-
-  calculate: function(req,res,next){
-    var obj = req.query;
-    var results = debt.repaysurrogat(obj);
-    res.json(results);
-  }*/
 };

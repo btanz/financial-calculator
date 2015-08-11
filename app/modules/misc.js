@@ -2,7 +2,6 @@ var _ = require('underscore');
 var validator = require('validator');
 var moment = require('moment');
 var helpers = require('./helpers');
-var calcElems = require('../../data/static/calcElems.json');
 
 var daycount, isLeapYear, isdaGerman, isdaBondBasis, yearFrac;
 
@@ -23,66 +22,99 @@ var daycount, isLeapYear, isdaGerman, isdaBondBasis, yearFrac;
 daycount = function(inputs){
 
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
+  helpers.errors.clear();
+  helpers.messages.clear();
   var actDays, start, end, a30E360interestdays, a30360interestdays, actactDenom;
   var result = {}; result._1 = {};
-  var localElems = calcElems.daycount.results_1;
-  var expectedInputs = calcElems.daycount.inputs;
   var errorMap;
   var oneDay = 24*60*60*1000;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  if (inputs.skipvalidation && inputs.skipvalidation === true ){
-  } else {
-    errorMap = helpers.validate(inputs, expectedInputs);
-    if (errorMap.length !== 0){
-      console.log(errorMap);
-      return errorMap;
+
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    if (inputs.skipvalidation && inputs.skipvalidation === true ){
+    } else {
+      errorMap = helpers.validate(inputs, data[0].inputs);
+      if (errorMap.length !== 0){
+        return errorMap;
+      }
+
+      if(inputs.enddate < inputs.begindate){
+        return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
+      }
     }
 
-    if(inputs.enddate < inputs.begindate){
-      return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
-    }
+    /** ******** 3. COMPUTATIONS ******** */
+    start = new Date(inputs.begindate);
+    end = new Date(inputs.enddate);
+
+    // compute actual days between to dates
+    actDays = Math.round(Math.abs((start.getTime() - end.getTime())/(oneDay)));
+
+    a30E360interestdays = isdaGerman(start, end);
+    a30360interestdays = isdaBondBasis(start, end);
+    actactDenom = yearFrac(start, end,1);
+
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+
+    result._1.actdays            = _.extend(_.findWhere(data[0].results_1,{name: 'actdays'}),  {"value": actDays});
+    //result._1.actdays            = _.extend(localElems.actdays, {"value": actDays});
+    result._1.a30E360            = _.extend(_.findWhere(data[0].results_1,{name: 'a30E360'}),  {"value": ""});
+    //result._1.a30E360            =  _.extend(localElems.a30E360,  {"value": ""});
+    result._1.a30E360interestdays= _.extend(_.findWhere(data[0].results_1,{name: 'a30E360interestdays'}),  {"value": a30E360interestdays});
+    //result._1.a30E360interestdays=  _.extend(localElems.a30E360interestdays,  {"value": a30E360interestdays});
+    result._1.a30E360factor      = _.extend(_.findWhere(data[0].results_1,{name: 'a30E360factor'}),  {"value": a30E360interestdays / 360});
+    //result._1.a30E360factor      =  _.extend(localElems.a30E360factor,  {"value": a30E360interestdays / 360});
+    result._1.a30E360factorF      = _.extend(_.findWhere(data[0].results_1,{name: 'a30E360factorF'}),  {"value": a30E360interestdays + ' / 360' });
+    //result._1.a30E360factorF     =  _.extend(localElems.a30E360factorF,  {"value": a30E360interestdays + ' / 360' });
+    result._1.a30360      = _.extend(_.findWhere(data[0].results_1,{name: 'a30360'}), {"value": ""});
+    //result._1.a30360             =  _.extend(localElems.a30360,  {"value": ""});
+    result._1.a30360interestdays      = _.extend(_.findWhere(data[0].results_1,{name: 'a30360interestdays'}), {"value": a30360interestdays});
+    //result._1.a30360interestdays =  _.extend(localElems.a30360interestdays,  {"value": a30360interestdays});
+    result._1.a30360factor      = _.extend(_.findWhere(data[0].results_1,{name: 'a30360factor'}), {"value": a30360interestdays / 360});
+    //result._1.a30360factor       =  _.extend(localElems.a30360factor,  {"value": a30360interestdays / 360});
+    result._1.a30360factorF      = _.extend(_.findWhere(data[0].results_1,{name: 'a30360factorF'}), {"value": a30360interestdays + ' / 360' });
+    //result._1.a30360factorF      =  _.extend(localElems.a30360factorF,  {"value": a30360interestdays + ' / 360' });
+    result._1.act360      = _.extend(_.findWhere(data[0].results_1,{name: 'act360'}), {"value": ""});
+    //result._1.act360             =  _.extend(localElems.act360,  {"value": ""});
+    result._1.act360interestdays      = _.extend(_.findWhere(data[0].results_1,{name: 'act360interestdays'}), {"value": actDays});
+    //result._1.act360interestdays =  _.extend(localElems.act360interestdays,  {"value": actDays});
+    result._1.act360factor      = _.extend(_.findWhere(data[0].results_1,{name: 'act360factor'}), {"value": actDays / 360});
+    //result._1.act360factor       =  _.extend(localElems.act360factor,  {"value": actDays / 360});
+    result._1.act360factorF      = _.extend(_.findWhere(data[0].results_1,{name: 'act360factorF'}), {"value": actDays + ' / 360' });
+    //result._1.act360factorF      =  _.extend(localElems.act360factorF,  {"value": actDays + ' / 360' });
+    result._1.act365      = _.extend(_.findWhere(data[0].results_1,{name: 'act365'}), {"value": ""});
+    //result._1.act365             =  _.extend(localElems.act365,  {"value": ""});
+    result._1.act365interestdays      = _.extend(_.findWhere(data[0].results_1,{name: 'act365interestdays'}), {"value": actDays});
+    //result._1.act365interestdays =  _.extend(localElems.act365interestdays,  {"value": actDays});
+    result._1.act365factor      = _.extend(_.findWhere(data[0].results_1,{name: 'act365factor'}), {"value": actDays / 365});
+    //result._1.act365factor       =  _.extend(localElems.act365factor,  {"value": actDays / 365});
+    result._1.act365factorF      = _.extend(_.findWhere(data[0].results_1,{name: 'act365factorF'}), {"value": actDays + ' / 365' });
+    //result._1.act365factorF      =  _.extend(localElems.act365factorF,  {"value": actDays + ' / 365' });
+    result._1.actact      = _.extend(_.findWhere(data[0].results_1,{name: 'actact'}), {"value": ""});
+    //result._1.actact             =  _.extend(localElems.actact,  {"value": ""});
+    result._1.actactinterestdays      = _.extend(_.findWhere(data[0].results_1,{name: 'actactinterestdays'}), {"value": actDays});
+    //result._1.actactinterestdays =  _.extend(localElems.actactinterestdays,  {"value": actDays});
+    result._1.actactfactor      = _.extend(_.findWhere(data[0].results_1,{name: 'actactfactor'}), {"value": actactDenom});
+    //result._1.actactfactor       =  _.extend(localElems.actactfactor,  {"value": actactDenom});
+    result._1.actactfactorF      = _.extend(_.findWhere(data[0].results_1,{name: 'actactfactorF'}), {"value": actDays + ' / ' + actDays/actactDenom });
+    //result._1.actactfactorF      =  _.extend(localElems.actactfactorF,  {"value": actDays + ' / ' + actDays/actactDenom });
+
+
+    return result;
   }
 
-  /* ******** 3. COMPUTATIONS ******** */
-  start = new Date(inputs.begindate);
-  end = new Date(inputs.enddate);
+  return Calc.findByCalcname('daycount')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-  // compute actual days between to dates
-  actDays = Math.round(Math.abs((start.getTime() - end.getTime())/(oneDay)));
-
-  a30E360interestdays = isdaGerman(start, end);
-  a30360interestdays = isdaBondBasis(start, end);
-  actactDenom = yearFrac(start, end,1);
-
-  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.daycount.id;
-
-  result._1.actdays            = _.extend(localElems.actdays, {"value": actDays});
-  result._1.a30E360            =  _.extend(localElems.a30E360,  {"value": ""});
-  result._1.a30E360interestdays=  _.extend(localElems.a30E360interestdays,  {"value": a30E360interestdays});
-  result._1.a30E360factor      =  _.extend(localElems.a30E360factor,  {"value": a30E360interestdays / 360});
-  result._1.a30E360factorF     =  _.extend(localElems.a30E360factorF,  {"value": a30E360interestdays + ' / 360' });
-  result._1.a30360             =  _.extend(localElems.a30360,  {"value": ""});
-  result._1.a30360interestdays =  _.extend(localElems.a30360interestdays,  {"value": a30360interestdays});
-  result._1.a30360factor       =  _.extend(localElems.a30360factor,  {"value": a30360interestdays / 360});
-  result._1.a30360factorF      =  _.extend(localElems.a30360factorF,  {"value": a30360interestdays + ' / 360' });
-  result._1.act360             =  _.extend(localElems.act360,  {"value": ""});
-  result._1.act360interestdays =  _.extend(localElems.act360interestdays,  {"value": actDays});
-  result._1.act360factor       =  _.extend(localElems.act360factor,  {"value": actDays / 360});
-  result._1.act360factorF      =  _.extend(localElems.act360factorF,  {"value": actDays + ' / 360' });
-  result._1.act365             =  _.extend(localElems.act365,  {"value": ""});
-  result._1.act365interestdays =  _.extend(localElems.act365interestdays,  {"value": actDays});
-  result._1.act365factor       =  _.extend(localElems.act365factor,  {"value": actDays / 365});
-  result._1.act365factorF      =  _.extend(localElems.act365factorF,  {"value": actDays + ' / 365' });
-  result._1.actact             =  _.extend(localElems.actact,  {"value": ""});
-  result._1.actactinterestdays =  _.extend(localElems.actactinterestdays,  {"value": actDays});
-  result._1.actactfactor       =  _.extend(localElems.actactfactor,  {"value": actactDenom});
-  result._1.actactfactorF      =  _.extend(localElems.actactfactorF,  {"value": actDays + ' / ' + actDays/actactDenom });
-
-
-  return result;
 
 
 };

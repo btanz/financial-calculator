@@ -1,17 +1,30 @@
-var calcElems = require('../../data/static/calcElems.json');
 var misc = require('../modules/misc');
-
 
 /** calculator-misc-daycount */
 exports.daycount = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.daycount});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('daycount')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-options calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = misc.daycount(obj);
-    res.json(results);
+    misc.daycount(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
