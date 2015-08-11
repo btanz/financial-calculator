@@ -21,6 +21,9 @@ var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
 var navElems = require('./../data/static/navElems.json');
 var seed = require('../data/dbseeds/calc.seed');
+// todo: remove!
+var quandl = require('../lib/quandl');
+var quandl2 = require('../lib/quandl2');
 
 /** D. Init */
 var db;
@@ -62,6 +65,14 @@ db = mongoose();
 
 /** seed DB CALC Model if empty */
 seed.seedDB();
+
+// todo: remove quandl tinkering
+
+var test = quandl2({source: 'FSE', table: 'BAYN_X'},{format: 'json', sort_order: 'asc', rows: 10});
+test.then(function(response){
+
+  console.log(response.dataset());
+});
 
 
 /**
