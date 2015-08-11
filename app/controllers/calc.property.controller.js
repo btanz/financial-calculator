@@ -124,15 +124,30 @@ exports.transfertax = {
 /** calculator-property-homesave */
 exports.homesave = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.homesave});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('homesave')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = property.homesave(obj);
-    res.json(results);
+    property.homesave(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 
