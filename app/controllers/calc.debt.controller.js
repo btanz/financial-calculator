@@ -29,12 +29,6 @@ exports.annuity = {
         });
   }
 
-/*
-  calculate: function(req,res,next){
-    var obj = req.query;
-    var results = debt.annuity(obj);
-    res.json(results);
-  }*/
 };
 
 
