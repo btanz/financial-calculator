@@ -41,83 +41,94 @@ var terminalValueHelper, presentValueHelper, terminalRentValueHelper, annuityVal
 exports.retire = function(inputs){
 
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var helper = {};
   var result = {}; result._1 = {}; result._2 = {};
   var reverseAnnual;
   var localElems = calcElems.retire.outputs;
-  var expectedInputs = calcElems.retire.inputs;
+
   var errorMap;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  errorMap = helpers.validate(inputs, expectedInputs);
-  if (errorMap.length !== 0){
-    console.log(errorMap);
-    return errorMap;
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
+    }
+
+    // convert percent to decimals for interest and inflation
+    inputs.rate = inputs.rate/100;
+    inputs.inflation = inputs.inflation/100;
+
+
+
+    /** ******** 3. COMPUTATIONS ******** */
+    // compute capital balance at retirement age w/o inflation adjustment
+    helper.balance = terminalValueHelper(inputs.savings,inputs.retireAge - inputs.age,inputs.rate) +
+        terminalRentValueHelper(inputs.futureSavings, inputs.retireAge - inputs.age, inputs.rate);
+
+    // compute capital balance at retirement age with inflation adjustment
+    helper.balanceInfl = terminalValueHelper(inputs.savings, inputs.retireAge - inputs.age, inputs.rate, inputs.inflation) +
+        terminalRentValueHelper(inputs.futureSavings, inputs.retireAge - inputs.age, inputs.rate, inputs.inflation);
+
+    // compute monthly annuity received after retirement age
+    helper.annuityMth = annuityValueHelper(helper.balance,(inputs.lifeExpectancy - inputs.retireAge) * 12, inputs.rate / 12);
+
+    // compute annual annuity received after retirement age
+    helper.annuityYear = annuityValueHelper(helper.balance,(inputs.lifeExpectancy - inputs.retireAge), inputs.rate);
+
+    // compute after inflation annuities
+    helper.annuityMthRetire = presentValueHelper(helper.annuityMth, inputs.retireAge - inputs.age, inputs.inflation);
+    helper.annuityMthLifeend = presentValueHelper(helper.annuityMth, inputs.lifeExpectancy - inputs.age , inputs.inflation);
+
+    helper.annuityYearRetire = presentValueHelper(helper.annuityYear, inputs.retireAge - inputs.age, inputs.inflation);
+    helper.annuityYearLifeend = presentValueHelper(helper.annuityYear, inputs.lifeExpectancy - inputs.age, inputs.inflation);
+
+    // compute annual capital balances until retirement
+    helper.annualBalances = annualValueHelper(inputs.savings, inputs.futureSavings, inputs.rate, inputs.age, inputs.retireAge, inputs.inflation);
+
+    // call the reverseAnnualValueHelper to calculate the annual capital balances for the period where capital
+    // is withdrawn from the capital stock i.e. once the capital inflow period is over an the retirement
+    // age is reached; append the values for this period to the annualBalances array
+    reverseAnnual= reverseAnnualValueHelper(helper.balance, helper.annuityMth, inputs.rate, inputs.retireAge, inputs.lifeExpectancy, inputs.inflation, inputs.age);
+    helper.annualBalances[0] = helper.annualBalances[0].concat(reverseAnnual[0]);
+    helper.annualBalances[1] = helper.annualBalances[1].concat(reverseAnnual[1]);
+    helper.annualBalances[2] = helper.annualBalances[2].concat(reverseAnnual[2]);
+
+    // transpose annualBalances Array
+    helper.annualBalancesTransp = helper.annualBalances[0].map(function(col,i){
+      return helper.annualBalances.map(function(row){
+        return row[i];
+      })
+    });
+
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+
+    // first result container
+    result._1.annuityMth =       {'description': 'Monatliches Einkommen ab dem ' + inputs.retireAge + '. Lebensjahr',                         'value': helper.annuityMth,                               'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMth.tooltip};
+    result._1.annuityMthRetire = {'description': 'Am ' + inputs.retireAge + '. Lebensjahr entspricht dieses Einkommen inflationsangepasst einem heutigen Wert von ',  'value': helper.annuityMthRetire, 'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMthRetire.tooltip};
+    result._1.annuintyMthLifeend ={'description': 'Am ' + inputs.lifeExpectancy + '. Lebensjahr entspricht dieses Einkommen inflationsangepasst einem heutigen Wert von ',  'value': helper.annuityMthLifeend,'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMthLifeend.tooltip};
+    result._1.balance =          {'description': 'Gesamtwert der Ersparnisse am ' + inputs.retireAge + '. Lebensjahr',                        'value': helper.balance,                                  'unit': 'EUR', 'digits': 2, 'tooltip': localElems.balance.tooltip};
+    result._1.balanceInfl =      {'description': 'Inflationsangepasster Gesamtwert der Ersparnisse am ' + inputs.retireAge + '. Lebensjahr',  'value': helper.balanceInfl,                              'unit': 'EUR', 'digits': 2, 'tooltip': localElems.balanceInfl.tooltip};
+
+    // second result container
+    result._2.title = 'Wert der Ersparnisse im Zeitverlauf';
+    result._2.header = ['Alter', 'Wert der Ersparnisse <br> (Jahresbeginn)','Wert der Ersparnisse <br> (Jahresbeginn, inflationsangepasst)'];
+    result._2.body = helper.annualBalancesTransp;
+
+    return result;
   }
 
-  // convert percent to decimals for interest and inflation
-  inputs.rate = inputs.rate/100;
-  inputs.inflation = inputs.inflation/100;
+  return Calc.findByCalcname('retire')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-
-
-  /* ******** 3. COMPUTATIONS ******** */
-  // compute capital balance at retirement age w/o inflation adjustment
-  helper.balance = terminalValueHelper(inputs.savings,inputs.retireAge - inputs.age,inputs.rate) +
-      terminalRentValueHelper(inputs.futureSavings, inputs.retireAge - inputs.age, inputs.rate);
-
-  // compute capital balance at retirement age with inflation adjustment
-  helper.balanceInfl = terminalValueHelper(inputs.savings, inputs.retireAge - inputs.age, inputs.rate, inputs.inflation) +
-      terminalRentValueHelper(inputs.futureSavings, inputs.retireAge - inputs.age, inputs.rate, inputs.inflation);
-
-  // compute monthly annuity received after retirement age
-  helper.annuityMth = annuityValueHelper(helper.balance,(inputs.lifeExpectancy - inputs.retireAge) * 12, inputs.rate / 12);
-
-  // compute annual annuity received after retirement age
-  helper.annuityYear = annuityValueHelper(helper.balance,(inputs.lifeExpectancy - inputs.retireAge), inputs.rate);
-
-  // compute after inflation annuities
-  helper.annuityMthRetire = presentValueHelper(helper.annuityMth, inputs.retireAge - inputs.age, inputs.inflation);
-  helper.annuityMthLifeend = presentValueHelper(helper.annuityMth, inputs.lifeExpectancy - inputs.age , inputs.inflation);
-
-  helper.annuityYearRetire = presentValueHelper(helper.annuityYear, inputs.retireAge - inputs.age, inputs.inflation);
-  helper.annuityYearLifeend = presentValueHelper(helper.annuityYear, inputs.lifeExpectancy - inputs.age, inputs.inflation);
-
-  // compute annual capital balances until retirement
-  helper.annualBalances = annualValueHelper(inputs.savings, inputs.futureSavings, inputs.rate, inputs.age, inputs.retireAge, inputs.inflation);
-
-  // call the reverseAnnualValueHelper to calculate the annual capital balances for the period where capital
-  // is withdrawn from the capital stock i.e. once the capital inflow period is over an the retirement
-  // age is reached; append the values for this period to the annualBalances array
-  reverseAnnual= reverseAnnualValueHelper(helper.balance, helper.annuityMth, inputs.rate, inputs.retireAge, inputs.lifeExpectancy, inputs.inflation, inputs.age);
-  helper.annualBalances[0] = helper.annualBalances[0].concat(reverseAnnual[0]);
-  helper.annualBalances[1] = helper.annualBalances[1].concat(reverseAnnual[1]);
-  helper.annualBalances[2] = helper.annualBalances[2].concat(reverseAnnual[2]);
-
-  // transpose annualBalances Array
-  helper.annualBalancesTransp = helper.annualBalances[0].map(function(col,i){
-    return helper.annualBalances.map(function(row){
-      return row[i];
-    })
-  });
-
-  /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.retire.id;
-
-  // first result container
-  result._1.annuityMth =       {'description': 'Monatliches Einkommen ab dem ' + inputs.retireAge + '. Lebensjahr',                         'value': helper.annuityMth,                               'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMth.tooltip};
-  result._1.annuityMthRetire = {'description': 'Am ' + inputs.retireAge + '. Lebensjahr entspricht dieses Einkommen inflationsangepasst einem heutigen Wert von ',  'value': helper.annuityMthRetire, 'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMthRetire.tooltip};
-  result._1.annuintyMthLifeend ={'description': 'Am ' + inputs.lifeExpectancy + '. Lebensjahr entspricht dieses Einkommen inflationsangepasst einem heutigen Wert von ',  'value': helper.annuityMthLifeend,'unit': 'EUR', 'digits': 2, 'tooltip': localElems.annuityMthLifeend.tooltip};
-  result._1.balance =          {'description': 'Gesamtwert der Ersparnisse am ' + inputs.retireAge + '. Lebensjahr',                        'value': helper.balance,                                  'unit': 'EUR', 'digits': 2, 'tooltip': localElems.balance.tooltip};
-  result._1.balanceInfl =      {'description': 'Inflationsangepasster Gesamtwert der Ersparnisse am ' + inputs.retireAge + '. Lebensjahr',  'value': helper.balanceInfl,                              'unit': 'EUR', 'digits': 2, 'tooltip': localElems.balanceInfl.tooltip};
-
-  // second result container
-  result._2.title = 'Wert der Ersparnisse im Zeitverlauf';
-  result._2.header = ['Alter', 'Wert der Ersparnisse <br> (Jahresbeginn)','Wert der Ersparnisse <br> (Jahresbeginn, inflationsangepasst)'];
-  result._2.body = helper.annualBalancesTransp;
-
-  return result;
 
 };
 
