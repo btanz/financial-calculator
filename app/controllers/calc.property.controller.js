@@ -1,4 +1,3 @@
-var calcElems = require('../../data/static/calcElems.json');
 var property = require('../modules/property');
 
 
@@ -154,28 +153,58 @@ exports.homesave = {
 /** calculator-property-propertyprice */
 exports.propertyprice = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.propertyprice});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertyprice')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = property.propertyprice(obj);
-    res.json(results);
+    property.propertyprice(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 
 /** calculator-property-mortgage */
 exports.mortgage = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.mortgage});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('mortgage')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = property.mortgage(obj);
-    res.json(results);
+    property.mortgage(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };

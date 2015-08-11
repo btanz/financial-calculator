@@ -4546,7 +4546,7 @@ function seeder() {
   var propertyprice = new Calc({
     name: 'propertyprice',
     id: 'property-propertyprice',
-    designation: 'Bausparrechner',
+    designation: 'Immobilienpreisrechner',
     description: 'Mit dem Immobilienpreisrechner können Sie den maximalen Preis berechnen, den Sie für eine Immobilie zahlen können.',
     inputs: [
       {

@@ -1,7 +1,6 @@
 // * MODULE COLLECTING PROPERTY/REAL ESTATE FUNCTIONS
 var helpers = require('./helpers');
 var _ = require('underscore');
-var calcElems = require('../../data/static/calcElems.json');
 var math = require('./math');
 var finance = require('./finance');
 var f = require('../../lib/finance');
@@ -889,8 +888,6 @@ exports.buyrent = function(inputs) {
   result._2 = {};
   result._3 = {};
   result._chart1 = {};
-  var localElems = calcElems.propertybuyrent.results_1;
-  var expectedInputs = calcElems.propertybuyrent.inputs;
   var errorMap;
   var temp1, temp2, temp3, temp11, temp12, temp13;
   var helper = {}, i;
@@ -1187,89 +1184,112 @@ exports.buyrent = function(inputs) {
  */
 exports.propertyprice = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   helpers.errors.clear();
+  helpers.messages.clear();
   var result = {}; result._1 = {}; helper = {};
-  var localElems = calcElems.propertyprice.results_1;
-  var expectedInputs = calcElems.propertyprice.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [undefined,undefined,'term','initrepay'];
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // drop elems that are to be computed
-  delete inputs[selectMap[inputs.selection]];
-  delete _expectedInputs[selectMap[inputs.selection]];
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    // drop elems that are to be computed
+    delete inputs[selectMap[inputs.selection]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.selection]}),1);
+    //delete _expectedInputs[selectMap[inputs.selection]];
 
 
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
+    }
+
+
+    inputs.interest = inputs.interest / 100;
+    inputs.notar = inputs.notar / 100;
+    inputs.makler = inputs.makler / 100;
+    inputs.proptax = inputs.proptax / 100;
+    inputs.initrepay = inputs.initrepay / 100;
+
+
+
+
+    /** ******** 3. COMPUTATIONS ******** */
+    helper.rate = inputs.rent + inputs.income - inputs.maintenance;
+    helper.q = 1 + inputs.interest / 12;
+
+    if(inputs.selection === 2){  // initrepay selected
+      helper.loan = (helper.rate * 12) / (inputs.interest + inputs.initrepay);
+      helper.term = f.annuity.annuityTerm(helper.loan, helper.rate, inputs.interest, 12);
+      helper.term = Math.round(helper.term * 100) / 100;
+    } else if (inputs.selection === 3){  // term selected
+      helper.qnt = Math.pow(helper.q, 12 * inputs.term);
+      helper.loan = (inputs.interest === 0) ? helper.rate * inputs.term * 12 : helper.rate * (helper.qnt - 1) / (helper.qnt * (helper.q- 1));
+      helper.initrepay = (12 * helper.rate - helper.loan * inputs.interest) / helper.loan;
+    } else {  // sthg wrong
+      return;
+    }
+
+    helper.term = helper.term || inputs.term;
+    helper.initrepay = helper.initrepay || inputs.initrepay;
+
+    helper.interest = helper.term * 12 * helper.rate - helper.loan;
+    helper.totalpropcost = inputs.equity + helper.loan;
+    helper.maxprice = helper.totalpropcost / (1 + inputs.notar + inputs.makler + inputs.proptax);
+    helper.notar = helper.maxprice * inputs.notar;
+    helper.makler = helper.maxprice * inputs.makler;
+    helper.proptax = helper.maxprice * inputs.proptax;
+
+    helper.totalcost = helper.totalpropcost + helper.interest;
+
+
+    /** ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
+    result.id = data[0].id;
+    /*
+     6.A FIRST RESULT CONTAINER
+     */
+    result._1.maxprice  = _.extend(_.findWhere(data[0].results_1,{name: 'maxprice'}),  {"value": helper.maxprice});
+    //result._1.maxprice      = _.extend(localElems['maxprice'],      {"value": helper.maxprice});
+    result._1.notar  = _.extend(_.findWhere(data[0].results_1,{name: 'notar'}),  {"value": helper.notar});
+    //result._1.notar         = _.extend(localElems['notar'],         {"value": helper.notar});
+    result._1.makler  = _.extend(_.findWhere(data[0].results_1,{name: 'makler'}),  {"value": helper.makler});
+    //result._1.makler        = _.extend(localElems['makler'],        {"value": helper.makler});
+    result._1.proptax  = _.extend(_.findWhere(data[0].results_1,{name: 'proptax'}),  {"value": helper.proptax});
+    //result._1.proptax       = _.extend(localElems['proptax'],       {"value": helper.proptax});
+    result._1.totalpropcost  = _.extend(_.findWhere(data[0].results_1,{name: 'totalpropcost'}),  {"value": helper.totalpropcost});
+    //result._1.totalpropcost = _.extend(localElems['totalpropcost'], {"value": helper.totalpropcost});
+    result._1.loan  = _.extend(_.findWhere(data[0].results_1,{name: 'loan'}),  {"value": helper.loan});
+    //result._1.loan          = _.extend(localElems['loan'],          {"value": helper.loan});
+    result._1.rate  = _.extend(_.findWhere(data[0].results_1,{name: 'rate'}),  {"value": helper.rate});
+    //result._1.rate          = _.extend(localElems['rate'],          {"value": helper.rate});
+    result._1.term  = _.extend(_.findWhere(data[0].results_1,{name: 'term'}),  {"value": helper.term});
+    //result._1.term          = _.extend(localElems['term'],          {"value": helper.term});
+    result._1.initrepay  = _.extend(_.findWhere(data[0].results_1,{name: 'initrepay'}),  {"value": helper.initrepay * 100});
+    //result._1.initrepay     = _.extend(localElems['initrepay'],     {"value": helper.initrepay * 100});
+    result._1.interest  = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),  {"value": helper.interest});
+    //result._1.interest      = _.extend(localElems['interest'],      {"value": helper.interest});
+    result._1.totalcost  = _.extend(_.findWhere(data[0].results_1,{name: 'totalcost'}),  {"value": helper.totalcost});
+    //result._1.totalcost     = _.extend(localElems['totalcost'],     {"value": helper.totalcost});
+
+
+    /* ******** 5. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
+    if (inputs.selection === 2 && inputs.initrepay <= 0){
+      helpers.errors.set("Realistische Ergebnisse können nicht berechnet werden, da die anfängliche Tilgungsrate nicht größer als 0 ist. Daher wird der Kredit nicht getilgt. Geben sie eine positive Tilgungsrate ein oder alternativ die Darlehenslaufzeit vor.",undefined , true);
+      return helpers.errors.errorMap;
+    }
+
+    return result;
   }
 
+  return Calc.findByCalcname('propertyprice')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-  inputs.interest = inputs.interest / 100;
-  inputs.notar = inputs.notar / 100;
-  inputs.makler = inputs.makler / 100;
-  inputs.proptax = inputs.proptax / 100;
-  inputs.initrepay = inputs.initrepay / 100;
-
-
-
-  /* ******** 3. COMPUTATIONS ******** */
-  helper.rate = inputs.rent + inputs.income - inputs.maintenance;
-  helper.q = 1 + inputs.interest / 12;
-
-  if(inputs.selection === 2){  // initrepay selected
-    helper.loan = (helper.rate * 12) / (inputs.interest + inputs.initrepay);
-    helper.term = f.annuity.annuityTerm(helper.loan, helper.rate, inputs.interest, 12);
-    helper.term = Math.round(helper.term * 100) / 100;
-  } else if (inputs.selection === 3){  // term selected
-    helper.qnt = Math.pow(helper.q, 12 * inputs.term);
-    helper.loan = (inputs.interest === 0) ? helper.rate * inputs.term * 12 : helper.rate * (helper.qnt - 1) / (helper.qnt * (helper.q- 1));
-    helper.initrepay = (12 * helper.rate - helper.loan * inputs.interest) / helper.loan;
-  } else {  // sthg wrong
-    return;
-  }
-
-  helper.term = helper.term || inputs.term;
-  helper.initrepay = helper.initrepay || inputs.initrepay;
-
-  helper.interest = helper.term * 12 * helper.rate - helper.loan;
-  helper.totalpropcost = inputs.equity + helper.loan;
-  helper.maxprice = helper.totalpropcost / (1 + inputs.notar + inputs.makler + inputs.proptax);
-  helper.notar = helper.maxprice * inputs.notar;
-  helper.makler = helper.maxprice * inputs.makler;
-  helper.proptax = helper.maxprice * inputs.proptax;
-
-  helper.totalcost = helper.totalpropcost + helper.interest;
-
-
-  /* ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
-  result.id = calcElems.propertyprice.id;
-  /*
-   6.A FIRST RESULT CONTAINER
-   */
-  result._1.maxprice      = _.extend(localElems['maxprice'],      {"value": helper.maxprice});
-  result._1.notar         = _.extend(localElems['notar'],         {"value": helper.notar});
-  result._1.makler        = _.extend(localElems['makler'],        {"value": helper.makler});
-  result._1.proptax       = _.extend(localElems['proptax'],       {"value": helper.proptax});
-  result._1.totalpropcost = _.extend(localElems['totalpropcost'], {"value": helper.totalpropcost});
-  result._1.loan          = _.extend(localElems['loan'],          {"value": helper.loan});
-  result._1.rate          = _.extend(localElems['rate'],          {"value": helper.rate});
-  result._1.term          = _.extend(localElems['term'],          {"value": helper.term});
-  result._1.initrepay     = _.extend(localElems['initrepay'],     {"value": helper.initrepay * 100});
-  result._1.interest      = _.extend(localElems['interest'],      {"value": helper.interest});
-  result._1.totalcost     = _.extend(localElems['totalcost'],     {"value": helper.totalcost});
-
-
-  /* ******** 5. CONSTRUCT RESULT MESSAGES / MESSAGE OBJECT ******** */
-  if (inputs.selection === 2 && inputs.initrepay <= 0){
-    helpers.errors.set("Realistische Ergebnisse können nicht berechnet werden, da die anfängliche Tilgungsrate nicht größer als 0 ist. Daher wird der Kredit nicht getilgt. Geben sie eine positive Tilgungsrate ein oder alternativ die Darlehenslaufzeit vor.",undefined , true);
-    return helpers.errors.errorMap;
-  }
-
-  return result;
 
 };
 
@@ -1287,179 +1307,201 @@ exports.propertyprice = function(inputs){
 exports.mortgage = function(inputs){
 
   /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   helpers.messages.clear();
   helpers.errors.clear();
   var dyn = []; dyn[0] = []; dyn[1] = []; dyn[2] = []; dyn[3] = []; dyn[4] = []; dyn[5] = []; var dynT;
   var result = {}; result._1 = {}; result._2 = {};
   var helper = {};
-  var localElems = calcElems.mortgage.results_1;
-  var expectedInputs = calcElems.mortgage.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = [[undefined, 'repay', 'principal', 'interest', 'initialinterest'],[undefined, 'residual', 'term', 'annualrepay']];
   var messageMap = ['FEHLER','jährlich','halbjährlich','FEHLER','vierteljährlich','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','FEHLER','monatlich'];
   var i, specialpays;
 
-  /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
 
-  /** read out term choices and remove choice inputs */
-  helper.termperiods = inputs.termperiods;
-  helper.repaymentfreetermperiods = inputs.repaymentfreetermperiods;
-  delete inputs.termperiods;
-  delete inputs.repaymentfreetermperiods;
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
 
-  /** drop elements that are to be computed from input and expectedinputs object */
-  delete inputs[selectMap[0][inputs.select1]];
-  delete _expectedInputs[selectMap[0][inputs.select1]];
-  delete inputs[selectMap[1][inputs.select2]];
-  delete _expectedInputs[selectMap[1][inputs.select2]];
+    /** read out term choices and remove choice inputs */
+    helper.termperiods = inputs.termperiods;
+    helper.repaymentfreetermperiods = inputs.repaymentfreetermperiods;
+    delete inputs.termperiods;
+    delete inputs.repaymentfreetermperiods;
 
-  /** run validation method */
-  errorMap = helpers.validate(inputs, _expectedInputs);
-  if (errorMap.length !== 0){
-    return errorMap;
-  }
+    /** drop elements that are to be computed from input and expectedinputs object */
+    delete inputs[selectMap[0][inputs.select1]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[0][inputs.select1]}),1);
+    //delete _expectedInputs[selectMap[0][inputs.select1]];
+    delete inputs[selectMap[1][inputs.select2]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[1][inputs.select2]}),1);
+    //delete _expectedInputs[selectMap[1][inputs.select2]];
 
-  /** convert terms with subannual choices to month */
-  helper.term = inputs.term / inputs.repayfreq;
-  inputs.term              = inputs.term              * 12 / helper.termperiods;
-  inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
-
-  /** convert terms that are not period multiples to period multiples and convert back to years*/
-  inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
-  inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
-
-  if(helper.term * inputs.repayfreq !== inputs.term){
-    helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
-  }
-
-
-  // todo: send message to user that only full period values are possible (?)
-
-
-  /** convert percentage values to decimals */
-  inputs.disagioamount = inputs.disagioamount / 100;
-  inputs.interest = inputs.interest / 100;
-  inputs.initalinterest = inputs.initialinterest / 100;
-  inputs.followupinterest = inputs.followupinterest / 100;
-
-
-  /** ******** 3. COMPUTATIONS ******** */
-
-
-  /**
-   * 3.A STATIC COMPUTATIONS
-   */
-
-  /** compute repayment rate if not given */
-  inputs.repay = inputs.repay || f.annuity.annuityInitialInterest(inputs.principal, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
-
-  /** compute principal if not given */
-  inputs.principal = inputs.principal || f.annuity.principalInitialInterest(inputs.repay, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
-
-  /** compute interest rate if not given */
-  inputs.interest = inputs.interest || f.annuity.interestInitialInterest(inputs.principal, inputs.repay, inputs.repayfreq, inputs.initalinterest);
-
-  /** compute initial interest if not given */
-  inputs.initialinterest = inputs.initialinterest || f.annuity.initialInterest(inputs.principal, inputs.repay, inputs.interest, inputs.repayfreq);
-
-
-  /**
-   * 3.B DYNAMIC COMPUTATIONS
-   */
-
-  /** constract array with special repayments */
-  specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
-
-  // todo: write message informing that repay time has been set ti ceil if not a full month
-  for (i = 0; i < 30; i++){
-    helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
-    helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
-    if(helper.ind && helper.val && helper.ind < specialpays.length){
-      specialpays[Math.ceil(helper.ind)] += helper.val;
-    } else if (helper.ind && helper.val && helper.ind >= specialpays.length){
-      helpers.messages.set("Hinweis: Die Sondertilgung im Monat " + helper.ind + " kann leider nicht berücksichtigt werden, da sie außerhalb der Laufzeit der Rückzahlung liegt.",2);
+    /** run validation method */
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
     }
+
+    /** convert terms with subannual choices to month */
+    helper.term = inputs.term / inputs.repayfreq;
+    inputs.term              = inputs.term              * 12 / helper.termperiods;
+    inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
+
+    /** convert terms that are not period multiples to period multiples and convert back to years*/
+    inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
+    inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
+
+    if(helper.term * inputs.repayfreq !== inputs.term){
+      helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
+    }
+
+
+    // todo: send message to user that only full period values are possible (?)
+
+
+    /** convert percentage values to decimals */
+    inputs.disagioamount = inputs.disagioamount / 100;
+    inputs.interest = inputs.interest / 100;
+    inputs.initalinterest = inputs.initialinterest / 100;
+    inputs.followupinterest = inputs.followupinterest / 100;
+
+
+    /** ******** 3. COMPUTATIONS ******** */
+
+
+    /**
+     * 3.A STATIC COMPUTATIONS
+     */
+
+    /** compute repayment rate if not given */
+    inputs.repay = inputs.repay || f.annuity.annuityInitialInterest(inputs.principal, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
+
+    /** compute principal if not given */
+    inputs.principal = inputs.principal || f.annuity.principalInitialInterest(inputs.repay, inputs.interest , inputs.repayfreq ,inputs.initalinterest);
+
+    /** compute interest rate if not given */
+    inputs.interest = inputs.interest || f.annuity.interestInitialInterest(inputs.principal, inputs.repay, inputs.repayfreq, inputs.initalinterest);
+
+    /** compute initial interest if not given */
+    inputs.initialinterest = inputs.initialinterest || f.annuity.initialInterest(inputs.principal, inputs.repay, inputs.interest, inputs.repayfreq);
+
+
+    /**
+     * 3.B DYNAMIC COMPUTATIONS
+     */
+
+    /** constract array with special repayments */
+    specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
+
+    // todo: write message informing that repay time has been set ti ceil if not a full month
+    for (i = 0; i < 30; i++){
+      helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
+      helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
+      if(helper.ind && helper.val && helper.ind < specialpays.length){
+        specialpays[Math.ceil(helper.ind)] += helper.val;
+      } else if (helper.ind && helper.val && helper.ind >= specialpays.length){
+        helpers.messages.set("Hinweis: Die Sondertilgung im Monat " + helper.ind + " kann leider nicht berücksichtigt werden, da sie außerhalb der Laufzeit der Rückzahlung liegt.",2);
+      }
+    }
+
+
+    /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; Residual open */
+    dyn = f.annuity.schedule.call({
+      mode: 1,
+      annualvals: true,
+      finalvals: true,
+      disagio: inputs.disagio,
+      disagioamount: inputs.disagioamount,
+      fees: inputs.fees,
+      feeamount: inputs.feeamount,
+      feeupfront: (inputs.feetype === 3),
+      principal: inputs.principal,
+      term: inputs.term,
+      repayfreq: inputs.repayfreq,
+      repay: inputs.repay,
+      repaymentfree: inputs.repaymentfree,
+      repaymentfreeterm: inputs.repaymentfreeterm,
+      repaymentfreetype : inputs.repaymentfreetype,
+      specialrepay: specialpays,
+      interest: inputs.interest
+    });
+
+
+
+    /** assign residual if not given */
+    inputs.residual = inputs.residual || dyn.residual;
+
+    helper.totalrepay     = dyn.totalrepay;
+    helper.totalinterest  = dyn.totalinterest;
+    helper.totalreduction = dyn.totalreduction;
+    helper.totalrepaymentfreeinterest = dyn.totalrepaymentfreeinterest;
+    helper.irr            = dyn.irr;
+
+
+    /** re-convert */
+    inputs.interest        *= 100;
+    inputs.initialinterest *= 100;
+
+
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+
+    /**
+     * 4.A FIRST RESULT CONTAINER
+     */
+    result._1.value1           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[0][inputs.select1]}), {"value": inputs[selectMap[0][inputs.select1]]});
+    //result._1.value1         = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
+    result._1.value2           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[1][inputs.select2]}), {"value": inputs[selectMap[1][inputs.select2]]});
+    //result._1.value2         = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
+    result._1.totalrepay       = _.extend(_.findWhere(data[0].results_1,{name: 'totalrepay'}),  {"value": helper.totalrepay});
+    //result._1.totalrepay     = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
+    result._1.totalreduction   = _.extend(_.findWhere(data[0].results_1,{name: 'totalreduction'}),  {"value": helper.totalreduction});
+    //result._1.totalreduction = _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
+    result._1.totalinterest    = _.extend(_.findWhere(data[0].results_1,{name: 'totalinterest'}),  {"value": helper.totalinterest});
+    //result._1.totalinterest  = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
+    (inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal     = _.extend(_.findWhere(data[0].results_1,{name: 'repaymentfreetotal'}),  {"value": helper.totalrepaymentfreeinterest}) : null;
+    //(inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal = _.extend(localElems['repaymentfreetotal'],     {"value": helper.totalrepaymentfreeinterest}) : null;
+    (inputs.disagio) ? result._1.disagio     = _.extend(_.findWhere(data[0].results_1,{name: 'disagio'}),  {"value": inputs.principal * inputs.disagioamount})  : null;
+    //(inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
+    (inputs.fees && inputs.feetype === 3) ? result._1.fees     = _.extend(_.findWhere(data[0].results_1,{name: 'fees'}),  {"value": inputs.feeamount}) : null;
+    //(inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
+    result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),   {"value": helper.irr * 100});
+    //result._1.irr            = _.extend(localElems['irr'],                        {"value": helper.irr * 100});
+
+
+    /**
+     * 4.B SECOND RESULT CONTAINER
+     */
+    result._2.title = 'Tilgungsplan';
+    result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zins- & <br> Gebührenanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
+    result._2.body = dyn.schedule;
+
+
+    /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
+    if (inputs.interest < 0  && inputs.select1 === 3) {  // case where interest is negativ
+      helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+    }
+    if (inputs.initialinterest < 0  && inputs.select1 === 4) {  // case where initialinterest is negativ
+      helpers.messages.set("Hinweis: Die berechnete anfängliche Tilgung ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+    }
+
+
+    result.messages = helpers.messages.messageMap;
+
+
+    // todo add a message that periods are adjusted to next full period
+
+    return result;
   }
 
 
-  /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; Residual open */
-  dyn = f.annuity.schedule.call({
-    mode: 1,
-    annualvals: true,
-    finalvals: true,
-    disagio: inputs.disagio,
-    disagioamount: inputs.disagioamount,
-    fees: inputs.fees,
-    feeamount: inputs.feeamount,
-    feeupfront: (inputs.feetype === 3),
-    principal: inputs.principal,
-    term: inputs.term,
-    repayfreq: inputs.repayfreq,
-    repay: inputs.repay,
-    repaymentfree: inputs.repaymentfree,
-    repaymentfreeterm: inputs.repaymentfreeterm,
-    repaymentfreetype : inputs.repaymentfreetype,
-    specialrepay: specialpays,
-    interest: inputs.interest
-  });
+  return Calc.findByCalcname('mortgage')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
-
-
-  /** assign residual if not given */
-  inputs.residual = inputs.residual || dyn.residual;
-
-  helper.totalrepay     = dyn.totalrepay;
-  helper.totalinterest  = dyn.totalinterest;
-  helper.totalreduction = dyn.totalreduction;
-  helper.totalrepaymentfreeinterest = dyn.totalrepaymentfreeinterest;
-  helper.irr            = dyn.irr;
-
-
-  /** re-convert */
-  inputs.interest        *= 100;
-  inputs.initialinterest *= 100;
-
-
-  /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.mortgage.id;
-
-  /**
-   * 4.A FIRST RESULT CONTAINER
-   */
-  result._1.value1         = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
-  result._1.value2         = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
-  result._1.totalrepay     = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
-  result._1.totalreduction = _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
-  result._1.totalinterest  = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
-  (inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal = _.extend(localElems['repaymentfreetotal'],     {"value": helper.totalrepaymentfreeinterest}) : null;
-  (inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
-  (inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
-  result._1.irr            = _.extend(localElems['irr'],                        {"value": helper.irr * 100});
-
-
-  /**
-   * 4.B SECOND RESULT CONTAINER
-   */
-  result._2.title = 'Tilgungsplan';
-  result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zins- & <br> Gebührenanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
-  result._2.body = dyn.schedule;
-
-
-  /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
-  if (inputs.interest < 0  && inputs.select1 === 3) {  // case where interest is negativ
-    helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
-  }
-  if (inputs.initialinterest < 0  && inputs.select1 === 4) {  // case where initialinterest is negativ
-    helpers.messages.set("Hinweis: Die berechnete anfängliche Tilgung ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
-  }
-
-
-  result.messages = helpers.messages.messageMap;
-
-
-  // todo add a message that periods are adjusted to next full period
-
-  return result;
 
 };
