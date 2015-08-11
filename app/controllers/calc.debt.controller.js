@@ -35,15 +35,30 @@ exports.annuity = {
 /** calculator-debt-dispo */
 exports.dispo = {
 
-  render: function(req,res,next){
-    res.render('calculator', {obj: calcElems.dispo});
+  render: function(req, res) {
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('dispo')
+        .then(function(data){
+          res.render('calculator', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-options calculator.");
+        });
   },
 
-  calculate: function(req,res,next){
+  calculate: function(req, res){
     var obj = req.query;
-    var results = debt.dispo(obj);
-    res.json(results);
+    debt.dispo(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
   }
+
 };
 
 

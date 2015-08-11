@@ -323,93 +323,105 @@ exports.annuity = function(inputs){
 
 exports.dispo = function(inputs){
 
-  /* ******** 1. INIT AND ASSIGN ******** */
+  /** ******** 1. INIT AND ASSIGN ******** */
+  var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {};
   var amount, interest, factor, daycount, range;
   var localElems = calcElems.dispo.results_1;
   var expectedInputs = calcElems.dispo.inputs;
   var errorMap;
 
-  /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  function compute(data){
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
 
-  // run validations
-  errorMap = helpers.validate(inputs, expectedInputs);
-  if (errorMap.length !== 0){
-    console.log(errorMap);
-    return errorMap;
-  }
-
-  // custom validation
-  if (inputs.periodchoice === "dates" && inputs.enddate === ""){
-    return [{errorMessage: 'Das Enddatum muss ausgefüllt sein.', errorInput: '', errorPrint: true}];
-  } else if (inputs.periodchoice === "dates" && inputs.startdate === ""){
-    return [{errorMessage: 'Das Anfangsdatum muss ausgefüllt sein.', errorInput: '', errorPrint: true}];
-  }else if(inputs.periodchoice === "dates" && inputs.enddate < inputs.startdate){
-    return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
-  }
-
-
-  /* ******** 3. COMPUTATIONS ******** */
-  factor = Math.min(inputs.principal, inputs.limit) * (inputs.dispointerest / 100) + Math.max(0,inputs.principal - inputs.limit) * (inputs.otherinterest / 100);
-
-  if (inputs.periodchoice === "days"){
-    switch(inputs.daycount){
-      case "a30E360":
-        amount = factor * inputs.days / 360;
-        interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
-        break;
-      case "a30360":
-        amount = factor * inputs.days / 360;
-        interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
-        break;
-      case "act360":
-        amount = factor * inputs.days / 360;
-        interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
-        break;
-      case "act365":
-        amount = factor * inputs.days / 365;
-        interest = (amount / inputs.principal) * (365 / inputs.days) * 100;
-        break;
-      case "actact":
-        amount = factor * inputs.days / 365.25;
-        interest = (amount / inputs.principal) * (365.25 / inputs.days) * 100;
-        break;
+    // run validations
+    errorMap = helpers.validate(inputs, data[0].inputs);
+    if (errorMap.length !== 0){
+      return errorMap;
     }
-  } else if (inputs.periodchoice === "dates"){
-    range = {"begindate": inputs.startdate, "enddate": inputs.enddate, "skipvalidation": true};
 
-    daycount = misc.daycount(range);
-    switch(inputs.daycount){
-      case "a30E360":
-        amount = factor * daycount._1.a30E360factor.value;
-        interest = (amount / inputs.principal) * (360 / daycount._1.a30E360interestdays.value) * 100;
-        break;
-      case "a30360":
-        amount = factor * daycount._1.a30360factor.value;
-        interest = (amount / inputs.principal) * (360 / daycount._1.a30360interestdays.value) * 100;
-        break;
-      case "act360":
-        amount = factor * daycount._1.act360factor.value;
-        interest = (amount / inputs.principal) * (360 / daycount._1.act360interestdays.value) * 100;
-        break;
-      case "act365":
-        amount = factor * daycount._1.act365factor.value;
-        interest = (amount / inputs.principal) * (365 / daycount._1.act365interestdays.value) * 100;
-        break;
-      case "actact":
-        amount = factor * daycount._1.actactfactor.value;
-        interest = (amount / inputs.principal) * (1 / daycount._1.actactfactor.value) * 100;
-        break;
+    // custom validation
+    if (inputs.periodchoice === "dates" && inputs.enddate === ""){
+      return [{errorMessage: 'Das Enddatum muss ausgefüllt sein.', errorInput: '', errorPrint: true}];
+    } else if (inputs.periodchoice === "dates" && inputs.startdate === ""){
+      return [{errorMessage: 'Das Anfangsdatum muss ausgefüllt sein.', errorInput: '', errorPrint: true}];
+    }else if(inputs.periodchoice === "dates" && inputs.enddate < inputs.startdate){
+      return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
     }
+
+
+    /** ******** 3. COMPUTATIONS ******** */
+    factor = Math.min(inputs.principal, inputs.limit) * (inputs.dispointerest / 100) + Math.max(0,inputs.principal - inputs.limit) * (inputs.otherinterest / 100);
+
+    if (inputs.periodchoice === "days"){
+      switch(inputs.daycount){
+        case "a30E360":
+          amount = factor * inputs.days / 360;
+          interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          break;
+        case "a30360":
+          amount = factor * inputs.days / 360;
+          interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          break;
+        case "act360":
+          amount = factor * inputs.days / 360;
+          interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          break;
+        case "act365":
+          amount = factor * inputs.days / 365;
+          interest = (amount / inputs.principal) * (365 / inputs.days) * 100;
+          break;
+        case "actact":
+          amount = factor * inputs.days / 365.25;
+          interest = (amount / inputs.principal) * (365.25 / inputs.days) * 100;
+          break;
+      }
+    } else if (inputs.periodchoice === "dates"){
+      range = {"begindate": inputs.startdate, "enddate": inputs.enddate, "skipvalidation": true};
+
+      daycount = misc.daycount(range);
+      switch(inputs.daycount){
+        case "a30E360":
+          amount = factor * daycount._1.a30E360factor.value;
+          interest = (amount / inputs.principal) * (360 / daycount._1.a30E360interestdays.value) * 100;
+          break;
+        case "a30360":
+          amount = factor * daycount._1.a30360factor.value;
+          interest = (amount / inputs.principal) * (360 / daycount._1.a30360interestdays.value) * 100;
+          break;
+        case "act360":
+          amount = factor * daycount._1.act360factor.value;
+          interest = (amount / inputs.principal) * (360 / daycount._1.act360interestdays.value) * 100;
+          break;
+        case "act365":
+          amount = factor * daycount._1.act365factor.value;
+          interest = (amount / inputs.principal) * (365 / daycount._1.act365interestdays.value) * 100;
+          break;
+        case "actact":
+          amount = factor * daycount._1.actactfactor.value;
+          interest = (amount / inputs.principal) * (1 / daycount._1.actactfactor.value) * 100;
+          break;
+      }
+    }
+
+
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    result.id = data[0].id;
+    result._1.interestamount  = _.extend(_.findWhere(data[0].results_1,{name: 'interestamount'}), {"value": amount});
+    //result._1.interestamount  = _.extend(localElems.interestamount,  {"value": amount});
+    result._1.averageinterest  = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": interest});
+    //result._1.averageinterest = _.extend(localElems.averageinterest, {"value": interest});
+
+    return result;
   }
 
-
-  /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
-  result.id = calcElems.dispo.id;
-  result._1.interestamount  = _.extend(localElems.interestamount,  {"value": amount});
-  result._1.averageinterest = _.extend(localElems.averageinterest, {"value": interest});
-
-  return result;
+  return Calc.findByCalcname('dispo')
+      .then(compute)
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
 
 
 };
