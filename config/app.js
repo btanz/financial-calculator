@@ -68,10 +68,11 @@ seed.seedDB();
 
 // todo: remove quandl tinkering
 
-var test = quandl2({source: 'FSE', table: 'BAYN_X'},{format: 'json', sort_order: 'asc', rows: 10});
+//var test = quandl2([{source: 'FSE', table: 'BAYN_X'},{source: 'FSE', table: 'BMW_X'}],{format: 'json', sort_order: 'asc', rows: 3});
+var test = quandl2({source: 'FSE', table: 'BAYN_X'},{format: 'json', sort_order: 'asc', rows: 3});
 test.then(function(response){
 
-  console.log(response.dataset());
+ // console.log(response.data);
 });
 
 
