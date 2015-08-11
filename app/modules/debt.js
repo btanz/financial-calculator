@@ -15,9 +15,6 @@ exports.annuity = function(inputs){
   var Calc = require('mongoose').model('Calc');
   var helper = {}, helper1;
   var result = {}; result._1 = {}; result._2 = {};
-  var localElems = calcElems.annuity.results_1;
-  var expectedInputs = calcElems.annuity.inputs;
-  var _expectedInputs = _.clone(expectedInputs);
   var errorMap;
   var selectMap = ['repay','residual','term','rate','principal'];
   var paymentfreeinterest = 0;
