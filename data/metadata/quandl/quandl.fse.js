@@ -144,7 +144,7 @@ module.exports = [
   {id: 'FSE.TEG_X', description: 'Tag Immobilien Ag ', startdate: '10/06/2000'},
   {id: 'FSE.TTK_X', description: 'Takkt Ag ', startdate: '01/18/2000'},
   {id: 'FSE.TLX_X', description: 'Talanx Aktiengesellschaft ', startdate: '10/02/2012'},
-  {id: 'FSE.O2D_X', description: 'Telefonica Deutschland Holding Ag ', startdate: '10/29/2014'},
+  //{id: 'FSE.O2D_X', description: 'Telefonica Deutschland Holding Ag ', startdate: '10/29/2014'},
   {id: 'FSE.TKA_X', description: 'Thyssenkrupp Ag ', startdate: '01/18/2000'},
   {id: 'FSE.TIM_X', description: 'Tipp24 Se ', startdate: '10/12/2005'},
   {id: 'FSE.TTI_X', description: 'Tom Tailor Holding Ag ', startdate: '03/26/2010'},

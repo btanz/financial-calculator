@@ -324,7 +324,6 @@ exports.portfolio = function(inputs){
   });
 
   /** convert dates */
-  //console.log(inputs.from.split('.'));
   helper.temp =  inputs.from.split('.');
   helper.from = helper.temp[2] + '-' + helper.temp[1] + '-' + helper.temp[0];
   helper.temp =  inputs.to.split('.');
@@ -374,7 +373,7 @@ exports.portfolio = function(inputs){
 
     // create chart
     result._chart1.id = 'chart1';
-    result._chart1.title = 'Effizienzlinie bei gegebener Aktienauswahl';
+    result._chart1.title = 'Effizienzlinie bei aktueller Portfoliozusammensetzung';
     result._chart1.label = {x: 'Risiko (Standardabweichung, %)', y: "Erwartete Rendite (%)"};
     result._chart1.type = 'Line';
     result._chart1.data = {series: [cChart]};
@@ -402,14 +401,18 @@ exports.portfolio = function(inputs){
 
   return req.then(function(response){
 
-    //console.log(response.dataNames());
-    //console.log(response.availability());
-    console.log(response.rawDatasets());
-
     var data = response.datasetCommonDates({transposed: false});
 
     var dataNames = response.dataNames({removeParentheses: true});
-    var availability = response.availabiltyIntersection();
+    var availability = response.availabilityIntersection();
+
+    result.messages = helpers.messages.messageMap;
+
+    /** return an error if number of available observations is insufficient */
+    if(response.dateIntersection().length < 10 * response.numberOfDatasets){
+      helpers.errors.set('Die Anzahl der Preis- bzw. Renditedaten ist zu gering für die aktuelle Auswahl von Renditefrequenz, Zeitraum und Positionen. Die Anzahl der Datenpunkte (aktuell ' + response.dateIntersection().length + ' Datenpunkte) sollte mindestens 10 mal größer als die Anzahl der Positionen (aktuell ' + response.numberOfDatasets + ' Positionen) sein. Bitte erhöhen Sie die Renditefrequenz, verlängern Sie den Zeitraum bzw. entfernen Sie Positionen, für welche wenige Renditedaten vorliegen.', undefined , true);
+      return helpers.errors.errorMap;
+    }
 
 
 
@@ -435,14 +438,11 @@ exports.portfolio = function(inputs){
 
     /** attach user messages */
     // case return dates needed adjustment
-    if((Date.parse(helper.to) - Date.parse(availability[1])) / (1000*60*60*24) > 45 || (Date.parse(availability[0]) - Date.parse(helper.from)) / (1000*60*60*24) > 45){
-      console.log(helpers.convertToGermanDate(availability[0]));
-      helpers.messages.set('Leider sind nicht für alle Positionen Preisdaten für den gesamten gewählten Zeitraum zur Verfügung. Der Datenzeitraum wurde den verfügbaren Daten angepasst. Der angepasste Zeitraum beginnt am ' + helpers.convertToGermanDate(availability[0]) +' und endet am ' + helpers.convertToGermanDate(availability[1]) + '.'  ,2);
+    if((Date.parse(helper.to) - Date.parse(availability[1])) / (1000*60*60*24) > 2*(365/frequency[1][inputs.frequency])+30 || (Date.parse(availability[0]) - Date.parse(helper.from)) / (1000*60*60*24) > 2*(365/frequency[1][inputs.frequency])+30){
+      helpers.messages.set('Leider stehen nicht für alle Positionen Preisdaten für den gesamten gewählten Zeitraum zur Verfügung. Der Datenzeitraum wurde den verfügbaren Daten angepasst. Der angepasste Zeitraum beginnt am ' + helpers.convertToGermanDate(availability[0]) +' und endet am ' + helpers.convertToGermanDate(availability[1]) + '.'  ,2);
     }
 
 
-
-    result.messages = helpers.messages.messageMap;
     return result;
 
   });

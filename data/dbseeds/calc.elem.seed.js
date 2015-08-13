@@ -7089,7 +7089,7 @@ function seeder() {
       {
         name: 'frequency',
         id: 'boerse-portfolio-frequency',
-        label: 'Returnfrequenz',
+        label: 'Renditefrequenz',
         tooltip: 'TBD',
         type: 'select',
         vtype: 'number',
