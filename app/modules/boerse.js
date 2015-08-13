@@ -344,7 +344,8 @@ exports.portfolio = function(inputs){
   /** construct quandl request object */
   var reqObj = {
     column_index: '4',
-    transform: 'rdiff',
+    //transform: 'rdiff',
+    transform: 'none',
     collapse: frequency[0][inputs.frequency],
     start_date: helper.from,
     end_date: helper.to
@@ -403,6 +404,12 @@ exports.portfolio = function(inputs){
 
     var data = response.datasetCommonDates({transposed: false});
 
+    /** convert prices to returns */
+    data = f.equity.diff(data,{diffType: 1,newFirst: true});
+
+    // todo: make sure data are always in the correct order (i.e. asc/desc)
+    // todo: write code that simulates the performance for equal weight etc
+
     var dataNames = response.dataNames({removeParentheses: true});
     var availability = response.availabilityIntersection();
 
@@ -429,6 +436,8 @@ exports.portfolio = function(inputs){
 
     /** compute efficient portfolio */
     helper.portfolio = f.equity.efficientPortfolio(inputs.return, data, effOptions);
+
+    console.log(helper.portfolio);
 
     /** construct first result container */
     firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
