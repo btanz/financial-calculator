@@ -471,36 +471,40 @@ exports.portfolio = function(inputs, callback){
   };
 
 
-  return quandl.getMultiData(reqCode,reqObj)
-      .then(constructReturnMatrix)
-      .then(function(data){
-        console.log(data);
+  /** construct new quandl request object */
 
-        data.forEach(function(returnVector, ind){
-          var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
-          var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][freqInd]);
+  var test = quandl(reqCode, reqObj);
 
-          /** construct second result container */
-          result._2.body.push(['TODO', stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
 
-          e.push([expReturn]);
 
-        });
+  return test.then(function(response){
+      data = response.datasetCommonDates({transposed: false});
 
-        /** compute efficient portfolio */
-        helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
+      data.forEach(function(returnVector, ind){
+        var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
+        var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][freqInd]);
 
-        /** construct first result container */
-        firstContainer(inputs.return, helper, stocks);
+        /** construct second result container */
+        result._2.body.push(['TODO', stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
 
-        /** construct first chart with efficient frontier */
-        efficientFrontier(inputs.return, data, effOptions);
-
-        /** attach user messages */
-        result.messages = helpers.messages.messageMap;
-        return result;
+        e.push([expReturn]);
 
       });
+
+      /** compute efficient portfolio */
+      helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
+
+      /** construct first result container */
+      firstContainer(inputs.return, helper, stocks);
+
+      /** construct first chart with efficient frontier */
+      efficientFrontier(inputs.return, data, effOptions);
+
+      /** attach user messages */
+      result.messages = helpers.messages.messageMap;
+      return result;
+
+  });
 };
 
 
