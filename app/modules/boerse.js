@@ -284,7 +284,7 @@ exports.equityReturn = function(inputs) {
  * RETURNS XXX
 
  */
-exports.portfolio = function(inputs, callback){
+exports.portfolio = function(inputs){
 
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
@@ -303,7 +303,7 @@ exports.portfolio = function(inputs, callback){
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-  // push stocks on array
+  /** push stocks on array */
   _.each(inputs, function(val, key){
     if (key.match(re)){ // check whether input is stock
       if(stocksHelper.indexOf(val.split('.')[1]) === -1){  // check for uniqueness
@@ -313,12 +313,24 @@ exports.portfolio = function(inputs, callback){
     }
   });
 
+  /** set asset request matrix */
+  var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
 
+  /** construct options object for efficientPortfolio calculation */
+  var effOptions = {freq: frequency[1][inputs.frequency]};
 
+  /** construct quandl request code */
+  var reqCode = [];
+  stocks.forEach(function(val){
+    reqCode.push({source: val[0], table: val[1]});
+  });
 
-  /** set return frequency */
-  var freqInd = inputs.frequency;
-
+  /** construct quandl request object */
+  var reqObj = {
+    column_index: '4',
+    transform: 'rdiff',
+    collapse: frequency[0][inputs.frequency]
+  };
 
   inputs.return = inputs.return / 100;
 
@@ -353,156 +365,49 @@ exports.portfolio = function(inputs, callback){
 
 
   /** construct first result container */
-  function firstContainer(pfReturn, efficientPf, stocks){
+  function firstContainer(pfReturn, efficientPf, stocks, dataNames){
     /** construct first result container */
-    Calc.findByCalcname('portfolio').then(function(data){
-      //console.log(data[0].inputs);
-      //var test = _.findWhere(data[0].inputs,{name: 'asset'}).options;
-      //console.log(_.findWhere(test,{id: 'FSE.O1BC_X'}));
-
-
-
-
-    });
-
     result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
     stocks.forEach(function(asset, ind){
-      result._1['portfolioWeight' + ind] = {description: asset[1], unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
+      result._1['portfolioWeight' + ind] = {description: dataNames[ind], unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
     });
   }
 
 
 
+  /** construct a new quandl request object */
+  var req = quandl(reqCode, reqObj);
 
-  function constructReturnMatrix(data, options){
+  return req.then(function(response){
+    var data = response.datasetCommonDates({transposed: false});
+    var dataNames = response.dataNames({removeParentheses: true});
 
-    options = options || {};
-    options.date       = options.date       || false;
-    options.transposed = options.transposed || true;
-    var returnDates = [];
-    var returns = [];
-    var returns2 = [];
+    data.forEach(function(returnVector, ind){
+      var expReturn = stats.mean(returnVector) * frequency[1][inputs.frequency];
+      var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][inputs.frequency]);
 
-    // set a test message
-    //helpers.messages.set("This is a test message" ,2);
+      /** construct second result container */
+      result._2.body.push([dataNames[ind], stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
 
-    /** contruct an array (returnDates) that represents the intersection of all date values */
+      e.push([expReturn]);
 
-    // construct individual arrays
-    data.forEach(function(asset, index){
-      returnDates[index] = [];
-      asset.data.forEach(function(val){
-        returnDates[index].push(val[0]);
-      });
-    });
-
-    // compute intersection
-    returnDates =  _.intersection.apply(_, returnDates);
-
-
-    /** construct an array of arrays where a sub-array consists of a date (index 0) and each of the sub-assets' returns in order
-     *  Example: [['2014-09-30', -0.082055711509393, 0.034728033472803, 0.031358885017422], ['2014-06-30', 0.010914647456887, 0.0031479538300106, -0.13910761154856]]
-     *
-     * */
-    returnDates.forEach(function(date, dateIndex){
-      returns[dateIndex] = [];
-      returns2[dateIndex] = [];
-      returns[dateIndex].push(date);
-
-      data.forEach(function(asset, assetIndex){
-        asset.data.forEach(function(val){
-          if(val[0] === date){
-            returns[dateIndex].push(val[1]);
-            returns2[dateIndex].push(val[1]);
-          }
-        });
-      });
     });
 
 
-    /** return values */
-    if(options.date && options.transposed){
-      return returns[0].map(function(col,i){
-        return returns.map(function(row){
-          return row[i];
-        })
-      })
-    } else if (options.date && !options.transposed){
-      return returns
-    } else if (!options.date && !options.transposed){
-      return returns2
-    } else if (!options.date && options.transposed){
-      return returns2[0].map(function(col,i){
-        return returns2.map(function(row){
-          return row[i];
-        })
-      })
-    }
+    /** compute efficient portfolio */
+    helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
 
-  }
+    /** construct first result container */
+    firstContainer(inputs.return, helper, stocks, dataNames);
 
+    /** construct first chart with efficient frontier */
+    efficientFrontier(inputs.return, data, effOptions);
 
-  // todo: move declarations up
-
-  /** set asset request matrix */
-
-  var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
-
-
-  /** construct options object for efficientPortfolio calculation */
-  var effOptions = {freq: frequency[1][freqInd]};
-
-
-
-  /** construct quandl request code */
-  var reqCode = [];
-  stocks.forEach(function(val){
-    reqCode.push({source: val[0], table: val[1]});
-  });
-
-
-  /** construct quandl request object */
-  var reqObj = {
-    column_index: '4',
-    transform: 'rdiff',
-    collapse: frequency[0][freqInd]
-  };
-
-
-  /** construct new quandl request object */
-
-  var test = quandl(reqCode, reqObj);
-
-
-
-  return test.then(function(response){
-      data = response.datasetCommonDates({transposed: false});
-
-      data.forEach(function(returnVector, ind){
-        var expReturn = stats.mean(returnVector) * frequency[1][freqInd];
-        var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][freqInd]);
-
-        /** construct second result container */
-        result._2.body.push(['TODO', stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
-
-        e.push([expReturn]);
-
-      });
-
-      /** compute efficient portfolio */
-      helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
-
-      /** construct first result container */
-      firstContainer(inputs.return, helper, stocks);
-
-      /** construct first chart with efficient frontier */
-      efficientFrontier(inputs.return, data, effOptions);
-
-      /** attach user messages */
-      result.messages = helpers.messages.messageMap;
-      return result;
+    /** attach user messages */
+    result.messages = helpers.messages.messageMap;
+    return result;
 
   });
 };
