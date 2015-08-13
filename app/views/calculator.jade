@@ -98,9 +98,9 @@ block content
                         each option in input.options
                           - var optgroup = (option.description === '_OPTGROUP')
                             if optgroup
-                              optgroup(label=option.id)
+                              optgroup(label=option.id, selected=option.selected)
                             else
-                              option(value=option.id)= option.description
+                              option(value=option.id, selected=option.selected)= option.description
 
                   //- template for date input fields
                   if input.type === 'date'

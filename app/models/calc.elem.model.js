@@ -27,7 +27,8 @@ var InputsSchema = new Schema({
   args: [Number],
   options: [{
     id: String,
-    description: String
+    description: String,
+    selected: Boolean
   }]
 });
 

@@ -9,6 +9,11 @@ exports.add = function(a,b){
   return a + b;
 };
 
+// simple function that converts a date in the format 2014-09-30 to 03.09.2014
+exports.convertToGermanDate = function(rawDate){
+  var helper =  rawDate.split('-');
+  return String(helper[2] + '.' + helper[1] + '.' + helper[0]);
+};
 
 
 // a messaging object that is intended to be used for communicating messages occurring in calculations to the user

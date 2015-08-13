@@ -20,7 +20,7 @@ app.boerse = (function() {
 
     /** boerse-portfolio */
     // attach a div where stocks will be added dynamically
-    $('#boerse-portfolio-frequency').closest('div[class^="form-group"]').after('<h3 style="margin-top: 25px; margin-bottom: 0px;">Portfoliozusammensetzung</h3><div class="hr-line-dashed"></div><div class="stocksInput"><div class="stockElems"></div><div class="addBtn"></div></div>');
+    $('#boerse-portfolio-to').closest('div[class^="form-group"]').after('<h3 style="margin-top: 25px; margin-bottom: 0px;">Portfoliozusammensetzung</h3><div class="hr-line-dashed"></div><div class="stocksInput"><div class="stockElems"></div><div class="addBtn"></div></div>');
 
     // initialize portfolio calculator inputs
     portfolioInit();
@@ -40,6 +40,21 @@ app.boerse = (function() {
 
   /** boerse-portfolio */
   function portfolioInit(){
+    /** set date to yesteray */
+    var today = new Date();
+    var dd = today.getDate();
+    var mm = today.getMonth()+1; //January is 0!
+    var yyyy = today.getFullYear();
+    if(dd<10) {
+      dd='0'+dd
+    }
+    if(mm<10) {
+      mm='0'+mm
+    }
+    today = dd + '.' + mm + '.' + yyyy;
+    $('#boerse-portfolio-to').val(today);
+
+
     app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.BMW_X"]').attr('selected', true);
     positioncounter += 1;

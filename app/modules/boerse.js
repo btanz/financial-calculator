@@ -303,6 +303,16 @@ exports.portfolio = function(inputs){
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+  // todo: move to db
+  /*
+  errorMap = helpers.validate(inputs, expectedInputs);
+
+  if (errorMap.length !== 0){
+    console.log(errorMap);
+    return errorMap;
+  }*/
+
+
   /** push stocks on array */
   _.each(inputs, function(val, key){
     if (key.match(re)){ // check whether input is stock
@@ -312,6 +322,13 @@ exports.portfolio = function(inputs){
       }
     }
   });
+
+  /** convert dates */
+  //console.log(inputs.from.split('.'));
+  helper.temp =  inputs.from.split('.');
+  helper.from = helper.temp[2] + '-' + helper.temp[1] + '-' + helper.temp[0];
+  helper.temp =  inputs.to.split('.');
+  helper.to   = helper.temp[2] + '-' + helper.temp[1] + '-' + helper.temp[0];
 
   /** set asset request matrix */
   var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
@@ -329,7 +346,9 @@ exports.portfolio = function(inputs){
   var reqObj = {
     column_index: '4',
     transform: 'rdiff',
-    collapse: frequency[0][inputs.frequency]
+    collapse: frequency[0][inputs.frequency],
+    start_date: helper.from,
+    end_date: helper.to
   };
 
   inputs.return = inputs.return / 100;
@@ -371,8 +390,9 @@ exports.portfolio = function(inputs){
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
     stocks.forEach(function(asset, ind){
-      result._1['portfolioWeight' + ind] = {description: dataNames[ind], unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, value: 100 * efficientPf.weights[ind]};
+      result._1['portfolioWeight' + ind] = {description: dataNames[ind], unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, omittooltip: true, value: 100 * efficientPf.weights[ind]};
     });
+
   }
 
 
@@ -381,8 +401,17 @@ exports.portfolio = function(inputs){
   var req = quandl(reqCode, reqObj);
 
   return req.then(function(response){
+
+    //console.log(response.dataNames());
+    //console.log(response.availability());
+    console.log(response.rawDatasets());
+
     var data = response.datasetCommonDates({transposed: false});
+
     var dataNames = response.dataNames({removeParentheses: true});
+    var availability = response.availabiltyIntersection();
+
+
 
     data.forEach(function(returnVector, ind){
       var expReturn = stats.mean(returnVector) * frequency[1][inputs.frequency];
@@ -395,17 +424,24 @@ exports.portfolio = function(inputs){
 
     });
 
-
     /** compute efficient portfolio */
-    helper = f.equity.efficientPortfolio(inputs.return, data, effOptions);
+    helper.portfolio = f.equity.efficientPortfolio(inputs.return, data, effOptions);
 
     /** construct first result container */
-    firstContainer(inputs.return, helper, stocks, dataNames);
+    firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
 
     /** construct first chart with efficient frontier */
     efficientFrontier(inputs.return, data, effOptions);
 
     /** attach user messages */
+    // case return dates needed adjustment
+    if((Date.parse(helper.to) - Date.parse(availability[1])) / (1000*60*60*24) > 45 || (Date.parse(availability[0]) - Date.parse(helper.from)) / (1000*60*60*24) > 45){
+      console.log(helpers.convertToGermanDate(availability[0]));
+      helpers.messages.set('Leider sind nicht für alle Positionen Preisdaten für den gesamten gewählten Zeitraum zur Verfügung. Der Datenzeitraum wurde den verfügbaren Daten angepasst. Der angepasste Zeitraum beginnt am ' + helpers.convertToGermanDate(availability[0]) +' und endet am ' + helpers.convertToGermanDate(availability[1]) + '.'  ,2);
+    }
+
+
+
     result.messages = helpers.messages.messageMap;
     return result;
 

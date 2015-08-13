@@ -7114,6 +7114,28 @@ function seeder() {
         ]
       },
       {
+        name: 'from',
+        id: 'boerse-portfolio-from',
+        linetop: false,
+        label: 'Zeitraum von',
+        addon: 'Datum',
+        value: '01.01.2005',
+        tooltip: 'TBD',
+        type: 'date',
+        vtype: 'date'
+      },
+      {
+        name: 'from',
+        id: 'boerse-portfolio-to',
+        linetop: false,
+        label: 'Zeitraum bis',
+        addon: 'Datum',
+        value: '30.07.2015',
+        tooltip: 'TBD',
+        type: 'date',
+        vtype: 'date'
+      },
+      {
         name: 'asset',
         id: 'boerse-portfolio-asset',
         label: 'Position',
