@@ -105,7 +105,7 @@ app.controller = (function() {
             if (data._chart2){
 
               // add the chartist autoscale function if x-axis should not be a standard step axis
-              data._chart1.autoscaleAxisX ? data._chart1.options.axisX.type =  Chartist.AutoScaleAxis : null;
+              data._chart2.autoscaleAxisX ? data._chart2.options.axisX.type =  Chartist.AutoScaleAxis : null;
 
               app.helpers.compileTemplate('#results-12', '#main-results-chart-template', data._chart2);
               new Chartist[data._chart2.type]('#'+data._chart2.id, data._chart2.data, data._chart2.options, data._chart2.responsiveoptions);

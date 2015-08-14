@@ -31,7 +31,7 @@
 
 /******* LINE CHARTS **********/
 .ct-series-a .ct-line {
-  /*stroke-width: 12px;*/
+  stroke-width: 2px;
   stroke: #FAA43D;
   /*stroke: rgba(28,132,198,0.7);*/
   /*stroke: rgba(26,179,148,0.2); */
@@ -39,6 +39,19 @@
 }
 .ct-series-a .ct-point {
   stroke: #FAA43D;
+  stroke-width: 8px;
+}
+
+.ct-series-b .ct-line {
+  stroke-width: 2px;
+  stroke: #2DA9E1;
+  /*stroke: rgba(28,132,198,0.7);*/
+  /*stroke: rgba(26,179,148,0.2); */
+  /* stroke: rgba(237,85,101,0.2); */
+}
+.ct-series-b .ct-point {
+  stroke: #2DA9E1;
+  stroke-width: 8px;
 }
 
 /******* BAR CHARTS **********/

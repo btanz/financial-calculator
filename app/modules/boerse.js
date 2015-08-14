@@ -300,6 +300,7 @@ exports.portfolio = function(inputs){
   var localElems = calcElems.portfolio.results_1;
   var helper = {};
   result._chart1 = {};
+  result._chart2 = {};
 
 
   /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
@@ -346,6 +347,7 @@ exports.portfolio = function(inputs){
     column_index: '4',
     //transform: 'rdiff',
     transform: 'none',
+    sort_order: 'desc',
     collapse: frequency[0][inputs.frequency],
     start_date: helper.from,
     end_date: helper.to
@@ -378,7 +380,7 @@ exports.portfolio = function(inputs){
     result._chart1.label = {x: 'Risiko (Standardabweichung, %)', y: "Erwartete Rendite (%)"};
     result._chart1.type = 'Line';
     result._chart1.data = {series: [cChart]};
-    result._chart1.options = {axisX: {onlyInteger: false, low: 0}};
+    result._chart1.options = {axisX: {onlyInteger: true, low: 0}};
     result._chart1.autoscaleAxisX = true;
   }
 
@@ -395,6 +397,37 @@ exports.portfolio = function(inputs){
 
   }
 
+  /** construct second chart object */
+  function portfolioGrowth(dates, prices, pricesEqualWeight){
+    var cChart1 = [],
+        cChart2 = [],
+        i, j = 1,
+        scalePrices, scalePricesEqualWeight;
+
+    /** find multiplier that scale first price to 1000 */
+    /** note: this assumes the 'oldest' price is at the end of the array */
+    scalePrices            = 1000 / prices[prices.length-1];
+    scalePricesEqualWeight = 1000 / pricesEqualWeight[pricesEqualWeight.length-1];
+
+    /** build array with series data */
+    for (i = prices.length - 1; i > 0; i--){
+      cChart1.push({x: j, y: prices[i] * scalePrices});
+      cChart2.push({x: j, y: pricesEqualWeight[i] * scalePricesEqualWeight});
+      j += 1;
+    }
+
+    /** build chart */
+    result._chart2.id = 'chart2';
+    result._chart2.title = 'Portfolioentwicklung';
+    result._chart2.type = 'Line';
+    result._chart2.label = {x: 'Zeit', y: "Portfoliowert (EUR)"};
+    result._chart2.legend = ['Optimiertes Portfolio', 'Gleichgewichtetes Portfolio'];
+    result._chart2.data = {series: [cChart1, cChart2]};
+    result._chart2.options = {axisX: {onlyInteger: true}, showPoint: false, lineSmooth: false};
+    result._chart2.autoscaleAxisX = true;
+
+  }
+
 
 
   /** construct a new quandl request object */
@@ -402,16 +435,14 @@ exports.portfolio = function(inputs){
 
   return req.then(function(response){
 
-    var data = response.datasetCommonDates({transposed: false});
-
-    /** convert prices to returns */
-    data = f.equity.diff(data,{diffType: 1,newFirst: true});
-
-    // todo: make sure data are always in the correct order (i.e. asc/desc)
-    // todo: write code that simulates the performance for equal weight etc
-
+    /** assign to short names */
+    var prices = response.datasetCommonDates({transposed: false});
     var dataNames = response.dataNames({removeParentheses: true});
     var availability = response.availabilityIntersection();
+    var dates = response.dateIntersection();
+
+    /** convert prices to returns */
+    var returns = f.equity.diff(prices,{diffType: 1,newFirst: true});
 
     result.messages = helpers.messages.messageMap;
 
@@ -422,8 +453,7 @@ exports.portfolio = function(inputs){
     }
 
 
-
-    data.forEach(function(returnVector, ind){
+    returns.forEach(function(returnVector, ind){
       var expReturn = stats.mean(returnVector) * frequency[1][inputs.frequency];
       var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][inputs.frequency]);
 
@@ -435,15 +465,16 @@ exports.portfolio = function(inputs){
     });
 
     /** compute efficient portfolio */
-    helper.portfolio = f.equity.efficientPortfolio(inputs.return, data, effOptions);
-
-    console.log(helper.portfolio);
+    helper.portfolio = f.equity.efficientPortfolio(inputs.return, returns, effOptions);
 
     /** construct first result container */
     firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
 
     /** construct first chart with efficient frontier */
-    efficientFrontier(inputs.return, data, effOptions);
+    efficientFrontier(inputs.return, returns, effOptions);
+
+    /** construct second chart with portfolio price time series */
+    portfolioGrowth(dates, f.equity.portfolioPrice(prices, helper.portfolio.weights), f.equity.portfolioPrice(prices, undefined, {equalWeight: true}));
 
     /** attach user messages */
     // case return dates needed adjustment
