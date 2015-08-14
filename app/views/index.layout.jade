@@ -1,24 +1,20 @@
-//- This is the layout file that wraps around any content of the app
+//- This is the layout file that wraps around the index page
 doctype html
 html(lang='de')
   head
     include includes/headtags
-
   body.skin
     div#wrapper
       //- add side navigation
       include includes/navbar
-
       //div#page-wrapper.gray-bg.sidebar-content
-      div#page-wrapper.gray-bg
+      div#page-wrapper.gray-bg.sidebar-content
         //- add top navbar
         include includes/navtop
         //- add main content
         block content
-
         div.footer
           //- add footer
           include includes/footer
-
     //- include scripts
     include includes/scripts

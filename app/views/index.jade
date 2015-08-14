@@ -1,19 +1,26 @@
-extends layout
+extends index.layout
 // todo: move to Inspinia
 block content
-  div.section.no-pad-bot#index-banner
+  div.section.no-pad-bot.index-full-width#index-first
     div.container
-      span
-        img(alt='image', class='img-rectangle', id='img-indexpage', style='margin-top: -30px;',src='../images/logos/simplyfi_logo_whiteback_cubeonly.png')
-        p(style='display: inline-block; font-size: 7rem; text-transform: uppercase; font-weight:100; margin-left: 30px; margin-top: 30px; padding-top: 20px;')
-          | Simply
-          span.color-lightblue Fi
-      h1.header.center-align Die Plattform für Finanzplaner
-      //div.row.center
-        h4.header.col.s12.light.center Die Plattform für Finanzberater
-      //div.row.center
-        a(href='http://materializecss.com/getting-started.html', id='download-button', class='btn-large waves-effect waves-light') Erste Schritte
-    div.container
+      div.row
+        span(style='text-align: center; display: block; margin-top: 35px;')
+          img(alt='image', class='img-rectangle', id='img-indexpage', style='margin-top: -30px;',src='../images/logos/simplyfi_logo_darkback_cubeonly.png')
+          p(style='display: inline-block; font-size: 7rem; text-transform: uppercase; font-weight:100; margin-left: 30px; margin-top: 30px; padding-top: 20px; color: white;')
+            | Simply
+            span.color-lightblue Fi
+        h1.header.center-align(style='text-align: center; color: white; margin-bottom: 25px;') Financial Analytics
+
+  div.section.no-pad-bot.index-full-width#index-second
+    div.container(style='height: 300px')
       div.section
         div.row
           div.col.s12
+            p
+
+  div.section.no-pad-bot.index-full-width#index-third
+    div.container(style='height: 300px')
+      div.section
+        div.row
+          div.col.s12
+            p
