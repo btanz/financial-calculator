@@ -44,8 +44,8 @@ script(id='boerse-portfolio-results-2-template', type='text/x-handlebars-templat
 
           tr
             td(style='text-align: left;padding:2px;') {{this.[0]}}
-            td(style='text-align: right;padding:2px;') {{this.[1]}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[4] 0}}
+            td(style='text-align: right;padding:2px;') {{numFormat this.[3] 0}}
+            //td(style='text-align: right;padding:2px;') {{numFormat this.[4] 0}}
           | {{/each}}

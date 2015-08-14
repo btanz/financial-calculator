@@ -93,12 +93,12 @@ app.controller = (function() {
 
             // compile charts
             if (data._chart1){
-              app.charts(data._chart1, '#results-11');
+              app.charts.create(data._chart1, '#results-11');
             }
 
             // compile charts
             if (data._chart2){
-              app.charts(data._chart2, '#results-12');
+              app.charts.create(data._chart2, '#results-12');
             }
 
             // initialize new tooltips

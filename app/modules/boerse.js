@@ -357,7 +357,8 @@ exports.portfolio = function(inputs){
 
   result.id = calcElems.portfolio.id;
   result._2.title = 'Parameter Aktien';
-  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
+  //result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
+  result._2.header = ['Aktie', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
   result._2.body = [];
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
@@ -411,24 +412,31 @@ exports.portfolio = function(inputs){
 
     /** build array with series data */
     for (i = prices.length - 1; i > 0; i--){
-      cChart1.push({x: j, y: prices[i] * scalePrices});
-      cChart2.push({x: j, y: pricesEqualWeight[i] * scalePricesEqualWeight});
+      cChart1.push({x: Date.parse(dates[i]), y: prices[i] * scalePrices});
+      cChart2.push({x: Date.parse(dates[i]), y: pricesEqualWeight[i] * scalePricesEqualWeight});
       j += 1;
     }
 
     /** build chart */
+    result._chart2.specialChart = true;
+    result._chart2.specialChartName = ['boerse','portfolio'];
     result._chart2.id = 'chart2';
     result._chart2.title = 'Portfolioentwicklung';
     result._chart2.type = 'Line';
     result._chart2.label = {x: 'Zeit', y: "Portfoliowert (EUR)"};
     result._chart2.legend = ['Optimiertes Portfolio', 'Gleichgewichtetes Portfolio'];
-    result._chart2.data = {series: [cChart1, cChart2]};
-    result._chart2.options = {axisX: {onlyInteger: true}, showPoint: false, lineSmooth: false};
-    result._chart2.autoscaleAxisX = true;
-
+    result._chart2.data = {
+      series: [{
+        name: 'optimalPortfolio',
+        data: cChart1
+      },
+      {
+        name: 'equalweightedPortfolio',
+        data: cChart2
+      }
+      ]
+    };
   }
-
-
 
   /** construct a new quandl request object */
   var req = quandl(reqCode, reqObj);
@@ -458,8 +466,8 @@ exports.portfolio = function(inputs){
       var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][inputs.frequency]);
 
       /** construct second result container */
-      result._2.body.push([dataNames[ind], stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
-
+      //result._2.body.push([dataNames[ind], stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
+      result._2.body.push([dataNames[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
       e.push([expReturn]);
 
     });
