@@ -1771,7 +1771,7 @@ table.dataTable thead .sorting:after {
 }
 .form-control:focus,
 .single-line:focus {
-  border-color: #1ab394 !important;
+  border-color: #2DA9E1 !important;
 }
 .has-success .form-control {
   border-color: #1ab394;
