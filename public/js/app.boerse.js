@@ -7,7 +7,6 @@ app.boerse = (function() {
   /*********************** BEGIN BOERSE DOCUMENT READY TASKS ***********************/
   $(document).ready(function () {
 
-
     /** boerse-equityreturn */
     // attach a div where dividend dates and amounts will be added dynamically
     $('#boerse-equityreturn-dividends').closest('div[class^="form-group"]').after('<div class="dividendsInput"></div>');
@@ -136,8 +135,9 @@ app.boerse = (function() {
   }
 
 
-
-
   /*********************** END BOERSE EVENT HANDLERS ***********************/
+
+  /** return empty object we can attach to */
+  return {};
 
 })();
