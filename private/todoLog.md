@@ -1,5 +1,22 @@
 The purpose of this file is to collect todos mainly based on feedback and experiences with the app 
 
+**** ACTION PLAN LAUNCH DATE 14.09.2015 ****
+\ generally, need to work through each calculator, complete it, and test it; there is about 2 days of time for each calculator
+\ create a nice landing page with animations
+
+- complete portfolio calculator and test it by comparing with excel
+    * add feature that shows returns/risk for each asset
+    * add more assets and a better method to select assets
+    * add feature that allows for adding the shortselling restriction
+    * add feature that allows for entering own portfolio
+    * write explanation text
+
+- add tests and graphics to option calculator
+
+
+
+
+
 ***** I. GLOBAL APP TASKS ******
 
 ****  I.A) BEFORE NEXT LAUNCH ****
