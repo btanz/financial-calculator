@@ -336,6 +336,7 @@ exports.portfolio = function(inputs){
 
   /** construct options object for efficientPortfolio calculation */
   var effOptions = {freq: frequency[1][inputs.frequency]};
+  // todo: check whether frequency is set correctly
 
   /** construct quandl request code */
   var reqCode = [];
@@ -499,6 +500,9 @@ exports.portfolio = function(inputs){
     /** compute efficient portfolio */
     helper.portfolio = f.equity.efficientPortfolio(inputs.return, returns, effOptions);
 
+    console.log(helper.portfolio);
+    console.log(f.equity.efficientPortfolioQuadprog(inputs.return, returns, undefined, undefined, effOptions));
+
     /** construct first result container */
     firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
 
@@ -516,9 +520,6 @@ exports.portfolio = function(inputs){
     if((Date.parse(helper.to) - Date.parse(availability[1])) / (1000*60*60*24) > 2*(365/frequency[1][inputs.frequency])+30 || (Date.parse(availability[0]) - Date.parse(helper.from)) / (1000*60*60*24) > 2*(365/frequency[1][inputs.frequency])+30){
       helpers.messages.set('Leider stehen nicht für alle Positionen Preisdaten für den gesamten gewählten Zeitraum zur Verfügung. Der Datenzeitraum wurde den verfügbaren Daten angepasst. Der angepasste Zeitraum beginnt am ' + helpers.convertToGermanDate(availability[0]) +' und endet am ' + helpers.convertToGermanDate(availability[1]) + '.'  ,2);
     }
-
-    // todo: remove quadprog tinkering
-    f.equity.quadProgExample();
 
 
     return result;
