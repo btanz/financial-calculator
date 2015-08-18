@@ -469,7 +469,7 @@ exports.portfolio = function(inputs){
 
     /** assign to short names */
     var prices = response.datasetCommonDates({transposed: false});
-    var dataNames = response.dataNames({removeParentheses: true, trimComma: true});
+    var dataNames = response.dataNames({removeParentheses: true, trimParentheses: true});
     var dataCodes = response.dataCodes({noDatabase: true, noUnderscore: true});
     var availability = response.availabilityIntersection();
     var dates = response.dateIntersection();

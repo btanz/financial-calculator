@@ -30,8 +30,6 @@ app.boerse = (function() {
     // attach event handler for add button
     $('#boerse-portfolio-add').on('click', addAsset);
 
-    // attach event handler for asset class selection
-    $('.boerse-portfolio-assetclass').on('change', changeAssetclass);
 
 
   });
@@ -100,14 +98,6 @@ app.boerse = (function() {
     positioncounter += 1;
     $('.boerse-portfolio-remove').on('click', removeAsset);
   }
-
-
-  function changeAssetclass(e){
-    e.preventDefault();
-    console.log('Asset class changed');
-  }
-
-
 
 
   /** boerse-equityreturn */
