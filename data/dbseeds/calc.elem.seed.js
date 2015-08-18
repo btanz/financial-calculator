@@ -7142,7 +7142,7 @@ function seeder() {
         tooltip: 'TBD',
         type: 'custom',
         vtype: 'string',
-        options: qMeta.fse
+        options: qMeta.fse.concat(qMeta.wiki)
       }
     ],
     results_1: [

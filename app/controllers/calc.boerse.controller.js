@@ -99,6 +99,7 @@ exports.portfolio = {
     Calc.findByCalcname('portfolio')
         .then(function(data){
           res.render('calculator', {obj: data[0]});
+          console.log(data[0].assets);
         })
         .onReject(function(){
           console.log("An error occurred while rendering the boerse-portfolio calculator.");

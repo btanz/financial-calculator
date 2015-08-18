@@ -30,6 +30,9 @@ app.boerse = (function() {
     // attach event handler for add button
     $('#boerse-portfolio-add').on('click', addAsset);
 
+    // attach event handler for asset class selection
+    $('.boerse-portfolio-assetclass').on('change', changeAssetclass);
+
 
   });
   /*********************** END BOERSE DOCUMENT READY TASKS *************************/
@@ -96,6 +99,12 @@ app.boerse = (function() {
     app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     positioncounter += 1;
     $('.boerse-portfolio-remove').on('click', removeAsset);
+  }
+
+
+  function changeAssetclass(e){
+    e.preventDefault();
+    console.log('Asset class changed');
   }
 
 
