@@ -7114,6 +7114,24 @@ function seeder() {
         ]
       },
       {
+        name: 'shortsell',
+        id: 'boerse-portfolio-shortsell',
+        label: 'Leerverkäufe möglich?',
+        tooltip: 'TBD',
+        type: 'select',
+        vtype: 'bool',
+        options: [
+          {
+            id: 'false',
+            description: 'Nein'
+          },
+          {
+            id: 'true',
+            description: 'Ja'
+          }
+        ]
+      },
+      {
         name: 'from',
         id: 'boerse-portfolio-from',
         linetop: false,

@@ -517,6 +517,9 @@ exports.portfolio = function(inputs){
       helpers.messages.set('Leider stehen nicht für alle Positionen Preisdaten für den gesamten gewählten Zeitraum zur Verfügung. Der Datenzeitraum wurde den verfügbaren Daten angepasst. Der angepasste Zeitraum beginnt am ' + helpers.convertToGermanDate(availability[0]) +' und endet am ' + helpers.convertToGermanDate(availability[1]) + '.'  ,2);
     }
 
+    // todo: remove quadprog tinkering
+    f.equity.quadProgExample();
+
 
     return result;
 
