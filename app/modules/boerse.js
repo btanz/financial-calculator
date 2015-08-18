@@ -293,6 +293,7 @@ exports.portfolio = function(inputs){
   var result = {};
   result._1 = {};
   result._2 = {};
+  result._3 = {};
   var stocks = [], stocksHelper = [];
 
   var e = [];
@@ -357,8 +358,7 @@ exports.portfolio = function(inputs){
 
   result.id = calcElems.portfolio.id;
   result._2.title = 'Parameter Aktien';
-  //result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
-  result._2.header = ['Aktie', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
+  result._2.header = ['Aktie', 'Ticker', 'Mittlere erwartete Rendite <br> (%, annualisiert)', 'Standardabweichung <br> (%, annualisiert)', 'N'];
   result._2.body = [];
 
   /** ******** 3. DEFINE HELPER FUNCTIONS ******** */
@@ -397,6 +397,30 @@ exports.portfolio = function(inputs){
     });
 
   }
+
+  /** construct third result container */
+  function thirdContainer(dataNames, dates, returns){
+    result._3.title = 'Periodische Renditen';
+    result._3.header = ['Zeit'].concat(dataNames);
+    result._3.body = [];
+    var helper = [];
+
+    dates.forEach(function(val, ind){
+      /** construct returns row */
+      helper = [];
+      returns.forEach(function(valR,indR){
+        helper.push(100 * valR[ind]);
+      });
+
+      if(ind < dates.length -1) {
+        result._3.body.push([helpers.convertToGermanDate(val)].concat(helper));
+      }
+
+    });
+
+  }
+
+
 
   /** construct second chart object */
   function portfolioGrowth(dates, prices, pricesEqualWeight){
@@ -446,6 +470,7 @@ exports.portfolio = function(inputs){
     /** assign to short names */
     var prices = response.datasetCommonDates({transposed: false});
     var dataNames = response.dataNames({removeParentheses: true});
+    var dataCodes = response.dataCodes({noDatabase: true, noUnderscore: true});
     var availability = response.availabilityIntersection();
     var dates = response.dateIntersection();
 
@@ -466,8 +491,7 @@ exports.portfolio = function(inputs){
       var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][inputs.frequency]);
 
       /** construct second result container */
-      //result._2.body.push([dataNames[ind], stocks[ind][1], 100 * expReturn, 100 * stdev, returnVector.length]);
-      result._2.body.push([dataNames[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
+      result._2.body.push([dataNames[ind], dataCodes[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
       e.push([expReturn]);
 
     });
@@ -477,6 +501,9 @@ exports.portfolio = function(inputs){
 
     /** construct first result container */
     firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
+
+    /** construct third result container */
+    thirdContainer(dataCodes, dates, returns);
 
     /** construct first chart with efficient frontier */
     efficientFrontier(inputs.return, returns, effOptions);
