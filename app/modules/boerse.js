@@ -334,8 +334,9 @@ exports.portfolio = function(inputs){
   /** set asset request matrix */
   var frequency = [['weekly','monthly','quarterly','annual'], [52,12,4,1]];
 
+
   /** construct options object for efficientPortfolio calculation */
-  var effOptions = {freq: frequency[1][inputs.frequency]};
+  var effOptions = {freq: frequency[1][inputs.frequency], shortSales: inputs.shortsell};
   // todo: check whether frequency is set correctly
 
   /** construct quandl request code */
@@ -373,7 +374,7 @@ exports.portfolio = function(inputs){
     }
 
     cReturn.forEach(function(val){
-      cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolio(val, returns, effOptions).portfolioVariance),4), y: f.basic.round(100 * val,4)});
+      cChart.push({x: f.basic.round(100 * Math.sqrt(f.equity.efficientPortfolioQuadprog(val, returns, effOptions).portfolioVariance),4), y: f.basic.round(100 * val,4)});
     });
 
     // create chart
@@ -498,10 +499,8 @@ exports.portfolio = function(inputs){
     });
 
     /** compute efficient portfolio */
-    helper.portfolio = f.equity.efficientPortfolio(inputs.return, returns, effOptions);
-
-    console.log(helper.portfolio);
-    console.log(f.equity.efficientPortfolioQuadprog(inputs.return, returns, undefined, undefined, effOptions));
+    //helper.portfolio = f.equity.efficientPortfolio(inputs.return, returns, effOptions);
+    helper.portfolio = f.equity.efficientPortfolioQuadprog(inputs.return, returns, effOptions);
 
     /** construct first result container */
     firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
