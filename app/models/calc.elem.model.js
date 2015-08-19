@@ -52,6 +52,7 @@ var CalcSchema = new Schema({
   id: {type: String, required: true},
   designation: String,
   description: String,
+  guidelink: String,
   inputs: [InputsSchema],
   results_1: [Results1Schema]
 });

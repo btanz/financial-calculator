@@ -7073,6 +7073,7 @@ function seeder() {
     id: 'boerse-portfolio',
     designation: 'Portfoliorechner',
     description: 'Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.',
+    guidelink: '/portfoliorechner/guide',
     inputs: [
       {
         name: 'return',
