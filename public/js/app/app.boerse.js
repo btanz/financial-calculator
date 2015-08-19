@@ -32,6 +32,36 @@ app.boerse = (function() {
 
 
 
+
+    // todo: remove/reword selectize tinkering
+    var xhr, selectedOption;
+    var select_city;
+    select_city = $('#boerse-portfolio-city')
+
+    $('#boerse-portfolio-state').on('change', function(e){
+      if (!e.currentTarget.value.length) return;
+      selectedOption = e.currentTarget.value;
+
+      /** run AJAX request to get asset ids & descriptions */
+      xhr = $.getJSON(window.location.origin + '/data/equity/ind?db=' + selectedOption)
+          .done(function(data) {
+
+            /** remove previous options */
+            select_city.find('option').remove();
+
+            /** attach new options */
+            $.each(data, function(key, val){
+              select_city.append($("<option></option>").attr("value",val.id).text(val.description));
+            });
+
+          })
+          .fail(function(e){
+            console.log('Leider ist ein Fehler aufgetreten');
+          });
+    });
+
+
+
   });
   /*********************** END BOERSE DOCUMENT READY TASKS *************************/
 

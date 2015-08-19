@@ -19,6 +19,7 @@ var bodyParser = require('body-parser');
 /** C. Internal dependencies / Routes */
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
+var data = require('../app/routes/data/data');
 var navElems = require('./../data/static/navElems.json');
 var seed = require('../data/dbseeds/calc.seed');
 
@@ -83,6 +84,7 @@ app.locals._ = require("underscore");
  */
 app.use('/', routes);
 app.use('/', index);
+app.use('/data', data);
 
 
 

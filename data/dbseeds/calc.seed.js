@@ -1,5 +1,6 @@
 var seedCalcElem         = require('./calc.elem.seed');
 var seedCalcStockprices  = require('./calc.stockprices.seed');
+var seedEquityIndices    = require('./data.equity.ind.seed');
 
 /**
  *  This is the master file for seeding the database for calculators
@@ -18,6 +19,9 @@ exports.seedDB = function(){
 
   /** Seed Calculator Stockprices */
   seedCalcStockprices.seedDB();
+
+  /** Seed Equity Indicators database */
+  seedEquityIndices.seedDB();
 
 };
 

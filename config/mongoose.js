@@ -10,6 +10,7 @@ module.exports = function(){
   require('../app/models/calc.elem.model');
   require('../app/models/calc.stockprices.model');
   require('../app/models/calc.elem.testmodel');
+  require('../app/models/data/data.equity.ind');
 
   return db;
 };
