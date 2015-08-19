@@ -27,7 +27,7 @@ function seeder() {
 
   /** seed indicators for Frankfurt Stock Exchange FSE */
   qMeta.fse.forEach(function(asset){
-    new Indicator(asset).save(function (err) {
+    new Indicator({id: asset.id, description: asset.description.toUpperCase()}).save(function (err) {
       if (err) {
         console.log(err);
         console.log('Seed Failed for an equity indicator');
@@ -42,7 +42,7 @@ function seeder() {
 
   /** seed indicators for Quandl WIKI */
   qMeta.wiki.forEach(function(asset){
-    new Indicator(asset).save(function (err) {
+    new Indicator({id: asset.id, description: asset.description.toUpperCase()}).save(function (err) {
       if (err) {
         console.log(err);
         console.log('Seed Failed for an equity indicator');

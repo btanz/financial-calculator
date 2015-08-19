@@ -5,7 +5,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 \ create a nice landing page with animations
 
 - complete portfolio calculator and test it by comparing with excel
-    * add more assets and a better method to select assets
     * add feature that allows for entering own portfolio
     * write explanation text
 

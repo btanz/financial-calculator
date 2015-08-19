@@ -13,7 +13,7 @@ IndicatorSchema.statics.findAll = function(){
 };
 
 IndicatorSchema.statics.findByDB = function(db){
-  return this.find({"id" : {$regex : ".*" + db + ".*"}}).lean().exec();
+  return this.find({"id" : {$regex : ".*" + db + ".*"}}).sort({description: 1}).lean().exec();
 };
 
 

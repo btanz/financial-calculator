@@ -7154,58 +7154,13 @@ function seeder() {
         vtype: 'date'
       },
       {
-        name: 'state',
-        id: 'boerse-portfolio-state',
-        label: 'State',
-        tooltip: 'TBD',
-        type: 'select',
-        vtype: 'string',
-        options: [
-          {
-            id: 'FSE',
-            description: 'Aktien Deutschland'
-          },
-          {
-            id: 'WIKI',
-            description: 'Aktien USA'
-          }
-        ]
-      },
-      {
-        name: 'city',
-        id: 'boerse-portfolio-city',
-        label: 'City',
-        tooltip: 'TBD',
-        type: 'select',
-        vtype: 'number',
-        args: [0, 3],
-        options: [
-          {
-            id: '0',
-            description: 'CHIC'
-          },
-          {
-            id: '1',
-            description: 'SAND'
-          },
-          {
-            id: '2',
-            description: 'LA'
-          },
-          {
-            id: '3',
-            description: 'SF'
-          }
-        ]
-      },
-      {
         name: 'asset',
         id: 'boerse-portfolio-asset',
         label: 'Position',
         tooltip: 'TBD',
         type: 'custom',
         vtype: 'string',
-        options: qMeta.fse.concat(qMeta.wiki)
+        options: qMeta.fse
       }
     ],
     results_1: [
@@ -7269,7 +7224,7 @@ function seeder() {
       },
       {
         name: 'portfolioweightintro',
-        description: 'Portfoliogewichte der Einzelaktien',
+        description: 'Optimale Portfoliogewichte',
         unit: '',
         digits: 1,
         importance: 'first',

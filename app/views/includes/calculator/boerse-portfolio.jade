@@ -2,7 +2,11 @@
 script(id='boerse-portfolio-stocksInput-template', type='text/x-handlebars-template')
   div.form-group.m-l-lg
     div.row
-      div.col-xs-10
+      div.col-xs-4
+        select(id='{{obj.id0}}', class='form-control boerse-portfolio-assetclass')
+          option(value='FSE')  Aktien Deutschland
+          option(value='WIKI') Aktien USA
+      div.col-xs-6
         - var asset = _.findWhere(obj.inputs, {name: 'asset'}).options;
         select(id='{{obj.id1}}', class='form-control')
           each option, index in asset

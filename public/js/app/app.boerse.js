@@ -30,36 +30,8 @@ app.boerse = (function() {
     // attach event handler for add button
     $('#boerse-portfolio-add').on('click', addAsset);
 
-
-
-
-    // todo: remove/reword selectize tinkering
-    var xhr, selectedOption;
-    var select_city;
-    select_city = $('#boerse-portfolio-city')
-
-    $('#boerse-portfolio-state').on('change', function(e){
-      if (!e.currentTarget.value.length) return;
-      selectedOption = e.currentTarget.value;
-
-      /** run AJAX request to get asset ids & descriptions */
-      xhr = $.getJSON(window.location.origin + '/data/equity/ind?db=' + selectedOption)
-          .done(function(data) {
-
-            /** remove previous options */
-            select_city.find('option').remove();
-
-            /** attach new options */
-            $.each(data, function(key, val){
-              select_city.append($("<option></option>").attr("value",val.id).text(val.description));
-            });
-
-          })
-          .fail(function(e){
-            console.log('Leider ist ein Fehler aufgetreten');
-          });
-    });
-
+    // attach event handler for assetclass selector
+    $('.boerse-portfolio-assetclass').on('change', requestAssets);
 
 
   });
@@ -85,31 +57,31 @@ app.boerse = (function() {
     $('#boerse-portfolio-to').val(today);
 
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.ADS_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.BAS_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.BMW_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.BOSS_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.FME_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.SAP_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.TKA_X"]').attr('selected', true);
     positioncounter += 1;
 
@@ -128,6 +100,41 @@ app.boerse = (function() {
     positioncounter += 1;
     $('.boerse-portfolio-remove').on('click', removeAsset);
   }
+
+
+  function requestAssets(e){
+    /** retrieve selected asset class */
+    if (!e.currentTarget.value.length) return;
+    var selectedOption = e.currentTarget.value;
+
+    /** retrieve jQuery obj for asset selection / this is the target for the AJAX request */
+    var selectAsset = e.currentTarget.parentNode.nextSibling.firstChild.id;
+    selectAsset = $('#'+selectAsset);
+
+    selectAsset.prop("disabled", true);
+
+    /** run AJAX request */
+    $.getJSON(window.location.origin + '/data/equity/ind?db=' + selectedOption)
+        .done(function(data) {
+
+          /** remove previous options */
+          selectAsset.find('option').remove();
+
+          /** attach new options */
+          $.each(data, function(key, val){
+            selectAsset.append($("<option></option>").attr("value",val.id).text(val.description));
+          });
+
+          selectAsset.prop("disabled", false);
+
+        })
+        .fail(function(e){
+          console.log('Leider ist ein Fehler aufgetreten');
+        });
+
+  }
+
+
 
 
   /** boerse-equityreturn */

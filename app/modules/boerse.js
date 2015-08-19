@@ -418,7 +418,7 @@ exports.portfolio = function(inputs){
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
     stocks.forEach(function(asset, ind){
-      result._1['portfolioWeight' + ind] = {description: dataNames[ind] + ' (' + dataCodes[ind] + ')' , unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, omittooltip: true, value: 100 * efficientPf.weights[ind]};
+      result._1['portfolioWeight' + ind] = {description: dataNames[ind].toUpperCase() + ' (' + dataCodes[ind] + ')' , unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, omittooltip: true, value: 100 * efficientPf.weights[ind]};
     });
 
   }
@@ -516,7 +516,7 @@ exports.portfolio = function(inputs){
       var stdev = stats.stdev(returnVector, true) * Math.sqrt(frequency[1][inputs.frequency]);
 
       /** construct second result container */
-      result._2.body.push([dataNames[ind], dataCodes[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
+      result._2.body.push([dataNames[ind].toUpperCase(), dataCodes[ind], 100 * expReturn, 100 * stdev, returnVector.length]);
       e.push([expReturn]);
 
     });

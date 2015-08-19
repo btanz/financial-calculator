@@ -18,6 +18,8 @@ router.get('/aktienrenditerechner/inputs',      boerse.equityreturn.calculate);
 
 router.get('/portfoliorechner',                 boerse.portfolio.render);
 router.get('/portfoliorechner/inputs',          boerse.portfolio.calculate);
+router.get('/portfoliorechner/guide',           boerse.portfolio.guide);
+
 
 
 /**

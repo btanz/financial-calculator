@@ -117,6 +117,10 @@ exports.portfolio = {
         console.log('An error occured');
         res.json([]);
       });
+  },
+
+  guide: function(req,res){
+    res.render('calculatorGuide')
   }
 
 
