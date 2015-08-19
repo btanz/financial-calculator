@@ -387,15 +387,38 @@ exports.portfolio = function(inputs){
     result._chart1.autoscaleAxisX = true;
   }
 
+  /** function that compiles pie chart for portfolio weigths */
+  function portfolioPiechart(weights, names){
+    var labels = [],
+        series = [];
+    /** construct labels and series */
+    weights.forEach(function(val, ind){
+      if(val > 0.00000000001){
+        labels.push(names[ind]);
+        series.push(val);
+      }
+    });
+
+    // create chart
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Optimale Portfoliozusammensetzung';
+    result._chart1.type = 'Pie';
+    result._chart1.data = {
+      labels: labels,
+      series: series
+    };
+    result._chart1.options = {showLabel: true, donut: false, labelOffset: 10};
+  }
+
 
   /** construct first result container */
-  function firstContainer(pfReturn, efficientPf, stocks, dataNames){
+  function firstContainer(pfReturn, efficientPf, stocks, dataNames, dataCodes){
     /** construct first result container */
     result._1.portfolioReturn  = _.extend(localElems.portfolioreturn, {"value": 100 * pfReturn});
     result._1.portfolioRisk    = _.extend(localElems.portfoliorisk,   {"value": 100 * Math.sqrt(efficientPf.portfolioVariance)});
     result._1.portfolioWeight  = _.extend(localElems.portfolioweightintro, {"value": ''});
     stocks.forEach(function(asset, ind){
-      result._1['portfolioWeight' + ind] = {description: dataNames[ind], unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, omittooltip: true, value: 100 * efficientPf.weights[ind]};
+      result._1['portfolioWeight' + ind] = {description: dataNames[ind] + ' (' + dataCodes[ind] + ')' , unit: localElems.portfolioweight.unit, digits: localElems.portfolioweight.digits, importance: localElems.portfolioweight.importance, tooltip: localElems.portfolioweight.tooltip, omittooltip: true, value: 100 * efficientPf.weights[ind]};
     });
 
   }
@@ -499,17 +522,30 @@ exports.portfolio = function(inputs){
     });
 
     /** compute efficient portfolio */
-    //helper.portfolio = f.equity.efficientPortfolio(inputs.return, returns, effOptions);
     helper.portfolio = f.equity.efficientPortfolioQuadprog(inputs.return, returns, effOptions);
 
+    /** check whether solver returned an error message */
+    if(helper.portfolio.message){
+      helpers.errors.set("Es konnten keine realistischen Portfolioanteile berechnet werden. Bitte prüfen Sie, ob die Zielrendite realistisch ist.",undefined , true);
+      return helpers.errors.errorMap;
+    }
+
     /** construct first result container */
-    firstContainer(inputs.return, helper.portfolio, stocks, dataNames);
+    firstContainer(inputs.return, helper.portfolio, stocks, dataNames, dataCodes);
 
     /** construct third result container */
     thirdContainer(dataCodes, dates, returns);
 
-    /** construct first chart with efficient frontier */
-    efficientFrontier(inputs.return, returns, effOptions);
+
+    /** if shortsales are allowed, we construct a chart with the efficient frontier; otherwise, we construct a pie chart with portfolio weights */
+    if(inputs.shortsell === true || inputs.shortsell === 'true'){
+      /** construct first chart with efficient frontier */
+      efficientFrontier(inputs.return, returns, effOptions);
+    } else {
+      portfolioPiechart(helper.portfolio.weights, dataCodes);
+    }
+
+
 
     /** construct second chart with portfolio price time series */
     portfolioGrowth(dates, f.equity.portfolioPrice(prices, helper.portfolio.weights), f.equity.portfolioPrice(prices, undefined, {equalWeight: true}));

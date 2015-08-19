@@ -5,6 +5,11 @@
 }
 
 /******* PIE CHARTS **********/
+.ct-chart-pie .ct-label {
+  font-size: 1.5rem;
+}
+
+
 .ct-series-a .ct-slice-pie {
   /*fill: #1AB394;*/
   /*fill: #DEDEDE;
