@@ -7074,6 +7074,13 @@ function seeder() {
     designation: 'Portfoliorechner',
     description: 'Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.',
     guidelink: '/portfoliorechner/guide',
+    guidegoal: 'Der Rechner informiert Sie über die bestmögliche Komination von Anlagemöglichkeiten zur Bildung eines diversifizierten Portfolios.',
+    guidequestions: ['Welches ist das am besten diversifizierte Portfolio aus den vorgegebenen Anlagemöglichkeiten und dem angestrebten Renditeziel?', 'Wie viel Risiko (Varianz) weist dieses Portfolio auf?', 'Wie viel geringer ist das Risiko der Investition in ein Portfolio im Vergleich zu den Einzelaktien?', 'Wie hätte sich das optimale Portfolio in der Vergangenheit im Vergleich zu einem gleichgewichteten Portfolio entwickelt?'],
+    guideaudience: ['Investoren, welche überprüfen wollen, ob das von Ihnen gehaltene Aktienportfolio (noch) optimal ist oder angepasst werden sollte.', 'Investoren, welche sich ein Portfolio aus bestimmten Anlagen zusammenstellen möchten und optimal diversifiziert sein wollen.', 'Für Investoren, welche keine starke Meinung bezüglich der Auswahl einzelner Anlagen haben, ist es meist besser, etwa in einen Exchange-Traded-Fund (ETF) zu investieren.'],
+    guidesteps: ['Wählen Sie zunächst die Zielrendite für das Portfolio aus. Je höher Sie diese wählen, desto höher wird auch das Risiko des Portfolios sein. Falls Sie die Rendite sehr niedrig wählen, kann es sein, dass es Portfolios mit geringerem Risiko und höherer Rendite gibt. Sie können dies prüfen, indem Sie die Zielrendite erhöhen und darauf achten, ob das Risiko des berechneten optimalen Portfolios geringer wird. Falls Sie die Rendite zu hoch wählen, ist es möglich, dass ein Portfolio mit einer solche hohen Rendite nicht existiert. Das Berechnungstool wird dann eine Fehlermeldung ausgeben.', 'Wählen Sie danach die Frequenz der Renditen. Bewährt haben sich monatliche und wöchentliche Frequenzen.', 'Geben Sie nun an, ob Leerverkäufe (Short-Sales) möglich sind. In den meisten Fällen ist "Nein" hier die richtige Antwort.', 'Geben Sie danach den Zeitraum an, für welchen die Renditen der angegebenen Anlagemöglichkeiten analysiert werden sollen. In den meisten Fällen ist ein Zeitraum von etwa 10 Jahren eine sinnvolle Wahl.', 'Im letzten Schritt können Sie schliesslich die zu analysierenden Anlagemöglichkeiten angeben. Wählen Sie dazu zunächst eine Anlageklasse (etwa "Aktien Deutschland") und danach die konkrete Anlage (etwa "BMW"). Sie können beliebig Positionen entfernen und hinzufügen und das Portfolio nach ihren Wünschen zusammenstellen.' ],
+    guideresult: ['Ergebnis der Berechnung ist ein diversifiziertes Portfolio, dessen Zusammensetzung im Ergebnisfeld anhand von prozentualen Portfoliogewichten ausgegeben wird. Weiterhin berechnet SimplyFi das Portfoliorisiko, verschiedene Parameter der einzelnen Anlagen (etwa Rendite und Risiko), die für die Berechnung verwendeten periodischen Renditen (in der vorgegebenen Frequenz und über den vorgegebenen Zeitraum) sowie ein Backtesting des optimierten und eines gleichgewichteten Portfolios, welches als Grafik ausgeben wird.'],
+    guidereferences: ['Reference1', 'Reference2'],
+    guidetext: 'Die Diversifiation ("Don\'t put all your eggs in one basket") ist eine anerkannte Strategie zur Reduktion von Risiken bei der Kapitalanlage. Der Portfoliorechner implemeniert die Erkenntnisse der modernen Portfoliotheorie, begründet von Nobelpreisträger Harry Markowitz, und erlaubt die Berechnung diversifizierter Portfolios nach dieser Theorie. Die Berechnung erfolgt in vier Schritten. Im ersten Schritt bezieht der Rechner die Renditen der einzelnen Anlagen von unseren Datenanbietern. Daraufhin werden die für die Optimierung relevanten Parameter (durchschnittliche historische Rendite, Kovarianzmatrix) für die gewählten Anlagen berechnet. Im dritten Schritt löst der Rechner auf Basis dieser Parameter das Optimierungsproblem unter Berücksichtigung der Leerverkaufsbedingungen. Am Schluss wird ein Backtesting des berechneten optimalen Portfolios durchgeführt und die Ergebnisse werden für Sie aufbereitet und ausgegeben.',
     inputs: [
       {
         name: 'return',
@@ -7082,16 +7089,16 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zielrendite',
         value: '15.50',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie hier die Zielrendite für das Portfolio aus. Je höher Sie diese wählen, desto höher wird auch das Risiko des Portfolios sein. Der Rechner wird das Portfoliorisiko für diese Zielrendite minimieren.',
         type: 'number',
         vtype: 'number',
-        args: [0, 100]
+        args: [0, 80]
       },
       {
         name: 'frequency',
         id: 'boerse-portfolio-frequency',
         label: 'Renditefrequenz',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie die Frequenz der Einzelrenditen für die Analyse aus. Bewährt haben sich monatliche und wöchentliche Frequenzen.',
         type: 'select',
         vtype: 'number',
         args: [0, 3],
@@ -7118,7 +7125,7 @@ function seeder() {
         name: 'shortsell',
         id: 'boerse-portfolio-shortsell',
         label: 'Leerverkäufe möglich?',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie an, ob Leerverkäufe (Short-Sales) möglich sind. Für die meisten Investoren sind Leerverkäufe in der Regel nicht möglich.',
         type: 'select',
         vtype: 'bool',
         options: [
@@ -7139,7 +7146,7 @@ function seeder() {
         label: 'Zeitraum von',
         addon: 'Datum',
         value: '01.01.2005',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie den Zeitraum an, für welchen die Renditen der angegebenen Anlagemöglichkeiten analysiert werden sollen. In den meisten Fällen ist ein Zeitraum von etwa 10 Jahren eine sinnvolle Wahl',
         type: 'date',
         vtype: 'date'
       },
@@ -7150,7 +7157,7 @@ function seeder() {
         label: 'Zeitraum bis',
         addon: 'Datum',
         value: '30.07.2015',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie den Zeitraum an, für welchen die Renditen der angegebenen Anlagemöglichkeiten analysiert werden sollen. In den meisten Fällen ist ein Zeitraum von etwa 10 Jahren eine sinnvolle Wahl',
         type: 'date',
         vtype: 'date'
       },
@@ -7158,21 +7165,13 @@ function seeder() {
         name: 'asset',
         id: 'boerse-portfolio-asset',
         label: 'Position',
-        tooltip: 'TBD',
+        tooltip: 'Position',
         type: 'custom',
         vtype: 'string',
         options: qMeta.fse
       }
     ],
     results_1: [
-      {
-        name: 'test',
-        description: 'Zinstage',
-        unit: 'Tage',
-        digits: 0,
-        importance: 'second',
-        tooltip: 'Die Anlagedauer in Zinstagen nach der gewählten Zinsmethode.'
-      },
       {
         name: 'expectedreturn',
         description: 'Mittlere erwartete Rendite',
@@ -7205,7 +7204,7 @@ function seeder() {
         unit: '% p. a.',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die erwartete Rendite des optimalen Portfolios. Diese wurde von Ihnen vorgegeben.'
       },
       {
         name: 'portfoliorisk',
@@ -7213,7 +7212,7 @@ function seeder() {
         unit: '% p. a.',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Das Risiko des optimalen Portfolios. Dies ist die minimale Standardabweichung der Portfoliorenditen unter den gegeben Parametern. Wenn Sie diese Standardabweichung mit der Standardabweichung der Einzelanlagen vergleichen, werden Sie feststellen, dass die Portfoliostandardabweichung vergleichsweise gering ist. Je mehr Anlagen in das Portfolio aufgenommen werden, desto geringer ist das Risiko. Allerdings nimmt diese Verringerung mit jeder neuen Anlage im Portfolio ab.'
       },
       {
         name: 'portfolioweight',
@@ -7229,7 +7228,7 @@ function seeder() {
         unit: '',
         digits: 1,
         importance: 'first',
-        tooltip: 'TBD',
+        tooltip: 'Die optimalen prozentualen (wertmäßig) Portfoliogewichte der Einzelanlagen.',
         type: 'string'
       }
     ]

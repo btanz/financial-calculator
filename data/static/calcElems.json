@@ -4954,14 +4954,14 @@
         "unit": "% p. a.",
         "digits": 2,
         "importance": "first",
-        "tooltip": "TBD"
+        "tooltip": "Die erwartete Rendite des optimalen Portfolios. Diese wurde von Ihnen vorgegeben."
       },
       "portfoliorisk": {
         "description": "Erwartetes Portfoliorisiko (Standardabweichung)",
         "unit": "% p. a.",
         "digits": 2,
         "importance": "first",
-        "tooltip": "TBD"
+        "tooltip": "Das Risiko des optimalen Portfolios. Dies ist die minimale Standardabweichung der Portfoliorenditen unter den gegeben Parametern. Wenn Sie diese Standardabweichung mit der Standardabweichung der Einzelanlagen vergleichen, werden Sie feststellen, dass die Portfoliostandardabweichung vergleichsweise gering ist. Je mehr Anlagen in das Portfolio aufgenommen werden, desto geringer ist das Risiko. Allerdings nimmt diese Verringerung mit jeder neuen Anlage im Portfolio ab."
       },
       "portfolioweight": {
         "description": "Portfoliogewicht",
@@ -4975,7 +4975,7 @@
         "unit": "",
         "digits": 1,
         "importance": "first",
-        "tooltip": "TBD",
+        "tooltip": "Die optimalen prozentualen (wertmäßig) Portfoliogewichte der Einzelanlagen.",
         "type": "string"
       }
     }

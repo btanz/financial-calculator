@@ -28,26 +28,50 @@ block content
               div.row
                 div.col-md-5
                   h2
+                    i.fa.fa-bullseye.text-lightblue &nbsp
+                    | Ziel des Rechners
+                  ul
+                    li=obj.guidegoal
+                  br
+                  h2
                     i.fa.fa-question.text-lightblue &nbsp
                     | Diese Fragen beantwortet der Rechner
-                  p Lorem ipsum dolor sit amet, pro aperiri
+                  ol
+                    each question in obj.guidequestions
+                      li=question
                   br
                   h2
                     i.fa.fa-thumbs-up.text-lightblue &nbsp
                     | Wer von diesem Rechner profitiert
-                  p Lorem ipsum dolor sit amet, pro aperiri
+                  ul
+                    each audience in obj.guideaudience
+                      li=audience
                   br
-                  h2
-                    i.fa.fa-compass.text-lightblue &nbsp
-                    | Ein Berechnungsbeispiel
-                  p Lorem ipsum dolor sit amet, pro aperiri
-                  br
-                  h2
-                    i.fa.fa-book.text-lightblue &nbsp
-                    | Mehr Wissen
-                  p Lorem ipsum dolor sit amet, pro aperiri
+
                 div.col-md-7
                   h2
                     i.fa.fa-lightbulb-o.text-lightblue &nbsp
                     | So funktioniert der Rechner
-                  p Lorem ipsum dolor sit amet, pro aperiri impedit insolens et. Ea veniam reprehendunt usu. At usu idque graece scripta, ei sed congue convenire. Adhuc regione eleifend cu duo, cum cu augue sadipscing. An sit legendos postulant, sea ut novum utamur, id prima ubique his. Ad falli imperdiet vituperata vel. eros dolore quo, at urbanitas democritum temporibus mea. Sed at falli audiam expetendis, cu quis solum intellegam usu. Et delenit officiis maluisset duo, phaedrum dignissim adipiscing at mea. Persius efficiendi deterruisset vim eu, vivendo abhorreant intellegebat pro ut. Id nulla dolorem accusamus vix. Quando rationibus te pro. An tation nonumes assueverit per, est ne latine necessitatibus.corrumpit sea no, ne mei harum sententiae. Duo eu augue legendos. An mei facete placerat singulis, at solum maiorum pri, paulo fuisset dissentiunt duo in. Eum tacimates explicari omittantur ne, nam id augue placerat. Eam deserunt voluptatibus eu. Nam cu odio fierent pertinacia, has case rebum solet ei.
+                  div(style='margin-left:35px;')
+                    p=obj.guidetext
+                  br
+                  h2
+                    i.fa.fa-compass.text-lightblue &nbsp
+                    | Die Berechnungsschritte
+                  ol
+                    each step in obj.guidesteps
+                      li=step
+                  br
+                  h2
+                    i.fa.fa-compass.text-lightblue &nbsp
+                    | Das Ergebnis
+                  ul
+                    each item in obj.guideresult
+                      li=item
+                  br
+                  //h2
+                    i.fa.fa-book.text-lightblue &nbsp
+                    | Mehr Wissen
+                  //each reference in obj.guidereferences
+                    p=reference
+

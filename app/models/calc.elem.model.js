@@ -53,6 +53,13 @@ var CalcSchema = new Schema({
   designation: String,
   description: String,
   guidelink: String,
+  guidegoal: String,
+  guidequestions: [String],
+  guideaudience: [String],
+  guidesteps: [String],
+  guideresult: [String],
+  guidereferences: [String],
+  guidetext: String,
   inputs: [InputsSchema],
   results_1: [Results1Schema]
 });
