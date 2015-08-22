@@ -1,8 +1,11 @@
 var assert = require("assert");
+var mongoose = require('../config/mongoose');
 var _ = require("underscore");
 var deposits = require("../app/modules/deposits");
 
+/** initialize */
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
+
 
 
 describe("Deposits calculators are correct", function() {
@@ -57,144 +60,184 @@ describe("Deposits calculators are correct", function() {
       expectations[19]= {interestprincipal: 22773.73, interest: 0.55, interestpenalty: 26.23};
     });
 
-    it('Passes 1st test set', function(){
-      var results = deposits.interestpenalty(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      deposits.interestpenalty(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = deposits.interestpenalty(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      deposits.interestpenalty(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = deposits.interestpenalty(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      deposits.interestpenalty(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = deposits.interestpenalty(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      deposits.interestpenalty(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = deposits.interestpenalty(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      deposits.interestpenalty(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = deposits.interestpenalty(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      deposits.interestpenalty(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = deposits.interestpenalty(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      deposits.interestpenalty(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = deposits.interestpenalty(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      deposits.interestpenalty(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = deposits.interestpenalty(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      deposits.interestpenalty(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = deposits.interestpenalty(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      deposits.interestpenalty(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = deposits.interestpenalty(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      deposits.interestpenalty(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = deposits.interestpenalty(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      deposits.interestpenalty(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = deposits.interestpenalty(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      deposits.interestpenalty(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = deposits.interestpenalty(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      deposits.interestpenalty(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = deposits.interestpenalty(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      deposits.interestpenalty(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = deposits.interestpenalty(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      deposits.interestpenalty(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = deposits.interestpenalty(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      deposits.interestpenalty(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = deposits.interestpenalty(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      deposits.interestpenalty(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = deposits.interestpenalty(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      deposits.interestpenalty(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = deposits.interestpenalty(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      deposits.interestpenalty(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
@@ -252,144 +295,184 @@ describe("Deposits calculators are correct", function() {
 
     });
 
-    it('Passes 1st test set', function(){
-      var results = deposits.timedeposit(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      deposits.timedeposit(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = deposits.timedeposit(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      deposits.timedeposit(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = deposits.timedeposit(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      deposits.timedeposit(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = deposits.timedeposit(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      deposits.timedeposit(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = deposits.timedeposit(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      deposits.timedeposit(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = deposits.timedeposit(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      deposits.timedeposit(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = deposits.timedeposit(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      deposits.timedeposit(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = deposits.timedeposit(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      deposits.timedeposit(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = deposits.timedeposit(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      deposits.timedeposit(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = deposits.timedeposit(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      deposits.timedeposit(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = deposits.timedeposit(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      deposits.timedeposit(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = deposits.timedeposit(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      deposits.timedeposit(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = deposits.timedeposit(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      deposits.timedeposit(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = deposits.timedeposit(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      deposits.timedeposit(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = deposits.timedeposit(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      deposits.timedeposit(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = deposits.timedeposit(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      deposits.timedeposit(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = deposits.timedeposit(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      deposits.timedeposit(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = deposits.timedeposit(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      deposits.timedeposit(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = deposits.timedeposit(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      deposits.timedeposit(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = deposits.timedeposit(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      deposits.timedeposit(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
@@ -448,144 +531,184 @@ describe("Deposits calculators are correct", function() {
     });
 
 
-    it('Passes 1st test set', function(){
-      var results = deposits.savingscheme(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      deposits.savingscheme(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = deposits.savingscheme(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      deposits.savingscheme(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = deposits.savingscheme(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      deposits.savingscheme(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = deposits.savingscheme(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      deposits.savingscheme(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = deposits.savingscheme(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      deposits.savingscheme(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = deposits.savingscheme(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      deposits.savingscheme(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = deposits.savingscheme(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      deposits.savingscheme(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = deposits.savingscheme(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      deposits.savingscheme(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = deposits.savingscheme(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      deposits.savingscheme(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = deposits.savingscheme(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      deposits.savingscheme(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = deposits.savingscheme(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      deposits.savingscheme(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = deposits.savingscheme(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      deposits.savingscheme(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = deposits.savingscheme(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      deposits.savingscheme(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = deposits.savingscheme(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      deposits.savingscheme(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = deposits.savingscheme(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      deposits.savingscheme(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = deposits.savingscheme(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      deposits.savingscheme(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = deposits.savingscheme(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      deposits.savingscheme(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = deposits.savingscheme(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      deposits.savingscheme(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = deposits.savingscheme(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      deposits.savingscheme(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = deposits.savingscheme(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      deposits.savingscheme(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
@@ -655,179 +778,229 @@ describe("Deposits calculators are correct", function() {
     });
 
 
-    it('Passes 1st test set', function(){
-      var results = deposits.overnight(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      deposits.overnight(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = deposits.overnight(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      deposits.overnight(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = deposits.overnight(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      deposits.overnight(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = deposits.overnight(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      deposits.overnight(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = deposits.overnight(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      deposits.overnight(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = deposits.overnight(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      deposits.overnight(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = deposits.overnight(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      deposits.overnight(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = deposits.overnight(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      deposits.overnight(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = deposits.overnight(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      deposits.overnight(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = deposits.overnight(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      deposits.overnight(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = deposits.overnight(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      deposits.overnight(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = deposits.overnight(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      deposits.overnight(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = deposits.overnight(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      deposits.overnight(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = deposits.overnight(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      deposits.overnight(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = deposits.overnight(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      deposits.overnight(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = deposits.overnight(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      deposits.overnight(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = deposits.overnight(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      deposits.overnight(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = deposits.overnight(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      deposits.overnight(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = deposits.overnight(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      deposits.overnight(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = deposits.overnight(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      deposits.overnight(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 21th test set', function(){
-      var results = deposits.overnight(data[20]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[20]));
+    it('Passes 21th test set', function(done){
+      deposits.overnight(data[20]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[20]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 22th test set', function(){
-      var results = deposits.overnight(data[21]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[21]));
+    it('Passes 22th test set', function(done){
+      deposits.overnight(data[21]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[21]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 23th test set', function(){
-      var results = deposits.overnight(data[22]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[22]));
+    it('Passes 23th test set', function(done){
+      deposits.overnight(data[22]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[22]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 24th test set', function(){
-      var results = deposits.overnight(data[23]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[23]));
+    it('Passes 24th test set', function(done){
+      deposits.overnight(data[23]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[23]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 25th test set', function(){
-      var results = deposits.overnight(data[24]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[24]));
+    it('Passes 25th test set', function(done){
+      deposits.overnight(data[24]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[24]));
+        done();
+      }).onReject(done);
     });
 
 

@@ -870,17 +870,12 @@ exports.timedeposit = function(inputs) {
     result.id = data[0].id;
 
     // first result container
-    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
-    //result._1.value         = _.extend(localElems[selectMap[inputs.calcselect]], {"value": helper.result});
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.calcselect]}), {"value": helper.result});
     if(inputs.taxes){
       result._1.interestgainwotax = _.extend(_.findWhere(data[0].results_1,{name: 'interestgainwotax'}), {"value": helper.interestgainwotax});
-      //result._1.interestgainwotax = _.extend(localElems['interestgainwotax'], {"value": helper.interestgainwotax});
       result._1.taxes = _.extend(_.findWhere(data[0].results_1,{name: 'taxes'}), {"value": helper.taxes});
-      //result._1.taxes             = _.extend(localElems['taxes'], {"value": helper.taxes});
     }
     result._1.terminalValue = _.extend(_.findWhere(data[0].results_1,{name: 'terminalvalue'}), {"value": helper.terminalvalue});
-    //result._1.terminalValue = _.extend(localElems['terminalvalue'],      {"value": helper.terminalvalue});
-
 
     // attach messages
     result.messages = helpers.messages.messageMap;
