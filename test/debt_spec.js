@@ -1,10 +1,16 @@
 var assert = require("assert");
+var mongoose = require('../config/mongoose');
 var _ = require("underscore");
 var debt = require("../app/modules/debt");
 
+
+
+/** initialize */
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
+var db = mongoose();
 
 
+/** run tests */
 describe("Debt calculators are correct", function() {
 
   describe("Property-repaysurrogat correct", function() {
@@ -56,142 +62,182 @@ describe("Debt calculators are correct", function() {
     });
 
 
-    it('Passes 1st test set', function(){
-      var results = debt.repaysurrogat(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      debt.repaysurrogat(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = debt.repaysurrogat(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+
+    it('Passes 2nd test set', function(done){
+      debt.repaysurrogat(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = debt.repaysurrogat(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+
+    it('Passes 3rd test set', function(done){
+      debt.repaysurrogat(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = debt.repaysurrogat(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      debt.repaysurrogat(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = debt.repaysurrogat(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      debt.repaysurrogat(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = debt.repaysurrogat(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      debt.repaysurrogat(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = debt.repaysurrogat(data[6]),
-          values = {};
-      assert(Array.isArray(results));  // result is error array
+    it('Passes 7th test set', function(done){
+      debt.repaysurrogat(data[6]).then(function(results){
+        assert(Array.isArray(results));  // result is error array*/
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = debt.repaysurrogat(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      debt.repaysurrogat(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = debt.repaysurrogat(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      debt.repaysurrogat(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = debt.repaysurrogat(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      debt.repaysurrogat(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = debt.repaysurrogat(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      debt.repaysurrogat(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = debt.repaysurrogat(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      debt.repaysurrogat(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = debt.repaysurrogat(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      debt.repaysurrogat(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = debt.repaysurrogat(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      debt.repaysurrogat(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = debt.repaysurrogat(data[14]),
-          values = {};
-      assert(Array.isArray(results));  // result is error array
+    it('Passes 15th test set', function(done){
+      debt.repaysurrogat(data[14]).then(function(results){
+        assert(Array.isArray(results));  // result is error array*/
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = debt.repaysurrogat(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      debt.repaysurrogat(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = debt.repaysurrogat(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      debt.repaysurrogat(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = debt.repaysurrogat(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      debt.repaysurrogat(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = debt.repaysurrogat(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      debt.repaysurrogat(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = debt.repaysurrogat(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      debt.repaysurrogat(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
