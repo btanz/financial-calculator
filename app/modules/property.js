@@ -459,14 +459,10 @@ exports.transfertax = function(inputs){
     /* ******** 5. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     // first result container
-    result._1.total  = _.extend(_.findWhere(data[0].results_1,{name: 'total'}),  {"value": totalprice});
-    //result._1.total = _.extend(localElems.total,    {"value": totalprice});
-    result._1.tax  = _.extend(_.findWhere(data[0].results_1,{name: 'tax'}),  {"value": tax});
-    //result._1.tax   = _.extend(localElems.tax,      {"value": tax});
-    result._1.free  = _.extend(_.findWhere(data[0].results_1,{name: 'free'}),  {"value": free});
-    //result._1.free   = _.extend(localElems.taxfree, {"value": free});
+    result._1.total = _.extend(_.findWhere(data[0].results_1,{name: 'total'}),  {"value": totalprice});
+    result._1.tax   = _.extend(_.findWhere(data[0].results_1,{name: 'tax'}),  {"value": tax});
+    result._1.free  = _.extend(_.findWhere(data[0].results_1,{name: 'taxfree'}),  {"value": free});
     result._1.rate  = _.extend(_.findWhere(data[0].results_1,{name: 'rate'}), {"value": rate * 100});
-    //result._1.rate   = _.extend(localElems.rate,    {"value": rate * 100});
 
     // chart 1
     result._chart1.data = {

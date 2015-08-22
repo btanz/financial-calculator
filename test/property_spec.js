@@ -1,6 +1,7 @@
 var assert = require("assert");
+var mongoose = require('../config/mongoose');
 var _ = require("underscore");
-var property = require('../app/modules/property')
+var property = require('../app/modules/property');
 //var f = require("../finance");
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
 
@@ -32,7 +33,7 @@ describe("Property calculators correct", function() {
       data[18]= {principal: '136736.85',interestsave: '0.63', saving: '597.67', termsave: '11.94', initialfee: '1052.85', initialpay: '0', bonus: 'true', marriage: 'false', income: '13936.06', interestdebt: '4.12', paypercent: '100', repay: '1486.05'}
       data[19]= {principal: '36470.85', interestsave: '1.49', saving: '450.97', termsave: '19.03', initialfee: '1770.02', initialpay: '0', bonus: 'true', marriage: 'false', income: '36203.33', interestdebt: '5.84', paypercent: '100', repay: '298.61'}
 
-      expectations[0] = {finalsavingswohnungsbau: 30754.396906030467, totalpays: 30000, totalinterest: 754.3969060304662, wohnungsbau: 0, numberpays: 120, savingratio: 61.50879381206094, totalloanpay: 50000, totalloanwinterest: 20680.681357957463, totalloan: 19245.603093969534, interestloan: 1435.0782639879276, totalloanpays: 68.93554179484084, termloan: 5.744628482903403};
+      expectations[0] = {finalsavingswohnungsbau: 30754.40, totalpays: 30000, totalinterest: 754.40, wohnungsbau: 0, numberpays: 120, savingratio: 61.51, totalloanpay: 50000, totalloanwinterest: 20680.68, totalloan: 19245.60, interestloan: 1435.08, totalloanpays: 68.94, termloan: 5.74};
       expectations[1] = {finalsavingswohnungsbau: 12857.39, totalpays: 11260.04, totalinterest: 557.41, wohnungsbau: 1039.94,  savingratio: 84.95,  irrSave: 2.02, totalloanwinterest: 2284.99, totalloan: 2277.92, termloan: 0.13, irrLoan: 2.74};
       expectations[2] = {finalsavingswohnungsbau: 79037.49, totalpays: 68080.62, totalinterest: 12557.95, wohnungsbau: 0,      savingratio: 287.9,  irrSave: 2.25};
       expectations[3] = {finalsavingswohnungsbau: 75309.86, totalpays: 64696.25, totalinterest: 11518.2,  wohnungsbau: 0,      savingratio: 113.33, irrSave: 2.91};
@@ -55,145 +56,186 @@ describe("Property calculators correct", function() {
 
     });
 
-    it('Passes 1st test set', function(){
-      var results = property.homesave(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= el.value});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.homesave(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
 
-    it('Passes 2nd test set', function(){
-      var results = property.homesave(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      property.homesave(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
+
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.homesave(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.homesave(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.homesave(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.homesave(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.homesave(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.homesave(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.homesave(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.homesave(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.homesave(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      property.homesave(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.homesave(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.homesave(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.homesave(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.homesave(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.homesave(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, {}));
+    it('Passes 10th test set', function(done){
+      property.homesave(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.homesave(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      property.homesave(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.homesave(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      property.homesave(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.homesave(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.homesave(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.homesave(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.homesave(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.homesave(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.homesave(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.homesave(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.homesave(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.homesave(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.homesave(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.homesave(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.homesave(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.homesave(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.homesave(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.homesave(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.homesave(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
@@ -252,141 +294,178 @@ describe("Property calculators correct", function() {
 
     });
 
-    it('Passes 1st test set', function(){
-      var results = property.propertyprice(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.propertyprice(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.propertyprice(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      property.propertyprice(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.propertyprice(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.propertyprice(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.propertyprice(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.propertyprice(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.propertyprice(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.propertyprice(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.propertyprice(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.propertyprice(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.propertyprice(data[6]),
-          values = {};
-      assert(Array.isArray(results));
+    it('Passes 7th test set', function(done){
+      property.propertyprice(data[6]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.propertyprice(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.propertyprice(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.propertyprice(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.propertyprice(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.propertyprice(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      property.propertyprice(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.propertyprice(data[10]),
-          values = {};
-      assert(Array.isArray(results));
+    it('Passes 11th test set', function(done){
+      property.propertyprice(data[10]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.propertyprice(data[11]),
-          values = {};
-      assert(Array.isArray(results));
+    it('Passes 12th test set', function(done){
+      property.propertyprice(data[11]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.propertyprice(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.propertyprice(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.propertyprice(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.propertyprice(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.propertyprice(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.propertyprice(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.propertyprice(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.propertyprice(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.propertyprice(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.propertyprice(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.propertyprice(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.propertyprice(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.propertyprice(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.propertyprice(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.propertyprice(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.propertyprice(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
   });
@@ -445,145 +524,185 @@ describe("Property calculators correct", function() {
       expectations[19]= {buyEquity: 398826.38,buyLoan: 123205.56,buyPrice: -522031.94,buyFinalIncome: 752877,buyInterestSave: 152622.6,buyMaintenance: -263458.46,buyInterestLoan: -140464.22,buyRepay: -123205.56,buyResidual: 0,buyPropValue: 503715.76,buyFinalWealth: 882087.12,rentEquity: 398826.38,rentFinalIncome: 752877,rentFinalInterest: 555595.22,rentFinalCost: -782322,rentFinalWealth: 924976.6};
     });
 
-    it('Passes 1st test set', function(){
-      var results = property.buyrent(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.buyrent(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.buyrent(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      property.buyrent(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
 
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.buyrent(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.buyrent(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.buyrent(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.buyrent(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.buyrent(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.buyrent(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.buyrent(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.buyrent(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.buyrent(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      property.buyrent(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.buyrent(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.buyrent(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.buyrent(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.buyrent(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.buyrent(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      property.buyrent(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.buyrent(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      property.buyrent(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.buyrent(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      property.buyrent(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.buyrent(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.buyrent(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.buyrent(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.buyrent(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.buyrent(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.buyrent(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.buyrent(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.buyrent(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.buyrent(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.buyrent(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.buyrent(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.buyrent(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.buyrent(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.buyrent(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.buyrent(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.buyrent(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
 
@@ -642,145 +761,184 @@ describe("Property calculators correct", function() {
 
     });
 
-    it('Passes 1st test set', function(){
-      var results = property.transfertax(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.transfertax(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.transfertax(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
-
+    it('Passes 2nd test set', function(done){
+      property.transfertax(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.transfertax(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.transfertax(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.transfertax(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.transfertax(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.transfertax(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.transfertax(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.transfertax(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.transfertax(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.transfertax(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      property.transfertax(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.transfertax(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.transfertax(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.transfertax(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.transfertax(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.transfertax(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      property.transfertax(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.transfertax(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      property.transfertax(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.transfertax(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      property.transfertax(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.transfertax(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.transfertax(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.transfertax(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.transfertax(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.transfertax(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.transfertax(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.transfertax(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.transfertax(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.transfertax(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.transfertax(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.transfertax(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.transfertax(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.transfertax(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.transfertax(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.transfertax(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.transfertax(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
 
@@ -838,145 +996,184 @@ describe("Property calculators correct", function() {
     });
 
 
-    it('Passes 1st test set', function(){
-      var results = property.propertyreturn(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.propertyreturn(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.propertyreturn(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
-
+    it('Passes 2nd test set', function(done){
+      property.propertyreturn(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.propertyreturn(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.propertyreturn(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.propertyreturn(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.propertyreturn(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.propertyreturn(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.propertyreturn(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.propertyreturn(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.propertyreturn(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.propertyreturn(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      property.propertyreturn(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.propertyreturn(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.propertyreturn(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.propertyreturn(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.propertyreturn(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.propertyreturn(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      property.propertyreturn(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.propertyreturn(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      property.propertyreturn(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.propertyreturn(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      property.propertyreturn(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.propertyreturn(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.propertyreturn(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.propertyreturn(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.propertyreturn(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.propertyreturn(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.propertyreturn(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.propertyreturn(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.propertyreturn(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.propertyreturn(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.propertyreturn(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.propertyreturn(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.propertyreturn(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.propertyreturn(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.propertyreturn(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.propertyreturn(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.propertyreturn(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
 
@@ -1034,145 +1231,184 @@ describe("Property calculators correct", function() {
     });
 
 
-    it('Passes 1st test set', function(){
-      var results = property.rent(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(!_.isEmpty(values) && _.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.rent(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.rent(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
-
+    it('Passes 2nd test set', function(done){
+      property.rent(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.rent(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.rent(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.rent(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.rent(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 5th test set', function(){
-      var results = property.rent(data[4]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[4]));
+    it('Passes 5th test set', function(done){
+      property.rent(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 6th test set', function(){
-      var results = property.rent(data[5]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[5]));
+    it('Passes 6th test set', function(done){
+      property.rent(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 7th test set', function(){
-      var results = property.rent(data[6]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[6]));
+    it('Passes 7th test set', function(done){
+      property.rent(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 8th test set', function(){
-      var results = property.rent(data[7]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[7]));
+    it('Passes 8th test set', function(done){
+      property.rent(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 9th test set', function(){
-      var results = property.rent(data[8]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[8]));
+    it('Passes 9th test set', function(done){
+      property.rent(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 10th test set', function(){
-      var results = property.rent(data[9]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[9]));
+    it('Passes 10th test set', function(done){
+      property.rent(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 11th test set', function(){
-      var results = property.rent(data[10]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[10]));
+    it('Passes 11th test set', function(done){
+      property.rent(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 12th test set', function(){
-      var results = property.rent(data[11]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[11]));
+    it('Passes 12th test set', function(done){
+      property.rent(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 13th test set', function(){
-      var results = property.rent(data[12]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[12]));
+    it('Passes 13th test set', function(done){
+      property.rent(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 14th test set', function(){
-      var results = property.rent(data[13]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[13]));
+    it('Passes 14th test set', function(done){
+      property.rent(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 15th test set', function(){
-      var results = property.rent(data[14]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[14]));
+    it('Passes 15th test set', function(done){
+      property.rent(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 16th test set', function(){
-      var results = property.rent(data[15]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[15]));
+    it('Passes 16th test set', function(done){
+      property.rent(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 17th test set', function(){
-      var results = property.rent(data[16]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[16]));
+    it('Passes 17th test set', function(done){
+      property.rent(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 18th test set', function(){
-      var results = property.rent(data[17]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[17]));
+    it('Passes 18th test set', function(done){
+      property.rent(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 19th test set', function(){
-      var results = property.rent(data[18]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[18]));
+    it('Passes 19th test set', function(done){
+      property.rent(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 20th test set', function(){
-      var results = property.rent(data[19]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[19]));
+    it('Passes 20th test set', function(done){
+      property.rent(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
     });
 
 
@@ -1201,32 +1437,40 @@ describe("Property calculators correct", function() {
 
     });
 
-    it('Passes 1st test set', function(){
-      var results = property.mortgage(data[0]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[0]));
+    it('Passes 1st test set', function(done){
+      property.mortgage(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 2nd test set', function(){
-      var results = property.mortgage(data[1]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[1]));
+    it('Passes 2nd test set', function(done){
+      property.mortgage(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 3rd test set', function(){
-      var results = property.mortgage(data[2]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[2]));
+    it('Passes 3rd test set', function(done){
+      property.mortgage(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
     });
 
-    it('Passes 4th test set', function(){
-      var results = property.mortgage(data[3]),
-          values = {};
-      _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-      assert(_.isMatch(values, expectations[3]));
+    it('Passes 4th test set', function(done){
+      property.mortgage(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
     });
 
 
