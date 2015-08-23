@@ -7,7 +7,7 @@ var debt = require("../app/modules/debt");
 
 /** initialize */
 var ROUND_PRECISION = 100;   // 1/100 rounding precision
-var db = mongoose();
+
 
 
 /** run tests */
