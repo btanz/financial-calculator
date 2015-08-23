@@ -253,7 +253,10 @@ exports.equityReturn = function(inputs) {
     // compute irr
     irr = math.roots(NPV,0.1,1500) * 100;
 
-    if(!isFinite(irr)){ return false; }
+    if(!isFinite(irr)){
+      helpers.errors.set("Leider ist bei der Berechnung der Rendite ein Fehler aufgetreten. Grund dafür ist meist, dass die Rendite außergewöhnlich hoch oder niedrig (negativ) ist. Bitte prüfen Sie, ob die Angaben zum Kauf- und Verkaufskurs korrekt sind.",undefined , true);
+      return helpers.errors.errorMap;
+    }
 
     /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
