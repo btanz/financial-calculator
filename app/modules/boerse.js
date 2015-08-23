@@ -241,9 +241,13 @@ exports.equityReturn = function(inputs) {
     var ONE_DAY = 1000 * 60 * 60 * 24;
     holding = (inputs.selldate-inputs.buydate)/ONE_DAY;
 
+
     // attach holding time to dividend array + plus check for invalid dividend dates
     for(i=0; i < inputs.dividends; i++){
-      if (dividendData[i][0] < inputs.buyDate || dividendData[i][0] > inputs.sellDate){return null;}
+      if (dividendData[i][0] < inputs.buydate || dividendData[i][0] > inputs.selldate){
+        helpers.errors.set("Ein Fehler ist aufgetreten, da nicht alle Dividendenzahlungen im Haltezeitraum der Aktie liegen. Bitte prüfen Sie, ob das Datum aller Dividendenzahlungen zwischen dem Kaufdatum und dem Verkaufsdatum liegt.",undefined , true);
+        return helpers.errors.errorMap;
+      }
       dividendData[i].push((dividendData[i][0] - inputs.buydate)/ONE_DAY);
     }
 
@@ -258,10 +262,19 @@ exports.equityReturn = function(inputs) {
       return helpers.errors.errorMap;
     }
 
-    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),     {"value": irr});
     result._1.holding = _.extend(_.findWhere(data[0].results_1,{name: 'holding'}), {"value": holding});
+
+
+    /** ******** 5. CHECK FOR ERRORS ******** */
+    /** return error if holding period is negative */
+    if (holding <= 0){
+      helpers.errors.set("Ein Fehler ist aufgetreten, da die Haltedauer nicht positiv ist. Bitte prüfen Sie, ob das Kaufdatum vor dem Verkaufsdatum liegt.",undefined , true);
+      return helpers.errors.errorMap;
+    }
+
 
     return result;
   }
