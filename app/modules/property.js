@@ -1327,6 +1327,7 @@ exports.mortgage = function(inputs){
     /** drop elements that are to be computed from input and expectedinputs object */
     delete inputs[selectMap[0][inputs.select1]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[0][inputs.select1]}),1);
+
     //delete _expectedInputs[selectMap[0][inputs.select1]];
     delete inputs[selectMap[1][inputs.select2]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[1][inputs.select2]}),1);
@@ -1338,10 +1339,13 @@ exports.mortgage = function(inputs){
       return errorMap;
     }
 
+
+
     /** convert terms with subannual choices to month */
     helper.term = inputs.term / inputs.repayfreq;
     inputs.term              = inputs.term              * 12 / helper.termperiods;
     inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
+
 
     /** convert terms that are not period multiples to period multiples and convert back to years*/
     inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
@@ -1350,6 +1354,7 @@ exports.mortgage = function(inputs){
     if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12 / inputs.repayfreq,2)){
       helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
+
 
 
     // todo: send message to user that only full period values are possible (?)
@@ -1386,8 +1391,14 @@ exports.mortgage = function(inputs){
      * 3.B DYNAMIC COMPUTATIONS
      */
 
+
+
     /** constract array with special repayments */
-    specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
+    // todo: deal with annual repays if second selection is not residual
+    if(inputs.select2 === 1){
+      specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
+    }
+
 
     // todo: write message informing that repay time has been set ti ceil if not a full month
     for (i = 0; i < 30; i++){
@@ -1401,27 +1412,56 @@ exports.mortgage = function(inputs){
     }
 
 
-    /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; Residual open */
-    dyn = f.annuity.schedule.call({
-      mode: 1,
-      annualvals: true,
-      finalvals: true,
-      disagio: inputs.disagio,
-      disagioamount: inputs.disagioamount,
-      fees: inputs.fees,
-      feeamount: inputs.feeamount,
-      feeupfront: (inputs.feetype === 3),
-      principal: inputs.principal,
-      term: inputs.term,
-      repayfreq: inputs.repayfreq,
-      repay: inputs.repay,
-      repaymentfree: inputs.repaymentfree,
-      repaymentfreeterm: inputs.repaymentfreeterm,
-      repaymentfreetype : inputs.repaymentfreetype,
-      specialrepay: specialpays,
-      interest: inputs.interest
-    });
 
+    if(inputs.select2 === 1) { /** second selection is residual */
+      /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; RESIDUAL OPEN */
+      dyn = f.annuity.schedule.call({
+        mode: 1,
+        annualvals: true,
+        finalvals: true,
+        disagio: inputs.disagio,
+        disagioamount: inputs.disagioamount,
+        fees: inputs.fees,
+        feeamount: inputs.feeamount,
+        feeupfront: (inputs.feetype === 3),
+        principal: inputs.principal,
+        term: inputs.term,
+        repayfreq: inputs.repayfreq,
+        repay: inputs.repay,
+        repaymentfree: inputs.repaymentfree,
+        repaymentfreeterm: inputs.repaymentfreeterm,
+        repaymentfreetype: inputs.repaymentfreetype,
+        specialrepay: specialpays,
+        interest: inputs.interest
+      });
+    } else if (inputs.select2 === 2){ /** second selection is term */
+      console.log('HOLA');
+      console.log(inputs.residual);
+
+      dyn = f.annuity.schedule.call({
+        mode: 2,
+        annualvals: true,
+        finalvals: true,
+        disagio: inputs.disagio,
+        disagioamount: inputs.disagioamount,
+        fees: inputs.fees,
+        feeamount: inputs.feeamount,
+        feeupfront: (inputs.feetype === 3),
+        principal: inputs.principal,
+        residual: inputs.residual,
+        repayfreq: inputs.repayfreq,
+        repay: inputs.repay,
+        repaymentfree: inputs.repaymentfree,
+        repaymentfreeterm: inputs.repaymentfreeterm,
+        repaymentfreetype: inputs.repaymentfreetype,
+        specialrepay: specialpays,
+        interest: inputs.interest
+      });
+
+
+    }
+
+    //console.log(dyn);
 
 
     /** assign residual if not given */
@@ -1454,6 +1494,7 @@ exports.mortgage = function(inputs){
     (inputs.disagio) ? result._1.disagio     = _.extend(_.findWhere(data[0].results_1,{name: 'disagio'}),  {"value": inputs.principal * inputs.disagioamount})  : null;
     (inputs.fees && inputs.feetype === 3) ? result._1.fees     = _.extend(_.findWhere(data[0].results_1,{name: 'fees'}),  {"value": inputs.feeamount}) : null;
     result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),   {"value": helper.irr * 100});
+
 
 
     /**
