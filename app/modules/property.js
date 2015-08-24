@@ -1348,6 +1348,7 @@ exports.mortgage = function(inputs){
     inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
     if(helper.term * inputs.repayfreq !== inputs.term){
+      // todo: check whether value in if condition makes sense (s.a. test case 8)
       helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
 
@@ -1493,7 +1494,8 @@ exports.mortgage = function(inputs){
 
   return Calc.findByCalcname('mortgage')
       .then(compute)
-      .onReject(function(){
+      .onReject(function(e){
+        console.log(e);
         console.log("Database read error");
         helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
         return helpers.errors.errorMap;
