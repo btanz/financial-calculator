@@ -6494,6 +6494,14 @@ function seeder() {
         tooltip: 'Die periodisch zu zahlendene konstante Rate zur Rückzahlung der Hypothek.'
       },
       {
+        name: 'term',
+        description: 'Laufzeit',
+        unit: '',
+        digits: 0,
+        importance: 'first',
+        tooltip: 'Die Laufzeit der Hypothek.'
+      },
+      {
         name: 'principal',
         description: 'Kreditsumme',
         unit: 'EUR',

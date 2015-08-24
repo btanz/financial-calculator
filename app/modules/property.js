@@ -1340,7 +1340,6 @@ exports.mortgage = function(inputs){
     }
 
 
-
     /** convert terms with subannual choices to month */
     helper.term = inputs.term / inputs.repayfreq;
     inputs.term              = inputs.term              * 12 / helper.termperiods;
@@ -1351,14 +1350,12 @@ exports.mortgage = function(inputs){
     inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
     inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-    if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12 / inputs.repayfreq,2)){
+    if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12,2)){
+      // todo: fix warning
       helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
 
-
-
     // todo: send message to user that only full period values are possible (?)
-
 
     /** convert percentage values to decimals */
     inputs.disagioamount = inputs.disagioamount / 100;
@@ -1435,8 +1432,6 @@ exports.mortgage = function(inputs){
         interest: inputs.interest
       });
     } else if (inputs.select2 === 2){ /** second selection is term */
-      console.log('HOLA');
-      console.log(inputs.residual);
 
       dyn = f.annuity.schedule.call({
         mode: 2,
@@ -1467,6 +1462,10 @@ exports.mortgage = function(inputs){
     /** assign residual if not given */
     inputs.residual = inputs.residual || dyn.residual;
 
+    /** assign term if not given */
+    inputs.term = inputs.term || dyn.term;
+
+
     helper.totalrepay     = dyn.totalrepay;
     helper.totalinterest  = dyn.totalinterest;
     helper.totalreduction = dyn.totalreduction;
@@ -1495,6 +1494,8 @@ exports.mortgage = function(inputs){
     (inputs.fees && inputs.feetype === 3) ? result._1.fees     = _.extend(_.findWhere(data[0].results_1,{name: 'fees'}),  {"value": inputs.feeamount}) : null;
     result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),   {"value": helper.irr * 100});
 
+
+    //console.log(result._1);
 
 
     /**
