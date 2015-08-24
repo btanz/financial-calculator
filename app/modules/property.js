@@ -1447,23 +1447,14 @@ exports.mortgage = function(inputs){
      * 4.A FIRST RESULT CONTAINER
      */
     result._1.value1           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[0][inputs.select1]}), {"value": inputs[selectMap[0][inputs.select1]]});
-    //result._1.value1         = _.extend(localElems[selectMap[0][inputs.select1]], {"value": inputs[selectMap[0][inputs.select1]]});
     result._1.value2           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[1][inputs.select2]}), {"value": inputs[selectMap[1][inputs.select2]]});
-    //result._1.value2         = _.extend(localElems[selectMap[1][inputs.select2]], {"value": inputs[selectMap[1][inputs.select2]]});
     result._1.totalrepay       = _.extend(_.findWhere(data[0].results_1,{name: 'totalrepay'}),  {"value": helper.totalrepay});
-    //result._1.totalrepay     = _.extend(localElems['totalrepay'],                 {"value": helper.totalrepay});
     result._1.totalreduction   = _.extend(_.findWhere(data[0].results_1,{name: 'totalreduction'}),  {"value": helper.totalreduction});
-    //result._1.totalreduction = _.extend(localElems['totalreduction'],             {"value": helper.totalreduction});
     result._1.totalinterest    = _.extend(_.findWhere(data[0].results_1,{name: 'totalinterest'}),  {"value": helper.totalinterest});
-    //result._1.totalinterest  = _.extend(localElems['totalinterest'],              {"value": helper.totalinterest});
     (inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal     = _.extend(_.findWhere(data[0].results_1,{name: 'repaymentfreetotal'}),  {"value": helper.totalrepaymentfreeinterest}) : null;
-    //(inputs.repaymentfree && inputs.repaymentfreetype === 3) ? result._1.repaymentfreetotal = _.extend(localElems['repaymentfreetotal'],     {"value": helper.totalrepaymentfreeinterest}) : null;
     (inputs.disagio) ? result._1.disagio     = _.extend(_.findWhere(data[0].results_1,{name: 'disagio'}),  {"value": inputs.principal * inputs.disagioamount})  : null;
-    //(inputs.disagio) ? result._1.disagio = _.extend(localElems['disagio'],      {"value": inputs.principal * inputs.disagioamount}) : null;
     (inputs.fees && inputs.feetype === 3) ? result._1.fees     = _.extend(_.findWhere(data[0].results_1,{name: 'fees'}),  {"value": inputs.feeamount}) : null;
-    //(inputs.fees && inputs.feetype === 3) ? result._1.fees = _.extend(localElems['fees'],{"value": inputs.feeamount}) : null;
     result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),   {"value": helper.irr * 100});
-    //result._1.irr            = _.extend(localElems['irr'],                        {"value": helper.irr * 100});
 
 
     /**
