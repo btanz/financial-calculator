@@ -1347,8 +1347,7 @@ exports.mortgage = function(inputs){
     inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
     inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-    if(helper.term * inputs.repayfreq !== inputs.term){
-      // todo: check whether value in if condition makes sense (s.a. test case 8)
+    if(helper.term * inputs.repayfreq !== inputs.term * 12){
       helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
 
