@@ -1422,7 +1422,7 @@ describe("Property calculators correct", function() {
     var data = [],
         expectations = [];
     before(function () {
-
+      /** second choice residual ("Restschuld") */
       data[0] = {select1: '3', select2: '1', principal: '127438.69', fees: 'false', feeamount: '0',      feetype: '2', disagio: 'true',  disagioamount: '8.45', interest: '',     initialinterest: '3.13', repay: '11.62',  repayfreq: '4', term: '62',  termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
       data[1] = {select1: '4', select2: '1', principal: '50302.61',  fees: 'true',  feeamount: '288.7',  feetype: '2', disagio: 'false', disagioamount: '0',    interest: '2.65', initialinterest: '',     repay: '212.88', repayfreq: '4', term: '200', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '19', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '839.94', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
       data[2] = {select1: '4', select2: '1', principal: '126588.64', fees: 'true',  feeamount: '2667.76',feetype: '3', disagio: 'true',  disagioamount: '8.03', interest: '2.41', initialinterest: '',     repay: '563.05', repayfreq: '4', term: '140', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '14', repaymentfreetype: '3', repaymentfreetermperiods: '12', residual: '', annualrepay: '0',      followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '2', specialrepaymonths0: '103', specialrepayamount0: '922.81', specialrepaymonths1: '183', specialrepayamount1: '697.68'};
@@ -1438,6 +1438,23 @@ describe("Property calculators correct", function() {
       data[12]= {select1: '2', select2: '1', principal: '',          fees: 'false', feeamount: '0',      feetype: '3', disagio: 'true',  disagioamount: '2.92', interest: '3.59', initialinterest: '2.5',  repay: '180.54', repayfreq: '12', term: '79', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '4', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '6', specialrepaymonths0: '68', specialrepayamount0: '516.55', specialrepaymonths1: '130', specialrepayamount1: '640.7', specialrepaymonths2: '15', specialrepayamount2: '122.12', specialrepaymonths3: '8', specialrepayamount3: '406.64', specialrepaymonths4: '384', specialrepayamount4: '711.86', specialrepaymonths5: '9', specialrepayamount5: '162.24'};
       data[13]= {select1: '1', select2: '1', principal: '118067.09', fees: 'true',  feeamount: '748.98', feetype: '2', disagio: 'false', disagioamount: '0',    interest: '1.75', initialinterest: '4.72', repay: '',       repayfreq: '4', term: '48',  termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '2', repaymentfreetype: '3', repaymentfreetermperiods: '12', residual: '', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '5', specialrepaymonths0: '10', specialrepayamount0: '724.37', specialrepaymonths1: '7', specialrepayamount1: '163.57', specialrepaymonths2: '6', specialrepayamount2: '532.94', specialrepaymonths3: '6', specialrepayamount3: '112.98', specialrepaymonths4: '7', specialrepayamount4: '944.29'};
       data[14]= {select1: '4', select2: '1', principal: '188456.12', fees: 'false', feeamount: '0',      feetype: '2', disagio: 'true',  disagioamount: '3.44', interest: '4.26', initialinterest: '',     repay: '427.83', repayfreq: '2', term: '67',  termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '10',repaymentfreetype: '3', repaymentfreetermperiods: '12', residual: '', annualrepay: '1809.79', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '1', specialrepaymonths0: '12', specialrepayamount0: '707.15'};
+
+      /** second choice term ("Laufzeit") */
+      data[15]= {select1: '1', select2: '2', principal: '2916.05', fees: 'false', feeamount: '0', feetype: '2', disagio: 'true', disagioamount: '1.07', interest: '1.03', initialinterest: '2.36', repay: '544.44', repayfreq: '2', term: '2', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '30', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '15025.95', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[16]= {select1: '2', select2: '2', principal: '82282.44', fees: 'false', feeamount: '0', feetype: '2', disagio: 'true', disagioamount: '2.97', interest: '1.49', initialinterest: '1.74', repay: '293.89', repayfreq: '2', term: '140', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '1', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '25082.24', annualrepay: '1705.88', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '4', specialrepaymonths0: '28', specialrepayamount0: '754.38', specialrepaymonths1: '329', specialrepayamount1: '899.83', specialrepaymonths2: '16', specialrepayamount2: '263.1', specialrepaymonths3: '27', specialrepayamount3: '966.84'};
+      data[17]= {select1: '4', select2: '2', principal: '69927.3', fees: 'true', feeamount: '233.16', feetype: '2', disagio: 'true', disagioamount: '2.9', interest: '0.63', initialinterest: '4.13', repay: '78.21', repayfreq: '4', term: '182', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '36', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '3065.99', annualrepay: '835.57', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[18]= {select1: '4', select2: '2', principal: '22534.36', fees: 'false', feeamount: '0', feetype: '3', disagio: 'false', disagioamount: '0', interest: '0.75', initialinterest: '4.38', repay: '474.63', repayfreq: '4', term: '19', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '18', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '10488.14', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '2', specialrepaymonths0: '2', specialrepayamount0: '331.01', specialrepaymonths1: '18', specialrepayamount1: '861.77'};
+      data[19]= {select1: '4', select2: '2', principal: '89450.82', fees: 'true', feeamount: '1500.55', feetype: '3', disagio: 'true', disagioamount: '7.72', interest: '4.75', initialinterest: '2.46', repay: '530.48', repayfreq: '1', term: '138', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '12', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '5907.4', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '5', specialrepaymonths0: '682', specialrepayamount0: '325.88', specialrepaymonths1: '14', specialrepayamount1: '946.36', specialrepaymonths2: '28', specialrepayamount2: '577.12', specialrepaymonths3: '18', specialrepayamount3: '582.49', specialrepaymonths4: '22', specialrepayamount4: '711.25', specialrepaymonths5: '0', specialrepayamount5: '0'};
+      data[20]= {select1: '1', select2: '2', principal: '19611.71', fees: 'false', feeamount: '0', feetype: '3', disagio: 'false', disagioamount: '0', interest: '2.2', initialinterest: '2.13', repay: '72.57', repayfreq: '4', term: '71', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '11', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '15102.75', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[21]= {select1: '1', select2: '2', principal: '7652.82', fees: 'true', feeamount: '968.01', feetype: '2', disagio: 'true', disagioamount: '4.68', interest: '4.46', initialinterest: '4.42', repay: '175.39', repayfreq: '4', term: '71', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '25', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '22724.3', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0', specialrepaymonths0: '0', specialrepayamount0: '0', specialrepaymonths1: '0', specialrepayamount1: '0', specialrepaymonths2: '0', specialrepayamount2: '0', specialrepaymonths3: '0', specialrepayamount3: '0', specialrepaymonths4: '0', specialrepayamount4: '0', specialrepaymonths5: '0', specialrepayamount5: '0'};
+      data[22]= {select1: '3', select2: '2', principal: '155145.5', fees: 'false', feeamount: '0', feetype: '3', disagio: 'false', disagioamount: '0', interest: '4.36', initialinterest: '3.74', repay: '235.42', repayfreq: '2', term: '193', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '4', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '700.64', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[23]= {select1: '3', select2: '2', principal: '111684.33', fees: 'false', feeamount: '0', feetype: '2', disagio: 'true', disagioamount: '9.78', interest: '0.92', initialinterest: '1.54', repay: '272.22', repayfreq: '4', term: '59', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '15', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '32566.14', annualrepay: '975.55', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[24]= {select1: '2', select2: '2', principal: '171659.07', fees: 'false', feeamount: '0', feetype: '2', disagio: 'false', disagioamount: '0', interest: '4.55', initialinterest: '4.22', repay: '572.83', repayfreq: '4', term: '187', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '18', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '27657.29', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0', specialrepaymonths0: '0', specialrepayamount0: '0', specialrepaymonths1: '0', specialrepayamount1: '0', specialrepaymonths2: '0', specialrepayamount2: '0', specialrepaymonths3: '0', specialrepayamount3: '0', specialrepaymonths4: '0', specialrepayamount4: '0', specialrepaymonths5: '0', specialrepayamount5: '0'};
+      data[25]= {select1: '2', select2: '2', principal: '54532.39', fees: 'true', feeamount: '855.75', feetype: '2', disagio: 'false', disagioamount: '0', interest: '2.47', initialinterest: '0.81', repay: '590.02', repayfreq: '2', term: '45', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '11', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '16984.86', annualrepay: '1490.28', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[26]= {select1: '2', select2: '2', principal: '67875.77', fees: 'false', feeamount: '0', feetype: '2', disagio: 'true', disagioamount: '4.77', interest: '1.08', initialinterest: '2.76', repay: '423.24', repayfreq: '2', term: '41', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '36', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '17122.1', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'true', specialrepaypositions: '5', specialrepaymonths0: '7', specialrepayamount0: '60.12', specialrepaymonths1: '6', specialrepayamount1: '889.99', specialrepaymonths2: '8', specialrepayamount2: '56.91', specialrepaymonths3: '8', specialrepayamount3: '692.07', specialrepaymonths4: '5', specialrepayamount4: '251.34'};
+      data[27]= {select1: '3', select2: '2', principal: '85533.26', fees: 'true', feeamount: '321.98', feetype: '2', disagio: 'true', disagioamount: '7.65', interest: '4.07', initialinterest: '2.47', repay: '202.06', repayfreq: '2', term: '144', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '21', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '33128.19', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[28]= {select1: '1', select2: '2', principal: '48740.36', fees: 'false', feeamount: '0', feetype: '3', disagio: 'true', disagioamount: '4.89', interest: '2.91', initialinterest: '4.66', repay: '191.76', repayfreq: '4', term: '115', termperiods: '12', repaymentfree: 'true', repaymentfreeterm: '33', repaymentfreetype: '3', repaymentfreetermperiods: '12', residual: '6040.6', annualrepay: '0', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
+      data[29]= {select1: '3', select2: '2', principal: '61659.85', fees: 'true', feeamount: '1168.78', feetype: '2', disagio: 'false', disagioamount: '0', interest: '0.96', initialinterest: '3.43', repay: '771.7', repayfreq: '4', term: '54', termperiods: '12', repaymentfree: 'false', repaymentfreeterm: '24', repaymentfreetype: '2', repaymentfreetermperiods: '12', residual: '23733.62', annualrepay: '245.83', followup: 'false', followupinterest: '0', specialrepay: 'false', specialrepaypositions: '0'};
 
 
       expectations[0] = { value1: -3.09, value2: 102846.12};
@@ -1456,6 +1473,21 @@ describe("Property calculators correct", function() {
       expectations[13]= { value1: 1909.74, value2: 93204.46};
       expectations[14]= { value1: -3.81, value2: 223938.98};
 
+      expectations[15]= {value1: 49.43};
+      expectations[16]= {value1: 18197.52, value1: 0, totalinterest: 563.06, irr: 45.75};
+      expectations[17]= {value1: -0.18, value2: 924, totalinterest: 19521.53, irr: 0.71};
+      expectations[18]= {value1: 7.68, value2: 75, totalinterest: 762.89, irr: 0.75};
+      expectations[19]= {};
+      expectations[20]= {value1: 212.3, value2: 129, totalinterest: 4184.27, irr: 2.22};
+      expectations[21]= {};
+      expectations[22]= {value1: -3.44, value2: 852, totalinterest: -119382.33, irr: -3.41};
+      expectations[23]= {value1: -0.57, value2: 387, totalinterest: -13002.99, irr: -0.1};
+      expectations[24]= {};
+      expectations[25]= {value1: 35976.83, value2: 126, totalinterest: 7184.91, irr: 2.83};
+      expectations[26]= {value1: 22043.75, value2: 60, totalinterest: 1019.73, irr: 2.27};
+      expectations[27]= {value1: -2, value2: 396, totalinterest: -36620.94, irr: -1.73};
+      expectations[28]= {value1: 922.41, value2: 183, totalinterest: 12864.33, irr: 3.47};
+      expectations[29]= {value1: 1.58, value2: 180, totalinterest: 10465.17, irr: 1.78};
 
 
 
@@ -1595,6 +1627,137 @@ describe("Property calculators correct", function() {
         done();
       }).onReject(done);
     });
+
+    it('Passes 16th test set', function(done){
+      property.mortgage(data[15]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 17th test set', function(done){
+      property.mortgage(data[16]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 18th test set', function(done){
+      property.mortgage(data[17]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+      /*
+      property.mortgage(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);*/
+    });
+
+    it('Passes 19th test set', function(done){
+      property.mortgage(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 20th test set', function(done){
+      property.mortgage(data[19]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 21th test set', function(done){
+      property.mortgage(data[20]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[20]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 22th test set', function(done){
+      property.mortgage(data[21]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 23th test set', function(done){
+      property.mortgage(data[22]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[22]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 24th test set', function(done){
+      property.mortgage(data[23]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[23]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 25th test set', function(done){
+      property.mortgage(data[24]).then(function(results){
+        assert(Array.isArray(results));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 26th test set', function(done){
+      property.mortgage(data[25]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[25]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 27th test set', function(done){
+      property.mortgage(data[26]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[26]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 28th test set', function(done){
+      property.mortgage(data[27]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[27]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 29th test set', function(done){
+      property.mortgage(data[28]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[28]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 30th test set', function(done){
+      property.mortgage(data[29]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[29]));
+        done();
+      }).onReject(done);
+    });
+
 
 
 

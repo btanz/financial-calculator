@@ -1350,7 +1350,7 @@ exports.mortgage = function(inputs){
     inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
     inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-    if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12,2)){
+    if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12,2) && inputs.select2 === 1){
       // todo: fix warning
       helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
@@ -1389,11 +1389,11 @@ exports.mortgage = function(inputs){
      */
 
 
-
     /** constract array with special repayments */
-    // todo: deal with annual repays if second selection is not residual
     if(inputs.select2 === 1){
       specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
+    } else if (inputs.select2 === 2) {
+      specialpays = f.basic.annualpayments(300 * 12 + 1, inputs.annualrepay);
     }
 
 
@@ -1458,12 +1458,12 @@ exports.mortgage = function(inputs){
 
     //console.log(dyn);
 
-
     /** assign residual if not given */
     inputs.residual = inputs.residual || dyn.residual;
 
     /** assign term if not given */
     inputs.term = inputs.term || dyn.term;
+
 
 
     helper.totalrepay     = dyn.totalrepay;
@@ -1481,6 +1481,7 @@ exports.mortgage = function(inputs){
     /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
 
+
     /**
      * 4.A FIRST RESULT CONTAINER
      */
@@ -1494,8 +1495,6 @@ exports.mortgage = function(inputs){
     (inputs.fees && inputs.feetype === 3) ? result._1.fees     = _.extend(_.findWhere(data[0].results_1,{name: 'fees'}),  {"value": inputs.feeamount}) : null;
     result._1.irr     = _.extend(_.findWhere(data[0].results_1,{name: 'irr'}),   {"value": helper.irr * 100});
 
-
-    //console.log(result._1);
 
 
     /**
@@ -1512,6 +1511,18 @@ exports.mortgage = function(inputs){
     }
     if (inputs.initialinterest < 0  && inputs.select1 === 4) {  // case where initialinterest is negativ
       helpers.messages.set("Hinweis: Die berechnete anfängliche Tilgung ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
+    }
+    if (inputs.select2 === 2 && inputs.select1 === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
+      helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die Rate zu gering ist für die Rückzahlung des Darlehens. Erhöhen Sie die Rate und/oder das Zahlungsintervall der Rate.",undefined , true);
+      return helpers.errors.errorMap;
+    }
+    if (inputs.select2 === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
+      helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die Kreditsumme geringer ist als die Restschuld. Bitte erhöhen Sie die Kreditsumme bzw. die Rate oder verringern Sie die Restschuld.",undefined , true);
+      return helpers.errors.errorMap;
+    }
+    if (inputs.select2 === 2 && inputs.initialinterest < 0  && inputs.select1 === 4){
+      helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die anfängliche Tilgung negativ und die Rate für die Rückzahlung des Darlehens zu gering ist. Erhöhen Sie die Rate bzw. das Zahlungsintervall der Rate.",undefined , true);
+      return helpers.errors.errorMap;
     }
 
 
