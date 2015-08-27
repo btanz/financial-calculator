@@ -18,6 +18,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ****  I.A) BEFORE NEXT LAUNCH ****
 * testing sheet for each calculator
+* guide for each calculator
 * improved rootfinding algorithm (use rserve?)
 * graphs
 * animationen
@@ -29,9 +30,10 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * database table for error reporting
-* comparison page with financeadds-data
+
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* comparison page with financeadds-data
 * pdf generator (create pdf an the server an d serve back as a static file)
 * useful print previews
 * excel file generator
