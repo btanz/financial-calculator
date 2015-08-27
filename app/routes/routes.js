@@ -57,6 +57,7 @@ router.get('/immobilienpreisrechner/inputs',    property.propertyprice.calculate
 
 router.get('/hypothekenrechner',                property.mortgage.render);
 router.get('/hypothekenrechner/inputs',         property.mortgage.calculate);
+router.get('/hypothekenrechner/guide',          property.mortgage.guide);
 
 
 /**

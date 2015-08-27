@@ -205,6 +205,18 @@ exports.mortgage = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('mortgage')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-mortgage guide.");
+        });
   }
 
 };

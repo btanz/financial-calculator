@@ -5933,6 +5933,7 @@ function seeder() {
     id: 'property-mortgage',
     designation: 'Hypothekenrechner',
     description: 'Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypothekendarlehen durchführen.',
+    guidelink: '/hypothekenrechner/guide',
     inputs: [
       {
         name: 'select1',
