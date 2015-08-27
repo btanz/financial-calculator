@@ -1398,6 +1398,7 @@ exports.mortgage = function(inputs){
 
 
     // todo: write message informing that repay time has been set ti ceil if not a full month
+    /** notify that some special repayments could not be considered */
     for (i = 0; i < 30; i++){
       helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
       helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
@@ -1454,9 +1455,18 @@ exports.mortgage = function(inputs){
       });
 
 
+      /** notify that some special repayments could not be considered in case term was computed and not given */
+      for (i = 0; i < 30; i++){
+        helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
+        helper.val = _.find(inputs, function(val, ind){return ind === ('specialrepayamount' + i);});
+        if (helper.ind && helper.val && helper.ind > dyn.term){
+          helpers.messages.set("Hinweis: Die Sondertilgung im Monat " + helper.ind + " kann leider nicht berücksichtigt werden, da sie außerhalb der Laufzeit der Rückzahlung liegt.",2);
+        }
+      }
     }
 
-    //console.log(dyn);
+
+
 
     /** assign residual if not given */
     inputs.residual = inputs.residual || dyn.residual;

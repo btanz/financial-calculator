@@ -6496,7 +6496,7 @@ function seeder() {
       {
         name: 'term',
         description: 'Laufzeit',
-        unit: '',
+        unit: 'Monate',
         digits: 0,
         importance: 'first',
         tooltip: 'Die Laufzeit der Hypothek.'

@@ -1489,8 +1489,6 @@ describe("Property calculators correct", function() {
       expectations[28]= {value1: 922.41, value2: 183, totalinterest: 12864.33, irr: 3.47};
       expectations[29]= {value1: 1.58, value2: 180, totalinterest: 10465.17, irr: 1.78};
 
-
-
     });
 
     it('Passes 1st test set', function(done){
