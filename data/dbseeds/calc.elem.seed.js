@@ -5938,7 +5938,7 @@ function seeder() {
         name: 'select1',
         id: 'property-mortgage-select1',
         label: 'Was soll berechnet werden? - 1. Auswahl',
-        tooltip: 'TBD',
+        tooltip: 'Für diesen Rechner sind zwei Berechnungsparameter auszuwählen, welche jeweils anhand der anderen Daten berechnet werden. In dieser 1. Auswahl können Sie auswählen, ob die Rate/Annuität, die Kreditsumme, der Zinssatz oder die anfängliche Tilgung berechnet werden soll. Die anfängliche Tilgung ist der prozentuale Anteil der Kreditsumme, welcher mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.',
         type: 'select',
         vtype: 'number',
         args: [1, 7],
@@ -5965,7 +5965,7 @@ function seeder() {
         name: 'select2',
         id: 'property-mortgage-select2',
         label: 'Was soll berechnet werden? - 2. Auswahl',
-        tooltip: 'TBD',
+        tooltip: 'In dieser 2. Auswahl für die zu berechnenden Parameter können Sie entscheiden, ob die Restschuld oder die Laufzeit berechnet werden soll. Der jeweils andere Werte sollte bekannt sein und wird für die Berechnung benötigt.',
         type: 'select',
         vtype: 'number',
         args: [1,4],
@@ -5977,11 +5977,12 @@ function seeder() {
           {
             id: '2',
             description: 'Laufzeit'
-          },
+          }
+            /*
           {
             id: '3',
             description: 'Jährliche Sondertilgung'
-          }
+          }*/
         ]
       },
       {
@@ -6002,7 +6003,7 @@ function seeder() {
         id: 'property-mortgage-fees',
         linetop: true,
         label: 'Sind Abschlussgebühren angefallen?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob Abschlussgebühren angefallen sind. Sie können danach die Höhe der Abschlussgebühren eingeben und wählen, ob die Gebühren der Kreditsumme zugeschlagen werden sollen (und damit in die Rückzahlung eingehen) oder separat gezahlt werden sollen. Die Abschlussgebühren werden sofort nach Darlehensauszahlung fällig und wirken sich in der Regel auf den Effektivzins des Darlehens aus.',
         type: 'select',
         vtype: 'bool',
         options: [
@@ -6025,7 +6026,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Gebühren',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe der anfallenden Gebühren an.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000],
@@ -6038,7 +6039,7 @@ function seeder() {
         hide: true,
         secondary: 'true',
         label: 'Wie sollen die Gebühren verrechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob die Gebühren mit der Ratenzahlung/Annuität verechnet werden sollen oder separat gezahlt werden. Bei Verrechnung werden sind die Gebühren nicht direkt zu zahlen, sondern werden der Kreditsumme zugeschlagen und entsprechend in die Tilgungszahlungen einbezogen. Bei gesonderter Zahlung sind die Gebühren direkt nach Darlehensauszahlung zu zahlen. ',
         type: 'select',
         vtype: 'number',
         optional: true,
@@ -6058,7 +6059,7 @@ function seeder() {
         name: 'disagio',
         id: 'property-mortgage-disagio',
         label: 'Gab es ein Disagio?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob es ein Disagio gab. Ein Disagio ist ein prozentualer Abschlag von der Kreditsumme. Dem Darlehensnehmer wird die Kreditsumme abzüglich des Disagio ausgezahlt, er muss jedoch die volle Kreditsumme zurückzahlen. Beispielsweise werden bei einer Kreditsumme von 1.000 EUR und einem Disagio von 5 % dem Darlehensnehmer 950 EUR ausgezahlt, während er ingesamt 1.000 zurückzahlen/tilgen muss.',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -6082,7 +6083,7 @@ function seeder() {
         addon: '%',
         placeholder: 'Disago',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe des Disagios in % an.',
         type: 'number',
         vtype: 'number',
         args: [0, 100],
@@ -6107,7 +6108,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Anfängliche Tilgung',
         value: '4.00',
-        tooltip: 'Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.',
+        tooltip: 'Geben Sie den prozentualen Anteil des Darlehensbetrags ein, der mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird. Beispielsweise ist der bezogen auf ein Jahr getilgte Betrag bei einer Darlehenssumme von 100.000 EUR, einem jährlichen Zahlungsintervall und 4 % anfänglicher Tilgung 4.000 EUR (100.000 EUR * 4 %). Bei einem monatlichen Zahlungintervall wäre der pro Monat getilgte Betrag entsprechend 333.33 EUR (4.000 EUR / 12 Monate).',
         type: 'number',
         vtype: 'number',
         args: [0, 100]
@@ -6120,7 +6121,7 @@ function seeder() {
         placeholder: 'Rate/Annuität',
         value: '',
         disabled: true,
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe der periodischen Rückzahlungsrate für das Darlehen an. Diese ist über die Laufzeit des Darlehens konstant und enthält sowohl den Zins- als auch den Tilgungsanteil, wobei der Tilgungsanteil gewöhnlich über die Laufzeit zunimmt.',
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
@@ -6129,7 +6130,7 @@ function seeder() {
         name: 'repayfreq',
         id: 'property-mortgage-repayfreq',
         label: 'Zahlungsintervall für Rate',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, in welchen Zeitabständen die Rate/Annuität geleistet wird. Für die meisten  Darlehen wird eine monatliche Rate vereinbart, sie können jedoch auch auch Darlehen mit vierteljährlichen, halbjährlichen oder jährlichen Rückzahlungsintervallen berechnen. Es wird angenommen, dass die Zahlung jeweils zum Ende des Ratenintervalls erfolgt (nachschüssig). Zins und Tilgung werden zu den einzelnen Ratenintervallen verrechnet.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
@@ -6158,7 +6159,7 @@ function seeder() {
         label: 'Laufzeit Ratenzahlungen',
         placeholder: 'Laufzeit Ratenzahlungen',
         value: '10',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Laufzeit der Ratenzahlungen an. Diese entspricht der Länge des Zeitraums, für welchen die periodische Rate/Annuität geleistet wird. Eventuelle tilgungsfreie Zeiten sind in dieser Laufzeit nicht enthalten. Die Laufzeit kann in Monaten oder Jahren angegeben werden. Beachten Sie, dass "ungerade" Laufzeiten bei der Berechnung auf das Ende der nächsten Ratenperiode aufgerundet werden.',
         type: 'numberselect',
         vtype: 'number',
         args: [0, 200],
@@ -6180,7 +6181,7 @@ function seeder() {
         name: 'repaymentfree',
         id: 'property-mortgage-repaymentfree',
         label: 'Gab es eine tilgungsfreie Zeit?',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie an, ob eine anfängliche tilgungsfreie Zeit vorgesehen bzw. vereinbart ist. Während dieser Zeit wird die Tilgung zunächst aufgeschoben und Ratenzahlungen sind entsprechend für die Dauer der tilgungsfreien Zeit nicht zu leisten. Der Beginn der Ratenzahlungen verschiebt sich entsprechend auf das Ende der tilgungsfreien Zeit. ',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -6203,7 +6204,7 @@ function seeder() {
         label: 'Zeitraum',
         placeholder: 'Zeitraum',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie bitte die Länge der tilgungsfreien Zeit ein. Sie können die Länge des Zeitraums wahlweise in Monaten oder Jahren angeben.',
         type: 'numberselect',
         vtype: 'number',
         args: [0, 1000],
@@ -6229,7 +6230,7 @@ function seeder() {
         hide: true,
         secondary: 'true',
         label: 'Wie sollen die Zinsen für die tilgungsfreie Zeit verrechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Für den Zeitraum der tilgungsfreien Zeit fallen Zinsen entsprechend des angegebenen Zinssatzes an. Hier können Sie wählen, wie mit diesen Zinsen umgegangen werden soll. Bei Wahl der Option "Verrechnung mit der Ratenzahlung/Annuität" werden die Zinsen nicht separat gezahlt, sondern der Kreditsumme zugeschlagen und später zusammen mit der Kreditsumme zurückgezahlt. Bei Wahl der Option "keine Verrechnung, sondern gesonderte Zahlung" sind die Zinsen bereits in der tilgungsfreien Zeit zu zahlen und die Kreditsumme bleibt entsprechend gleich.',
         type: 'select',
         vtype: 'number',
         optional: true,
@@ -6253,7 +6254,7 @@ function seeder() {
         placeholder: 'Restschuld',
         value: '',
         disabled: true,
-        tooltip: 'TBD',
+        tooltip: 'Dies ist die verbleibende Restschuld nach Ende der Laufzeit der Ratenzahlungen und der Sollzinsbindung. Dieser Wert ist 0, sofern das Darlehen innerhalb der angegebenen Laufzeit vollständig zurückgezhalt ist bzw. (falls Restschuld nicht Berechnungs- sondern Eingabeparameter) sofern es vollständig zurückgezahlt sein soll.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -6265,7 +6266,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Jährliche Sondertilgung',
         value: '0',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie hier an, falls jährliche Sondertilgungen vorgesehen bzw. durchgeführt werden. Setzen Sie diesen Wert auf 0, falls dies nicht der Fall ist. Jährliche Sondertilgungen sind zusätzliche am Jahresende durgeführte Tilgungszahlungen. Sie führen zu einer schnelleren Rückzahlung des Darlehens.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -6274,7 +6275,7 @@ function seeder() {
         name: 'followup',
         id: 'property-mortgage-followup',
         label: 'Anschlussfinanzierung berechnen?',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie an, ob eine Anschlussfinanzierung für den Zeitraum nach Ende der Laufzeit berechnet werden soll, sofern eine positive Restschuld besteht. In diesem Fall wird eine Anschlussfinanzierung mit gleicher Rate bis zur vollständigen Rückzahlung des Darlehens berechnet. Sie können für diese Anschlussfinanzierung einen eigenen Zinssatz bestimmen.',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -6298,7 +6299,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zinssatz',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie hier den Zinssatz für die Anschlussfinanzierung an.',
         type: 'number',
         vtype: 'number',
         args: [0,100],
@@ -6308,7 +6309,7 @@ function seeder() {
         name: 'specialrepay',
         id: 'property-mortgage-specialrepay',
         label: 'Gibt es individuelle Sondertilgungen?',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie "ja", falls individuelle Sondertilgungen zu frei bestimmbaren Zeitpunkten in die Berechnung einbezogen werden sollen.',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -6330,7 +6331,7 @@ function seeder() {
         hide: true,
         secondary: 'true',
         label: 'Wie viele Sondertilgungszeitpunkte gibt es?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, wie viele Sondertilgungszeitpunkte vorliegen bzw. vorgesehen sind. Sie können danach den Monat der Sondertilgung sowie die Höhe eingeben. Wie bei den anderen Zahlungen auch wird angenommen, dass die Sondertilgungen zum Monatsende erfolgen.',
         type: 'select',
         vtype: 'number',
         optional: true,
@@ -6499,7 +6500,7 @@ function seeder() {
         unit: 'Monate',
         digits: 0,
         importance: 'first',
-        tooltip: 'Die Laufzeit der Hypothek.'
+        tooltip: 'Die rechnerische Laufzeit der Hypothek. Sofern die Laufzeit innerhalb eines laufenden Monats endet wird der jeweils auf den nächsten vollen Monat aufgerundete Wert angegeben. Eventuell eingegebene tilgungsfreie Zeiten sind in dieser Angabe nicht berücksichtigt.'
       },
       {
         name: 'principal',
@@ -6531,7 +6532,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die verbleibende Restschuld nach Ende der Laufzeit der Ratenzahlungen und der Sollzinsbindung.'
       },
       {
         name: 'totalrepay',
@@ -6539,7 +6540,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten über die Laufzeit geleisteten Rückzahlungen inklusive aller Gebühren, eventueller Zinsen für tilgungsfreie Zeiten sowie das Disagio (jedoch ohne die Restschuld). Gebühren und Zinszahlungen sind explizit ausgewiesen, sofern sie nicht mit den Tilgungszahlungen verrechnet sind.'
       },
       {
         name: 'totalinterest',
@@ -6547,7 +6548,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten anfallenden Zinszahlungen (mit Ausnahme der Zinszahlungen für die tilgungsfreie Zeit, sofern nicht mit der Rückzahlungsrate verrechnet).'
       },
       {
         name: 'totalreduction',
@@ -6555,7 +6556,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten Tilgungszahlungen.'
       },
       {
         name: 'disagio',
@@ -6563,7 +6564,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die anfallende Zahlung für das Disagio.'
       },
       {
         name: 'fees',
@@ -6571,7 +6572,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe der anfallenden Gebühren (sofern nicht mit der Rückzahlungsrate verrechnet).'
       },
       {
         name: 'repaymentfreetotal',
@@ -6579,7 +6580,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die separat zahlbare Zinslast für die tilgungsfreie Zeit.'
       },
       {
         name: 'irr',
@@ -6587,7 +6588,7 @@ function seeder() {
         unit: '% p. a.',
         digits: 2,
         importance: 'first',
-        tooltip: 'Dieses Feld gibt den effektiven Jahreszins an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.'
+        tooltip: 'Dieses Feld gibt den effektiven Jahreszins für das Darlehen an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.'
       }
     ]
   });

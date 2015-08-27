@@ -1328,10 +1328,8 @@ exports.mortgage = function(inputs){
     delete inputs[selectMap[0][inputs.select1]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[0][inputs.select1]}),1);
 
-    //delete _expectedInputs[selectMap[0][inputs.select1]];
     delete inputs[selectMap[1][inputs.select2]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[1][inputs.select2]}),1);
-    //delete _expectedInputs[selectMap[1][inputs.select2]];
 
     /** run validation method */
     errorMap = helpers.validate(inputs, data[0].inputs);
@@ -1341,21 +1339,18 @@ exports.mortgage = function(inputs){
 
 
     /** convert terms with subannual choices to month */
-    helper.term = inputs.term / inputs.repayfreq;
+    helper.term              = inputs.term              * 12 / helper.termperiods;
     inputs.term              = inputs.term              * 12 / helper.termperiods;
     inputs.repaymentfreeterm = inputs.repaymentfreeterm * 12 / helper.repaymentfreetermperiods;
-
 
     /** convert terms that are not period multiples to period multiples and convert back to years*/
     inputs.term              = (Math.ceil( inputs.term              / (12 / inputs.repayfreq)) * (12 / inputs.repayfreq)) / 12;
     inputs.repaymentfreeterm = (Math.ceil( inputs.repaymentfreeterm )) / 12;
 
-    if(f.basic.round(helper.term * inputs.repayfreq,2) !== f.basic.round(inputs.term * 12,2) && inputs.select2 === 1){
-      // todo: fix warning
-      helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term * inputs.repayfreq,2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
+    if(inputs.selection2 === 1 && (helper.term) % (12 / inputs.repayfreq) !== 0){
+      helpers.messages.set("Hinweis: Die angegebene Laufzeit der Ratenzahlungen von " + f.basic.round(helper.term / (12/helper.termperiods),2) + " ist kein Vielfaches des Zahlungsintervalls der Rate (" + messageMap[inputs.repayfreq] +"). Die Laufzeit wurde entsprechend auf die nächste volle Zahlungsperiode angepasst. Der angepasste Wert beträgt " + f.basic.round(inputs.term,2) + " Jahre (" + f.basic.round(inputs.term * 12,2) + " Monate).",2);
     }
 
-    // todo: send message to user that only full period values are possible (?)
 
     /** convert percentage values to decimals */
     inputs.disagioamount = inputs.disagioamount / 100;
@@ -1365,7 +1360,6 @@ exports.mortgage = function(inputs){
 
 
     /** ******** 3. COMPUTATIONS ******** */
-
 
     /**
      * 3.A STATIC COMPUTATIONS
@@ -1397,7 +1391,6 @@ exports.mortgage = function(inputs){
     }
 
 
-    // todo: write message informing that repay time has been set ti ceil if not a full month
     /** notify that some special repayments could not be considered */
     for (i = 0; i < 30; i++){
       helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});
@@ -1535,11 +1528,7 @@ exports.mortgage = function(inputs){
       return helpers.errors.errorMap;
     }
 
-
     result.messages = helpers.messages.messageMap;
-
-
-    // todo add a message that periods are adjusted to next full period
 
     return result;
   }
