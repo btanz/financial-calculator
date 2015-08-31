@@ -126,6 +126,8 @@ exports.savings = function(inputs){
 
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
+  helpers.messages.clear();
+  helpers.errors.clear();
   var helper = {}, inflowHelper = null;
   var cash = [], cashT;
   var q, a, principalCompounded;
@@ -135,18 +137,69 @@ exports.savings = function(inputs){
 
 
   function compute(data){
-
-
     /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-    // drop elems that are to be computed form input and expectedinputs object
+    /** drop elems that are to be computed form input and expectedinputs object */
     delete inputs[selectMap[inputs.select]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.select]}),1);
 
-    // run validations
+    /** run validation method */
     errorMap = helpers.validate(inputs, data[0].inputs);
     if (errorMap.length !== 0){
       return errorMap;
     }
+
+    /** convert terms with subannual choices to month */
+    helper.term = inputs.term * 12;
+    inputs.term = inputs.term * 12;
+
+    /** convert terms that are not period multiples to period multiples and convert back to years*/
+    inputs.term = (Math.ceil( inputs.term / (12 / inputs.inflowfreq)) * (12 / inputs.inflowfreq)) / 12;
+
+    /** ********************************************************** */
+    /** BEGIN TEMPORARY TINKERING WITH NEW VERSION */
+    var temp = f.savings.schedule.call({
+      mode: 1,
+      principal: inputs.principal,
+      term: inputs.term,
+      inflow: inputs.inflow,
+      interest: inputs.interest / 100
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /** result container */
+
+    result.id = data[0].id;
+
+    // first result container
+    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+
+
+
+    // second result container
+    result._2.title = 'Sparkontoentwicklung';
+    result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
+    result._2.body = temp.schedule;
+
+    return result;
+
+
+
+
+
+
+    /** END TEMPORARY TINKERING WITH NEW VERSION */
+    /** ********************************************************** */
 
     // assign to shortcuts for convenience (XXX check whether this can be moved down a bit to avoid the undef-option
     var mz = inputs.interestperiod;     // number interest periods within a year
