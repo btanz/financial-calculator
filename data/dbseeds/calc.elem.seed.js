@@ -2883,22 +2883,22 @@ function seeder() {
         options: [
           {
             id: '0',
-            description: 'Endkapital',
+            description: 'Endkapital'
           },
           {
             id: '1',
-            description: 'Anfangskapital',
+            description: 'Anfangskapital'
           },
           {
             id: '2',
-            description: 'Sparrate',
+            description: 'Sparrate'
           },    {
             id: '3',
-            description: 'Ansparzeit',
+            description: 'Ansparzeit'
           },
           {
             id: '4',
-            description: 'Zinssatz',
+            description: 'Zinssatz'
           }
         ]
       },

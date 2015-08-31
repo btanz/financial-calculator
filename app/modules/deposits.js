@@ -107,7 +107,7 @@ exports.interest = function(inputs){
 };
 
 
-/* DEPOSITS-SAVINGS function that computes parameters for a savings plan
+/** DEPOSITS-SAVINGS function that computes parameters for a savings plan
  * ARGUMENTS XXX
  *   start                      inital capital / principal; NUMBER (currency)
  *   end                        terminal value; NUMBER (currency)
@@ -164,7 +164,7 @@ exports.savings = function(inputs){
     a = (1 + inputs.dynamic);
 
 
-    /* ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
+    /** ******** 3. DEFINE LOCAL HELPER FUNCTIONS ******** */
     var dynamicPeriod_1 = function(term, payPoint,inflowCompute){
       var result = 0, multiplier = null;
       if (payPoint === 'pre'){
@@ -214,7 +214,7 @@ exports.savings = function(inputs){
 
 
 
-    /* ******** 4. COMPUTATIONS ******** */
+    /** ******** 4. COMPUTATIONS ******** */
     /* 4A. NON-PERIODICAL CALCULATIONS */
     // compound principal
     principalCompounded = K * Math.pow(1 + r / mz, n * mz);
@@ -428,6 +428,8 @@ exports.savings = function(inputs){
 
     // first result container
     result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+
+
 
     // second result container
     result._2.title = 'Sparkontoentwicklung';
