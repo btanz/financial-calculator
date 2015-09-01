@@ -18,10 +18,19 @@ script(id='deposits-savings-results-2-template', type='text/x-handlebars-templat
             | {{/with}}
         tbody
           | {{#each obj.body}}
+          | {{#if this.[5]}}
+          tr
+            td(style='text-align: left;padding:2px;').annualval {{this.[0]}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
+            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
+          | {{else}}
           tr
             td(style='text-align: left;padding:2px;') {{numFormat this.[0] 0}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
             td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+          | {{/if}}
           | {{/each}}
