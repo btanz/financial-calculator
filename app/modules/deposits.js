@@ -159,7 +159,7 @@ exports.savings = function(inputs){
     /** ********************************************************** */
     /** BEGIN TEMPORARY TINKERING WITH NEW VERSION */
     var res = f.savings.schedule.call({
-      mode: 1,
+      mode: inputs.select + 1,
       principal: inputs.principal,
       term: inputs.term,
       inflow: inputs.inflow,
@@ -169,33 +169,34 @@ exports.savings = function(inputs){
       compounding: inputs.compounding,
       dynamic: inputs.dynamic / 100,
       inflowtime: inputs.inflowtype,
-      termfix: inputs.termfix
-
+      termfix: inputs.termfix,
+      terminal: inputs.terminal
     });
 
-
-
-
-
-
-
-
-
-
+    if (res.error){
+      helpers.errors.set(res.error,undefined , true);
+      return helpers.errors.errorMap;
+    }
 
 
 
     /** result container */
-
     result.id = data[0].id;
 
-    // first result container
-    //result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
     // todo: generalize (currently res.terminal only)
-    result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": res.terminal});
-    result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
-    result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
-    result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+    if(inputs.select === 0){            // terminal value to be computed
+      result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}), {"value": res.terminal});
+      result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
+      result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+    } else if (inputs.select === 1){    // principal value to be computed
+      result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal, "importance": "first"});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
+      result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+    }
+
+
 
     // second result container
     result._2.title = 'Sparkontoentwicklung';
