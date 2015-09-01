@@ -155,6 +155,8 @@ exports.savings = function(inputs){
     /** convert terms that are not period multiples to period multiples and convert back to years*/
     inputs.term = (Math.ceil( inputs.term / (12 / inputs.inflowfreq)) * (12 / inputs.inflowfreq)) / 12;
 
+    //console.log(inputs);
+
     /** ********************************************************** */
     /** BEGIN TEMPORARY TINKERING WITH NEW VERSION */
     var temp = f.savings.schedule.call({
@@ -162,7 +164,12 @@ exports.savings = function(inputs){
       principal: inputs.principal,
       term: inputs.term,
       inflow: inputs.inflow,
-      interest: inputs.interest / 100
+      interest: inputs.interest / 100,
+      inflowfreq: inputs.inflowfreq,
+      interestfreq: inputs.interestperiod,
+      compounding: inputs.compounding,
+      dynamic: inputs.dynamic / 100,
+      inflowtime: inputs.inflowtype
     });
 
 
