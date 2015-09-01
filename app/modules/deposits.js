@@ -153,13 +153,12 @@ exports.savings = function(inputs){
     inputs.term = inputs.term * 12;
 
     /** convert terms that are not period multiples to period multiples and convert back to years*/
-    inputs.term = (Math.ceil( inputs.term / (12 / inputs.inflowfreq)) * (12 / inputs.inflowfreq)) / 12;
-
-    //console.log(inputs);
+    inputs.term = Math.ceil(inputs.term) / 12;
+    inputs.termfix = Math.ceil(inputs.termfix * 12) / 12;
 
     /** ********************************************************** */
     /** BEGIN TEMPORARY TINKERING WITH NEW VERSION */
-    var temp = f.savings.schedule.call({
+    var res = f.savings.schedule.call({
       mode: 1,
       principal: inputs.principal,
       term: inputs.term,
@@ -169,7 +168,9 @@ exports.savings = function(inputs){
       interestfreq: inputs.interestperiod,
       compounding: inputs.compounding,
       dynamic: inputs.dynamic / 100,
-      inflowtime: inputs.inflowtype
+      inflowtime: inputs.inflowtype,
+      termfix: inputs.termfix
+
     });
 
 
@@ -189,14 +190,17 @@ exports.savings = function(inputs){
     result.id = data[0].id;
 
     // first result container
-    result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
-
-
+    //result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+    // todo: generalize (currently res.terminal only)
+    result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": res.terminal});
+    result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
+    result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+    result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
 
     // second result container
     result._2.title = 'Sparkontoentwicklung';
     result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
-    result._2.body = temp.schedule;
+    result._2.body = res.schedule;
 
     return result;
 

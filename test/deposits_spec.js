@@ -1014,14 +1014,14 @@ describe("Deposits calculators are correct", function() {
         expectations = [];
     before(function () {
 
-      data[0] = {select: '0', principal: '99654.6', inflow: '794.34', inflowfreq: '1', inflowtype: '2', dynamic: '0.32', interest: '3.45', interestperiod: '12', compounding: '2', term: '6.6', termfix: '2.5', terminal: '180563.03'};
+      data[0] = {select: '0', principal: '99654.6', inflow: '794.34', inflowfreq: '1', inflowtype: '2', dynamic: '0.32', interest: '3.45', interestperiod: '12', compounding: '2', term: '6.66', termfix: '2.5', terminal: '180563.03'}
       data[1] = {select: '1', principal: '11432.12', inflow: '467.83', inflowfreq: '4', inflowtype: '2', dynamic: '1.11', interest: '2.62', interestperiod: '2', compounding: '2', term: '13.8', termfix: '4.1', terminal: '153616.29'};
       data[2] = {select: '1', principal: '14574.72', inflow: '346.54', inflowfreq: '4', inflowtype: '2', dynamic: '0.74', interest: '0.94', interestperiod: '2', compounding: '1', term: '13', termfix: '4.3', terminal: '6013.12'};
       data[3] = {select: '3', principal: '53351.2', inflow: '735.81', inflowfreq: '12', inflowtype: '2', dynamic: '1.24', interest: '0.34', interestperiod: '4', compounding: '2', term: '9.1', termfix: '2.3', terminal: '19179.92'};
       data[4] = {select: '4', principal: '84881.97', inflow: '951.6', inflowfreq: '2', inflowtype: '2', dynamic: '1.75', interest: '1.2', interestperiod: '12', compounding: '1', term: '9.6', termfix: '3.1', terminal: '159402.29'};
       data[5] = {select: '3', principal: '67540', inflow: '744.57', inflowfreq: '12', inflowtype: '2', dynamic: '1.82', interest: '0.56', interestperiod: '2', compounding: '2', term: '8.4', termfix: '4.6', terminal: '167169.33'};
       data[6] = {select: '1', principal: '8416.22', inflow: '866.21', inflowfreq: '12', inflowtype: '2', dynamic: '1.22', interest: '1.47', interestperiod: '4', compounding: '2', term: '13.5', termfix: '4.2', terminal: '36369.83'};
-      data[7] = {select: '0', principal: '5790.18', inflow: '57.14', inflowfreq: '1', inflowtype: '2', dynamic: '0.45', interest: '2.25', interestperiod: '2', compounding: '1', term: '2.8', termfix: '2.1', terminal: '118278.25'};
+      data[7] = {select: '0', principal: '5790.18', inflow: '57.14', inflowfreq: '1', inflowtype: '2', dynamic: '0.45', interest: '2.25', interestperiod: '2', compounding: '1', term: '2.83', termfix: '2.16', terminal: '118278.25'}
       data[8] = {select: '2', principal: '96862.71', inflow: '254.17', inflowfreq: '12', inflowtype: '2', dynamic: '1.02', interest: '0.89', interestperiod: '12', compounding: '2', term: '8.5', termfix: '2.9', terminal: '172114.63'};
       data[9] = {select: '4', principal: '48449.06', inflow: '610.58', inflowfreq: '4', inflowtype: '2', dynamic: '0.89', interest: '3.18', interestperiod: '12', compounding: '2', term: '10.6', termfix: '0.9', terminal: '146976.57'};
       data[10]= {select: '4', principal: '8897.3', inflow: '3.45', inflowfreq: '1', inflowtype: '2', dynamic: '1.88', interest: '2.3', interestperiod: '2', compounding: '2', term: '7', termfix: '4.1', terminal: '181662.55'};
@@ -1033,17 +1033,17 @@ describe("Deposits calculators are correct", function() {
       data[16]= {select: '3', principal: '18704.51', inflow: '585.9', inflowfreq: '2', inflowtype: '1', dynamic: '1.39', interest: '1.58', interestperiod: '12', compounding: '1', term: '8.8', termfix: '4.3', terminal: '90752.73'};
       data[17]= {select: '2', principal: '95572.74', inflow: '815.55', inflowfreq: '1', inflowtype: '2', dynamic: '1.56', interest: '0.59', interestperiod: '12', compounding: '1', term: '5.4', termfix: '0.7', terminal: '143893.44'};
       data[18]= {select: '3', principal: '80447.1', inflow: '195.25', inflowfreq: '12', inflowtype: '2', dynamic: '0.74', interest: '1.02', interestperiod: '12', compounding: '1', term: '3.9', termfix: '0.6', terminal: '99623.11'};
-      data[19]= {select: '0', principal: '58360.44', inflow: '119', inflowfreq: '1', inflowtype: '1', dynamic: '1.77', interest: '2.54', interestperiod: '12', compounding: '2', term: '12.2', termfix: '1.9', terminal: '179029.58'};
+      data[19]= {select: '0', principal: '58360.44', inflow: '119', inflowfreq: '1', inflowtype: '1', dynamic: '1.77', interest: '2.54', interestperiod: '12', compounding: '2', term: '12.25', termfix: '1.92', terminal: '179029.58'}
 
 
-      expectations[0] = {value: 137375.68};
+      expectations[0] = {value: 137976.33, inflow: 5614.05, interest: 32707.68};
       expectations[1] = {value: 80269.19};
       expectations[2] = {value: -12630.07};
       expectations[3] = {value: 0};
       expectations[4] = {value: 3.55};
       expectations[5] = {value: 9.31};
       expectations[6] = {value: -110515.48};
-      expectations[7] = {value: 6636.76};
+      expectations[7] = {value: 6663.89, inflow: 172.19, interest: 701.52};
       expectations[8] = {value: 580.35};
       expectations[9] = {value: 9.85};
       expectations[10]= {value: 174.55};
@@ -1055,32 +1055,7 @@ describe("Deposits calculators are correct", function() {
       expectations[16]= {value: 30.18};
       expectations[17]= {value: 7836.98};
       expectations[18]= {value: 5.63};
-      expectations[19]= {value: 81163.74};
-
-      /** Alternative set of expectations that also includes total payment inflow and initial capital */
-      /*
-      expectations[0] = {value: 137375.68, inflow: 104944.76, interest: 32430.92};
-      expectations[1] = {value: 80269.19, inflow: 108012.42, interest: 45603.87};
-      expectations[2] = {value: -12630.07, inflow: 6212.22, interest: -199.08};
-      expectations[3] = {value: 0, inflow: 53351.2, interest: 417.21};
-      expectations[4] = {value: 3.55, inflow: 104594.94, interest: 54868.1};
-      expectations[5] = {value: 9.31, inflow: 157321.15, interest: 9869.95};
-      expectations[6] = {value: -110515.48, inflow: 41045.64, interest: -4675.81};
-      expectations[7] = {value: 6636.76, inflow: 5950.84, interest: 685.92};
-      expectations[8] = {value: 580.35, inflow: 158382.97, interest: 13732};
-      expectations[9] = {value: 9.85, inflow: 75475.15, interest: 71495.98};
-      expectations[10]= {value: 174.55, inflow: 8922.86, interest: 172743.63};
-      expectations[11]= {value: 3.3, inflow: 76149.14, interest: 37858.81};
-      expectations[12]= {value: 10670.92, inflow: 32599.27, interest: 12718.24};
-      expectations[13]= {value: -7.52, inflow: 79908.07, interest: -47811.97};
-      expectations[14]= {value: 3.24, inflow: 120491.23, interest: 42036.38};
-      expectations[15]= {value: 1.13, inflow: 42586.14, interest: 2090.41};
-      expectations[16]= {value: 30.18, inflow: 62274.99, interest: 28494.27};
-      expectations[17]= {value: 7836.98, inflow: 139386.48, interest: 4506.96};
-      expectations[18]= {value: 5.63, inflow: 93868.29, interest: 5756.3};
-      expectations[19]= {value: 81163.74, inflow: 59965.37, interest: 21198.37};
-      */
-
+      expectations[19]= {value: 81361.34, inflow: 1575.55, interest: 21425.35};
 
     });
 

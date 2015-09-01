@@ -3095,15 +3095,15 @@ function seeder() {
         description: 'Anfangskapital',
         unit: 'EUR',
         digits: 2,
-        importance: 'first'
+        importance: 'second'
       },
       {
         name: 'inflow',
         tooltip: 'TBD',
-        description: 'Sparrate',
+        description: 'Gesamte Einzahlungen',
         unit: 'EUR',
         digits: 2,
-        importance: 'first'
+        importance: 'second'
       },
       {
         name: 'term',
@@ -3116,10 +3116,10 @@ function seeder() {
       {
         name: 'interest',
         tooltip: 'TBD',
-        description: 'Zinssatz',
-        unit: '% p. a.',
+        description: 'Gesamte Zinsen',
+        unit: 'EUR',
         digits: 2,
-        importance: 'first'
+        importance: 'second'
       }
     ]
   });
