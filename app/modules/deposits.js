@@ -179,11 +179,9 @@ exports.savings = function(inputs){
     }
 
 
-
     /** result container */
     result.id = data[0].id;
 
-    // todo: generalize (currently res.terminal only)
     if(inputs.select === 0){            // terminal value to be computed
       result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}), {"value": res.terminal});
       result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
@@ -191,6 +189,18 @@ exports.savings = function(inputs){
       result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
     } else if (inputs.select === 1){    // principal value to be computed
       result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal, "importance": "first"});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
+      result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+    } else if (inputs.select === 2){    // inflow value to be computed
+      result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'inflowrate'}),             {"value": res.inflowrate, "importance": "first"});
+      result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
+      result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+    } else if (inputs.select === 4){    // interest rate value to be computed
+      result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'interestrate'}),           {"value": res.interestrate * 100});
+      result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
       result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
       result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
       result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});

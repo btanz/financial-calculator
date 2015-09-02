@@ -3106,11 +3106,27 @@ function seeder() {
         importance: 'second'
       },
       {
+        name: 'inflowrate',
+        tooltip: 'Die notwendige anfängliche (vor eventuellen Dynamiken) Sparrate.',
+        description: 'Sparrate',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first'
+      },
+      {
         name: 'term',
         tooltip: 'TBD',
         description: 'Ansparzeitraum',
         unit: 'Jahre',
         digits: 2,
+        importance: 'first'
+      },
+      {
+        name: 'interestrate',
+        tooltip: 'TBD',
+        description: 'Erforderlicher Zinssatz',
+        unit: '% p. a.',
+        digits: 3,
         importance: 'first'
       },
       {
