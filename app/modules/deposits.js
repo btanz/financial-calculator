@@ -128,10 +128,9 @@ exports.savings = function(inputs){
   var Calc = require('mongoose').model('Calc');
   helpers.messages.clear();
   helpers.errors.clear();
-  var helper = {}, inflowHelper = null;
-  var cash = [], cashT;
-  var q, a, principalCompounded;
-  var result = {}; result._1 = {}; result._2 = {};
+  var helper = {};
+  var a;
+  var result = {}; result._1 = {}; result._2 = {}; result._chart1 = {};
   var errorMap;
   var selectMap = ['terminal','principal','inflow','term','interest','dynamic'];
 
@@ -218,11 +217,63 @@ exports.savings = function(inputs){
 
     }
 
-
-    // second result container
+    /** second result container */
     result._2.title = 'Sparkontoentwicklung';
-    result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
+    if(inputs.inflowtype === 1){
+      result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
+    } else {
+      result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsbeginn', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
+    }
+
     result._2.body = res.schedule;
+
+
+    /** first chart */
+    var labels1 = [];
+    var series1 = []; series1[0] = []; series1[1] = []; series1[2] = [];
+    i = 1;
+    var interestTotal = 0;
+    res.schedule.forEach(function(element){  /** filter full years */
+      if(element[7] === true){
+        labels1.push(i);
+        series1[0].push(element[1] + interestTotal);
+        series1[1].push(element[2]);
+        series1[2].push(element[3]);
+        /** add interest to annual principal if no compounding for the sake of a nicer graph */
+        if(inputs.compounding === 2){
+          interestTotal += element[3];
+        }
+        i += 1;
+      }
+      /** attach terminal accrued interest */
+      if(element[6] === true){
+        series1[2][series1[2].length-1] += element[3];
+      }
+
+    });
+
+
+    result._chart1.id = 'chart1';
+    result._chart1.title = 'Sparkontoentwicklung';
+    result._chart1.legend = ['Guthaben Beginn', 'Sparbeitrag', 'Zins'];
+    result._chart1.label = {x: 'Jahr', y: "Guthaben Ende"};
+    result._chart1.type = 'Bar';
+    result._chart1.data = {labels: labels1, series: series1};
+
+    /** adjust chart depending on periods */
+    if (inputs.term + inputs.termfix > 35){
+      delete(result._chart1);
+    } else if(inputs.term + inputs.termfix > 15){
+      result._chart1.options = {stackBars: true, seriesBarDistance: 10, classNames:{bar: 'ct-bar-slim'}};
+    } else if(inputs.term + inputs.termfix > 6){
+      result._chart1.options = {stackBars: true, seriesBarDistance: 10, classNames:{bar: 'ct-bar'}};
+    } else {
+      result._chart1.options = {stackBars: true, seriesBarDistance: 10, classNames:{bar: 'ct-bar-thick'}};
+    }
+
+
+    console.log(inputs.term + inputs.termfix);
+
 
     /** attach messages */
     result.messages = helpers.messages.messageMap;
