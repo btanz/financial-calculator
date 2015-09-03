@@ -133,7 +133,7 @@ exports.savings = function(inputs){
   var q, a, principalCompounded;
   var result = {}; result._1 = {}; result._2 = {};
   var errorMap;
-  var selectMap = ['terminal','principal','inflow','term','interest'];
+  var selectMap = ['terminal','principal','inflow','term','interest','dynamic'];
 
 
   function compute(data){
@@ -204,14 +204,30 @@ exports.savings = function(inputs){
       result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
       result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
       result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
-    }
+    } else if (inputs.select === 5){    // dynamic value to be computed
+      result._1.value    = _.extend(_.findWhere(data[0].results_1,{name: 'dynamic'}),                {"value": res.dynamic * 100});
+      result._1.principal= _.extend(_.findWhere(data[0].results_1,{name: 'principal'}),              {"value": res.principal});
+      result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}),               {"value": res.terminal,"importance": "second"});
+      result._1.inflow   = _.extend(_.findWhere(data[0].results_1,{name: 'inflow'}),                 {"value": res.inflow});
+      result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}),               {"value": res.interest});
+      if(Math.abs(res.dynamic) > 1){
+        helpers.errors.set("Realistische Ergebnisse konnten nicht berechnet werden, da die rechnerische Dynamisierung mit " + f.basic.round(res.dynamic * 100,3) + " % p. a. außergewöhnlich hoch ist. Bitte überprüfen Sie die Eingabedaten.",undefined , true);
+        return helpers.errors.errorMap;
+      }
+      if(res.dynamic < 0){
+        helpers.messages.set("Hinweis: Die rechnerische Dynamisierung ist negativ, daher wird das zu erzielende Endkapital auch mit konstanter Sparrate erreicht bzw. überschritten. Wenn gewünscht können Sie die Sparrate verringern. ",2);
+      }
 
+    }
 
 
     // second result container
     result._2.title = 'Sparkontoentwicklung';
     result._2.header = ['Monat', 'Guthaben <br> Beginn', 'Einzahlung <br>  Monatsende', 'Zinszahlung <br> Monatsende', 'Guthaben <br> Ende'];
     result._2.body = res.schedule;
+
+    /** attach messages */
+    result.messages = helpers.messages.messageMap;
 
     return result;
 

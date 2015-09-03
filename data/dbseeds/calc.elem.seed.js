@@ -2892,13 +2892,18 @@ function seeder() {
           {
             id: '2',
             description: 'Sparrate'
-          },    {
+          },
+          /*{
             id: '3',
             description: 'Ansparzeit'
-          },
+          },*/
           {
             id: '4',
             description: 'Zinssatz'
+          },
+          {
+            id: '5',
+            description: 'Dynamik'
           }
         ]
       },
@@ -3136,6 +3141,14 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second'
+      },
+      {
+        name: 'dynamic',
+        tooltip: 'TBD',
+        description: 'Dynamisierung',
+        unit: '% p. a.',
+        digits: 3,
+        importance: 'first'
       }
     ]
   });
