@@ -1181,8 +1181,6 @@ describe("Deposits calculators are correct", function() {
       deposits.savings(data[13]).then(function(results){
         var values = {};
         _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
-        console.log(values);
-        console.log(expectations[13]);
         assert(_.isMatch(values, expectations[13]));
         done();
       }).onReject(done);
