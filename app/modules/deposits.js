@@ -271,10 +271,6 @@ exports.savings = function(inputs){
       result._chart1.options = {stackBars: true, seriesBarDistance: 10, classNames:{bar: 'ct-bar-thick'}};
     }
 
-
-    console.log(inputs.term + inputs.termfix);
-
-
     /** attach messages */
     result.messages = helpers.messages.messageMap;
 
