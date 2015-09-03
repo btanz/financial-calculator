@@ -2870,13 +2870,13 @@ function seeder() {
     name: 'depsaving',
     id: 'deposits-savings',
     designation: 'Sparrechner',
-    description: 'Mit dem Sparrechner kannst du je nach Auswahl verschiedene Parameter wie etwa des Endkapital für einen Sparplan berechnen.',
+    description: 'Mit dem Sparrechner können Sie nach Ihrer Wahl verschiedene Parameter wie etwa das Endkapital für einen Sparplan berechnen. Zudem stellt der Rechner die Guthabenentwicklung im Zeitablauf dar und erstellt relevante Grafiken.',
     inputs: [
       {
         name: 'select',
         id: 'deposits-savings-select',
         label: 'Was soll berechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Wähle Sie hier aus, welcher der Parameter Endkapital, Anfangskapital, Sparrate, Zinssatz oder Dynamik berechnet werden soll. Der Rechner wird das Eingabefeld für den zu berechnenden Parameter dann ausblenden und genau diese Größe berechnen.',
         type: 'select',
         vtype: 'number',
         args: [0, 5],
@@ -2914,7 +2914,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Anfangskapital',
         value: '10000.00',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie den Geldbetrag an, welcher zu Beginn des Sparplanes einmalig eingezahlt wird. Dieser Betrag wird fortan zusammen mit den weiteren Zuflüssen verzinst. Setzen Sie den Wert auf 0, sofern keine einmalige Einzahlung zu Beginn stattfindet.',
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
@@ -2926,7 +2926,7 @@ function seeder() {
         addon: 'Jahre',
         placeholder: 'Ansparzeitraum',
         value: '6',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie die Länge des Zeitraums ein, in welchem die periodischen Sparraten geleistet werden. Einen eventuell darauf folgenden Anlagezeitraum ohne weitere Einzahlungen / Sparraten können Sie im Feld "Anlagezeitraum" berücksichtigen.',
         type: 'number',
         vtype: 'number',
         args: [0, 200]
@@ -2938,7 +2938,7 @@ function seeder() {
         addon: 'Jahre',
         placeholder: 'Anlagezeitraum',
         value: '4',
-        tooltip: 'TBD',
+        tooltip: 'Hier können Sie Zeiträume berücksichtigen, welche auf die Ansparzeit folgen und in welchen keine weiteren Einzahlungen der Sparrate erfolgen, das angesparte Guthaben jedoch weiter verzinst wird. Setzen Sie diesen Wert auf 0, falls ein solcher Zeitraum nicht vorliegt und das Kapital nach der Ansparzeit nicht weiter angelegt wird.',
         type: 'number',
         vtype: 'number',
         args: [0,200]
@@ -2950,7 +2950,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Sparrate',
         value: '100',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie hier die periodisch (z.B. monatlich) zu leistende Sparrate ein. Diese Sparrate erhöht das bereits investierte Kapital entsprechend. Die Häufigkeit der Sparraten können Sie im Feld "Sparintervall" bestimmen. Weiterhin können Sie im Feld "Einzahlungsart" angeben, ob die Sparrate am Anfang oder am Ende der jeweiligen Periode eingezahlt werden soll.',
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
@@ -2959,7 +2959,7 @@ function seeder() {
         name: 'inflowfreq',
         id: 'deposits-savings-inflowfreq',
         label: 'Sparintervall',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie aus, in welchen zeitlichen Abständen die periodische Sparrate geleistet wird. Die Möglichkeiten monatlich, vierteljährlich, halbjährlich und jährlich stehen zur Auswahl.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
@@ -2986,7 +2986,7 @@ function seeder() {
         name: 'inflowtype',
         id: 'deposits-savings-inflowtype',
         label: 'Einzahlungsart',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie an, ob die Sparrate am Anfang (vorschüssig) oder am Ende (nachschüssig) der jeweiligen Periode eingezahlt werden soll. Am Periodenanfang geleistete vorschüssige Zahlungen (z. B. Monatsanfang) werden für die Periode bereits mitverzinst. Nachschüssige Zahlungen werden erst ab der nächsten Periode verzinst.',
         type: 'select',
         vtype: 'number',
         args: [1, 2],
@@ -3008,7 +3008,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zinssatz',
         value: '3.50',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie den nominalen Jahreszins an, mit welchem das Kapital jedes Jahr verzinst wird.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -3020,7 +3020,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Dynamisierung',
         value: '1.20',
-        tooltip: 'TBD',
+        tooltip: 'Hier können Sie eventuelle jährliche Erhöhungen der periodischen Sparrate angeben. Soll die periodische Sparrate konstant bleiben, dann tragen Sie hier bitte eine 0 ein. Bei positiver Dynamisierung erfolgt die Erhöhung der Sparrate immer zu Anfang des nächsten Jahres. ',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -3029,7 +3029,7 @@ function seeder() {
         name: 'interestperiod', 
         id: 'deposits-savings-interestperiod',
         label: 'Zinsperiode',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie hier an, wie häufig Zinsen gutgeschrieben werden. Sie können wählen zwischen monatlich, vierteljährlich, halbjährlich und jährlich.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
@@ -3056,7 +3056,7 @@ function seeder() {
         name: 'compounding', 
         id: 'deposits-savings-compounding',
         label: 'Zinseszins',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie hier, ob Zinserträge ausgeschüttet oder dem Kapital zugeschlagen und weiter verzinst werden sollen. Eine Ausschüttung entspricht einer weiteren Verzinsung von 0. Sowohl Ausschüttung als auch Zuschlag der Zinserträge zum Kapital erfolgen jeweils im Rhythmus der gewählten Zinsperiode.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
@@ -3079,7 +3079,7 @@ function seeder() {
         placeholder: 'Endkapital',
         value: '',
         disabled: true,
-        tooltip: 'TBD',
+        tooltip: 'Das Endkapital entspricht dem gesamten Kapital am Ende des Sparplans, bestehend aus dem Anfangskapital, allen periodischen Einzahlungen sowie allen Zinserträgen.',
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
@@ -3088,7 +3088,7 @@ function seeder() {
     results_1: [
       {
         name: 'terminal',
-        tooltip: 'TBD',
+        tooltip: 'Das gesamte Kapital am Ende des Sparplans, bestehend aus dem Anfangskapital, allen periodischen Einzahlungen sowie allen Zinserträgen.',
         description: 'Endkapital',
         unit: 'EUR',
         digits: 2,
@@ -3096,7 +3096,7 @@ function seeder() {
       },
       {
         name: 'principal',
-        tooltip: 'TBD',
+        tooltip: 'Der Betrag, welcher zu Beginn des Sparplanes einmalig eingezahlt werden muss.',
         description: 'Anfangskapital',
         unit: 'EUR',
         digits: 2,
@@ -3104,7 +3104,7 @@ function seeder() {
       },
       {
         name: 'inflow',
-        tooltip: 'TBD',
+        tooltip: 'Die Summe aller über die Laufzeit anfallenden Sparraten (ohne das Anfangskapital).',
         description: 'Gesamte Einzahlungen',
         unit: 'EUR',
         digits: 2,
@@ -3120,7 +3120,7 @@ function seeder() {
       },
       {
         name: 'term',
-        tooltip: 'TBD',
+        tooltip: 'Der erforderliche Ansparzeitraum in Jahren.',
         description: 'Ansparzeitraum',
         unit: 'Jahre',
         digits: 2,
@@ -3129,14 +3129,14 @@ function seeder() {
       {
         name: 'interestrate',
         tooltip: 'TBD',
-        description: 'Erforderlicher Zinssatz',
+        description: 'Der unter den eingebenen Parametern erforderliche Zinssatz.',
         unit: '% p. a.',
         digits: 3,
         importance: 'first'
       },
       {
         name: 'interest',
-        tooltip: 'TBD',
+        tooltip: 'Die Summe aller über die Laufzeit des Sparplans anfallenden Zinszahlungen',
         description: 'Gesamte Zinsen',
         unit: 'EUR',
         digits: 2,
@@ -3144,7 +3144,7 @@ function seeder() {
       },
       {
         name: 'dynamic',
-        tooltip: 'TBD',
+        tooltip: 'Die rechnerisch für den Sparplan erforderliche Dynamisierung.',
         description: 'Dynamisierung',
         unit: '% p. a.',
         digits: 3,

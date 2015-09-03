@@ -243,7 +243,7 @@ app.deposits = (function() {
     e.preventDefault();
 
     var state = $('#deposits-savings-select').val();
-    var disabledMap = ['#deposits-savings-terminal','#deposits-savings-principal','#deposits-savings-inflow','#deposits-savings-term','#deposits-savings-interest'];
+    var disabledMap = ['#deposits-savings-terminal','#deposits-savings-principal','#deposits-savings-inflow','#deposits-savings-term','#deposits-savings-interest','#deposits-savings-dynamic'];
 
     disabledMap.forEach(function(ind, value){
       $(ind).prop("disabled", false);
