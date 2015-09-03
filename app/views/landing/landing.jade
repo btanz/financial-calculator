@@ -1,0 +1,40 @@
+// This is the app's landing page
+   Created by benjamintanz on 03.09.15.
+
+
+doctype html
+html(lang='de')
+  head
+    //- meta tags
+    meta(charset="utf-8")
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='msapplication-tap-highlight', content='no')
+    title SimplyFi Hauptseite
+
+    //- Import vendor css
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+
+    //- Import app css
+    link(rel='stylesheet' href='../css/app.landing.css')
+
+
+
+  body(id="page-top")
+    // add body
+    div(id="inSlider", class="carousel slide carousel-fade", data-ride="carousel")
+      ol(class="carousel-indicators")
+        li(data-target="#inSlider", data-slide-to="0", class="active")
+        li(data-target="#inSlider", data-slide-to="1")
+      div(class="carousel-inner", role="listbox")
+        div(class="item active")
+          div(class="container")
+            div(class="carousel-caption")
+              h1 SimplyFi
+              p Die Plattform für Finanzplaner
+          div(class="header-back one")
+
+
+
