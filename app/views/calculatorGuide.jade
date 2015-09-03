@@ -9,9 +9,9 @@ block content
   div.row.wrapper.border-bottom.white-bg.page-heading
     div.col-lg-12
       h2 SimplyFi Guides
-      h3 Portfoliorechner
+      h3=obj.designation
       h4
-        a(href='/portfoliorechner')
+        a(href='/' + obj.guidelink.split('/')[1])
           i.fa.fa-arrow-circle-right.fa-lg
           | &nbsp Zum Rechner
     //
@@ -49,12 +49,13 @@ block content
                   br
 
                 div.col-md-7
-                  h2
-                    i.fa.fa-lightbulb-o.text-lightblue &nbsp
-                    | So funktioniert der Rechner
-                  div(style='margin-left:35px;')
-                    p=obj.guidetext
-                  br
+                  if obj.guidetext
+                    h2
+                      i.fa.fa-lightbulb-o.text-lightblue &nbsp
+                      | So funktioniert der Rechner
+                    div(style='margin-left:35px;')
+                      p=obj.guidetext
+                    br
                   h2
                     i.fa.fa-compass.text-lightblue &nbsp
                     | Die Berechnungsschritte

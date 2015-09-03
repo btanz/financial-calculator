@@ -70,6 +70,7 @@ router.get('/zinsrechner/inputs',               deposits.depinterest.calculate);
 
 router.get('/sparrechner',                      deposits.depsaving.render);
 router.get('/sparrechner/inputs',               deposits.depsaving.calculate);
+router.get('/sparrechner/guide',                deposits.depsaving.guide);
 
 router.get('/festgeldrechner',                  deposits.timedeposit.render);
 router.get('/festgeldrechner/inputs',           deposits.timedeposit.calculate);
