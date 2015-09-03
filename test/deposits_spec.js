@@ -1023,18 +1023,17 @@ describe("Deposits calculators are correct", function() {
       data[6] = {select: '1', principal: '8416.22', inflow: '866.21', inflowfreq: '12', inflowtype: '2', dynamic: '1.22', interest: '1.47', interestperiod: '4', compounding: '2', term: '13.5', termfix: '4.25', terminal: '36369.83'};
       data[7] = {select: '0', principal: '5790.18', inflow: '57.14', inflowfreq: '1', inflowtype: '2', dynamic: '0.45', interest: '2.25', interestperiod: '2', compounding: '1', term: '2.83', termfix: '2.16', terminal: '118278.25'}
       data[8] = {select: '2', principal: '96862.71', inflow: '254.17', inflowfreq: '12', inflowtype: '2', dynamic: '1.02', interest: '0.89', interestperiod: '12', compounding: '2', term: '8.5', termfix: '2.916', terminal: '172114.63'};
-      //data[9] = {select: '4', principal: '48449.06', inflow: '610.58', inflowfreq: '4', inflowtype: '2', dynamic: '0.89', interest: '3.18', interestperiod: '12', compounding: '2', term: '10.6', termfix: '0.9', terminal: '146976.57'};
       data[9] = {select: '4', principal: '48449.06', inflow: '610.58', inflowfreq: '4', inflowtype: '2', dynamic: '0.89', interest: '3.18', interestperiod: '12', compounding: '2', term: '10.66', termfix: '0.916', terminal: '146976.57'};
-      data[10]= {select: '4', principal: '8897.3', inflow: '3.45', inflowfreq: '1', inflowtype: '2', dynamic: '1.88', interest: '2.3', interestperiod: '2', compounding: '2', term: '7', termfix: '4.1', terminal: '181662.55'};
-      data[11]= {select: '4', principal: '73188.04', inflow: '61.76', inflowfreq: '4', inflowtype: '1', dynamic: '0.45', interest: '3.64', interestperiod: '2', compounding: '2', term: '11.7', termfix: '3.6', terminal: '114003.32'};
+      data[10]= {select: '4', principal: '8897.3', inflow: '3.45', inflowfreq: '1', inflowtype: '2', dynamic: '1.88', interest: '2.3', interestperiod: '2', compounding: '2', term: '7', termfix: '4.16', terminal: '181662.55'};
+      data[11]= {select: '4', principal: '73188.04', inflow: '61.76', inflowfreq: '4', inflowtype: '1', dynamic: '0.45', interest: '3.64', interestperiod: '2', compounding: '2', term: '11.75', termfix: '3.66', terminal: '114003.32'};
       data[12]= {select: '1', principal: '99988.21', inflow: '390.93', inflowfreq: '4', inflowtype: '2', dynamic: '0.25', interest: '3.71', interestperiod: '4', compounding: '2', term: '13.8', termfix: '1.3', terminal: '45317.51'};
       data[13]= {select: '4', principal: '59372.8', inflow: '592.3', inflowfreq: '4', inflowtype: '2', dynamic: '1.53', interest: '2.24', interestperiod: '4', compounding: '2', term: '8.2', termfix: '0.9', terminal: '32067.68'};
-      data[14]= {select: '4', principal: '82994.88', inflow: '879.92', inflowfreq: '4', inflowtype: '2', dynamic: '1.88', interest: '2.29', interestperiod: '12', compounding: '2', term: '9.8', termfix: '2.5', terminal: '162478.13'};
+      data[14]= {select: '4', principal: '82994.88', inflow: '879.92', inflowfreq: '4', inflowtype: '2', dynamic: '1.88', interest: '2.29', interestperiod: '12', compounding: '2', term: '9.833', termfix: '2.5', terminal: '162478.13'};
       data[15]= {select: '3', principal: '34675.95', inflow: '582.65', inflowfreq: '12', inflowtype: '2', dynamic: '1.04', interest: '2.54', interestperiod: '4', compounding: '2', term: '6.5', termfix: '0.9', terminal: '44689.45'};
       data[16]= {select: '3', principal: '18704.51', inflow: '585.9', inflowfreq: '2', inflowtype: '1', dynamic: '1.39', interest: '1.58', interestperiod: '12', compounding: '1', term: '8.8', termfix: '4.3', terminal: '90752.73'};
       data[17]= {select: '2', principal: '95572.74', inflow: '815.55', inflowfreq: '1', inflowtype: '2', dynamic: '1.56', interest: '0.59', interestperiod: '12', compounding: '1', term: '5.41', termfix: '0.75', terminal: '143893.44'};
       data[18]= {select: '3', principal: '80447.1', inflow: '195.25', inflowfreq: '12', inflowtype: '2', dynamic: '0.74', interest: '1.02', interestperiod: '12', compounding: '1', term: '3.9', termfix: '0.6', terminal: '99623.11'};
-      data[19]= {select: '0', principal: '58360.44', inflow: '119', inflowfreq: '1', inflowtype: '1', dynamic: '1.77', interest: '2.54', interestperiod: '12', compounding: '2', term: '12.25', termfix: '1.92', terminal: '179029.58'}
+      data[19]= {select: '0', principal: '58360.44', inflow: '119', inflowfreq: '1', inflowtype: '1', dynamic: '1.77', interest: '2.54', interestperiod: '12', compounding: '2', term: '12.25', termfix: '1.92', terminal: '179029.58'};
 
 
       expectations[0] = {value: 137976.33, inflow: 5614.05, interest: 32707.68};
@@ -1043,16 +1042,15 @@ describe("Deposits calculators are correct", function() {
       expectations[3] = {value: 0};
       expectations[4] = {value: 3.46, inflow: 20602.9, interest: 53917.42};
       expectations[5] = {value: 9.31};
-      expectations[6] = {value: -110539.41, inflow: 151561.12, interest: -4651.89}
+      expectations[6] = {value: -110539.41, inflow: 151561.12, interest: -4651.89};
       expectations[7] = {value: 6663.89, inflow: 172.19, interest: 701.52};
       expectations[8] = {value: 580.14, inflow: 61497.85, interest: 13754.07};
-      //expectations[9] = {value: 9.85};
       expectations[9] = {value: 9.71, inflow: 27426.38, interest: 71101.13};
-      expectations[10]= {value: 174.55};
-      expectations[11]= {value: 3.3};
+      expectations[10]= {value: 173.5, inflow: 25.56, interest: 172739.69};
+      expectations[11]= {value: 3.27, inflow: 2974.08, interest: 37841.2};
       expectations[12]= {value: 10401.72, inflow: 22251.41, interest: 12664.38};
-      expectations[13]= {value: -7.52};
-      expectations[14]= {value: 3.24};
+      expectations[13]= {value: -7.39, inflow: 20669.03, interest: -47974.15};
+      expectations[14]= {value: 3.16, inflow: 38328.75, interest: 41154.5};
       expectations[15]= {value: 1.13};
       expectations[16]= {value: 30.18};
       expectations[17]= {value: 7025.51, inflow: 43831.64, interest: 4489.06};
@@ -1183,6 +1181,8 @@ describe("Deposits calculators are correct", function() {
       deposits.savings(data[13]).then(function(results){
         var values = {};
         _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        console.log(values);
+        console.log(expectations[13]);
         assert(_.isMatch(values, expectations[13]));
         done();
       }).onReject(done);
