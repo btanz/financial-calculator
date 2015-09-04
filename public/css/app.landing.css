@@ -48,6 +48,30 @@ h1 {
   border-bottom: 2px solid #1ab394;
 }
 
+h1.logo{
+  text-indent: -99999px;
+  background: url('../images/logos/simplyfi_logo_darkback.png');
+  background-size: 224px 63px;
+  background-repeat: no-repeat;
+  height: 63px;
+  width: 224px;
+}
+
+
+
+/* BACKGROUNDS SLIDER
+-------------------------------------------------- */
+.header-back {
+  height: 1000px;
+  width: 100%;
+}
+.header-back.one {
+  background: url('../images/main/landing-back-18-small.jpg') 50% 0 no-repeat;
+
+}
+.header-back.two {
+  background: url('../images/main/landing-back-18-small.jpg') 50% 0 no-repeat;
+}
 
 
 
@@ -107,21 +131,16 @@ h1 {
   background: transparent;
   color: inherit;
 }
-.navbar-default .navbar-brand:hover,
-.navbar-default .navbar-brand:focus {
-  background: #17a185;
-  color: #fff;
-}
+
 .navbar-default .navbar-brand {
   color: #fff;
   height: auto;
   display: block;
   font-size: 14px;
-  background: #1ab394;
-  padding: 15px 20px 15px 20px;
-  border-radius: 0 0px 5px 5px;
+  padding: 0px 0px 0px 15px;
+  /*border-radius: 0px 0px 25px 5px;
   font-weight: 700;
-  transition: all 0.3s ease-in-out 0s;
+  transition: all 0.3s ease-in-out 0s;*/
 }
 .navbar-scroll.navbar-default .nav li a {
   color: #676a6c;
@@ -150,26 +169,14 @@ h1 {
 }
 
 
-/* BACKGROUNDS SLIDER
--------------------------------------------------- */
-.header-back {
-  height: 870px;
-  width: 100%;
-}
-.header-back.one {
-  background: url('../images/main/landing-back-02-large.jpg') 50% 0 no-repeat;
 
-}
-.header-back.two {
-  background: url('../images/main/landing-back-02-large.jpg') 50% 0 no-repeat;
-}
 
 
 /* CUSTOMIZE THE CAROUSEL
 -------------------------------------------------- */
 /* Carousel base class */
 .carousel {
-  height: 470px;
+  height: 1000px;
 }
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
@@ -177,7 +184,7 @@ h1 {
 }
 /* Declare heights because of positioning of img element */
 .carousel .item {
-  height: 470px;
+  height: 1000px;
   background-color: #777;
 }
 .carousel-inner > .item > img {
@@ -185,7 +192,7 @@ h1 {
   top: 0;
   left: 0;
   min-width: 100%;
-  height: 470px;
+  height: 1000px;
 }
 .carousel-fade .carousel-inner .item {
   opacity: 0;
@@ -223,11 +230,11 @@ h1 {
 }
 .carousel-caption {
   position: absolute;
-  top: 0px;
-  left: 20px;
+  top: 600px;
+  margin-left: auto;
   bottom: auto;
-  right: auto;
-  text-align: left;
+  margin-right: auto;
+  text-align: center;
 }
 .carousel-caption.blank {
   top: 140px;
@@ -241,25 +248,18 @@ h1 {
   padding-right: 60px;
 }
 .carousel-caption h1 {
-  color: rgb(51,61,71);
-  font-weight: 300;
-  font-size: 40px;
+  /*color: rgb(228,49,139);*/
+  /*color: rgb(63,128,205);*/
+  color: white;
+  font-weight: 600;
+  font-size: 45px;
   text-transform: uppercase;
   text-shadow: none;
   margin-top: 0px;
+  text-shadow: 2px 2px black;
   /*letter-spacing: -1.5px;*/
 }
-.carousel-caption h1 span{
-  color: rgb(63,128,205);
-}
-.carousel-caption h1.logo{
-  text-indent: -99999px;
-  background: url('../images/logos/simplyfi_logo_darkback.png');
-  background-size: 224px 63px;
-  background-repeat: no-repeat;
-  height: 63px;
-  width: 224px;
-}
+
 
 .carousel-caption p {
   font-weight: 700;
@@ -403,20 +403,20 @@ li.pricing-title {
   color: #fff;
 }
 .btn-primary {
-  background-color: #1ab394;
-  border-color: #1ab394;
+  background-color: rgb(228,49,139);
+  border-color: rgb(228,49,139);
   color: #FFFFFF;
-  font-size: 14px;
+  font-size: 20px;
   padding: 10px 20px;
-  font-weight: 600;
+  font-weight: 400;
 }
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: #18a689;
-  border-color: #18a689;
+  background-color: rgb(228, 38, 126);
+  border-color: rgb(228, 38, 126);
   color: #FFFFFF;
 }
 .btn-primary:active,
