@@ -309,8 +309,10 @@ h1.logo{
   font-weight: 200;
 }
 .features-icon {
-  color: #1ab394;
-  font-size: 40px;
+  color: rgb(228, 38, 126);
+  text-align: center;
+  /*color: #1ab394;*/
+  /*font-size: 40px;*/
 }
 .navy-section {
   margin-top: 60px;
