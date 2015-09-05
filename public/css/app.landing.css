@@ -28,9 +28,16 @@ a.navy-link {
 a.navy-link:hover {
   color: #17a185;
 }
+a.red-link {
+  color: rgb(228, 38, 139);
+  text-decoration: none;
+}
+a.red-link:hover {
+  color: rgb(186, 2, 98);
+}
 section p {
-  color: #aeaeae;
-  font-size: 13px;
+  color: #2a2a2a;
+  font-size: 18px;
 }
 address {
   font-size: 13px;
@@ -104,8 +111,11 @@ h1.logo{
   transition: all 0.3s ease-in-out 0s;
 }
 .navbar-default .nav li a {
-  color: #fff;
-  font-family: 'Open Sans', helvetica, arial, sans-serif;
+  /*color: #fff;*/
+  color: rgb(228, 38, 139);
+  font-family: 'Roboto', sans-serif;
+  font-size: 18px;
+  /*font-family: 'Open Sans', helvetica, arial, sans-serif;*/
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -121,7 +131,8 @@ h1.logo{
   border-top: 6px solid #1ab394;
 }
 .navbar-default .navbar-nav > li > a:hover {
-  color: #1ab394;
+  /*color: #1ab394;*/
+  color: rgb(186, 2, 98);
 }
 .navbar-default .navbar-nav > .active > a:focus {
   background: transparent;
@@ -417,8 +428,9 @@ li.pricing-title {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: rgb(228, 38, 126);
-  border-color: rgb(228, 38, 126);
+  /*background-color: rgb(228, 38, 126);*/
+  background-color: rgb(186, 2, 98);
+  border-color: rgb(186, 2, 98);
   color: #FFFFFF;
 }
 .btn-primary:active,
