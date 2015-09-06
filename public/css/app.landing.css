@@ -369,7 +369,8 @@ h1.logo{
   margin: auto;
 }
 .social-icon a {
-  background: #1ab394;
+  /*background: #1ab394;*/
+  background: black;
   color: #fff;
   padding: 4px 8px;
   height: 28px;
