@@ -8,6 +8,7 @@
  *
 */
 
+
 /* GLOBAL STYLES
 -------------------------------------------------- */
 body {
@@ -76,6 +77,20 @@ h1.logo{
   font-size: 40px;
   font-family: 'Roboto', sans-serif;
 }
+
+
+
+
+/* CUSTOM IMAGES
+-------------------------------------------------- */
+.img-one {
+  background-image: url('../images/icons/HiRes.png');
+  min-height: 500px;
+  color: red;
+}
+
+
+
 
 
 /* BACKGROUNDS SLIDER
@@ -368,6 +383,10 @@ h1.logo{
 .img-small {
   height: 88px;
   width: 88px;
+}
+.img-tiny {
+  height: 77px;
+  width: 77px;
 }
 .pricing-plan {
   margin: 20px 30px 0 30px;
