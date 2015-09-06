@@ -31,9 +31,9 @@ html(lang='de')
           div.navbar-header.page-scroll
             button(type='button', class='navbar-toggle collapsed', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
               span(class='sr-only') Navigation öffnen
-              span(class='icon-bar')
-              span(class='icon-bar')
-              span(class='icon-bar')
+              span(class='icon-bar sf-bar')
+              span(class='icon-bar sf-bar')
+              span(class='icon-bar sf-bar')
             a(class='navbar-brand', href='/')
               h1.logo SimplyFi
           div#navbar.navbar-collapse.collapse
@@ -47,7 +47,7 @@ html(lang='de')
 
 
     div(id="inSlider", class="carousel slide carousel-fade", data-ride="carousel")
-      ol(class="carousel-indicators")
+      //ol(class="carousel-indicators")
         li(data-target="#inSlider", data-slide-to="0", class="active")
       div(class="carousel-inner", role="listbox")
         div(class="item active")
@@ -56,7 +56,7 @@ html(lang='de')
             div(class="carousel-caption")
               h1 Die PLattform für Finanzberechnungen
               p
-                a(class='btn btn-lg btn-primary btn-sf', href='/sparrechner', role='button') Mehr erfahren
+                a(class='btn btn-lg btn-primary btn-sf', href='#features', role='button') Mehr erfahren
 
           div(class="header-back one")
 
@@ -214,4 +214,9 @@ html(lang='de')
               | &copy; 2015 SimplyFi Analytics
 
 
+    // import vendor scripts
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
 
+    // import app scripts
+    script(src='/js/landing/landing.js')

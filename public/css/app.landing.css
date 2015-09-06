@@ -66,10 +66,13 @@ h1 {
 h1.logo{
   text-indent: -99999px;
   background: url('../images/logos/simplyfi_logo_darkback.png');
-  background-size: 224px 63px;
+  /*background-size: 224px 63px;*/
+  background-size: 179px 50px;
   background-repeat: no-repeat;
-  height: 63px;
-  width: 224px;
+  /*height: 63px;
+  width: 224px;*/
+  height: 50px;
+  width: 179px;
 }
 .fa-number{
   color: rgb(228, 38, 139);
@@ -111,6 +114,22 @@ h1.logo{
 
 /* CUSTOMIZE THE NAVBAR
 -------------------------------------------------- */
+.header-nav{
+  background-color: rgba(0,0,0,0.65);
+}
+
+.navbar-toggle {
+  margin-top: 16px;
+}
+
+.navbar-default .navbar-toggle .icon-bar{
+  background-color: rgb(228,49,139);
+}
+
+.navbar-default .navbar-toggle:hover{
+  background-color: white;
+}
+
 .navbar-wrapper {
   position: absolute;
   top: 0;
@@ -137,6 +156,11 @@ h1.logo{
   border-color: transparent;
   transition: all 0.3s ease-in-out 0s;
 }
+
+.navbar-dark{
+  background-color: rgba(0,0,0,0.65);
+}
+
 .navbar-default .nav li a {
   /*color: #fff;*/
   color: rgb(228, 38, 139);
@@ -526,17 +550,21 @@ fieldset[disabled] .btn-primary.active {
   .carousel-caption,
   .carousel-caption.blank {
     left: 5%;
-    top: 0px;
+    top: 350px;
   }
   .carousel-caption h1 {
-    font-size: 28px;
+    font-size: 22px;
   }
   .navbar.navbar-scroll .navbar-brand {
     margin-top: 6px;
   }
   .navbar-default {
-    background-color: #fff;
-    border-color: #fff;
+    /*background-color: #fff;
+    border-color: #fff;*/
+    background-color: rgba(0,0,0,0.85);
+    border-color: rgba(0,0,0,0.85);
+    /*background-color: black;
+    border-color: black;*/
     padding: 15px 0;
   }
   .navbar-default .navbar-nav > .active > a:focus {
@@ -544,15 +572,19 @@ fieldset[disabled] .btn-primary.active {
     color: inherit;
   }
   .navbar-default .nav li a {
-    color: #676a6c;
+    color: rgb(228, 38, 139);
+    font-weight: 300;
+
+    /*color: #676a6c;*/
   }
   .navbar-default .nav li a:hover {
-    color: #1ab394;
+    color: rgb(186, 2, 98);
+    /*color: #1ab394;*/
   }
   .navbar-wrapper .navbar {
     padding-top: 0;
-    padding-bottom: 5px;
-    border-bottom: 1px solid #e7eaec;
+    padding-bottom: 0;
+    /*border-bottom: 1px solid #e7eaec;*/
     border-radius: 0;
   }
   .nav > li > a {
@@ -562,10 +594,10 @@ fieldset[disabled] .btn-primary.active {
     padding: 20px 10px;
   }
   .navbar .navbar-brand {
-    margin-top: 6px;
-    border-radius: 5px;
-    font-size: 12px;
-    padding: 10px;
+    margin-top: 0px;
+    border-radius: 0;
+    font-size: 8px;
+    padding: 0px;
     height: auto;
   }
   .navbar-wrapper .navbar {
