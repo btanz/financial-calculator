@@ -17,13 +17,14 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ***** I. GLOBAL APP TASKS ******
 
 ****  I.A) BEFORE NEXT LAUNCH ****
+* alle texte auf SIE
+* rechtschreibprüfung
 * testing sheet for each calculator
 * guide for each calculator
 * improved rootfinding algorithm (use rserve?)
 * graphs
 * animationen
 * feeback-field
-* landing-page animations
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables
 * mocha testing for finance library
@@ -33,6 +34,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* Aktienrenditerechner sollte dividendenrendite können wegen SEO
 * deposits-savings option zur Berechnung der Laufzeit
 * comparison page with financeadds-data
 * pdf generator (create pdf an the server an d serve back as a static file)

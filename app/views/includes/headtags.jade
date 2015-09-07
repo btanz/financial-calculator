@@ -1,4 +1,4 @@
-//  File containing generic SimplyFi HTML headtags
+//- File containing generic SimplyFi HTML headtags
     Created by benjamintanz on 29.07.15.
 
 
@@ -7,10 +7,16 @@ meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
 meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
 meta(http-equiv='X-UA-Compatible', content='IE=edge')
 meta(name='msapplication-tap-highlight', content='no')
-meta(name='description', content='SimplyFi')
-title SimplyFi
+- if (obj.keywords && obj.keywords.length > 0)
+    - var keywords = obj.keywords.join();
+    meta(name='keywords', content=keywords)
+if (obj.description)
+  meta(name='description', content=obj.description)
+if obj.designation
+  title= obj.designation + ' | SimplyFi'
+else
+  title SimplyFi
 
-//- favicons
 
 //- Import vendor css
 link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')

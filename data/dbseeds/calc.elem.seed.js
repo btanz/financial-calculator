@@ -33,6 +33,7 @@ function seeder() {
     id: 'boerse-options',
     designation: 'Optionspreisrechner',
     description: 'Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.',
+    keywords: ['black-scholes-modell rechner, os rechner, optionsschein rechner, optionen rechner'],
     guidelink: '/optionspreisrechner/guide',
     guidegoal: 'Der Rechner bestimmt Preise und Kennzahlen wie Delta, Gamma und Vega von Put- und Call-Optionen nach dem Black-Scholes-Modell.',
     guidequestions: ['Entspricht der gehandelte Preis einer Option dem Modellpreis oder gibt es Abweichungen?', 'Wie stark ändert sich der Optionspreis, wenn sich der Preis der Aktien ändert? (Delta der Option)', 'Wie groß ist die durschschnittliche Veränderung des Optionspreises im Zeitablauf? (Theta der Option)', 'Wie hoch ist der innere Werte und der Zeitwert einer Option?'],
@@ -212,6 +213,7 @@ function seeder() {
     id: 'boerse-fx',
     designation: 'Währungsrechner',
     description: 'Mit dem Währungsrechner kannst du beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.',
+    keywords: ['Währungsrechner', 'umrechner', 'umrechner dollar euro', 'umrechner euro', 'pfund euro', 'dollar euro'],
     guidelink: '/waehrungsrechner/guide',
     guidegoal: 'Der Rechner ermittelt den tagesaktuellen Wechselkurs zwischen zwei Währungen, rechnet beliebige Beträge in eine Zielwährung um und erstellt eine Umrechnungstabelle.',
     guidequestions: ['Wie ist der aktuelle Wechselkurs zwischen zwei Währungen?', 'Welchem Betrag in der Zielwährung entspricht ein vorgegebener Betrag in der Ausgangswährung?'],
@@ -1753,6 +1755,7 @@ function seeder() {
     id: 'boerse-equityreturn',
     designation: 'Aktienrenditerechner',
     description: 'Mit dem Aktienrenditerechner kannst du die annualisierte effektive Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.',
+    keywords: ['rendite aktien berechnen', 'aktienrechner', 'aktienrendite berechnen', 'berechnung rendite'],
     guidelink: '/aktienrenditerechner/guide',
     guidegoal: 'Der Aktienrenditerechner ermittelt die Rendite für Kapitalanlagen in Aktien, Fonds oder Zertifikaten bzw. Anlagen mit variablen Kapitalausschüttungen im Allgemeinen.',
     guidequestions: ['Welche effektive Gesamtrendite wurde durch die Anlage erzielt?'],
@@ -2180,6 +2183,7 @@ function seeder() {
     id: 'property-propertyreturn',
     designation: 'Immobilienrenditerechner',
     description: 'Mit dem Immobilienrenditerechner können Rendite und Zahlungsströme einer Investition in Immobilien errechnet und dargestellt werden.',
+    keywords: ['immobilien rendite rechner', 'rendite berechnen immobilien','rendite immobilien berechnen', 'immobilien rendite berechnen', 'kapitalanlage immobilien', 'immobilien kapitalanlage rechner'],
     inputs: [
       {
         name: 'equity',
@@ -2389,6 +2393,7 @@ function seeder() {
     id: 'property-buyrent',
     designation: 'Vergleichsrechner Immobilien kaufen oder mieten',
     description: 'Lohnt sich der Kauf einer Immobilie als Eigenheim oder ist es besser, zur Miete zu wohnen und sein Geld anzulegen? Dieser Rechner hilft bei der Entscheidung',
+    keywords: ['kaufen oder mieten', 'mieten oder kaufen', 'wohnung kaufen oder mieten', 'mieten kaufen', 'mieten oder kaufen rechner', 'immobilie kaufen rechner'],
     inputs: [
       {
         name: 'price',
@@ -2758,6 +2763,7 @@ function seeder() {
     id: 'deposits-interest',
     designation: 'Zinsrechner',
     description: 'Mit dem Zinsrechner kann wahlweise der Zinssatz, das Anfangskapital, das Endkapital oder die Laufzeit einer einmaligen Festgeldanlage oder Investition berechnet werden.',
+    keywords: ['zinsrechner festgeld', 'zinsrechner online', 'online zinsrechner', 'zinsrechner monatlich', 'zinsen online berechnen', 'zinsen berechnen'],
     inputs: [
       { 
         name: 'select',
@@ -2896,6 +2902,7 @@ function seeder() {
     id: 'deposits-savings',
     designation: 'Sparrechner',
     description: 'Mit dem Sparrechner können Sie nach Ihrer Wahl verschiedene Parameter wie etwa das Endkapital für einen Sparplan berechnen. Zudem stellt der Rechner die Guthabenentwicklung im Zeitablauf dar und erstellt relevante Grafiken.',
+    keywords: ['Sparrechner','Zinsen','Berechnung'],
     guidelink: '/sparrechner/guide',
     guidegoal: 'Der Rechner ermittelt Parameter für Sparpläne und stellt die Sparkontoentwicklung im Zeitablauf dar.',
     guidequestions: ['Wie hoch ist das Endkapital, welches am Ende eines Sparvorhabens zur Verfügung stehen wird?', 'Welches Anfangskapital wird für ein Sparvorhaben benötigt, um ein bestimmtes Endkapital zu erzielen?', 'Welche periodische Sparrate ist notwendig, um aus einem gegebenen Anfangskapital ein bestimmtes Endkapital zu erzielen?', 'Wie hoch muss die Verzinsung für einen bestimmten Sparplan sein?', 'Welche Dynamisierung der Sparrate ist notwendig, um ein bestimmtes Endkapital zu erreichen?'],
@@ -3206,6 +3213,7 @@ function seeder() {
     id: 'debt-annuity',
     designation: 'Tilgungsrechner Annuitätendarlehen',
     description: 'Mit dem Tilgungsrechner für Annuitätendarlehen kannst du je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
+    keywords: ['kreditrechner','kreditrechner online','annuitätendarlehen berechnen','darlehensrechner annuitätendarlehen', 'berechnung annuitätendarlehen','tilgungsplan', 'tilgungsplan annuität'],
     inputs: [
       {
         name: 'select',
@@ -3548,6 +3556,7 @@ function seeder() {
     id: 'misc-daycount',
     designation: 'Zinstagerechner',
     description: 'Mit dem Zinsrechner kann die Anzahl der Zinstage und der Zinsfaktor zwischen zwei Daten nach verschiedenen Zinsmethoden berechnet werden.',
+    keywords: ['zinstage rechner', 'zinstagerechner', 'zinstage berechnen', 'zinsfaktor'],
     inputs: [
       {
         name: 'begindate',
@@ -3784,6 +3793,7 @@ function seeder() {
     id: 'debt-dispo',
     designation: 'Dispozinsrechner',
     description: 'Mit dem Dispozinsrechner können die für einen Dispo anfallenden Dispo- und Überziehungszinsen berechnet werden.',
+    keywords: ['dispokredit rechner', 'dispo zinsen rechner', 'überziehungszinsen berechnen', 'berechnung überziehungszinsen', 'überziehungszinsen rechner'],
     inputs: [
       {
         name: 'principal',
@@ -3967,6 +3977,7 @@ function seeder() {
     id: 'property-rent',
     designation: 'Mietrechner',
     description: 'Mit dem Mietrechner können Sie analysieren, wie viel Miete Sie über einen bestimmten Zeitraum insgesamt zahlen. Der Rechner wird oft zur Berechnung der über die Lebenszeit anfallenden Miete genutzt. ',
+    keywords: ['mietrechner'],
     inputs: [
       {
         name: 'select',
@@ -4114,6 +4125,7 @@ function seeder() {
     id: 'property-transfertax',
     designation: 'Grunderwerbssteuer-Rechner',
     description: 'Mit dem Grunderwerbssteuer-Rechner lässt sich die Steuer berechnen, welche beim Erwerb eines Grundstücks oder Grundstücksanteils anfällt. Ökonomisch erhöht die Grunderwerbssteuer den Gesamtpreis beim Kauf einer Immobilie bzw. eines Grundstücks.',
+    keywords: ['grunderwerbssteuer berechnen', 'grunderwerbssteuer rechner', 'höhe grunderwerbssteuer', 'berechnung grunderwerbssteuer', 'grunderwerbssteuer 2015'],
     inputs: [
       { 
         name: 'price', 
@@ -4264,6 +4276,7 @@ function seeder() {
     id: 'property-homesave',
     designation: 'Bausparrechner',
     description: 'Mit dem Bausparrechner können Sie Bausparverträge berechnen und Spar- sowie Tilgungspläne analysieren. Ermitteln Sie, ob sich ein Bausparvertrag für Sie lohnt oder vergleichen Sie die Angebote verschiedener Bausparkassen.',
+    keywords: ['bausparrechner', 'bausparrechner online', 'finanzierung bausparvertrag rechner','bausparvertrag rechner', 'bausparvertrag berechnen'],
     inputs: [
       {
         name: 'principal',
@@ -4610,6 +4623,7 @@ function seeder() {
     id: 'property-propertyprice',
     designation: 'Immobilienpreisrechner',
     description: 'Mit dem Immobilienpreisrechner können Sie den maximalen Preis berechnen, den Sie für eine Immobilie zahlen können.',
+    keywords: ['immobilienpreisrechner', 'rechner immobilien', 'hauskauf budget', 'hausfinanzierung'],
     inputs: [
       {
         name: 'rent',
@@ -4889,6 +4903,7 @@ function seeder() {
     id: 'property-repaysurrogat',
     designation: 'Tilgungssurrogatrechner',
     description: 'Mit dem Tilgungssurrogatrechner können Sie bestimmen, ob eine Tilgungsaussetzung und Wandlung eines Annuitätendarlehens in ein endfälliges Darlehen bei gleichzeitiger Anlage der überschüssigen Mittel zu einem finanziellen Vorteil führt.',
+    keywords: ['tilgungssurrogat','tilgungsaussetzung'],
     inputs: [
       {
         name: 'principal',
@@ -5233,6 +5248,7 @@ function seeder() {
     id: 'deposits-timedeposit',
     designation: 'Festgeldrechner',
     description: 'Mit dem Festgeldrechner können Sie den Endwert sowie wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für eine Festgeldanlage bestimmen. Auch Steuern auf die erzielten Erträge können mit dem Rechner berücksichtigt werden.',
+    keywords: ['zinsrechner', 'zinsrechner festgeld', 'zinsrechner online', 'festgeld rechner', 'festgeldrechner'],
     inputs: [
       {
         name: 'calcselect',
@@ -5494,6 +5510,7 @@ function seeder() {
     id: 'deposits-savingscheme',
     designation: 'Zuwachssparrechner',
     description: 'Mit dem Zuwachssparrechner können Sie Guthabenentwicklung und Effektivzins eines Sparplanes zum Zuwachssparen berechnen.',
+    keywords: ['sparplan rechner', 'monatlicher sparplan', 'zuwachssparen', 'zinsrechner', 'sparplan', 'einzahlungsplan', 'sparplan effektivzins'],
     inputs: [
       {
         name: 'calcselect',
@@ -5858,6 +5875,7 @@ function seeder() {
     id: 'deposits-interestpenalty',
     designation: 'Vorschusszinsrechner',
     description: 'Mit dem Vorschusszinsrechner können die Zinsen berechnet werden, welche durch das Abheben eines größeren Geldbetrages vom Sparkonto ohne rechtzeitige vorherige Kündigung anfallen.',
+    keywords: ['vorschusszinsrechner', 'vorschusszins berechnen', 'berechnen vorschusszins'],
     inputs: [
       {
         name: 'principal',
@@ -5995,6 +6013,7 @@ function seeder() {
     id: 'property-mortgage',
     designation: 'Hypothekenrechner',
     description: 'Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypothekendarlehen durchführen.',
+    keywords: ['hypothekenrechner', 'hypotheken rechner', 'hausfinanzierung rechner', 'baufi rechner', 'kredit rechner', 'immobilienkredit rechner', 'immobiliendarlehen rechner', 'rechner baufinanzierung', 'kreditrechner haus', 'kreditrechner immobilien'],
     guidelink: '/hypothekenrechner/guide',
     inputs: [
       {
@@ -6677,6 +6696,7 @@ function seeder() {
     id: 'deposits-overnight',
     designation: 'Tagesgeldrechner',
     description: 'Der Tagesgeldrechner eignet sich zur Berechnung von Zinsertrag, Anfangskapital, Zinssatz und die Zinstage für eine tageweise Geldanlage.',
+    keywords: ['tagesgeldrechner', 'tagesgeldkonto rechner', 'rechner tagesgeld'],
     inputs: [
       {
         name: 'calcselect',
@@ -7144,7 +7164,8 @@ function seeder() {
     name: 'portfolio',
     id: 'boerse-portfolio',
     designation: 'Portfoliorechner',
-    description: 'Mit dem Portfoliorechner können Sie das effiziente Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.',
+    description: 'Mit dem Portfoliorechner können Sie das optimale Aktienportfolio nach der modernen Portfoliotheorie des Nobelpreisträgers Harry Markowitz bestimmen. Der Portfoliorechner kann zum Beispiel genutzt werden, um festzustellen, ob ihr Portfolio effizient ist oder umgeschichtet werden sollte.',
+    keywords: ['markowitz', 'markowitz portfolio','markowitz optimierung', 'aktienportfolio', 'diversifikation', 'optimales portfolio', 'optimales portfolio berechnen'],
     guidelink: '/portfoliorechner/guide',
     guidegoal: 'Der Rechner informiert Sie über die bestmögliche Komination von Anlagemöglichkeiten zur Bildung eines diversifizierten Portfolios.',
     guidequestions: ['Welches ist das am besten diversifizierte Portfolio aus den vorgegebenen Anlagemöglichkeiten und dem angestrebten Renditeziel?', 'Wie viel Risiko (Varianz) weist dieses Portfolio auf?', 'Wie viel geringer ist das Risiko der Investition in ein Portfolio im Vergleich zu den Einzelaktien?', 'Wie hätte sich das optimale Portfolio in der Vergangenheit im Vergleich zu einem gleichgewichteten Portfolio entwickelt?'],
