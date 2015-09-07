@@ -33,6 +33,14 @@ function seeder() {
     id: 'boerse-options',
     designation: 'Optionspreisrechner',
     description: 'Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.',
+    guidelink: '/optionspreisrechner/guide',
+    guidegoal: 'Der Rechner bestimmt Preise und Kennzahlen wie Delta, Gamma und Vega von Put- und Call-Optionen nach dem Black-Scholes-Modell.',
+    guidequestions: ['Entspricht der gehandelte Preis einer Option dem Modellpreis oder gibt es Abweichungen?', 'Wie stark ändert sich der Optionspreis, wenn sich der Preis der Aktien ändert? (Delta der Option)', 'Wie groß ist die durschschnittliche Veränderung des Optionspreises im Zeitablauf? (Theta der Option)', 'Wie hoch ist der innere Werte und der Zeitwert einer Option?'],
+    guideaudience: ['Investoren, welche mit Optionen handeln und Marktpreise mit theoretischen Modellpreisen vergleichen wollen.', 'Investoren, welche Optionen halten und deren Risiken besser verstehen wollen.'],
+    guidesteps: ['Wählen Sie zunächst aus, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.', 'Geben Sie nun die Kennzahlen zur Aktie (Preis, Volatilität), zur Option (Basispreis/Strike, Restlaufzeit) sowie zum Gesamtmarkt (Zinssatz) an. Bei aufrufen des Rechners sind die Felder mit Beispielwerten ausgefüllt. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger einfach auf das Fragezeichen neben der Beschreibung des Eingabefeldes bzw. tippen Sie darauf.', 'Nachdem Sie alle Parameter eingegeben haben drücken Sie den "Berechnen"-Button. Daraufhin werden Preis und weitere Kennzahlen der Option berechnet und ausgegeben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf evenutelle Fehlermeldungen.'],
+    guideresult: ['Ergebnisse der Berechnung sind der Preis der Call- bzw. Put-Option sowie weitere (Risiko-)kennzahlen zur Option. '],
+    guidereferences: [],
+    guidetext: 'Der Rechner arbeitet auf Basis des Black-Scholes-Modells zur Bewertung von Finanzoptionen. Die Optionswerte werden durch einsetzen der Eingabeparameter in die Black-Scholes-Differentialgleichung ermittelt.',
     inputs: [
       {
         name: 'optiontype',
@@ -67,6 +75,18 @@ function seeder() {
         args: [0, 1000000000]
       },
       {
+        name: 'vola',
+        id: 'boerse-options-vola',
+        label: 'Volatilität',
+        addon: '%',
+        placeholder: 'Volatilität',
+        value: '12.00',
+        tooltip: 'Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.',
+        type: 'number',
+        vtype: 'number',
+        args: [0, 1000]
+      },
+      {
         name: 'strike',
         id: 'boerse-options-strike',
         label: 'Basispreis/Strike',
@@ -77,18 +97,6 @@ function seeder() {
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
-      },
-      {
-        name: 'interest',
-        id: 'boerse-options-interest',
-        label: 'Zinssatz',
-        addon: '%',
-        placeholder: 'Zinssatz',
-        value: '3.00',
-        tooltip: 'Gebe hier den annualisierten risikolosen Zinssatz in % an.',
-        type: 'number',
-        vtype: 'number',
-        args: [0, 1000]
       },
       {
         name: 'maturity',
@@ -103,17 +111,18 @@ function seeder() {
         args: [0, 100000]
       },
       {
-        name: 'vola',
-        id: 'boerse-options-vola',
-        label: 'Volatilität',
-        addon: '%',
-        placeholder: 'Volatilität',
-        value: '12.00',
-        tooltip: 'Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.',
+        name: 'interest',
+        id: 'boerse-options-interest',
+        label: 'Zinssatz',
+        addon: '% p. a.',
+        placeholder: 'Zinssatz',
+        value: '3.00',
+        tooltip: 'Gebe hier den annualisierten risikolosen Zinssatz in % an.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
       }
+
     ],
     results_1: [
       {
@@ -203,6 +212,14 @@ function seeder() {
     id: 'boerse-fx',
     designation: 'Währungsrechner',
     description: 'Mit dem Währungsrechner kannst du beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.',
+    guidelink: '/waehrungsrechner/guide',
+    guidegoal: 'Der Rechner ermittelt den tagesaktuellen Wechselkurs zwischen zwei Währungen, rechnet beliebige Beträge in eine Zielwährung um und erstellt eine Umrechnungstabelle.',
+    guidequestions: ['Wie ist der aktuelle Wechselkurs zwischen zwei Währungen?', 'Welchem Betrag in der Zielwährung entspricht ein vorgegebener Betrag in der Ausgangswährung?'],
+    guideaudience: ['Investoren, welche den Wert von Anlagen in anderen Währungen bestimmen wollen.', 'Reisende, welche Geldbeträge in die Währung des Ziellandes umrechnen möchten.'],
+    guidesteps: ['Wählen Sie Ausgangs- und Zielwährung und den umzurechnenden Betrag aus.', 'Mit Klick auf den "Berechnen"-Button wird der Betrag umgerechnet und die Umrechnungstabelle erstellt'],
+    //guideresult: ['Ergebnis'],
+    guidereferences: [],
+    //guidetext: 'Einleitungstext',
     inputs: [
       {
         name: 'from',
@@ -1735,7 +1752,15 @@ function seeder() {
     name: 'equityreturn',
     id: 'boerse-equityreturn',
     designation: 'Aktienrenditerechner',
-    description: 'Mit dem Aktienrenditerechner kannst du die annualisierte Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.',
+    description: 'Mit dem Aktienrenditerechner kannst du die annualisierte effektive Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.',
+    guidelink: '/aktienrenditerechner/guide',
+    guidegoal: 'Der Aktienrenditerechner ermittelt die Rendite für Kapitalanlagen in Aktien, Fonds oder Zertifikaten bzw. Anlagen mit variablen Kapitalausschüttungen im Allgemeinen.',
+    guidequestions: ['Welche effektive Gesamtrendite wurde durch die Anlage erzielt?'],
+    guideaudience: ['Investoren, welche die Gesamtrendite einer Investition analysieren möchten.'],
+    guidesteps: ['Geben Sie im ersten Schritt die Schlüsselkennzahlen zur Investition Kaufkurs, Verkaufskurs und Anzahl der Aktien ein.', 'Danach wählen Sie das Kauf- und Verkaufsdatum der Aktien. Der Rechner wird aus diesen Daten die Haltedauer bestimmen.', 'Danach können Sie eventuelle Gebühren und Dividenden eingeben. Bei den Gebühren können Sie Kauf- und Verkaufsgebühren (jeweils pro Aktie) eingeben. Hier kann es sich etwa um Order-, Börsen- oder Maklergebühren handeln. Bezüglich der Dividenden entscheiden Sie zunächst, wie viele Dividendenzahlungen insgesamt stattfanden. Danach können Sie für jede Zahlung das Datum sowie die Höhe der Zahlung (pro Aktie) angeben.', 'Schließlich drücken Sie den "Berechnen"-Button, um die effektive Rendite zu berechnen.'],
+    guideresult: ['Ergebnis der Berechnung ist die Gesamtrendite der Investition.'],
+    guidereferences: [],
+    //guidetext: 'Einleitungstext',
     inputs: [
       {
         name: 'quantity',

@@ -63,13 +63,14 @@ block content
                     each step in obj.guidesteps
                       li=step
                   br
-                  h2
-                    i.fa.fa-compass.text-lightblue &nbsp
-                    | Das Ergebnis
-                  ul
-                    each item in obj.guideresult
-                      li=item
-                  br
+                  - if (obj.guideresult.length > 0)
+                    h2
+                      i.fa.fa-compass.text-lightblue &nbsp
+                      | Das Ergebnis
+                    ul
+                      each item in obj.guideresult
+                        li=item
+                    br
                   //h2
                     i.fa.fa-book.text-lightblue &nbsp
                     | Mehr Wissen

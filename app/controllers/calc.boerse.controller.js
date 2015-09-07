@@ -26,6 +26,18 @@ exports.options = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('options')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-options guide.");
+        });
   }
 };
 
@@ -38,7 +50,6 @@ exports.fx = {
 
     Calc.findByCalcname('fx')
         .then(function(data){
-          console.log(data[0].inputs[0]);
           res.render('calculator', {obj: data[0]});
         })
         .onReject(function(){
@@ -56,6 +67,18 @@ exports.fx = {
         res.json(err)
       }
     });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('fx')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-fx guide.");
+        });
   }
 };
 
@@ -84,6 +107,18 @@ exports.equityreturn = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('equityreturn')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the boerse-equityreturn guide.");
         });
   }
 

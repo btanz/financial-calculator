@@ -9,12 +9,15 @@ var boerse = require('../controllers/calc.boerse.controller');
 
 router.get('/optionspreisrechner',              boerse.options.render);
 router.get('/optionspreisrechner/inputs',       boerse.options.calculate);
+router.get('/optionspreisrechner/guide',        boerse.options.guide);
 
 router.get('/waehrungsrechner',                 boerse.fx.render);
 router.get('/waehrungsrechner/inputs',          boerse.fx.calculate);
+router.get('/waehrungsrechner/guide',           boerse.fx.guide);
 
 router.get('/aktienrenditerechner',             boerse.equityreturn.render);
 router.get('/aktienrenditerechner/inputs',      boerse.equityreturn.calculate);
+router.get('/aktienrenditerechner/guide',       boerse.equityreturn.guide);
 
 router.get('/portfoliorechner',                 boerse.portfolio.render);
 router.get('/portfoliorechner/inputs',          boerse.portfolio.calculate);
