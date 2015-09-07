@@ -70,6 +70,7 @@ var deposits = require('../controllers/calc.deposits.controller');
 
 router.get('/zinsrechner',                      deposits.depinterest.render);
 router.get('/zinsrechner/inputs',               deposits.depinterest.calculate);
+router.get('/zinsrechner/guide',                deposits.depinterest.guide);
 
 router.get('/sparrechner',                      deposits.depsaving.render);
 router.get('/sparrechner/inputs',               deposits.depsaving.calculate);
@@ -77,15 +78,19 @@ router.get('/sparrechner/guide',                deposits.depsaving.guide);
 
 router.get('/festgeldrechner',                  deposits.timedeposit.render);
 router.get('/festgeldrechner/inputs',           deposits.timedeposit.calculate);
+router.get('/festgeldrechner/guide',            deposits.timedeposit.guide);
 
 router.get('/zuwachssparrechner',               deposits.savingscheme.render);
 router.get('/zuwachssparrechner/inputs',        deposits.savingscheme.calculate);
+router.get('/zuwachssparrechner/guide',         deposits.savingscheme.guide);
 
 router.get('/vorschusszinsrechner',             deposits.interestpenalty.render);
 router.get('/vorschusszinsrechner/inputs',      deposits.interestpenalty.calculate);
+router.get('/vorschusszinsrechner/guide',       deposits.interestpenalty.guide);
 
 router.get('/tagesgeldrechner',                 deposits.overnightdeposit.render);
 router.get('/tagesgeldrechner/inputs',          deposits.overnightdeposit.calculate);
+router.get('/tagesgeldrechner/guide',           deposits.overnightdeposit.guide);
 
 
 /**

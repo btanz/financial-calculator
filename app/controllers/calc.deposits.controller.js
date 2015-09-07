@@ -26,6 +26,18 @@ exports.depinterest = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('depinterest')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-depinterest guide.");
+        });
   }
 
 };
@@ -98,6 +110,18 @@ exports.timedeposit = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('timedeposit')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-timedeposit guide.");
+        });
   }
 
 };
@@ -127,6 +151,18 @@ exports.savingscheme = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('savingscheme')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-savingscheme guide.");
         });
   }
 
@@ -159,6 +195,18 @@ exports.interestpenalty = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('interestpenalty')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-interestpenalty guide.");
+        });
   }
 
 };
@@ -188,6 +236,18 @@ exports.overnightdeposit = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('overnight')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the deposits-overnight guide.");
         });
   }
 

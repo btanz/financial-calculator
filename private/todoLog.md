@@ -31,9 +31,11 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * database table for error reporting
+* mobile umbruch
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* verlinkungen auf andere Rechner
 * Aktienrenditerechner sollte dividendenrendite können wegen SEO
 * deposits-savings option zur Berechnung der Laufzeit
 * comparison page with financeadds-data

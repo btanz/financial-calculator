@@ -5509,8 +5509,16 @@ function seeder() {
     name: 'savingscheme',
     id: 'deposits-savingscheme',
     designation: 'Zuwachssparrechner',
-    description: 'Mit dem Zuwachssparrechner können Sie Guthabenentwicklung und Effektivzins eines Sparplanes zum Zuwachssparen berechnen.',
+    description: 'Mit dem Zuwachssparrechner können Sie die Guthabenentwicklung und den Effektivzins einer Anlage mit veränderlichen Zinsen berechnen.',
     keywords: ['sparplan rechner', 'monatlicher sparplan', 'zuwachssparen', 'zinsrechner', 'sparplan', 'einzahlungsplan', 'sparplan effektivzins'],
+    guidelink: '/zuwachssparrechner/guide',
+    guidegoal: 'Der Zuwachssparrechner berechnet Parameter wie Effektivzinsen und generiert eine Übersicht zur Guthabenentwicklung für einmalige Geldanlagen mit zeitlich variierenden, meist steigenden Zinssätzen. Er kann auch für die Analyse von Investitionen in Bundesschatzbriefen genutzt werden, da die meisten Bundesschatzbriefe durch jährliche Zinssteigerungen charakterisiert sind.',
+    guidequestions: ['Wie hoch ist das Endkapital, welches am Ende eines Sparvorhabens zur Verfügung stehen wird?', 'Welches Anfangskapital wird für ein Sparvorhaben benötigt, um ein bestimmtes Endkapital zu erzielen?', 'Wie hoch ist der effektive Jahreszins des Sparvorhabens?'],
+    guideaudience: ['Investoren, welche Kapitalanlagen mit Stufenzinsen analysieren und vergleichen möchten und sich ein Bild über deren Zahlungsströme machen wollen.', 'Investoren, welche verschiedene Sparmöglichkeiten anhand des Effektivzinses vergleichen möchten.'],
+    guidesteps: ['Wählen Sie im ersten Schritt aus, welcher der Parameter Endwert oder Anlagekapital berechnet werden soll. Der Rechner wird dann das Eingabefeld für diesen Parameter ausblenden.', 'Geben Sie danach die Werte für das Sparvorhaben in die verbleibenden aktiven Felder ein. Für jedes Jahr des Sparplans können Sie den Zinssatz frei wählen. Außerdem können Sie Steuern berücksichtigen und entscheiden, ob die auflaufenden Zinsen ausgezahlt oder weiter angelegt und fortan mitverzinst werden sollen. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Drücken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Daraufhin werden die fehlenden Werte berechnet und der Zahlungsplan erstellt.'],
+    guideresult: ['Ergebnis der Berechnung ist der von Ihnen gewählte Parameter (Endwert oder Anlagesumme) sowie weitere Kenngrößen der Geldanlage wie etwa die effektive Verzinsung. Weiterhin wird eine tabellarische sowie grafische Übersicht zur Entwicklung des Sparguthabens erstellt.'],
+    guidereferences: [],
+    //guidetext: 'Der Rechner arbeitet auf Basis des Black-Scholes-Modells zur Bewertung von Finanzoptionen. Die Optionswerte werden durch einsetzen der Eingabeparameter in die Black-Scholes-Differentialgleichung ermittelt.',
     inputs: [
       {
         name: 'calcselect',
