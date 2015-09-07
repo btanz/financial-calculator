@@ -2764,6 +2764,14 @@ function seeder() {
     designation: 'Zinsrechner',
     description: 'Mit dem Zinsrechner kann wahlweise der Zinssatz, das Anfangskapital, das Endkapital oder die Laufzeit einer einmaligen Festgeldanlage oder Investition berechnet werden.',
     keywords: ['zinsrechner festgeld', 'zinsrechner online', 'online zinsrechner', 'zinsrechner monatlich', 'zinsen online berechnen', 'zinsen berechnen'],
+    guidelink: '/zinsrechner/guide',
+    guidegoal: '',
+    guidequestions: [],
+    guideaudience: [],
+    guidesteps: [],
+    guideresult: [],
+    guidereferences: [],
+    //guidetext: 'Der Rechner arbeitet auf Basis des Black-Scholes-Modells zur Bewertung von Finanzoptionen. Die Optionswerte werden durch einsetzen der Eingabeparameter in die Black-Scholes-Differentialgleichung ermittelt.',
     inputs: [
       { 
         name: 'select',

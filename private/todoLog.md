@@ -18,6 +18,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ****  I.A) BEFORE NEXT LAUNCH ****
 * alle texte auf SIE
+* icons navbar
 * rechtschreibprüfung
 * testing sheet for each calculator
 * guide for each calculator
