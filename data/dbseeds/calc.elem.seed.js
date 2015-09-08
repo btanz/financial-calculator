@@ -5257,6 +5257,14 @@ function seeder() {
     designation: 'Festgeldrechner',
     description: 'Mit dem Festgeldrechner können Sie den Endwert sowie wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für eine Festgeldanlage bestimmen. Auch Steuern auf die erzielten Erträge können mit dem Rechner berücksichtigt werden.',
     keywords: ['zinsrechner', 'zinsrechner festgeld', 'zinsrechner online', 'festgeld rechner', 'festgeldrechner'],
+    guidelink: '/festgeldrechner/guide',
+    guidegoal: 'Der Rechner ermittelt wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für monatsweise angelegtes Festgeld.',
+    guidequestions: ['Wie hoch ist der Zinsertrag für eine Festgeldanlage?', 'Welche Summe muss einmalig für eine bestimmte Zeitdauer angelegt werden, um einen bestimmten Zinsertrag zu erzielen?', 'Wie hoch ist der Zinssatz einer Festgeldanlage mit vorgegebener Anlagesumme und Zinsertrag?', 'Über welche Zeitdauer muss ein bestimmter Anfangsbetrag angelegt werden, um einen bestimmten Zinsertrag zu erzielen?'],
+    guideaudience: ['Investoren, die einmalig einen bestimmten Festgeldbetrag anlegen möchten.'],
+    guidesteps: ['Wählen Sie zunächst aus, welcher der Parameter Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird dann das Eingabefeld für diesen Parameter ausblenden.', 'Geben Sie danach die Werte für die Festgeldanlage in die verbleibenden aktiven Felder ein. Die Felder sind mit Beispielwerten vorgefüllt, welche Sie entsprechend ändern sollten. Bei der Eingabe können Sie auch entscheiden, ob die anfallenden Zinsen dem Guthaben zugeschlagen werden und fortan mitverzinst (Zinseszins) oder ausgezahlt werden sollen. Überdies können Sie eventuell anfallende Steuern mit diesem Rechner berücksichtigen. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Daraufhin werden die fehlenden Werte berechnet. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen. Der Rechner ermittelt Eingabe- und Berechnungsfehler automatisch. '],
+    guideresult: ['Ergebnis der Berechnung ist der von Ihnen gewählte Parameter sowie der Endwert des Sparvorhabens, bestehend aus Anlagesumme und Zinsertrag abzüglich gegebenenfalls anfallenden Steuern.'],
+    guidereferences: [],
+    //guidetext: 'Der Rechner arbeitet auf Basis des Black-Scholes-Modells zur Bewertung von Finanzoptionen. Die Optionswerte werden durch einsetzen der Eingabeparameter in die Black-Scholes-Differentialgleichung ermittelt.',
     inputs: [
       {
         name: 'calcselect',
@@ -6713,6 +6721,13 @@ function seeder() {
     designation: 'Tagesgeldrechner',
     description: 'Der Tagesgeldrechner eignet sich zur Berechnung von Zinsertrag, Anfangskapital, Zinssatz und die Zinstage für eine tageweise Geldanlage.',
     keywords: ['tagesgeldrechner', 'tagesgeldkonto rechner', 'rechner tagesgeld'],
+    guidelink: '/tagesgeldrechner/guide',
+    guidegoal: 'Der Rechner ermittelt wahlweise Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit für monatsweise angelegtes Festgeld.',
+    guidequestions: ['Wie hoch ist der Zinsertrag für eine Festgeldanlage?', 'Welche Summe muss einmalig für eine bestimmte Zeitdauer angelegt werden, um einen bestimmten Zinsertrag zu erzielen?', 'Wie hoch ist der Zinssatz einer Festgeldanlage mit vorgegebener Anlagesumme und Zinsertrag?', 'Über welche Zeitdauer muss ein bestimmter Anfangsbetrag angelegt werden, um einen bestimmten Zinsertrag zu erzielen?'],
+    guideaudience: ['Investoren, die einmalig einen bestimmten Festgeldbetrag anlegen möchten.'],
+    guidesteps: ['Wählen Sie zunächst aus, welcher der Parameter Zinsertrag, Anlagesumme, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird dann das Eingabefeld für diesen Parameter ausblenden.', 'Geben Sie danach die Werte für die Festgeldanlage in die verbleibenden aktiven Felder ein. Die Felder sind mit Beispielwerten vorgefüllt, welche Sie entsprechend ändern sollten. Bei der Eingabe können Sie auch entscheiden, ob die anfallenden Zinsen dem Guthaben zugeschlagen werden und fortan mitverzinst (Zinseszins) oder ausgezahlt werden sollen. Überdies können Sie eventuell anfallende Steuern mit diesem Rechner berücksichtigen. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Daraufhin werden die fehlenden Werte berechnet. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen. Der Rechner ermittelt Eingabe- und Berechnungsfehler automatisch. '],
+    guideresult: ['Ergebnis der Berechnung ist der von Ihnen gewählte Parameter sowie der Endwert des Sparvorhabens, bestehend aus Anlagesumme und Zinsertrag abzüglich gegebenenfalls anfallenden Steuern.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'calcselect',
