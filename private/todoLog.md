@@ -20,6 +20,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * alle texte auf SIE
 * icons navbar
 * rechtschreibprüfung
+* navbar persitent
 * testing sheet for each calculator
 * guide for each calculator
 * improved rootfinding algorithm (use rserve?)
