@@ -6085,9 +6085,15 @@ function seeder() {
     name: 'mortgage',
     id: 'property-mortgage',
     designation: 'Hypothekenrechner',
-    description: 'Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypothekendarlehen durchführen.',
+    description: 'Mit dem Hypothekenrechner können Sie zahlreiche Berechnungen zu Hypotheken- und Annuitätendarlehen durchführen.',
     keywords: ['hypothekenrechner', 'hypotheken rechner', 'hausfinanzierung rechner', 'baufi rechner', 'kredit rechner', 'immobilienkredit rechner', 'immobiliendarlehen rechner', 'rechner baufinanzierung', 'kreditrechner haus', 'kreditrechner immobilien'],
     guidelink: '/hypothekenrechner/guide',
+    guidegoal: 'Durchführung komplexer Berechnungen zu Hypotheken- und Annuitätendarlehen sowie Erstellung von Tilgungsplänen.',
+    guidequestions: ['Wie hoch ist die periodische Darlehensrate für einen vorgegebenen Darlehensbetrag?', 'Wie hoch kann das Darlehen sein, welches für eine vorgegebene Rückzahlung aufgenommen werden kann?', 'Wie stellt sich der Tilgungsplan unter Berücksichtigung sowohl jährlicher als auch frei vorgegebener Sondertilgungen dar?'],
+    guideaudience: ['Kreditnehmer, welche komplexere Darlehen hinsichtliche Parametern wie Effektivzins und Gesamtaufwand analysieren und entsprechende Tilgungspläne aufstellen wollen.'],
+    guidesteps: ['Geben Sie im ersten Schritt an, welche Parameter berechnet werden sollen. Im Falle des Hypothekenrechners können Sie zweimal eine Auswahl treffen: In der ersten Auswahl bestimmen Sie, ob die Rate, die Kreditsumme, der Zinssatz oder die anfängliche Tilgung berechnet werden soll. Die zweite Auswahl lässt Sie zwischen der Restschuld oder der Laufzeit unterscheiden. Die jeweils nicht berechneten Werte müssen Sie in den aktiven Feldern vorgeben.  Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Im zweiten Schritt geben Sie die Kreditsumme an und wählen aus, ob Abschlussgebühren für das Darlehen angefallen sind. Falls ja können Sie diese in den sich öffnenden Feldern eingeben.', 'Nun folgen weitere Eingaben zur Ausgestaltung des Darlehens. Sie können ein evenutell anfallendes Disagio eingeben und, je nach Berechnungsauswahl, den Zinssatz, die anfängliche Tilgung, die Häufigkeit der Ratenzahlungen (Zahlungsintervall) und die Laufzeit angeben.','Schließlich können Sie spezielle und optionale Darlehensparameter eingeben. Dazu gehören tilgungsfreie Zeiten, jährliche Sondertilgung und individuell definierbare Sondertilgungen.','Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Ergebnis der Berechnung sind die von Ihnen gewählten Berechnungsparameter und der effektive Jahreszins des Darlehens. Darüber hinaus wird der Tilgungsplan des Darlehens erstellt.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'select1',
