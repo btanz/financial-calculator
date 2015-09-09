@@ -2184,6 +2184,13 @@ function seeder() {
     designation: 'Immobilienrenditerechner',
     description: 'Mit dem Immobilienrenditerechner können Rendite und Zahlungsströme einer Investition in Immobilien errechnet und dargestellt werden.',
     keywords: ['immobilien rendite rechner', 'rendite berechnen immobilien','rendite immobilien berechnen', 'immobilien rendite berechnen', 'kapitalanlage immobilien', 'immobilien kapitalanlage rechner'],
+    guidelink: '/immobilienrenditerechner/guide',
+    guidegoal: 'Berechnung der effektiven Rendite einer Investition in Immobilien.',
+    guidequestions: ['Wie hoch ist die effektive Rendite der Investition in eine bestimmte Immobilienanlage?', 'Welcher Gewinn oder Verlust entsteht durch die Immobilieninvestition?','Wie entwickelt sich die Investition im Zeitablauf?'],
+    guideaudience: ['Investoren und Sparer, welche die voraussichtliche Rendite und den Gewinn einer Kapitalanlage in Immobilien ermitteln möchten.', 'Investoren und Sparer, welche eine Investition in Immobilien anhand des Effektivzinsen mit alternativen Investitionsmöglichkeiten vergleichen möchten.'],
+    guidesteps: ['Geben Sie im ersten Schritt die anfängliche Eigenkapitalinvestition an. Diese entspricht meist den Anschaffungskosten der Immobilie abzüglich dem Nennwert eines eventuell aufgenommenen Darlehens.', 'Danach können Sie Angaben zur monatlichen Rückzahlungsrate und zur Laufzeit des Darlehens machen. Falls Sie kein Darlehen aufgenommen haben, setzen den Wert für die Rückzahlungsrate auf 0.', 'Nun folgen die Angaben zur Immobilie selbst. Geben Sie die monatlichen Instandhaltungskosten und die Mieteinnahmen ein. Für beide Werte können Sie eine jährliche Dynamik angeben, falls Sie zukünftige Steigerungen dieser Werte erwarten. Danach geben Sie die Anlagedauer und den voraussichtlich erzielbaren Verkaufswert bzw. den Endwert an. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Ergebnis der Berechnung ist die effektive Rendite der Immobilieninvetition sowie weitere Kenngrößen wie Gewinn oder Verlust. Weiterhin wird die Entwicklung der Investition im Zeitablauf tabellarisch dargestellt.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'equity',
@@ -5898,8 +5905,15 @@ function seeder() {
     name: 'interestpenalty',
     id: 'deposits-interestpenalty',
     designation: 'Vorschusszinsrechner',
-    description: 'Mit dem Vorschusszinsrechner können die Zinsen berechnet werden, welche durch das Abheben eines größeren Geldbetrages vom Sparkonto ohne rechtzeitige vorherige Kündigung anfallen.',
+    description: 'Mit dem Vorschusszinsrechner können die Zinsen berechnet werden, welche durch das Abheben eines größeren Geldbetrages vom Sparguthaben ohne rechtzeitige vorherige Kündigung anfallen.',
     keywords: ['vorschusszinsrechner', 'vorschusszins berechnen', 'berechnen vorschusszins'],
+    guidelink: '/vorschusszinsrechner/guide',
+    guidegoal: 'Berechnung der Vorschusszinsen, welche beim Abheben eines größeren Geldbetrags vom Sparguthaben ohne rechtzeitige vorherige Kündigung anfallen.',
+    guidequestions: ['Wie sind die Vorschusszinsen, wenn mehr Geld vom Sparkonto abgehoben wird als es der von der Bank eingeräumte Freibetrag zulässt?'],
+    guideaudience: ['Sparer, welche planen, einen größeren Betrag von Ihrem Sparkonto ohne rechtzeitige Kündigung abzuheben.'],
+    guidesteps: ['Geben Sie zunächst den Entnahmebetrag an, welchen Sie vorzeitig ohne Kündigung abheben möchten.', 'Danach geben Sie den regulären nominalen Zinssatz der Sparanlage an.', 'Im dritten Feld können Sie den verbleibenden Freibetrag angeben. Dies ist der Betrag, welchen Sie ohne vorherige Kündigung und ohne Zinsstrafe vom Konto abheben können. Bei vielen Verträgen beläuft sich dieser Betrag auf EUR 2000. ', 'Schließlich geben Sie die Vorschusszinstage, den Zinssatz sowie die für das Jahr angesetzten Zinstage an. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Daraufhin werden die Vorschusszinsen berechnet. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Ergebnis der Berechnung sind die fälligen Vorschusszinsen.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'principal',

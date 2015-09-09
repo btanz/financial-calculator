@@ -42,21 +42,27 @@ var property = require('../controllers/calc.property.controller');
 
 router.get('/immobilienrenditerechner',         property.propertyreturn.render);
 router.get('/immobilienrenditerechner/inputs',  property.propertyreturn.calculate);
+router.get('/immobilienrenditerechner/guide',   property.propertyreturn.guide);
 
 router.get('/kaufen-oder-mieten',               property.buyrent.render);
 router.get('/kaufen-oder-mieten/inputs',        property.buyrent.calculate);
+router.get('/kaufen-oder-mieten/guide',         property.buyrent.guide);
 
 router.get('/mietrechner',                      property.rent.render);
 router.get('/mietrechner/inputs',               property.rent.calculate);
+router.get('/mietrechner/guide',                property.rent.guide);
 
 router.get('/grunderwerbssteuerrechner',        property.transfertax.render);
 router.get('/grunderwerbssteuerrechner/inputs', property.transfertax.calculate);
+router.get('/grunderwerbssteuerrechner/guide',  property.transfertax.guide);
 
 router.get('/bausparrechner',                   property.homesave.render);
 router.get('/bausparrechner/inputs',            property.homesave.calculate);
+router.get('/bausparrechner/guide',             property.homesave.guide);
 
 router.get('/immobilienpreisrechner',           property.propertyprice.render);
 router.get('/immobilienpreisrechner/inputs',    property.propertyprice.calculate);
+router.get('/immobilienpreisrechner/guide',     property.propertyprice.guide);
 
 router.get('/hypothekenrechner',                property.mortgage.render);
 router.get('/hypothekenrechner/inputs',         property.mortgage.calculate);

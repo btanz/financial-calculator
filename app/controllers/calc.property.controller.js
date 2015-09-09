@@ -12,7 +12,7 @@ exports.propertyreturn = {
           res.render('calculator', {obj: data[0]});
         })
         .onReject(function(){
-          console.log("An error occurred while rendering the deposits-depsaving calculator.");
+          console.log("An error occurred while rendering the property-propertyreturn calculator.");
         });
   },
 
@@ -25,6 +25,18 @@ exports.propertyreturn = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertyreturn')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-propertyreturn guide.");
         });
   }
 
@@ -56,6 +68,18 @@ exports.buyrent = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertybuyrent')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-propertybuyrent guide.");
+        });
   }
 };
 
@@ -84,6 +108,18 @@ exports.rent = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('rent')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-rent guide.");
         });
   }
 
@@ -116,6 +152,18 @@ exports.transfertax = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('transfertax')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-transfertax guide.");
+        });
   }
 };
 
@@ -144,6 +192,18 @@ exports.homesave = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('homesave')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-homesave guide.");
         });
   }
 
@@ -174,6 +234,18 @@ exports.propertyprice = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('propertyprice')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the property-propertyprice guide.");
         });
   }
 
