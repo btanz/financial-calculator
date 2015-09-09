@@ -3234,8 +3234,15 @@ function seeder() {
     name: 'annuity',
     id: 'debt-annuity',
     designation: 'Tilgungsrechner Annuitätendarlehen',
-    description: 'Mit dem Tilgungsrechner für Annuitätendarlehen kannst du je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
+    description: 'Mit dem Tilgungsrechner für Annuitätendarlehen können Sie je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
     keywords: ['kreditrechner','kreditrechner online','annuitätendarlehen berechnen','darlehensrechner annuitätendarlehen', 'berechnung annuitätendarlehen','tilgungsplan', 'tilgungsplan annuität'],
+    guidelink: '/annuitaetenrechner/guide',
+    guidegoal: 'Berechnung von Rückzahlungsrate, Laufzeit, Zinssatz, Restschuld oder Kreditsumme für Annuitätendarlehen sowie Erstellung von Tilgungsplänen.',
+    guidequestions: ['Wie hoch ist die periodische Darlehensrate für eine vorgegebene Kreditsumme?', 'Wie hoch kann die Kreditsumme sein, welche für eine vorgegebene Rückzahlungsrate aufgenommen werden kann?', 'Wie hoch ist die verbleibende Restschuld nach einer bestimmten Rückzahlungslaufzeit?', 'Über welchen Zeitraum müssen Darlehenszahlungen geleistet werden, bis der Kredit vollständig zurückgezahlt ist?','Wie stellt sich der Tilgungsplan für die Rückzahlung des Kredits dar?'],
+    guideaudience: ['Kreditnehmer, welche Kredite hinsichtliche Parametern wie Effektivzins analysieren und entsprechende Tilgungspläne aufstellen wollen.'],
+    guidesteps: ['Geben Sie im ersten Schritt an, welcher der Parameter Rate/Annuität, Restschuld, Laufzeit, Zinssatz oder Kreditsumme berechnet werden soll. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Nach der ersten Auswahl folgen die Eingaben zur Ausgestaltung des Kredits. Bitte geben Sie, je nach Auswahl, die gesamte Kreditsumme, die Laufzeit der Ratenzahlungen, die Rate, den Zinssatz und die verbleibende Restschuld an.' ,'Nun können Sie optionale Parameter zum Kredit eingeben. Dazu gehören eventuelle Abschlussgebühren, ein Disagio sowie tilgungsfreie Zeiten.','Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Ergebnis der Berechnung sind die von Ihnen gewählten Berechnungsparameter und der effektive Jahreszins des Kredits. Darüber hinaus wird der Tilgungsplan für den Kredit erstellt.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'select',
@@ -3816,6 +3823,13 @@ function seeder() {
     designation: 'Dispozinsrechner',
     description: 'Mit dem Dispozinsrechner können die für einen Dispo anfallenden Dispo- und Überziehungszinsen berechnet werden.',
     keywords: ['dispokredit rechner', 'dispo zinsen rechner', 'überziehungszinsen berechnen', 'berechnung überziehungszinsen', 'überziehungszinsen rechner'],
+    guidelink: '/dispozinsrechner/guide',
+    guidegoal: 'Berechnung von Dispo- und Überziehungszinsen für Dispo-Kredite.',
+    guidequestions: ['Wie hoch sind die Überziehungszinsen für einen bestimmten Zeitraum?', 'Lohnt es sich auf Basis des durchschnittlichen Sollzinssatzes, den Dispositionskredit mit einem anderen Kredit zu refinanzieren (Umschuldung)?'],
+    guideaudience: ['Kreditnehmer, die sich einen Überblick über die Kosten eines Dispositionskredits verschaffen wollen und eine Refinanzierung bzw. Umschuldung des Kredits in Betracht ziehen.'],
+    guidesteps: ['Geben Sie im ersten Schritt an, welcher der Parameter Rate/Annuität, Restschuld, Laufzeit, Zinssatz oder Kreditsumme berechnet werden soll. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.', 'Nach der ersten Auswahl folgen die Eingaben zur Ausgestaltung des Kredits. Bitte geben Sie, je nach Auswahl, die gesamte Kreditsumme, die Laufzeit der Ratenzahlungen, die Rate, den Zinssatz und die verbleibende Restschuld an.' ,'Nun können Sie optionale Parameter zum Kredit eingeben. Dazu gehören eventuelle Abschlussgebühren, ein Disagio sowie tilgungsfreie Zeiten.','Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Ergebnis der Berechnung sind die von Ihnen gewählten Berechnungsparameter und der effektive Jahreszins des Kredits. Darüber hinaus wird der Tilgungsplan für den Kredit erstellt.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'principal',

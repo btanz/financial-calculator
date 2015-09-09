@@ -26,6 +26,18 @@ exports.annuity = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('annuity')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the debt-annuity guide.");
+        });
   }
 
 };
@@ -56,6 +68,18 @@ exports.dispo = {
           console.log('Error occurred');
           res.json({});
         });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('dispo')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the debt-dispo guide.");
+        });
   }
 
 };
@@ -85,6 +109,18 @@ exports.repaysurrogat = {
         .onReject(function(){
           console.log('Error occurred');
           res.json({});
+        });
+  },
+
+  guide: function(req,res){
+    var Calc = require('mongoose').model('Calc');
+
+    Calc.findByCalcname('repaysurrogat')
+        .then(function(data){
+          res.render('calculatorGuide', {obj: data[0]});
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the debt-repaysurrogat guide.");
         });
   }
 
