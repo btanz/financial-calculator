@@ -4667,6 +4667,13 @@ function seeder() {
     designation: 'Immobilienpreisrechner',
     description: 'Mit dem Immobilienpreisrechner können Sie den maximalen Preis berechnen, den Sie für eine Immobilie zahlen können.',
     keywords: ['immobilienpreisrechner', 'rechner immobilien', 'hauskauf budget', 'hausfinanzierung'],
+    guidelink: '/immobilienpreisrechner/guide',
+    guidegoal: 'Berechnung des maximalen Kaufpreises für eine Immobilie und des Gesamtaufwands zum Immobilienerwerb.',
+    guidequestions: ['Was darf eine Immobilie maximal Kosten, damit sie für den Käufer finanzierbar bleibt?', 'Wie hoch sind die Gesamtkosten des Immobilienerwerbs inklusive Notar- und Maklerkosten sowie Grunderwerbssteuer und Darlehensrückzahlungen und -zinsen?'],
+    guideaudience: ['Jeder, der den Kauf einer Immobilie oder Eigentumswohnung plant und sich einen Überlick über die Kosten sowie den Preisrahmen der Immobilie verschaffen will.'],
+    guidesteps: ['Geben Sie zunächst die Mietersparnis durch den Immobilienkauf sowie ihr zusätzlich für die Finanzierung einer Immobilie frei verfügbares Einkommen an, bevor Sie den aktuellen Zinssatz für Darlehensfinanzierungen eingeben. Durch bewegen des Mauszeiger bzw. tippen auf das Fragezeichen neben der Beschreibung des Eingabefelds erhalten Sie Hilfe zu den Parametern.', 'Danach können Sie bestimmen, welchen der beiden Werte anfängliche Tilgung oder Darlehenslaufzeit Sie für das Darlehen vorgeben möchten. Der jeweils andere Wert wird automatisch berechnet. ', 'Geben Sie nun das zur Finanzierung verfügbare Eigenkapital und die prozentualen Gebühren für Notar und Makler sowie die Grunderwerbssteuer an.', 'Klicken Sie schließlich den "Berechnen"-Button, um die Berechnung zu starten. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen. Der Rechner ermittelt Eingabe- und Berechnungsfehler automatisch. '],
+    guideresult: ['Ergebnisse der Berechnung sind der maximal realisierbare, gerade noch finanzierbare Immobilienpreis, die Gesamtkosten der Immobilie und der Gesamtaufand des Immobilienerwerbs.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'rent',
