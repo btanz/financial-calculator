@@ -16,6 +16,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ***** I. GLOBAL APP TASKS ******
 
 ****  I.A) BEFORE NEXT LAUNCH ****
+* alle Jade-Kommentare auf //- checken (nicht lesbar im generierten Code)
 * alle texte auf SIE
 * impressum, inhaltlich verantwortlich etc
 * icons navbar

@@ -4000,6 +4000,13 @@ function seeder() {
     designation: 'Mietrechner',
     description: 'Mit dem Mietrechner können Sie analysieren, wie viel Miete Sie über einen bestimmten Zeitraum insgesamt zahlen. Der Rechner wird oft zur Berechnung der über die Lebenszeit anfallenden Miete genutzt. ',
     keywords: ['mietrechner'],
+    guidelink: '/mietrechner/guide',
+    guidegoal: 'Berechnung der gesamten Miete, welche Mieter im Laufe mehrerer Jahre für die Wohnungsmiete ausgeben.',
+    guidequestions: ['Welche Gesamtmiete fällt über einen vorgegebenen Zeitraum insgesamt an?', 'Wie hoch ist die Mietsteigerung bei vorgegebener monatlicher Miete und Gesamtmiete?', 'Über welchen Zeitraum (Mietdauer) kann ein Objekt mit einer bestimmten Monatsmiete insgesamt mit einem bestimmten verfügbaren Geldbetrag angemietet werden?', 'Welche Monatsmiete entspricht einer vorgegebenen Mietsteigerung und Gesamtmiete?'],
+    guideaudience: ['Mieter, welche Ihre Mietausgaben in einen längeren zeitlichen Bezug setzen wollen. Dies kann zum Beispiel zu Vergleichszwecken hilfreich sein.'],
+    guidesteps: ['Wählen Sie zunächst aus, welcher Parameter berechnet werden soll. In den meisten Fällen ist der bereits vorgegebene Parameter "Gesamtmiete" von Interesse.', 'Danach können Sie die Zahlen zur Mietsituation eingeben. Dazu gehören - je nach Auswahl des Berechnungsparameters - die monatliche Miete, evenutelle jährliche Mietsteigerungen (Durchschnittswert), die Mietdauer sowie die Gesamtmiete. Falls Sie Hilfe zu einem bestimmten Parameter benötigen, bewegen Sie den Mauszeiger auf das Fragezeichen neben der Beschreibung des Eingabefelds bzw. tippen Sie darauf.',  'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Als Ergebnis gibt der Rechner den von Ihnen ausgewählten Parameter Gesamtmiete, Mietsteigerung, Mietdauer oder Monatsmiete aus. Darüber hinaus wird eine tabellarische und graphische Darstellung zur Mietentwicklung generiert.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'select',
@@ -4148,6 +4155,13 @@ function seeder() {
     designation: 'Grunderwerbssteuer-Rechner',
     description: 'Mit dem Grunderwerbssteuer-Rechner lässt sich die Steuer berechnen, welche beim Erwerb eines Grundstücks oder Grundstücksanteils anfällt. Ökonomisch erhöht die Grunderwerbssteuer den Gesamtpreis beim Kauf einer Immobilie bzw. eines Grundstücks.',
     keywords: ['grunderwerbssteuer berechnen', 'grunderwerbssteuer rechner', 'höhe grunderwerbssteuer', 'berechnung grunderwerbssteuer', 'grunderwerbssteuer 2015'],
+    guidelink: '/grunderwerbssteuerrechner/guide',
+    guidegoal: 'Berechnung der beim Grundstücks- oder Immobilienerwerb anfallenden Grunderwerbssteuer.',
+    guidequestions: ['Wie hoch ist die beim Grundstücks- oder Immobilienerwerb in einem bestimmten Bundesland anfallende Grunderwerbssteuer?'],
+    guideaudience: ['Grundstücks- und Immobilienkäufer, welche die bei einer Transaktion anfallende Grunderwerbssteuer berechnen wollen.'],
+    guidesteps: ['Für diesen Rechner sind lediglich zwei Eingaben erforderlich: Der Kaufpreis und das Bundesland der Immobilie bzw. des Grundstücks. Durch bewegen des Mauszeiger bzw. tippen auf das Fragezeichen neben der Beschreibung des Eingabefelds erhalten Sie Hilfe zu den Parametern.',  'Klicken Sie schließlich den "Berechnen"-Button, um die Grunderwerbssteuer zu berechnen.'],
+    guideresult: ['Als Ergebnis gibt der Rechner den Gesamtbetrag des Immobilienerwerbs inklusive Grunderwerbssteuer aus. Daneben wird die Höhe der Steuer selbst, der im Bundesland anzusetzende Steuersatz und die Anwendbarkeit der Freigrenze ausgeben. '],
+    guidereferences: [],
     inputs: [
       { 
         name: 'price', 
