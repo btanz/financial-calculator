@@ -2,7 +2,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 **** ACTION PLAN LAUNCH DATE 14.09.2015 ****
 \ generally, need to work through each calculator, complete it, and test it; there is about 2 days of time for each calculator
-\ create a nice landing page with animations
 
 - complete portfolio calculator and test it by comparing with excel
     * add feature that allows for entering own portfolio
@@ -18,6 +17,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ****  I.A) BEFORE NEXT LAUNCH ****
 * alle texte auf SIE
+* impressum, inhaltlich verantwortlich etc
 * icons navbar
 * rechtschreibprüfung
 * navbar persitent
