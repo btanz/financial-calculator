@@ -22,7 +22,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * rechtschreibprüfung
 * navbar persitent
 * testing sheet for each calculator
-* guide for each calculator
 * improved rootfinding algorithm (use rserve?)
 * graphs
 * animationen

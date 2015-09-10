@@ -32,7 +32,7 @@ function seeder() {
     name: 'options',
     id: 'boerse-options',
     designation: 'Optionspreisrechner',
-    description: 'Mit dem Optionspreisrechner kannst du Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.',
+    description: 'Mit dem Optionspreisrechner können Sie Preise und Parameter für Put- und Call-Optionen auf Aktien nach dem Black-Scholes-Modell bestimmen.',
     keywords: ['black-scholes-modell rechner, os rechner, optionsschein rechner, optionen rechner'],
     guidelink: '/optionspreisrechner/guide',
     guidegoal: 'Der Rechner bestimmt Preise und Kennzahlen wie Delta, Gamma und Vega von Put- und Call-Optionen nach dem Black-Scholes-Modell.',
@@ -48,7 +48,7 @@ function seeder() {
         id: 'boerse-options-optiontype',
         label: 'Art der Option',
         placeholder: 'Art der Option',
-        tooltip: 'Gebe hier ein, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.',
+        tooltip: 'Geben Sie hier ein, ob die Parameter für eine Call- oder Put-Option berechnet werden sollen. Eine Call-Option (Kaufoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu kaufen. Eine Put-Option (Verkaufsoption) räumt dem Käufer das Recht ein, eine oder mehrere Aktien zu einem vorher vereinbarten Preis (Basispreis/Strike) zu verkaufen.',
         type: 'select',
         vtype: 'number',
         args: [1, 2],
@@ -68,7 +68,7 @@ function seeder() {
         id: 'boerse-options-price',
         label: 'Preis der Aktie',
         placeholder: 'Preis der Aktie',
-        tooltip: 'Gebe hier den Preis der Aktien bzw. des Underlyings ein.',
+        tooltip: 'Geben Sie hier den Preis der Aktien bzw. des Underlyings ein.',
         addon: 'EUR',
         value: '50.00',
         type: 'number',
@@ -82,7 +82,7 @@ function seeder() {
         addon: '%',
         placeholder: 'Volatilität',
         value: '12.00',
-        tooltip: 'Gebe hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.',
+        tooltip: 'Geben Sie hier die annualisierte Volatilität der Aktie bzw. des Underlyings an.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -94,7 +94,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Strike/Basispreis',
         value: '50.00',
-        tooltip: 'Gebe hier Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.',
+        tooltip: 'Geben Sie den Basispreis (Strike, Ausübungspreis) der Option ein. Der Basispreis bezeichnet den Preis, zu dem man am Ausübungsdatum die Aktie kaufen (Call-Option) oder verkaufen (Put-Option) kann.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -106,7 +106,7 @@ function seeder() {
         addon: 'Tage',
         placeholder: 'Restlaufzeit in Tagen',
         value: '60',
-        tooltip: 'Gebe hier die Restlaufzeit der Option in Tagen an.',
+        tooltip: 'Geben Sie in diesem Feld die Restlaufzeit der Option in Tagen an.',
         type: 'number',
         vtype: 'number',
         args: [0, 100000]
@@ -118,7 +118,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zinssatz',
         value: '3.00',
-        tooltip: 'Gebe hier den annualisierten risikolosen Zinssatz in % an.',
+        tooltip: 'Geben Sie hier den annualisierten risikolosen Zinssatz in % an.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -180,7 +180,7 @@ function seeder() {
         unit: 'EUR',
         digits: 4,
         importance: 'first',
-        tooltip: 'Der innere Wert ist der Teil des Optionswertes, welcher alleine auf die Abweichung zwischen Preis der Aktie und Strike zurückzuführen ist (und nicht auf die Zeit). Für eine Call-Option entspricht der innere Wert dem Maximum aus der Differenz von Preis minus Strike und null. Für eine Put-Option dagegen entspricht der innere Wert dem Maximum aus der Differenz von Strike minus Preis und Null.'
+        tooltip: 'Der innere Wert ist der Teil des Optionswertes, welcher alleine auf die Abweichung zwischen Preis der Aktie und Strike zurückzuführen ist (und nicht auf die Zeit). Für eine Call-Option entspricht der innere Wert dem Maximum aus der Differenz von Preis minus Strike und 0. Für eine Put-Option dagegen entspricht der innere Wert dem Maximum aus der Differenz von Strike minus Preis und 0.'
       },
       {
         name: 'timeValue',
@@ -188,7 +188,7 @@ function seeder() {
         unit: 'EUR',
         digits: 4,
         importance: 'first',
-        tooltip: 'Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu null, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht.'
+        tooltip: 'Der Zeitwert ist der Teil des Optionswertes, welcher nicht auf den inneren Wert zuruckzuführen ist. Der Zeitwert wird beeinflusst von der Restlaufzeit, dem Zinssatz, dem aktuellem Kurs der Aktie sowie der Volatilität des Basiswerts. Mit dem Ablauf der Option konvergiert der Zeitwert zu 0, die Option verliert mit Zeitablauf also stetig an Wert. Je mehr sich die Option dem Laufzeitende nähert, um so stärker nimmt der Zeitwert ab. Mit der Annäherung an das Laufzeitende nimmt auch die Wahrscheinlichkeit ab, dass es zu einer günstigen Entwicklung des Basistitels kommt. Da die Chance auf einen Gewinn abnimmt, haben Optionen mit einer geringen Laufzeit bei gleichem Basiswert und gleichem Basispreis in der Regel niedrigere Zeitwerte als solche mit einer längeren Laufzeit.Eine Abnahme des Zeitwerts kann nur durch eine Preissteigerung (Call) oder einen Preisverfall (Put) ausgeglichen werden. Am Laufzeitende entspricht der Optionswert nur noch dem inneren Wert, während er vor dem Laufzeitende der Summe aus innerem Wert und Zeitwert entspricht.'
       }
     ]
   });
@@ -212,7 +212,7 @@ function seeder() {
     name: 'fx',
     id: 'boerse-fx',
     designation: 'Währungsrechner',
-    description: 'Mit dem Währungsrechner kannst du beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.',
+    description: 'Mit dem Währungsrechner können Sie beliebige Beträge in die verschiedensten Währungen umrechnen. Der Währungsrechner nutzt tagesaktuelle Kurse und erstellt eine praktische Umrechnungstabelle.',
     keywords: ['Währungsrechner', 'umrechner', 'umrechner dollar euro', 'umrechner euro', 'pfund euro', 'dollar euro'],
     guidelink: '/waehrungsrechner/guide',
     guidegoal: 'Der Rechner ermittelt den tagesaktuellen Wechselkurs zwischen zwei Währungen, rechnet beliebige Beträge in eine Zielwährung um und erstellt eine Umrechnungstabelle.',
@@ -228,7 +228,7 @@ function seeder() {
         id: 'boerse-fx-from',
         label: 'Ausgangswährung',
         placeholder: 'Ausgangswährung',
-        tooltip: 'Dies ist die Währungseinheit des Betrages, welcher umgerechnet werden soll. Falls du Geld umtauschen möchtest entspricht die Ausgangswährung die Währung in deinem Besitz.',
+        tooltip: 'Dies ist die Währungseinheit des Betrages, welcher umgerechnet werden soll. Falls Sie Geld umtauschen möchten entspricht die Ausgangswährung die Währung in ihrem Besitz.',
         type: 'select',
         vtype: 'string',
         options: [
@@ -973,7 +973,7 @@ function seeder() {
         label: 'Betrag',
         placeholder: 'Betrag',
         value: '100.00',
-        tooltip: 'Gebe hier den Betrag in der Ausgangswährung ein. Falls du Geld umtauschen möchtest ist dies das umzutauschende Geld in deinem Besitz.',
+        tooltip: 'Gebe Sie hier den Betrag in der Ausgangswährung ein. Falls Sie Geld umtauschen möchten ist dies das umzutauschende Geld in ihrem Besitz.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000000]
@@ -983,7 +983,7 @@ function seeder() {
         id: 'boerse-fx-to',
         label: 'Zielwährung',
         placeholder: 'Zielwährung',
-        tooltip: 'Dies ist die Währungseinheit des Betrages, welchen du nach der Umrechnung bekommst. Beim Geldumtausch entspricht dies der Währung, welche du nach dem Umtausch haben möchtest.',
+        tooltip: 'Dies ist die Währungseinheit des Betrages, welchen Sie nach der Umrechnung bekommen. Beim Geldumtausch entspricht dies der Währung, welche Sie nach dem Umtausch in Besitz haben möchten.',
         type: 'select',
         vtype: 'string',
         options: [
@@ -1754,7 +1754,7 @@ function seeder() {
     name: 'equityreturn',
     id: 'boerse-equityreturn',
     designation: 'Aktienrenditerechner',
-    description: 'Mit dem Aktienrenditerechner kannst du die annualisierte effektive Rendite (IRR) für Aktienanlagen bestimmen. Dabei können Dividendenzahlungen und Gebühren berücksichtigt werden.',
+    description: 'Mit dem Aktienrenditerechner können Sie die annualisierte effektive Rendite (IRR) für Aktienanlagen bestimmen. Dabei können auch Dividendenzahlungen und Gebühren berücksichtigt werden.',
     keywords: ['rendite aktien berechnen', 'aktienrechner', 'aktienrendite berechnen', 'berechnung rendite'],
     guidelink: '/aktienrenditerechner/guide',
     guidegoal: 'Der Aktienrenditerechner ermittelt die Rendite für Kapitalanlagen in Aktien, Fonds oder Zertifikaten bzw. Anlagen mit variablen Kapitalausschüttungen im Allgemeinen.',
@@ -1772,7 +1772,7 @@ function seeder() {
         addon: 'Stück',
         placeholder: 'Anzahl Aktien',
         value: '1',
-        tooltip: 'Gebe hier die Gesamtzahl der gekauften Aktien ein.',
+        tooltip: 'Geben Sie hier die Gesamtzahl der gekauften Aktien ein.',
         type: 'number',
         vtype: 'number',
         args: [0,1000000000]
@@ -1784,7 +1784,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Kaufkurs',
         value: '68.12',
-        tooltip: 'Gebe hier den Kurs ein, zu welckem die Aktien gekauft worden sind.',
+        tooltip: 'Geben Sie den Kurs ein, zu welckem die Aktien gekauft worden sind.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -1796,7 +1796,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Verkaufskurs',
         value: '92.65',
-        tooltip: 'Gebe hier den Kurs ein, zu welchem die Aktien verkauft worden sind.',
+        tooltip: 'Geben Sie den Kurs ein, zu welchem die Aktien verkauft worden sind.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -1808,7 +1808,7 @@ function seeder() {
         label: 'Kaufdatum',
         addon: 'Datum',
         value: '08.01.2013',
-        tooltip: 'Gebe hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
+        tooltip: 'Geben Sie hier das Datum des Tages ein, an welchem die Aktien gekauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
         type: 'date',
         vtype: 'date'
       },
@@ -1818,7 +1818,7 @@ function seeder() {
         label: 'Verkaufsdatum',
         addon: 'Datum',
         value: '28.04.2015',
-        tooltip: 'Gebe hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
+        tooltip: 'Geben Sie hier das Datum des Tages ein, an welchem die Aktien verkauft worden sind. Sofern ein freier Wert in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein.',
         type: 'date',
         vtype: 'date'
       },
@@ -1828,7 +1828,7 @@ function seeder() {
         linetop: true,
         label: 'Sind Gebühren angefallen?',
         placeholder: 'Gebühren',
-        tooltip: 'Gebe hier ja an, falls bei Kauf oder Verlauf der Aktie Gebühren angefallen sind. Du kannst dann die Gebühren in den entsprechenden Feldern eingeben. Diese Gebühren werden in der Berechnung der Rendite berücksichtigt. Dabei wird angenommen, dass die Gebühren entsprechend am Kauf- bzw. Verkaufsdatum anfielen. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        tooltip: 'Wählen Sie hier "JA", falls bei Kauf oder Verlauf der Aktie Gebühren angefallen sind. Sie können dann die Gebühren in den entsprechenden Feldern eingeben. Diese Gebühren werden in der Berechnung der Rendite berücksichtigt. Dabei wird angenommen, dass die Gebühren entsprechend am Kauf- bzw. Verkaufsdatum anfielen. Bei Berechnungen für mehr als eine Aktie geben Sie hier bitte die Gebühr pro Aktie ein.',
         type: 'select',
         vtype: 'bool',
         options: [
@@ -1851,7 +1851,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Kaufgebühren',
         value: '',
-        tooltip: 'Gebe hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        tooltip: 'Geben Sie hier die Gebühren ein, die beim Kauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie geben Sie bitte die Gebühr pro Aktie ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000],
@@ -1866,7 +1866,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Verkaufsgebühren',
         value: '',
-        tooltip: 'Gebe hier die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Gebühr pro Aktie ein.',
+        tooltip: 'Geben Sie die Gebühren ein, die beim Verkauf der Aktien/Aktien entstanden. Bei Berechnungen für mehr als eine Aktie geben Sie hier bitte die Gebühr pro Aktie ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000],
@@ -1878,7 +1878,7 @@ function seeder() {
         linetop: true,
         label: 'Wie viele Dividendenzahlungen fanden statt?',
         placeholer: 'Dividendenzahlungen',
-        tooltip: 'Gebe hier die Anzahl der Dividendenzahlungen an, die während der Halteperiode der Aktie/Aktien erfolgten. Falls keine Dividendenzahlungen erfolgten bzw. Dividenden nicht in der Berechnung berücksichtigt werden sollen, so setze den Wert auf 0. Falls Zahlungen erfolgten, kannst du in den folgenden Feldern für jede Zahlung jeweils das Datum sowie den Dividendenbetrag eingeben. Falls ein freier Wert für das Datum in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein. Bei Berechnungen für mehr als eine Aktie gebe hier bitte die Dividendenzahlung pro Aktie an.',
+        tooltip: 'Geben Sie hier die Anzahl der Dividendenzahlungen an, die während der Halteperiode der Aktie/Aktien erfolgten. Falls keine Dividendenzahlungen erfolgten bzw. Dividenden nicht in der Berechnung berücksichtigt werden sollen, setzen Sie den Wert auf 0. Falls Zahlungen erfolgten, können Sie in den folgenden Feldern für jede Zahlung jeweils das Datum sowie den Dividendenbetrag eingeben. Falls ein freier Wert für das Datum in das Feld eingeben wird, sollte der Datumswert im Format JJJJ-MM-TT sein. Bei Berechnungen für mehr als eine Aktie geben Sie hier bitte die Dividendenzahlung pro Aktie an.',
         type: 'select',
         vtype: 'number',
         args: [0, 20],
@@ -2199,7 +2199,7 @@ function seeder() {
         placeholder: 'Investition',
         addon: 'EUR',
         value: '180000.00',
-        tooltip: 'Gebe hier den Betrag der Anfangsinvestition aus Eigenkapital ein. Dieser Betrag setzt sich zusammen aus allen Kosten, die durch den Erwerb der Immobilien entstehen und nicht durch ein Darlehen gezahlt werden. Kostet eine Immobilien zum Beispiel 400.000 € inkl. aller Anschaffungsnebenkosten und du zahlst am Anfang aus deinem Vermögen 50.000 €, dann sind diese 50.000 € die Investition aus Eigenkapital.',
+        tooltip: 'Geben Sie hier den Betrag der Anfangsinvestition aus Eigenkapital ein. Dieser Betrag setzt sich zusammen aus allen Kosten, die durch den Erwerb der Immobilien entstehen und nicht durch ein Darlehen gezahlt werden. Kostet eine Immobilien zum Beispiel 400.000 € inkl. aller Anschaffungsnebenkosten und Sie zahlen am Anfang aus Ihrem Vermögen 50.000 €, dann sind diese 50.000 € die Investition aus Eigenkapital.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -2211,7 +2211,7 @@ function seeder() {
         placeholder: 'Rückzahlungsrate',
         addon: 'EUR/Monat',
         value: '600.00',
-        tooltip: 'Sofern du ein Darlehen zur Finanzierung der Immobilien eingesetzt hast, gebe hier bitte die monatliche Rückzahlungsrate für das Darlehen ein. Diese Rückzahlungsrate sollte alle monatlichen Zahlungen zur Rückzahlung des Darlehens enthalten und setzt sich meist aus Zins- und Tilgungszahlungen zusammen. Im Falle der Zahlung einer Immobilien zum Preis von 400.000 € mit 50.000 € Eigenkapital und 350.000 € Fremdkapital aus einem Darlehen ist dies die monatliche Rate, welche für die Rückzahlung des Darlehens zu 350.000 € anfällt. Falls du kein Darlehen eingesetzt hast gebe als Darlehensrate null ein.',
+        tooltip: 'Sofern Sie ein Darlehen zur Finanzierung der Immobilien eingesetzt haben, geben Sie hier bitte die monatliche Rückzahlungsrate für das Darlehen ein. Diese Rückzahlungsrate sollte alle monatlichen Zahlungen zur Rückzahlung des Darlehens enthalten und setzt sich meist aus Zins- und Tilgungszahlungen zusammen. Im Falle der Zahlung einer Immobilien zum Preis von 400.000 € mit 50.000 € Eigenkapital und 350.000 € Fremdkapital aus einem Darlehen ist dies die monatliche Rate, welche für die Rückzahlung des Darlehens zu 350.000 € anfällt. Falls Sie kein Darlehen eingesetzt haben geben Sie als Darlehensrate bitte 0 ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -2223,7 +2223,7 @@ function seeder() {
         placeholder: 'Darlehenslaufzeit',
         addon: 'Jahre',
         value: '10',
-        tooltip: 'Gebe hier die Laufzeit des Darlehens in Jahren oder Monaten ein, welches zur Finanzierung der Immobilie aufgenommen wurde. Die Laufzeit ist die Zeit bis zur kompletten Rückzahlung des Darlehens unter der angegebenen Rückzahlungsrate. Falls du kein Darlehen eingesetzt hast gebe hier null ein.',
+        tooltip: 'Geben Sie hier die Laufzeit des Darlehens in Jahren oder Monaten ein, welches zur Finanzierung der Immobilie aufgenommen wurde. Die Laufzeit ist die Zeit bis zur kompletten Rückzahlung des Darlehens unter der angegebenen Rückzahlungsrate. Falls Sie kein Darlehen eingesetzt haben geben Sie hier bitte 0 ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 150]
@@ -2247,7 +2247,7 @@ function seeder() {
         placeholder: 'Kostendynamik',
         addon: '% p. a.',
         value: '0.0',
-        tooltip: 'Gebe hier die jährliche prozentale Steigerungsrate der Instandhaltungskosten an. Diese wird jeweils am Jahresende den angegebenen Instandhaltungskosten zugeschlagen. Belaufen sich die Instandhaltungskosten im ersten Jahr zum Beispiel auf 300 € und die Kostendynamik ist 10 %, dann werden im zweiten Jahr Instandhaltungskosten von 330 € angesetz. Auch in den folgenden Jahren wachsen die Instandhaltungskosten jeweils um 10 %. Den Prozentsatz für die Kostendynamik kann man nutzen, um etwa erwartete Preissteigerungen für Instandhaltungsdienstleistungen oder höhere Kosten durch eine alternde Immobilie abzubilden. Sollen die Instandhaltungskosten nicht jedes Jahr ansteigen, dann gebe hier eine null ein.',
+        tooltip: 'Geben Sie hier die jährliche prozentale Steigerungsrate der Instandhaltungskosten an. Diese wird jeweils am Jahresende den angegebenen Instandhaltungskosten zugeschlagen. Belaufen sich die Instandhaltungskosten im ersten Jahr zum Beispiel auf 300 € und die Kostendynamik ist 10 %, dann werden im zweiten Jahr Instandhaltungskosten von 330 € angesetz. Auch in den folgenden Jahren wachsen die Instandhaltungskosten jeweils um 10 %. Den Prozentsatz für die Kostendynamik kann man nutzen, um etwa erwartete Preissteigerungen für Instandhaltungsdienstleistungen oder höhere Kosten durch eine alternde Immobilie abzubilden. Sollen die Instandhaltungskosten nicht jedes Jahr ansteigen, dann geben Sie hier 0 ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -2259,7 +2259,7 @@ function seeder() {
         addon: 'EUR/Monat',
         placeholder: 'Mieteinnahmen',
         value: '900.00',
-        tooltip: 'Hier kannst du alle laufenden monatlichen Einnahmen aus der Immobilie eingeben. Hauptkomponente dieser Einnahmen sind meist Zuflüsse aus der Vermietung der Immobilie.',
+        tooltip: 'Hier können Sie alle laufenden monatlichen Einnahmen aus der Immobilie eingeben. Hauptkomponente dieser Einnahmen sind meist Zuflüsse aus der Vermietung der Immobilie.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -2271,7 +2271,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Einnahmedynamik',
         value: '1.0',
-        tooltip: 'Gebe hier die jährliche prozentale Steigerungsrate der monatlichen Einnahmen aus der Immobilie an. Diese wird jeweils am Jahresende den angegebenen Einnahmen zugeschlagen. Belaufen sich die Einnahmen im ersten Jahr zum Beispiel auf 2000 € und die Kostendynamik ist 1 %, dann werden im zweiten Jahr Einnahmen von 2020 € angesetz. Auch in den folgenden Jahren wachsen die Einnahmen jeweils um 1 %. Sollen die Einnahmen nicht jedes Jahr ansteigen, dann gebe hier eine null ein.',
+        tooltip: 'Geben Sie die jährliche prozentale Steigerungsrate der monatlichen Einnahmen aus der Immobilie an. Diese wird jeweils am Jahresende den angegebenen Einnahmen zugeschlagen. Belaufen sich die Einnahmen im ersten Jahr zum Beispiel auf 2000 € und die Kostendynamik ist 1 %, dann werden im zweiten Jahr Einnahmen von 2020 € angesetz. Auch in den folgenden Jahren wachsen die Einnahmen jeweils um 1 %. Sollen die Einnahmen nicht jedes Jahr ansteigen, dann gebe Sie hier bitte 0 ein.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -2283,7 +2283,7 @@ function seeder() {
         addon: 'Jahre',
         placeholder: 'Anlagedauer',
         value: '30',
-        tooltip: 'Gebe hier die Gesamtlaufzeit der Immobilieninvestition in Jahren oder Monaten an. Diese Laufzeit beginnt mit der Anfangsinvestition und endet in der Regel mit dem Verkauf oder der weitern Verwertung der Immobilie zum definierten Verkaufs-/Endwert.',
+        tooltip: 'Geben Sie hier die Gesamtlaufzeit der Immobilieninvestition in Jahren oder Monaten an. Diese Laufzeit beginnt mit der Anfangsinvestition und endet in der Regel mit dem Verkauf oder der weitern Verwertung der Immobilie zum definierten Verkaufs-/Endwert.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -2295,7 +2295,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Verkaufs-/Endwert',
         value: '240000.00',
-        tooltip: 'Gebe hier den Wert der Immobilie zum Ende der Anlagedauer ein. Im Falle eines Verkaufs entspricht dieser Wert dem Verkaufspreis der Immobilie. Ansonsten ist der Endwert derjenige Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde.',
+        tooltip: 'Geben Sie hier den Wert der Immobilie zum Ende der Anlagedauer ein. Im Falle eines Verkaufs entspricht dieser Wert dem Verkaufspreis der Immobilie. Ansonsten ist der Endwert derjenige Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -2308,7 +2308,7 @@ function seeder() {
         unit: '% p. a.',
         digits: 3,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die berechnete jährliche effektive Rendite der Kapitalanlage, oft auch als interner Zinsfuß oder IRR (internal rate of return) bezeichnet. Die effektive Rendite eignet sich zum Vergleich der Rentabilität verschiedener Kapitalanlagen. Je höher der Effektivzins, desto attraktiver ist die Investitionsmöglichkeit.'
       },
       {
         name: 'profit',
@@ -2316,7 +2316,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Der Gewinn aus der Immobilieninvestition, berechnet als Differenz aus den gesamten Einnahmen und Ausgaben über die Anlagedauer.'
       },
       {
         name: 'revenue',
@@ -2324,7 +2324,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten Einnahmen aus der Investition, welche sich aus der Summe der monatlichen Mieteinnahmen und dem Verkaufs- bzw. Endwert berechnen.'
       },
       {
         name: 'rentRevenue',
@@ -2332,7 +2332,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe der monatlichen Mieteinnehmen über die Anlagedauer.'
       },
       { 
         name: 'sellRevenue', 
@@ -2340,7 +2340,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der Wert der Immobilie zum Ende der Anlagedauer, welcher im Falle eines Verkaufs dem Verkaufspreis der Immobilie und ansonsten dem Preis, welcher am Ende der Anlagedauer beim Verkauf der Immobilie erzielt werden würde, entspricht.'
       },
       { 
         name: 'investment', 
@@ -2348,7 +2348,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten Ausgaben aus der Investition, bestehend aus Investitions-, Darlehens- und Instandhaltungskosten.'
       },
       { 
         name: 'initialInvestment', 
@@ -2356,7 +2356,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der Betrag der Anfangsinvestition aus Eigenkapital.'
       },
       {
         name: 'maintenance',
@@ -2364,7 +2364,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe aller über die Anlagedauer anfallenden Instandhaltungskosten.'
       },
       {
         name: 'loan',
@@ -2372,7 +2372,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summer aller anfallenden Darlehenszahlungen.'
       }
     ]
   });
@@ -2399,7 +2399,7 @@ function seeder() {
     name: 'propertybuyrent',
     id: 'property-buyrent',
     designation: 'Vergleichsrechner Immobilien kaufen oder mieten',
-    description: 'Lohnt sich der Kauf einer Immobilie als Eigenheim oder ist es besser, zur Miete zu wohnen und sein Geld anzulegen? Dieser Rechner hilft bei der Entscheidung',
+    description: 'Lohnt sich der Kauf einer Immobilie als Eigenheim oder ist es besser, zur Miete zu wohnen und sein Geld anzulegen? Dieser Rechner hilft Ihnen bei der Entscheidung',
     keywords: ['kaufen oder mieten', 'mieten oder kaufen', 'wohnung kaufen oder mieten', 'mieten kaufen', 'mieten oder kaufen rechner', 'immobilie kaufen rechner'],
     guidelink: '/kaufen-oder-mieten/guide',
     guidegoal: 'Finanzieller Vergleich der Alternativen Kauf oder Miete für selbstgenutzte Wohnungen oder Häuser.',
@@ -2623,7 +2623,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Das Gesamtvermögen im Fall der Anmietung, bestehend aus dem Eigenkapital, dem verfügbaren Wohneinkommen, den Zinserträgen aus der Anlage des Eigenkapitals und des verfügbaren Einkommens abzüglich der gesamten Mietkosten.'
       },
       {
         name: 'rentfinalincome',
@@ -2631,7 +2631,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Das gesamte über den Analysezeitraum verfügbare Wohneinkommen, welches im Fall der Miete zur Deckung der Mietkosten eingesetzt wird. Über die Deckung der Mietkosten hinaus verfügbares Kapital wird zum Guthabenzinssatz angelegt und generiert somit Zinserträge.'
       },
       {
         name: 'rentfinalcost',
@@ -2639,7 +2639,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die gesamten über den Analysezeitraum zahlbaren Mietzahlungen inklusive Nebenkosten (Vergleichsmiete).'
       },
       {
         name: 'rentfinalinterest',
@@ -2647,7 +2647,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe aller Zinserträge, welche aus der Anlage des Eigenkapitals sowie der Anlage des überschüssigen verfügbaren Einkommens entstehen.'
       },
       {
         name: 'rentequity',
@@ -2655,7 +2655,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Das verfügbare Eigenkapital, welches im Fall der Miete am Kapitalmarkt angelegt werden kann.'
       },
       {
         name: 'buyfinalwealth',
@@ -2663,7 +2663,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'first',
-        tooltip: 'TBD'
+        tooltip: 'Das Gesamtvermögen im Fall des Immobilienkaufs, welches sich aus allen in der folgenden Tabelle dargestellten Positionen ergibt.'
       },
       {
         name: 'buyequity',
@@ -2671,7 +2671,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Das verfügbare Eigenkapital, welches beim Kauf der Immobilie investiert werden kann.'
       },
       {
         name: 'buyprice',
@@ -2679,15 +2679,15 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der beim Immobilienkauf zahlbare Preis inklusive Kaufnebenkosten.'
       },
       {
         name: 'buyloan',
-        description: 'davon Darlehen',
+        description: 'davon erforderliches Darlehen',
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Das für den Kauf erforderliche Darlehen, berechnet aus der Differenz des Kaufpreises (inkl. Nebenkosten) und dem verfügbaren Eigenkapital.'
       },
       {
         name: 'buyfinalincome',
@@ -2695,7 +2695,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Das gesamte über den Analysezeitraum verfügbare Wohneinkommen, welches im Fall des Kaufs zur Rückzahlung des Darlehens und Deckung der laufenden Immobilienkosten und Instandhaltungskosten eingesetzt werden kann. Darüber hinaus verfügbares Kapital wird zum Guthabenzinssatz angelegt und generiert somit Zinserträge.'
       },
       {
         name: 'buyinterestsave',
@@ -2703,7 +2703,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe aller Zinserträge, welche aus der Anlage des überschüssigen Einkommens generiert werden.'
       },
       {
         name: 'buyinterestloan',
@@ -2711,7 +2711,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der gesamte über den Analysezeitraum anfallende Zinsaufwand für das Darlehen.'
       },
       {
         name: 'buypropertyincrease',
@@ -2719,7 +2719,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der Wertanstieg der Immobilie.'
       },
       {
         name: 'buymaintenance',
@@ -2727,7 +2727,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Summe aller über den Analysezeitraum anfallenden laufenden Kosten und Instandhaltungskosten.'
       },
       {
         name: 'buyrepay',
@@ -2735,7 +2735,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der Gesamtbetrag aller über den Analysezeitraum anfallenden Zahlungen für das Darlehen. Der Rechner verwendet das verfügbare Einkommen zum Wohnen bis zur vollständigen Tilgung des Darlehens komplett zur Darlehensrückzahlung. Sollte das Darlehen über den Analysezeitraum nicht komplett zurückgezahlt sein, wird eine weitere Restschuld bestehen, welche Sie dem Eintrag "Restschuld Darlehen" entnehmen können. '
       },
       {
         name: 'buyresidual',
@@ -2743,7 +2743,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Die Restschuld des Darlehens am Ende des Analysezeitraums.'
       },
       {
         name: 'buypropvalue',
@@ -2751,7 +2751,7 @@ function seeder() {
         unit: 'EUR',
         digits: 2,
         importance: 'second',
-        tooltip: 'TBD'
+        tooltip: 'Der Wert der Immobilie am Ende des Analysezeitraums, inklusive eventueller Steigerungen.'
       }
     ]
   });
@@ -2791,7 +2791,7 @@ function seeder() {
         name: 'select',
         id: 'deposits-interest-select',
         label: 'Was soll berechnet werden?',
-        tooltip: 'Wähle hier, welche der Größen Anfangskapital, Endkapital, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
+        tooltip: 'Bitte wählen Sie, welche der Größen Anfangskapital, Endkapital, Zinssatz oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
         type: 'select',
         vtype: 'number',
         args: [0, 3],
@@ -3248,7 +3248,7 @@ function seeder() {
         name: 'select',
         id: 'debt-annuity-select',
         label: 'Was soll berechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Wählen Sie hier aus, welche der Größen Rate/Annuität, Restschuld, Laufzeit, Zinssatz oder Kreditsumme berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen. In vielen Fällen ist die bereits vorausgewählte Rate/Annuität von Interesse.',
         type: 'select',
         vtype: 'number',
         args: [0, 5],
@@ -3294,7 +3294,7 @@ function seeder() {
         addon: 'Jahre',
         placeholder: 'Laufzeit Ratenzahlungen',
         value: '3',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Laufzeit der Ratenzahlungen an. Diese entspricht der Länge des Zeitraums, für welchen die periodische Rate/Annuität geleistet wird. Eventuelle tilgungsfreie Zeiten sind in dieser Laufzeit nicht enthalten.',
         type: 'number',
         vtype: 'number',
         args: [0,200]
@@ -3307,7 +3307,7 @@ function seeder() {
         placeholder: 'Rate/Annuität',
         value: '',
         disabled: true,
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe der periodischen Rückzahlungsrate für das Darlehen an. Diese ist über die Laufzeit des Darlehens konstant und enthält sowohl den Zins- als auch den Tilgungsanteil, wobei der Tilgungsanteil gewöhnlich über die Laufzeit zunimmt.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -3316,7 +3316,7 @@ function seeder() {
         name: 'repayfreq',
         id: 'debt-annuity-repayfreq',
         label: 'Zahlungsintervall für Rate',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, in welchen Zeitabständen die Rate/Annuität geleistet wird. Für die meisten  Darlehen wird eine monatliche Rate vereinbart, sie können jedoch auch Darlehen mit vierteljährlichen, halbjährlichen oder jährlichen Rückzahlungsintervallen berechnen. Es wird angenommen, dass die Zahlung jeweils zum Ende des Ratenintervalls erfolgt (nachschüssig). Zins und Tilgung werden zu den einzelnen Ratenintervallen verrechnet.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
@@ -3346,7 +3346,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zinssatz',
         value: '3.50',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie den gebundenen Sollzinssatz für das Darlehen ein. Dies ist der nominale Jahreszinssatz, welcher auf die jeweils ausstehenden Schulden angewandt wird.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]
@@ -3358,7 +3358,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Restschuld',
         value: '4000',
-        tooltip: 'TBD',
+        tooltip: 'Dies ist die verbleibende Restschuld nach Ende der Laufzeit der Ratenzahlungen und der Sollzinsbindung. Dieser Wert ist 0, sofern das Darlehen innerhalb der angegebenen Laufzeit vollständig zurückgezhalt ist bzw. (falls Restschuld nicht Berechnungs- sondern Eingabeparameter) sofern es vollständig zurückgezahlt sein soll.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -3368,7 +3368,7 @@ function seeder() {
         id: 'debt-annuity-fees',
         linetop: true,
         label: 'Sind Gebühren angefallen?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob Abschlussgebühren angefallen sind. Sie können danach die Höhe der Abschlussgebühren eingeben und wählen, ob die Gebühren der Kreditsumme zugeschlagen werden sollen (und damit in die Rückzahlung eingehen) oder separat gezahlt werden sollen. Die Abschlussgebühren werden sofort nach Darlehensauszahlung fällig und wirken sich in der Regel auf den Effektivzins des Darlehens aus.',
         type: 'select',
         vtype: 'bool',
         options: [
@@ -3391,7 +3391,7 @@ function seeder() {
         addon: 'EUR',
         placeholder: 'Gebühren',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe der anfallenden Gebühren an.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000],
@@ -3404,7 +3404,7 @@ function seeder() {
         hide: true,
         secondary: 'true',
         label: 'Wie sollen die Gebühren verrechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob die Gebühren mit der Ratenzahlung/Annuität verechnet werden sollen oder separat gezahlt werden. Bei Verrechnung werden sind die Gebühren nicht direkt zu zahlen, sondern werden der Kreditsumme zugeschlagen und entsprechend in die Tilgungszahlungen einbezogen. Bei gesonderter Zahlung sind die Gebühren direkt nach Darlehensauszahlung zu zahlen.',
         type: 'select',
         vtype: 'number',
         optional: true,
@@ -3424,7 +3424,7 @@ function seeder() {
         name: 'disagio',
         id: 'debt-annuity-disagio',
         label: 'Gab es ein Disagio?',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie an, ob es ein Disagio gab. Ein Disagio ist ein prozentualer Abschlag von der Kreditsumme. Dem Darlehensnehmer wird die Kreditsumme abzüglich des Disagio ausgezahlt, er muss jedoch die volle Kreditsumme zurückzahlen. Beispielsweise werden bei einer Kreditsumme von 1.000 EUR und einem Disagio von 5 % dem Darlehensnehmer 950 EUR ausgezahlt, während er ingesamt 1.000 zurückzahlen/tilgen muss.',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -3448,7 +3448,7 @@ function seeder() {
         addon: '%',
         placeholder: 'Disago',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Bitte geben Sie die Höhe des Disagios in % an.',
         type: 'number',
         vtype: 'number',
         args: [0, 100],
@@ -3458,7 +3458,7 @@ function seeder() {
         name: 'repaymentfree', 
         id: 'debt-annuity-repaymentfree',
         label: 'Gab es eine tilgungsfreie Zeit?',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie an, ob eine anfängliche tilgungsfreie Zeit vorgesehen bzw. vereinbart ist. Während dieser Zeit wird die Tilgung zunächst aufgeschoben und Ratenzahlungen sind entsprechend für die Dauer der tilgungsfreien Zeit nicht zu leisten. Der Beginn der Ratenzahlungen verschiebt sich entsprechend auf das Ende der tilgungsfreien Zeit.',
         linetop: true,
         type: 'select',
         vtype: 'bool',
@@ -3482,7 +3482,7 @@ function seeder() {
         addon: 'Jahre',
         placeholder: 'Zeitraum',
         value: '',
-        tooltip: 'TBD',
+        tooltip: 'Geben Sie bitte die Länge der tilgungsfreien Zeit ein.',
         type: 'number',
         vtype: 'number',
         'args': [0, 1000],
@@ -3495,7 +3495,7 @@ function seeder() {
         hide: true,
         secondary: 'true',
         label: 'Wie sollen die Zinsen für die tilgungsfreie Zeit verrechnet werden?',
-        tooltip: 'TBD',
+        tooltip: 'Für den Zeitraum der tilgungsfreien Zeit fallen Zinsen entsprechend des angegebenen Zinssatzes an. Hier können Sie wählen, wie mit diesen Zinsen umgegangen werden soll. Bei Wahl der Option "Verrechnung mit der Ratenzahlung/Annuität" werden die Zinsen nicht separat gezahlt, sondern der Kreditsumme zugeschlagen und später zusammen mit der Kreditsumme zurückgezahlt. Bei Wahl der Option "keine Verrechnung, sondern gesonderte Zahlung" sind die Zinsen bereits in der tilgungsfreien Zeit zu zahlen und die Kreditsumme bleibt entsprechend gleich.',
         type: 'select',
         vtype: 'number',
         optional: true,
@@ -3515,7 +3515,7 @@ function seeder() {
     results_1: [
       {
         name: 'repay',
-        tooltip: 'TBD',
+        tooltip: 'Die periodisch zu zahlendene konstante Rate (Annuität) zur Rückzahlung des Kredites.',
         description: 'Rate/Annuität',
         unit: 'EUR',
         digits: 2,
@@ -3523,7 +3523,7 @@ function seeder() {
       },
       {
         name: 'residual',
-        tooltip: 'TBD',
+        tooltip: 'Die verbleibende Restschuld nach Ende der Laufzeit der Ratenzahlungen und der Sollzinsbindung.',
         description: 'Restschuld',
         unit: 'EUR',
         digits: 2,
@@ -3531,7 +3531,7 @@ function seeder() {
       },
       {
         name: 'term',
-        tooltip: 'TBD',
+        tooltip: 'Die rechnerische Laufzeit des Kredits. Sofern die Laufzeit innerhalb eines laufenden Monats endet wird der jeweils auf den nächsten vollen Monat aufgerundete Wert angegeben. Eventuell eingegebene tilgungsfreie Zeiten sind in dieser Angabe nicht berücksichtigt.',
         description: 'Laufzeit der Ratenzahlungen',
         unit: 'Jahre',
         digits: 2,
@@ -3539,7 +3539,7 @@ function seeder() {
       },
       {
         name: 'rate',
-        tooltip: 'TBD',
+        tooltip: 'Der gebundene Sollzinssatz für das Darlehen.',
         description: 'Zinssatz',
         unit: '% p. a.',
         digits: 2,
@@ -3547,7 +3547,7 @@ function seeder() {
       },
       {
         name: 'principal',
-        tooltip: 'TBD',
+        tooltip: 'Der Betrag, auf welchen Vorschusszinsen zu entrichten sind.',
         description: 'Kreditsumme',
         unit: 'EUR',
         digits: 2,
@@ -3555,7 +3555,7 @@ function seeder() {
       },
       {
         name: 'irr',
-        tooltip: 'TBD',
+        tooltip: 'Dieses Feld gibt den effektiven Jahreszins für den Kredit an. Dieser entspricht der Effektivverzinsung bzw. dem internen Zinsfuß (internal rate of return) normalisiert auf ein Jahr.',
         description: 'Effektiver Jahreszins / IRR',
         unit: '% p. a.',
         digits: 2,
@@ -3857,7 +3857,7 @@ function seeder() {
         label: 'Kreditlinie Dispo',
         addon: 'EUR',
         value: '2000.00',
-        tooltip: 'Die Kreditlinie für den Dispo ist der Betrag, bis zu dem der Dispositionskredit in Anspruch genommen werden darf. Auf diesen Betrag kommt der Zinssatz für den Dispokredit zur Anwendung. Falls kein Dispositionskredit besteht tragen sie hier eine 0 ein. Der Überziehungsbetrag wird dann direkt mit dem Zinssatz für weitere Überziehungen verzinst.',
+        tooltip: 'Die Kreditlinie für den Dispo ist der Betrag, bis zu dem der Dispositionskredit in Anspruch genommen werden darf. Auf diesen Betrag kommt der Zinssatz für den Dispokredit zur Anwendung. Falls kein Dispositionskredit besteht tragen Sie hier bitte eine 0 ein. Der Überziehungsbetrag wird dann direkt mit dem Zinssatz für weitere Überziehungen verzinst.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -4033,7 +4033,7 @@ function seeder() {
         name: 'select',
         id: 'property-rent-select',
         label: 'Was soll berechnet werden?',
-        tooltip: 'Wähle hier, welche der Größen Monatsmiete, Mietsteigerung, Mietdauer oder Gesamtmiete berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
+        tooltip: 'Wählen Sie hier, welche der Größen Monatsmiete, Mietsteigerung, Mietdauer oder Gesamtmiete berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen.',
         type: 'select',
         vtype: 'number',
         args: [0,3],
@@ -4527,7 +4527,7 @@ function seeder() {
     results_1: [
       {
         name: 'numberpays',
-        tooltip: 'TBD',
+        tooltip: 'Die Anzahl aller geleisteten Sparraten.',
         description: 'Anzahl Sparraten',
         unit: '',
         digits: 0,
@@ -4535,7 +4535,7 @@ function seeder() {
       },
       {
         name: 'finalsavings',
-        tooltip: 'TBD',
+        tooltip: 'Das gesamte verfügbare Bausparguthaben am Ende der Ansparphase, bestehend aus Einzahlungen, Guthabenzinsen und eventuellen Prämien.',
         description: 'Sparguthaben Ende Ansparphase',
         unit: 'EUR',
         digits: 2,
@@ -4543,7 +4543,7 @@ function seeder() {
       },
       {
         name: 'finalsavingswohnungsbau',
-        tooltip: 'TBD',
+        tooltip: 'Das gesamte verfügbare Bausparguthaben am Ende der Ansparphase, bestehend aus Einzahlungen, Guthabenzinsen und eventuellen Prämien.',
         description: 'Sparguthaben Ende Ansparphase',
         unit: 'EUR',
         digits: 2,
@@ -4551,7 +4551,7 @@ function seeder() {
       },
       {
         name: 'totalpays',
-        tooltip: 'TBD',
+        tooltip: 'Die Summe der während der Ansparphase geleisteten eigenen Einzahlungen in den Bausparvertrag.',
         description: 'davon Spareinzahlungen',
         unit: 'EUR',
         digits: 2,
@@ -4559,7 +4559,7 @@ function seeder() {
       },
       {
         name: 'totalinterest',
-        tooltip: 'TBD',
+        tooltip: 'Die gesamten Guthabenzinsen, welche aus der Verzinsung des eingezahlten Kapitals entstehen.',
         description: 'davon Guthabenzinsen',
         unit: 'EUR',
         digits: 2,
@@ -4567,7 +4567,7 @@ function seeder() {
       },
       {
         name: 'wohnungsbau',
-        tooltip: 'TBD',
+        tooltip: 'Die erhaltene Förderung durch die Wohnungsbauprämie. Die Wohnungsbaupämie ist eine staatliche Förderung, welche Personen gewährt wird, deren zu versteuerndes Einkommen im Sparjahr 25.600 € (Ledige) bzw. 51.200 € (für zusammenveranlagte Ehegatten/Lebenspartner) nicht übersteigt. Die Prämie beträgt grundsätzlich 8,8 % der laufenden Bauspareinlagen, Guthabenzinsen und eventuellen Abschlussgebühren sofern diese im Kalenderjahr 50 € übersteigen. Die Höchstprämie liegt bei 45,06 € für Ledige und 90.11 € für Ehepaare.',
         description: 'davon Wohnungsbauprämie',
         unit: 'EUR',
         digits: 2,
@@ -4575,7 +4575,7 @@ function seeder() {
       },
       {
         name: 'totalloanpay',
-        tooltip: 'TBD',
+        tooltip: 'Der Auszahlungsbetrag bei Zuteilung, welcher der Bausparsumme entspricht, sofern der angegeben Auszahlungsprozentsatz bei 100 % liegt.',
         description: 'Auszahlungsbetrag bei Zuteilung',
         unit: 'EUR',
         digits: 2,
@@ -4583,7 +4583,7 @@ function seeder() {
       },
       {
         name: 'totalloan',
-        tooltip: 'TBD',
+        tooltip: 'Die Höhe des erforderlichen Bauspardarlehens, welche sich als Differenz aus dem Auszahlungsbetrag und dem Sparguthaben am Ende der Ansparphase ergibt.',
         description: 'davon Darlehenshöhe',
         unit: 'EUR',
         digits: 2,
@@ -4591,7 +4591,7 @@ function seeder() {
       },
       {
         name: 'termloan',
-        tooltip: 'TBD',
+        tooltip: 'Die Dauer bis zur vollständigen Rückzahlung des Bauspardarlehens.',
         description: 'Laufzeit des Darlehens',
         unit: 'Jahre',
         digits: 2,
@@ -4599,7 +4599,7 @@ function seeder() {
       },
       {
         name: 'interestloan',
-        tooltip: 'TBD',
+        tooltip: 'Die Summe aller über die Darlehenslaufzeit anfallenden Zinszahlungen für das Darlehen.',
         description: 'davon Darlehenszinsaufwand',
         unit: 'EUR',
         digits: 2,
@@ -4607,7 +4607,7 @@ function seeder() {
       },
       {
         name: 'totalloanwinterest',
-        tooltip: 'TBD',
+        tooltip: 'Der Gesamtaufwand zur Rückzahlung des Darlehens, bestehend aus allen Zins- und Tilgungszahlungen.',
         description: 'Rückzahlungsaufwand insgesamt',
         unit: 'EUR',
         digits: 2,
@@ -4615,7 +4615,7 @@ function seeder() {
       },
       {
         name: 'savingratio',
-        tooltip: 'TBD',
+        tooltip: 'Der prozentuale Anteil des Sparguthabens am Auszahlungsbetrag.',
         description: 'Ansparquote',
         unit: '%',
         digits: 2,
@@ -4623,7 +4623,7 @@ function seeder() {
       },
       {
         name: 'totalloanpays',
-        tooltip: 'TBD',
+        tooltip: 'Die Anzahl aller zu leistenden Darlehenszahlungen.',
         description: 'Anzahl Darlehensraten',
         unit: '',
         digits: 1,
@@ -4631,7 +4631,7 @@ function seeder() {
       },
       {
         name: 'initialfee',
-        tooltip: 'TBD',
+        tooltip: 'Die mit den Einzahlungen verrechnete Abschlussgebühr.',
         description: 'Verrechnete Abschlussgebühr',
         unit: 'EUR',
         digits: 2,
@@ -4639,7 +4639,7 @@ function seeder() {
       },
       {
         name: 'initialpay',
-        tooltip: 'TBD',
+        tooltip: 'Die zu Beginn des Sparvorhabens geleistete einmalige Sondereinzahlung.',
         description: 'davon Sondereinzahlung',
         unit: 'EUR',
         digits: 2,
@@ -6320,7 +6320,7 @@ function seeder() {
         name: 'repayfreq',
         id: 'property-mortgage-repayfreq',
         label: 'Zahlungsintervall für Rate',
-        tooltip: 'Bitte geben Sie an, in welchen Zeitabständen die Rate/Annuität geleistet wird. Für die meisten  Darlehen wird eine monatliche Rate vereinbart, sie können jedoch auch auch Darlehen mit vierteljährlichen, halbjährlichen oder jährlichen Rückzahlungsintervallen berechnen. Es wird angenommen, dass die Zahlung jeweils zum Ende des Ratenintervalls erfolgt (nachschüssig). Zins und Tilgung werden zu den einzelnen Ratenintervallen verrechnet.',
+        tooltip: 'Bitte geben Sie an, in welchen Zeitabständen die Rate/Annuität geleistet wird. Für die meisten  Darlehen wird eine monatliche Rate vereinbart, sie können jedoch auch Darlehen mit vierteljährlichen, halbjährlichen oder jährlichen Rückzahlungsintervallen berechnen. Es wird angenommen, dass die Zahlung jeweils zum Ende des Ratenintervalls erfolgt (nachschüssig). Zins und Tilgung werden zu den einzelnen Ratenintervallen verrechnet.',
         type: 'select',
         vtype: 'number',
         args: [1, 12],
