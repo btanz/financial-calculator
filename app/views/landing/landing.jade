@@ -1,5 +1,7 @@
-// This is the app's landing page
+//- This is the app's landing page
    Created by benjamintanz on 03.09.15.
+
+// Want to work on our code and build SaaS-Products for the financial sector? SimplyFi is looking for developers (JS, Node.js, Python, Scala | AWS DevOps, RESTful systems, MongoDB)
 
 
 doctype html
@@ -26,7 +28,7 @@ html(lang='de')
 
   body(id="page-top")
 
-    // navbar
+    //- navbar
     div.navbar-wrapper
       nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
         div.container-fluid
@@ -49,11 +51,11 @@ html(lang='de')
 
 
     div(id="inSlider", class="carousel slide carousel-fade", data-ride="carousel")
-      //ol(class="carousel-indicators")
+      //-ol(class="carousel-indicators")
         li(data-target="#inSlider", data-slide-to="0", class="active")
       div(class="carousel-inner", role="listbox")
         div(class="item active")
-          //div(class="container")
+          //-div(class="container")
           div(class="container-fluid")
             div(class="carousel-caption")
               h1 Die PLattform für Finanzberechnungen
@@ -72,12 +74,10 @@ html(lang='de')
           div.space-30
 
 
-      // first marketing row
+      //- first marketing row
       div.row
         div.col-sm-4
           img(src='../images/icons/sf-icon-04.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            i(class='fa fa-mobile fa-5x features-icon')
           h2 Tilgungs- und Sparpläne erstellen
           p Mit SimplyFi erstellen Sie spielend leicht Tilgungspläne für Finanzierungen wie Hypothekendarlehen oder Sparpläne für Sparvorhaben. Über zahlreiche Parameter können Sie die Pläne individuell anpassen.
           p Probieren Sie es aus! Mit folgenden Rechner können Sie Zahlungspläne erstellen:
@@ -92,8 +92,6 @@ html(lang='de')
 
         div.col-sm-4
           img(src='../images/icons/sf-icon-03.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            i(class='fa fa-mobile fa-5x features-icon')
           h2 Effektivzinsen analysieren
           p Berechnen Sie den effektiven Zinssatz von Finanzierungen und Sparplänen und vergleichen Sie so verschiedene Angebote miteinander.
           p Mit folgenden Rechner können Sie effektive Zinssätz berechnen:
@@ -107,8 +105,6 @@ html(lang='de')
             a(class='red-link', href='/aktienrenditerechner', role='button') Aktienrenditerechner &raquo;
         div.col-sm-4
           img(src='../images/icons/sf-icon-02.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            i(class='fa fa-mobile fa-5x features-icon')
           h2 Portfolios optimieren
           p Stellen Sie ein nach der modernen Portfoliotheorie optimales Aktienportfolio zusammen oder prüfen Sie, ob ein bestimmtes Portfolio optimal ist.
           p Mit dem Portfoliorechner können Sie optimale Wertpapierkombinationen bestimmen:
@@ -116,19 +112,17 @@ html(lang='de')
             a(class='red-link', href='/portfoliorechner', role='button') Portfoliorechner &raquo;
 
 
-      // second marketing row
+      //- second marketing row
       div.row
         div.col-lg-12.text-center
           div.red-line
           h1 In drei Schritten zum Ergebnis.
 
 
-      // third marketing row
+      //- third marketing row
       div.row.features-block
         div.col-sm-4
           img(src='../images/icons/sf-icon-11.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            p.fa-number 1
 
           h2 Rechner wählen
           p Mit SimplyFi erstellen Sie spielend leicht Tilgungspläne für Finanzierungen wie Hypothekendarlehen oder Sparpläne für Sparvorhaben. Über zahlreiche Parameter können Sie die Pläne individuell anpassen.
@@ -144,8 +138,6 @@ html(lang='de')
 
         div.col-sm-4
           img(src='../images/icons/sf-icon-12.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            p.fa-number 2
           h2 Daten eingeben
           p Berechnen Sie den effektiven Zinssatz von Finanzierungen und Sparplänen und vergleichen Sie so verschiedene Angebote miteinander.
           p Mit folgenden Rechner können Sie effektive Zinssätz berechnen:
@@ -160,8 +152,6 @@ html(lang='de')
 
         div.col-sm-4
           img(src='../images/icons/sf-icon-13.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          //span(style='text-align: center', class='center-block')
-            p.fa-number 3
           h2 Rechnung durchführen
           p Stellen Sie ein nach der modernen Portfoliotheorie optimales Aktienportfolio zusammen oder prüfen Sie, ob ein bestimmtes Portfolio optimal ist.
           p Mit dem Portfoliorechner können Sie optimale Wertpapierkombinationen bestimmen:
@@ -177,7 +167,7 @@ html(lang='de')
           img(src='../images/main/landing-responsive-01-small.jpg', alt='responsive', class='img-responsive pull-right')
 
 
-    // footer section
+    //- footer section
     section#contact.gray-section.contact
       div.container
         div.row.m-b-lg
@@ -194,7 +184,7 @@ html(lang='de')
                 | Amalienstr. 71
                 br
                 | 80799 München
-          //div.col-lg-4
+          //-div.col-lg-4
             p.text-color Text hier
         div.row
           div.col-lg-12.text-center
@@ -216,9 +206,9 @@ html(lang='de')
               | &copy; 2015 SimplyFi Analytics
 
 
-    // import vendor scripts
+    //- import vendor scripts
     script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js')
     script(src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js')
 
-    // import app scripts
+    //- import app scripts
     script(src='/js/landing/landing.js')
