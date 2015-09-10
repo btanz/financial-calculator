@@ -4968,6 +4968,14 @@ function seeder() {
     designation: 'Tilgungssurrogatrechner',
     description: 'Mit dem Tilgungssurrogatrechner können Sie bestimmen, ob eine Tilgungsaussetzung und Wandlung eines Annuitätendarlehens in ein endfälliges Darlehen bei gleichzeitiger Anlage der überschüssigen Mittel zu einem finanziellen Vorteil führt.',
     keywords: ['tilgungssurrogat','tilgungsaussetzung'],
+    guidelink: '/tilgungssurrogatrechner/guide',
+    guidegoal: 'Berechnung, ob sich die Wandlung von Annuitätendarlehen in enddfällige Darlehen (langfristige Tilgungsaussetzung) lohnt.',
+    guidequestions: ['Ist es aus finanzieller Sicht sinnvoll, die Tilgungszahlungen eines Annuitätendarlehens ausszusetzen, die überschüssigen Mittel stattdessen anzulegen und das Darlehen in einem Betrag am Ende der Laufzeit endfällig zu tilgen?', 'Wie hoch ist der finanzielle Vor- oder Nachteil durch die Umwandlung in ein endfälliges Darlehen?'],
+    guideaudience: ['Kreditnehmer, durch die Umwandlung eines Darlehens Geld sparen möchten.'],
+    guidesteps: ['Geben Sie im ersten Schritt die Parameter zum Darlehen an. Zu diesen gehören der Darlehensbetrag, der Sollzinssatz des Darlehens, das Intervall der Rückzahlungen, sowie wahlweise die anfängliche Tilgung, Darlehenslaufzeit oder Darlehensrate.', 'Im zweiten Schritt geben Sie bitte den Zinssatz für die Kapitalanlage an, in welche die Tilgungszahlungen alternativ investiert werden können. Außerdem können Sie optional Steuern berücksichtigen.' , 'Klicken Sie den "Berechnen"-Button, nachdem Sie alle Parameter eingegeben haben. Falls die Berechnung nicht durchgeführt werden kann, achten Sie bitte auf die Fehlermeldungen.'],
+    guideresult: ['Der Rechner generiert einen Indikator, welcher angibt, ob sich die Tilgungsaussetzung/Darlehensumwandlung lohnt oder nicht. Weiterhin wird der jeweilige finanzielle Vor- oder Nachteil dargestellt.'],
+    guidereferences: [],
+    guidetext: 'Der Rechner erstellt einen finanziellen Vergleich zwischen einem Annuitätendarlehen und einem sonst gleichartigem endfälligen Darlehen. Im Falle des endfälligen Darlehens werden die eigentlichen Tilgungszahlungen nicht über die Laufzeit zurückgezahlt, sondern stattdessen verzinst am Kapitalmarkt angelegt. Das Darlehen wird erst am Ende der Laufzeit - auch aus Mitteln der Kapitalanlage - zurückgezahlt. Sofern der Anlagezins am Kapitalmarkt höher ist als der effektive Zins des Darlehens, kann daraus ein finanzieller Vorteil entstehen. Der Rechner analysiert beide Szenarien und errechnet das finanziell vorteilhafte Szenario.',
     inputs: [
       {
         name: 'principal',
