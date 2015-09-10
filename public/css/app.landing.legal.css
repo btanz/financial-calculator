@@ -1,0 +1,27 @@
+/* CSS for privacy statement (Datenschutzerklärung) */
+#privacy{
+
+}
+
+#privacy .row, #impressum .row{
+  margin-top: 40px;
+}
+
+#privacy .header, #impressum .header{
+  font-weight: 800;
+}
+
+#privacy p, #impressum p {
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+#impressum .line{
+  margin: 0px;
+}
+
+
+
+/* CSS for impressum (Datenschutzerklärung) */
+
+

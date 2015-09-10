@@ -16,7 +16,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ***** I. GLOBAL APP TASKS ******
 
 ****  I.A) BEFORE NEXT LAUNCH ****
-* vervollständigung der texte
+* IP anonymisierung (anonymizeIp)
 * impressum, inhaltlich verantwortlich etc
 * icons navbar
 * rechtschreibprüfung

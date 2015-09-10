@@ -19,6 +19,7 @@ var bodyParser = require('body-parser');
 /** C. Internal dependencies / Routes */
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
+var legal = require('../app/routes/legal.routes');
 var data = require('../app/routes/data/data');
 var navElems = require('./../data/static/navElems.json');
 var seed = require('../data/dbseeds/calc.seed');
@@ -39,7 +40,6 @@ if(config.compression){
 }
 
 /** view engine setup */
-console.log(__dirname);
 app.set('views', path.join(__dirname, '/../app/views'));
 app.set('view engine', 'jade');
 
@@ -87,6 +87,7 @@ app.locals._ = require("underscore");
 app.use('/', routes);
 app.use('/', index);
 app.use('/data', data);
+app.use('/', legal);
 
 
 
