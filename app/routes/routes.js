@@ -124,6 +124,7 @@ var misc = require('../controllers/calc.misc.controller');
 
 router.get('/zinstagerechner',                  misc.daycount.render);
 router.get('/zinstagerechner/inputs',           misc.daycount.calculate);
+router.get('/zinstagerechner/guide',            misc.daycount.guide);
 
 
 /**

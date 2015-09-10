@@ -3586,6 +3586,13 @@ function seeder() {
     designation: 'Zinstagerechner',
     description: 'Mit dem Zinsrechner kann die Anzahl der Zinstage und der Zinsfaktor zwischen zwei Daten nach verschiedenen Zinsmethoden berechnet werden.',
     keywords: ['zinstage rechner', 'zinstagerechner', 'zinstage berechnen', 'zinsfaktor'],
+    guidelink: '/zinstagerechner/guide',
+    guidegoal: 'Berechnung der Zinstage zwischen zwei Daten nach unterschiedlichen Zinsmethoden.',
+    guidequestions: ['Wieviele Zinstage liegen zwischen dem 20.02.2014 und dem 03.05.2015 nach der deutschen Zinsmethode (30E/360 ISDA)?'],
+    //guideaudience: ['Kreditnehmer, welche Kredite hinsichtliche Parametern wie Effektivzins analysieren und entsprechende Tilgungspläne aufstellen wollen.'],
+    guidesteps: ['Für diesen Rechner müssen Sie lediglich das gewünschte Anfangs- und Enddatum eingeben. Danach können Sie auf "Berechnen" klicken, um die Anzahl der Zinstage nach diversen Zinsmethoden darzustellen.'],
+    guideresult: ['Die Zinstage zwischen zwei Daten nach verschiedenen internationalen Zinsmethoden.'],
+    guidereferences: [],
     inputs: [
       {
         name: 'begindate',

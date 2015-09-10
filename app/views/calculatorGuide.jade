@@ -40,13 +40,14 @@ block content
                     each question in obj.guidequestions
                       li=question
                   br
-                  h2
-                    i.fa.fa-thumbs-up.text-lightblue &nbsp
-                    | Wer von diesem Rechner profitiert
-                  ul
-                    each audience in obj.guideaudience
-                      li=audience
-                  br
+                  - if (obj.guideaudience.length > 0)
+                    h2
+                      i.fa.fa-thumbs-up.text-lightblue &nbsp
+                      | Wer von diesem Rechner profitiert
+                    ul
+                      each audience in obj.guideaudience
+                        li=audience
+                    br
 
                 div.col-md-7
                   if obj.guidetext
