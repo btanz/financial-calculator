@@ -7,9 +7,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
     * add feature that allows for entering own portfolio
     * write explanation text
 
-- add tests and graphics to option calculator
-
-
 
 
 
