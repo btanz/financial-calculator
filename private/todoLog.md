@@ -47,6 +47,31 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * function for initializing calculators (i.e. outsource 'init and assign')
 * customizable HTML emails that can be sent to clients (use app.render insted of res.render on the server to create emails)
 * pro and basic versions for calculators
+* add to menu  "1": {
+      "name": "Finanzplanung",
+      "values": {
+        "1": {
+          "name": "Risikopräferenzen",
+          "url": "/"
+        },
+        "2": {
+          "name": "Asset-Mix",
+          "url": "/"
+        },
+        "3": {
+          "name": "Sparziele",
+          "url": "/"
+        },
+        "4": {
+          "name": "Budgetierung",
+          "url": "/"
+        },
+        "5": {
+          "name": "Altersvorsorge-Rechner",
+          "url": "/altersvorsorgerechner"
+        }
+      }
+    },
 
 
 
