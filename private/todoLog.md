@@ -19,20 +19,20 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * rechtschreibprüfung
 * navbar persitent
 * testing sheet for each calculator
-* improved rootfinding algorithm (use rserve?)
-* graphs
-* animationen
 * feeback-field
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables
-* mocha testing for finance library
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
-* database table for error reporting
 * mobile umbruch
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* database table for error reporting/logging
+* mocha testing for finance library
+* graphs
+* animationen
+* improved rootfinding algorithm (use rserve?)
 * verlinkungen auf andere Rechner
 * Aktienrenditerechner sollte dividendenrendite können wegen SEO
 * deposits-savings option zur Berechnung der Laufzeit
