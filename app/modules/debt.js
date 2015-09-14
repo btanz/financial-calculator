@@ -322,6 +322,7 @@ exports.annuity = function(inputs){
 
 exports.dispo = function(inputs){
 
+
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {};
@@ -345,6 +346,8 @@ exports.dispo = function(inputs){
     }else if(inputs.periodchoice === "dates" && inputs.enddate < inputs.startdate){
       return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
     }
+
+
 
 
     /** ******** 3. COMPUTATIONS ******** */
@@ -374,9 +377,10 @@ exports.dispo = function(inputs){
           break;
       }
     } else if (inputs.periodchoice === "dates"){
-      range = {"begindate": inputs.startdate, "enddate": inputs.enddate, "skipvalidation": true};
 
+      range = {"begindate": inputs.startdate, "enddate": inputs.enddate, "skipvalidation": true};
       daycount = misc.daycount(range);
+
       switch(inputs.daycount){
         case "a30E360":
           amount = factor * daycount._1.a30E360factor.value;
@@ -402,12 +406,14 @@ exports.dispo = function(inputs){
     }
 
 
+
     /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     result._1.interestamount  = _.extend(_.findWhere(data[0].results_1,{name: 'interestamount'}), {"value": amount});
     //result._1.interestamount  = _.extend(localElems.interestamount,  {"value": amount});
     result._1.averageinterest  = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": interest});
     //result._1.averageinterest = _.extend(localElems.averageinterest, {"value": interest});
+
 
     return result;
   }
