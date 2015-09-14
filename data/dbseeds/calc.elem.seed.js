@@ -3503,11 +3503,11 @@ function seeder() {
         options: [
           {
             id: '2',
-            desciption: 'Verrechnung mit der Ratenzahlung/Annuität'
+            description: 'Verrechnung mit der Ratenzahlung/Annuität'
           },
           {
             id: '3',
-            desciption: 'keine Verrechnung, sondern gesonderte Zahlung'
+            description: 'keine Verrechnung, sondern gesonderte Zahlung'
           }
         ]
       }
@@ -3527,7 +3527,47 @@ function seeder() {
         description: 'Restschuld',
         unit: 'EUR',
         digits: 2,
-        importance: 'second'
+        importance: 'first'
+      },
+      {
+        name: 'fees',
+        description: 'davon Gebühren',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'Die Summe der anfallenden Gebühren (sofern nicht mit der Rückzahlungsrate verrechnet).'
+      },
+      {
+        name: 'totalrepay',
+        description: 'Gesamte Rückzahlungen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'first',
+        tooltip: 'Die gesamten über die Laufzeit geleisteten Rückzahlungen inklusive aller Gebühren, eventueller Zinsen für tilgungsfreie Zeiten sowie das Disagio (jedoch ohne die Restschuld). Gebühren und Zinszahlungen sind explizit ausgewiesen, sofern sie nicht mit den Tilgungszahlungen verrechnet sind.'
+      },
+      {
+        name: 'disagio',
+        description: 'davon Disagio',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'Die anfallende Zahlung für das Disagio.'
+      },
+      {
+        name: 'totalreduction',
+        description: 'davon Tilgungszahlungen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'Die gesamten Tilgungszahlungen, welche allein für die Tilgung (und nicht auch für Zinszahlungen) verwendet werden konnten.'
+      },
+      {
+        name: 'totalinterest',
+        description: 'davon Zinszahlungen',
+        unit: 'EUR',
+        digits: 2,
+        importance: 'second',
+        tooltip: 'Die gesamten anfallenden Zinszahlungen (mit Ausnahme der Zinszahlungen für die tilgungsfreie Zeit, sofern nicht mit der Rückzahlungsrate verrechnet).'
       },
       {
         name: 'term',
@@ -3537,6 +3577,7 @@ function seeder() {
         digits: 2,
         importance: 'second'
       },
+
       {
         name: 'rate',
         tooltip: 'Der gebundene Sollzinssatz für das Darlehen.',
@@ -3544,6 +3585,15 @@ function seeder() {
         unit: '% p. a.',
         digits: 2,
         importance: 'second'
+      },
+      {
+        name: 'repaymentfreetotal',
+        description: 'davon Zinslast tilgungsfreie Zeit',
+        unit: 'EUR',
+        digits: 2,
+
+        importance: 'second',
+        tooltip: 'Die separat zahlbare Zinslast für die tilgungsfreie Zeit.'
       },
       {
         name: 'principal',
@@ -3559,7 +3609,7 @@ function seeder() {
         description: 'Effektiver Jahreszins / IRR',
         unit: '% p. a.',
         digits: 2,
-        importance: 'second'
+        importance: 'first'
       }
     ] 
 
