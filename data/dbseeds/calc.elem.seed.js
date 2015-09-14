@@ -3575,7 +3575,7 @@ function seeder() {
         description: 'Laufzeit der Ratenzahlungen',
         unit: 'Jahre',
         digits: 2,
-        importance: 'second'
+        importance: 'first'
       },
 
       {

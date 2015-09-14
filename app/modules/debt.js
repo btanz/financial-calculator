@@ -79,13 +79,35 @@ exports.annuity = function(inputs){
         specialrepay: null,
         interest: inputs.rate
       });
+    } else if (inputs.select === 2) {
+      /** selection is term */
+      dyn = f.annuity.schedule.call({
+        mode: 2,
+        annualvals: true,
+        finalvals: true,
+        disagio: inputs.disagio,
+        disagioamount: inputs.disagioamount,
+        fees: inputs.fees,
+        feeamount: inputs.feeamount,
+        feeupfront: (inputs.feetype === 3),
+        principal: inputs.principal,
+        residual: inputs.residual,
+        repayfreq: inputs.repayfreq,
+        repay: inputs.repay,
+        repaymentfree: inputs.repaymentfree,
+        repaymentfreeterm: inputs.repaymentfreeterm,
+        repaymentfreetype: inputs.repaymentfreetype,
+        specialrepay: null,
+        interest: inputs.rate
+      });
     }
+
 
     /** assign residual if not given */
     inputs.residual = inputs.residual || dyn.residual;
 
     /** assign term if not given */
-    inputs.term = inputs.term || dyn.term;
+    inputs.term = inputs.term || dyn.term / 12;
 
 
 
