@@ -2884,7 +2884,7 @@ function seeder() {
         tooltip: 'Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.',
         description: 'Zinssatz',
         unit: '% p. a.',
-        digits: 3
+        digits: 4
       },
       {
         name: 'period',

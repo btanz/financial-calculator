@@ -7,9 +7,9 @@ var misc = require('./misc');
 
 var terminalValueHelper, annualCashHelper;
 
-/* ************************ BEGIN DEPOSITS MODULE PUBLIC FUNCTIONS *****************************/
+/** ************************ BEGIN DEPOSITS MODULE PUBLIC FUNCTIONS *****************************/
 
-/* DEPOSITS-INTEREST function that computes terminal value OR inital value OR holding period OR interest rate;
+/** DEPOSITS-INTEREST function that computes terminal value OR inital value OR holding period OR interest rate;
  *   the argument that is not a number or can not be cast as a number is computed
  * ARGUMENTS
  *   start                      inital capital / principal; NUMBER (currency)
@@ -30,9 +30,11 @@ exports.interest = function(inputs){
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
   var result = {}; result._1 = {}; result._2 = {};
-  var helper, helperAnnual, helperAnnualT;
+  var helper, helperAnnual, helperAnnualT, terminalValue;
   var errorMap;
   var selectMap = ['end','start','rate','period'];
+  var initialFunc, interestFunc, termFunc;
+
 
 
   function compute(data){
@@ -40,7 +42,6 @@ exports.interest = function(inputs){
     // drop elems that are to be computed form input and expectedinputs object
     delete inputs[selectMap[inputs.select]];
     data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[inputs.select]}),1);
-    //delete _expectedInputs[selectMap[inputs.select]];
 
     errorMap = helpers.validate(inputs, data[0].inputs);
     if (errorMap.length !== 0){
@@ -49,21 +50,45 @@ exports.interest = function(inputs){
 
     inputs.rate = inputs.rate/100;
 
-    /* ******** 3. COMPUTATIONS ******** */
-    // 3A. Compute main result
+
+    /** 3. HELPER FUNCTIONS */
+
+    /** wrapper func to compute difference in end values for conjectured start values */
+    initialFunc = function(start){
+      return inputs.end - f.basic.tvSubperiodsLinear(start, inputs.rate, inputs.period * 12, 1);
+    };
+
+    /** wrapper func to compute difference in end values for conjectured interest rate */
+    interestFunc = function(interest){
+      return inputs.end - f.basic.tvSubperiodsLinear(inputs.start, interest, inputs.period * 12, 1);
+    };
+
+    /** wrapper func to compute difference in end values for conjectured terms */
+    termFunc = function(term){
+      return inputs.end - f.basic.tvSubperiodsLinear(inputs.start, inputs.rate, term * 12, 1);
+    };
+
+
+
+
+
+
+
+    /** ******** 4. COMPUTATIONS ******** */
+    /** 3A. Compute main result */
     if (inputs.select === 0){ // compute end value end
-      helper =  terminalValueHelper(inputs.start, inputs.period, inputs.rate);
+      helper = f.basic.tvSubperiodsLinear(inputs.start, inputs.rate, inputs.period * 12, 1);
     } else if (inputs.select === 1) {  // compute initial value start
-      helper = (inputs.end / Math.pow(1 + inputs.rate, inputs.period));
+      helper = math.roots(initialFunc,5000,1500);
     } else if (inputs.select === 2){  // compute rate
-      helper = ((-1 + Math.pow((inputs.end / inputs.start),(1 / inputs.period))));
+      helper = math.roots(interestFunc,0.05,1500);
     } else if (inputs.select === 3){  // compute period
-      helper = ((Math.log(inputs.end) - Math.log(inputs.start)) / Math.log(1 + inputs.rate));
+      helper = f.basic.round(math.roots(termFunc,10,1500),2);
     } else {  // sth wrong
       return null;
     }
 
-    // 3B. Compute single-period values
+    /** 3B. Compute single-period values */
     inputs[selectMap[inputs.select]] = helper;
     helperAnnual= annualCashHelper(inputs['start'],inputs['period'],inputs['rate']);
 
@@ -76,17 +101,13 @@ exports.interest = function(inputs){
 
 
 
-    /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
+    /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
     result.id = data[0].id;
     // first result container
     result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {'value': inputs.select == 2 ? helper * 100 : helper});
-    //result._1.value = _.extend(localElems[selectMap[inputs.select]], {'value': inputs.select == 2 ? helper * 100 : helper});
     result._1.gain  = _.extend(_.findWhere(data[0].results_1,{name: 'gain'}),  {'value': inputs.end - inputs.start});
-    //result._1.gain  = _.extend(localElems['gain'], {'value': inputs.end - inputs.start});
 
 
-    //result._1.value =          {'description': localElems[selectMap[inputs.select]].description,  'value': inputs.select == 2 ? helper * 100 : helper,                    'unit': localElems[selectMap[inputs.select]].unit, 'digits': localElems[selectMap[inputs.select]].digits, 'tooltip': localElems[selectMap[inputs.select]].tooltip};
-    //result._1.gain  =          {'description': localElems['gain'].description,                    'value': inputs.end - inputs.start, 'unit': localElems['gain'].unit                  , 'digits': localElems['gain'].digits,                   'tooltip': localElems['gain'].tooltip};
     // second result container
     result._2.title = 'Kapitalentwicklung';
     result._2.header = ['Jahr', 'Kapitalwert Beginn', 'Zins', 'Zins akkumuliert', 'Kapitalwert Ende'];
@@ -1597,7 +1618,8 @@ terminalValueHelper = function(start,period,rate,inflation){
 };
 
 
-/* DEPOSITS-ANNUAL_CASH_HELPER function that computes annual cash flows from primitives
+/** DEPOSITS-ANNUAL_CASH_HELPER function that computes annual cash flows from primitives
+ *                              using linear interest for subperiods
  * ARGUMENTS
  *   start              the inital value (principal) of the asset; NUMBER
  *   period             the holding period of the asset; positive NUMBER
@@ -1636,7 +1658,8 @@ annualCashHelper = function(start, period, interest){
   if(period<1){
     result[0][0] = period;                 // time e.o.p.
     result[1][0] = start;             // value b.o.p
-    result[4][0] = start * Math.pow((1+interest),period); // value e.o.p
+    //result[4][0] = start * Math.pow((1+interest),period); // value e.o.p
+    result[4][0] = start + start * interest * period; // value e.o.p
     result[2][0] = result[4][0] - start;  // interest e.o.p
     result[3][0] = result[4][0] - start;  // interest e.o.p. accumulated
   } else {
@@ -1657,7 +1680,8 @@ annualCashHelper = function(start, period, interest){
       if (remaining < 1){ // this means we are in the last iteration with a fractional period (i.e. 4.4, 6.1 years)
         result[0][i] = period;                 // time e.o.p.
         result[1][i] = result[4][i-1];             // value b.o.p
-        result[4][i] = result[4][i-1] * Math.pow((1+interest),remaining); // value e.o.p
+        //result[4][i] = result[4][i-1] * Math.pow((1+interest),remaining); // value e.o.p
+        result[4][i] = result[4][i-1] + result[4][i-1] * interest * remaining; // value e.o.p
         result[2][i] = result[4][i] - result[1][i];  // interest e.o.p
         result[3][i] = result[4][i] - start;  // interest e.o.p. accumulated
       }

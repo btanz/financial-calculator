@@ -1236,7 +1236,240 @@ describe("Deposits calculators are correct", function() {
       }).onReject(done);
     });
 
+  });
 
+
+
+  describe("Deposits-interest (depinterest) correct", function() {
+    var data = [],
+        expectations = [];
+    before(function () {
+
+      data[0] = {select: '2', start: '81548.94', period: '12.5', rate: '1.6', end: '71555.55'};
+      data[1] = {select: '2', start: '79749.78', period: '5.3',  rate: '3.2', end: '118539.24'};
+      data[2] = {select: '1', start: '40295.38', period: '14.2', rate: '3',   end: '181907.65'};
+      data[3] = {select: '0', start: '78744.92', period: '16.6', rate: '0.3', end: '197694.98'};
+      data[4] = {select: '1', start: '67370.79', period: '8.1',  rate: '1.7', end: '29921.92'};
+      data[5] = {select: '1', start: '80587.64', period: '13.9', rate: '4.3', end: '176132.28'};
+      data[6] = {select: '1', start: '54202.17', period: '16.3', rate: '0.4', end: '175914.82'};
+      data[7] = {select: '2', start: '45564.94', period: '15.1', rate: '0.6', end: '128934.2'};
+      data[8] = {select: '1', start: '7057.19',  period: '4.7',  rate: '5.8', end: '13307.39'};
+      data[9] = {select: '1', start: '30805.92', period: '13.7', rate: '4.3', end: '157904.3'};
+      data[10]= {select: '3', start: '34604.25', period: '1.7',  rate: '5.7', end: '148579.47'};
+      data[11]= {select: '1', start: '96097.07', period: '11.2', rate: '1.9', end: '48758.1'};
+      data[12]= {select: '0', start: '77500.16', period: '2.9',  rate: '4.2', end: '142432.25'};
+      data[13]= {select: '2', start: '98087.54', period: '13.8', rate: '2.5', end: '117625.42'};
+      data[14]= {select: '3', start: '56560.5',  period: '3.4',  rate: '3.8', end: '83724.44'};
+      data[15]= {select: '2', start: '41169.64', period: '11.8', rate: '5.6', end: '67356.61'};
+      data[16]= {select: '2', start: '70086.54', period: '10.9', rate: '5.5', end: '108964.23'};
+      data[17]= {select: '0', start: '15411.68', period: '14.8', rate: '5.4', end: '119572.41'};
+      data[18]= {select: '3', start: '44626.59', period: '0.7',  rate: '4.9', end: '97835.23'};
+      data[19]= {select: '3', start: '71439.14', period: '9.8',  rate: '1.8', end: '145185.78'};
+
+
+      expectations[0]  = {value: -1.04, gain: -9993.39};
+      expectations[1]  = {value: 7.75, gain: 38789.46};
+      expectations[2]  = {value: 119545.12, gain: 62362.53};
+      expectations[3]  = {value: 82759.62, gain: 4014.7};
+      expectations[4]  = {value: 26102.62, gain: 3819.3};
+      expectations[5]  = {value: 98096.34, gain: 78035.94};
+      expectations[6]  = {value: 164832.25, gain: 11082.57};
+      expectations[7]  = {value: 7.13, gain: 83369.26};
+      expectations[8]  = {value: 10206.25, gain: 3101.14};
+      expectations[9]  = {value: 88678.55, gain: 69225.75};
+      expectations[10] = {value: 26.28, gain: 113975.22};
+      expectations[11] = {value: 39489.67, gain: 9268.43};
+      expectations[12] = {value: 87327.64, gain: 9827.48};
+      expectations[13] = {value: 1.32, gain: 19537.88};
+      expectations[14] = {value: 10.51, gain: 27163.94};
+      expectations[15] = {value: 4.26, gain: 26186.97};
+      expectations[16] = {value: 4.13, gain: 38877.69};
+      expectations[17] = {value: 33572.69, gain: 18161.01};
+      expectations[18] = {value: 16.4, gain: 53208.64};
+      expectations[19] = {value: 39.75, gain: 73746.64};
+
+    });
+
+
+    it('Passes 1st test set', function(done){
+      deposits.interest(data[0]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[0]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 2nd test set', function(done){
+      deposits.interest(data[1]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[1]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 3rd test set', function(done){
+      deposits.interest(data[2]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[2]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 4th test set', function(done){
+      deposits.interest(data[3]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[3]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 5th test set', function(done){
+      deposits.interest(data[4]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[4]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 6th test set', function(done){
+      deposits.interest(data[5]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[5]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 7th test set', function(done){
+      deposits.interest(data[6]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[6]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 8th test set', function(done){
+      deposits.interest(data[7]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[7]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 9th test set', function(done){
+      deposits.interest(data[8]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[8]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 10th test set', function(done){
+      deposits.interest(data[9]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[9]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 11th test set', function(done){
+      deposits.interest(data[10]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[10]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 12th test set', function(done){
+      deposits.interest(data[11]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[11]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 13th test set', function(done){
+      deposits.interest(data[12]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[12]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 14th test set', function(done){
+      deposits.interest(data[13]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[13]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 15th test set', function(done){
+      deposits.interest(data[14]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[14]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 16th test set', function(done){
+      deposits.interest(data[15]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[15]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 17th test set', function(done){
+      deposits.interest(data[16]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[16]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 18th test set', function(done){
+      deposits.interest(data[17]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[17]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 19th test set', function(done){
+      deposits.interest(data[18]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[18]));
+        done();
+      }).onReject(done);
+    });
+
+    it('Passes 20th test set', function(done){
+      deposits.interest(data[19]).then(function(results){
+        var values = {};
+        _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        assert(_.isMatch(values, expectations[19]));
+        done();
+      }).onReject(done);
+    });
 
   });
 

@@ -28,6 +28,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* error handling and logging around math.roots
 * database table for error reporting/logging
 * mocha testing for finance library
 * graphs
