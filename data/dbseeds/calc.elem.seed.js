@@ -2440,7 +2440,7 @@ function seeder() {
         placeholder: 'Laufende Kosten und Instandhaltungskosten',
         addon: 'EUR/Monat',
         value: '200',
-        tooltip: 'Geben Sie hier die monatlichen laufenden Kosten (Wasserversorgung, Müllentsorgung, Heizung, etc.) sowie die Instandhaltungskosten der Immobilie an.',
+        tooltip: 'Geben Sie hier die monatlichen laufenden Kosten (Wasserversorgung, Müllentsorgung, Heizung, etc.) sowie die Instandhaltungskosten der Immobilie an. Der Rechner geht davon aus, dass diese Kosten am Monatsanfang zu zahlen sind.',
         type: 'number',
         vtype: 'number',
         args: [0, 100000]
@@ -2453,7 +2453,7 @@ function seeder() {
         placeholder: 'Vergleichsmiete',
         addon: 'EUR/Monat',
         value: '700',
-        tooltip: 'Geben Sie die monatliche Warmmiete an, die bei der Anmietung anfallen würde',
+        tooltip: 'Geben Sie die monatliche Warmmiete an, die bei der Anmietung anfallen würde. Der Rechner geht davon aus, dass diese Kosten am Monatsanfang zu zahlen sind.',
         type: 'number',
         vtype: 'number',
         args: [0, 100000]
@@ -2479,7 +2479,7 @@ function seeder() {
         placeholder: 'Einkommen zum Wohnen',
         addon: 'EUR/Monat',
         value: '1500',
-        tooltip: 'Geben Sie hier den monatlichen Betrag an, welchen Sie für Wohnzwecke (Kauf und Unterhaltung einer Immobilie bzw. Anmietung) ausgeben möchten',
+        tooltip: 'Geben Sie hier den monatlichen Betrag an, welchen Sie für Wohnzwecke (Kauf und Unterhaltung einer Immobilie bzw. Anmietung) ausgeben möchten bzw. verfügbar haben. Der Rechner geht davon aus, dass dieses Einkommen jeweils am Monatsanfang zur Verfügung steht.',
         type: 'number',
         vtype: 'number',
         args: [0, 10000000]
@@ -2518,7 +2518,7 @@ function seeder() {
         placeholder: 'Rückzahlungsrate Darlehen',
         addon: 'EUR/Monat',
         value: '1000',
-        tooltip: 'Geben Sie hier die Höhe der monatliche Zahlungen an, die der Rückzahlung des Darlehens dienen. Diese konstante Rate deckt die Zins- und Tilgungsleistungen ab.',
+        tooltip: 'Geben Sie hier die Höhe der monatliche Zahlungen an, die der Rückzahlung des Darlehens dienen. Diese konstante Rate deckt die Zins- und Tilgungsleistungen ab. Der Rechner geht davon aus, dass diese Rate am Monatsende zu zahlen ist.',
         type: 'number',
         vtype: 'number',
         args: [0, 1000000000]
@@ -2845,7 +2845,7 @@ function seeder() {
         addon: '% p. a.',
         placeholder: 'Zinssatz',
         value: '3.00',
-        tooltip: 'Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält.',
+        tooltip: 'Der Zinssatz ist der nominale jährliche Satz, mit dem das angelegte Kapital verzinst wird. Bei einem Zinssatz von 4 % p.a. werden aus 100 € nach einem Jahr 104 €, da man genau 4 € (4 % auf 100 €) pro Jahr erhält. Für unterjährige Zinsperioden am Ende der Laufzeit (Jahresbruchteile) wird lineare Verzinsung angewendet. ',
         type: 'number',
         vtype: 'number',
         args: [0, 1000]

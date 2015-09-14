@@ -879,6 +879,8 @@ exports.buyrent = function(inputs) {
 
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
+  helpers.messages.clear();
+  helpers.errors.clear();
   var result = {};
   result._1 = {};
   result._2 = {};
@@ -995,6 +997,9 @@ exports.buyrent = function(inputs) {
       for (var j = 1; j <= 12; j++) {  // compute 'subannual' interest; this is necessary because the loan payments may end in a month between two years
         temp1 += inputs.income * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - inputs.maintenance * Math.pow(1 + inputs.dynamics * inputs.costdynamic, i - 1);
         temp2 += temp1 >= 0 ? temp1 * (inputs.equityinterest / 12) : 0;
+        //temp2 += temp1 * (inputs.equityinterest / 12);
+        //console.log('i: ' + i + ', temp1: ' + temp1 + ', temp2: ' + temp2);
+        //console.log('temp 1: ' + temp1 + ', total annual repay: ' + temp3 + ', inputs.debtpay: ' + inputs.debtpay);
         if (temp3 >= inputs.debtpay) {
           temp1 -= inputs.debtpay;
           temp3 -= inputs.debtpay;
@@ -1006,9 +1011,14 @@ exports.buyrent = function(inputs) {
         }
       }
       dynBuy[9][i - 1] = ((dynBuy[8][i - 1] + dynBuy[7][i - 1]) >= 0) ? dynBuy[1][i - 1] * inputs.equityinterest + temp2 : temp2;
+      //console.log('Zinsertrag: ' + dynBuy[9][i - 1] + ', temp2: ' + temp2 + ', else: ' + (dynBuy[1][i - 1] * inputs.equityinterest + temp2) + ', bop money wealth: ' + dynBuy[1][i - 1]);
       dynBuy[10][i - 1] = inputs.price * (inputs.dynamics) * (Math.pow(1 + inputs.valuedynamic, i) - Math.pow(1 + inputs.valuedynamic, i - 1));  //
       dynBuy[11][i - 1] = dynBuy[1][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1];   // money wealth end
       dynBuy[12][i - 1] = dynBuy[2][i - 1] + dynBuy[5][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1] + dynBuy[10][i - 1];   // total wealth eop
+
+      if(dynBuy[11][i - 1] < 0){
+        helpers.messages.set('Hinweis: Für die Alternative "kaufen" deckt das verfügbare Monatseinkommen im ' + i + '. Jahr die Summe aus der monatlichen Rückzahlungsrate und den laufenden Kosten der Immobilie nicht ab. Verringern Sie die Rückzahlungsrate des Darlehens.',2);
+      }
     }
 
 
@@ -1129,6 +1139,9 @@ exports.buyrent = function(inputs) {
         classNames: {bar: 'ct-bar-thick'}
       };
     }
+
+  // attach messages
+  result.messages = helpers.messages.messageMap;
 
   return result;
 
