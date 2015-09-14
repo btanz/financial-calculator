@@ -16,19 +16,21 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * IP anonymisierung (anonymizeIp)
 * impressum, inhaltlich verantwortlich etc
 * icons navbar
-* rechtschreibprüfung
-* navbar persitent
+* navbar persistent
 * testing sheet for each calculator
 * feeback-field
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
-* css classes for output tables
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * mobile umbruch
 * anschlussfinanzierung bei hypothekenrechner raus
+* colors
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* css classes for output tables
+* rechtschreibprüfung
+* add debt-annuity
 * error handling and logging around math.roots
 * database table for error reporting/logging
 * mocha testing for finance library

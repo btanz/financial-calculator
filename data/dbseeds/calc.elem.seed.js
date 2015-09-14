@@ -3234,7 +3234,8 @@ function seeder() {
     name: 'annuity',
     id: 'debt-annuity',
     designation: 'Tilgungsrechner Annuitätendarlehen',
-    description: 'Mit dem Tilgungsrechner für Annuitätendarlehen können Sie je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
+    //description: 'Mit dem Tilgungsrechner für Annuitätendarlehen können Sie je nach Auswahl die Rate (Annuität), Restschuld, Laufzeit oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
+    description: 'Mit dem Tilgungsrechner für Annuitätendarlehen können Sie je nach Auswahl die Restschuld oder den Zinssatz für Annuitätendarlehen berechnen und einen Tilgungsplan erstellen. Annuitätendarlehen sind Darlehen, welche in konstanten Raten zurückgezahlt werden.',
     keywords: ['kreditrechner','kreditrechner online','annuitätendarlehen berechnen','darlehensrechner annuitätendarlehen', 'berechnung annuitätendarlehen','tilgungsplan', 'tilgungsplan annuität'],
     guidelink: '/annuitaetenrechner/guide',
     guidegoal: 'Berechnung von Rückzahlungsrate, Laufzeit, Zinssatz, Restschuld oder Kreditsumme für Annuitätendarlehen sowie Erstellung von Tilgungsplänen.',
@@ -3248,15 +3249,16 @@ function seeder() {
         name: 'select',
         id: 'debt-annuity-select',
         label: 'Was soll berechnet werden?',
-        tooltip: 'Wählen Sie hier aus, welche der Größen Rate/Annuität, Restschuld, Laufzeit, Zinssatz oder Kreditsumme berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen. In vielen Fällen ist die bereits vorausgewählte Rate/Annuität von Interesse.',
+       /* tooltip: 'Wählen Sie hier aus, welche der Größen Restschuld oder Laufzeit, Zinssatz oder Kreditsumme berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen. In vielen Fällen ist die bereits vorausgewählte Rate/Annuität von Interesse.',*/
+        tooltip: 'Wählen Sie hier aus, welche der Größen Restschuld oder Laufzeit berechnet werden soll. Der Rechner wird das Eingabefeld für die zu berechnende Größe dann ausblenden und genau diese Größe berechnen. ',
         type: 'select',
         vtype: 'number',
         args: [0, 5],
         options: [
-          {
+        /*  {
             id: '0',
             description: 'Rate/Annuität'
-          },
+          },*/
           {
             id: '1',
             description: 'Restschuld'
@@ -3264,7 +3266,7 @@ function seeder() {
           {
             id: '2',
             description: 'Laufzeit'
-          },
+          }/*,
           {
             id: '3',
             description: 'Zinssatz'
@@ -3272,7 +3274,7 @@ function seeder() {
           {
             id: '4',
             description: 'Kreditsumme'
-          }
+          }*/
         ]
       },
       {
@@ -3305,8 +3307,8 @@ function seeder() {
         label: 'Rate/Annuität',
         addon: 'EUR',
         placeholder: 'Rate/Annuität',
-        value: '',
-        disabled: true,
+        value: '400',
+        disabled: false,
         tooltip: 'Bitte geben Sie die Höhe der periodischen Rückzahlungsrate für das Darlehen an. Diese ist über die Laufzeit des Darlehens konstant und enthält sowohl den Zins- als auch den Tilgungsanteil, wobei der Tilgungsanteil gewöhnlich über die Laufzeit zunimmt.',
         type: 'number',
         vtype: 'number',
@@ -3356,8 +3358,9 @@ function seeder() {
         id: 'debt-annuity-residual',
         label: 'Restschuld',
         addon: 'EUR',
+        disabled: true,
         placeholder: 'Restschuld',
-        value: '4000',
+        value: '',
         tooltip: 'Dies ist die verbleibende Restschuld nach Ende der Laufzeit der Ratenzahlungen und der Sollzinsbindung. Dieser Wert ist 0, sofern das Darlehen innerhalb der angegebenen Laufzeit vollständig zurückgezhalt ist bzw. (falls Restschuld nicht Berechnungs- sondern Eingabeparameter) sofern es vollständig zurückgezahlt sein soll.',
         type: 'number',
         vtype: 'number',

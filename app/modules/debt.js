@@ -146,6 +146,8 @@ exports.annuity = function(inputs){
     result._2.header = ['Monat', 'Restschuld <br> Beginn', 'Rate', 'Zins- & <br> Gebührenanteil', 'Tilgungsanteil', 'Restschuld <br> Ende'];
     result._2.body = dyn.schedule;
 
+    /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
+
 
     result.messages = helpers.messages.messageMap;
 

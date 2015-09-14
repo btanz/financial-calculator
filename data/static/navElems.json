@@ -85,10 +85,6 @@
   "4": {
     "name": "Kredit & Finanzierung",
     "values": {
-      "1": {
-        "name": "Tilgungsrechner Annuitätendarlehen",
-        "url": "/annuitaetenrechner"
-      },
       "2": {
         "name": "Dispozinsrechner",
         "url": "/dispozinsrechner"
