@@ -929,18 +929,17 @@ exports.buyrent = function(inputs) {
 
 
     /** ******** 3. COMPUTATIONS ******** */
-    /*
+    /**
      3.A STATIC COMPUTATIONS
      */
-    //helper.rentFinalCost = inputs.period * 12 * inputs.rent;
+
     helper.rentFinalCost = (inputs.dynamics && inputs.rentdynamic !== 0) ? (inputs.rent * 12) * (1 - Math.pow(1 + inputs.rentdynamic, inputs.period)) / (-inputs.rentdynamic) : inputs.rent * 12 * inputs.period;
     helper.rentFinalIncome = (inputs.dynamics && inputs.incomedynamic !== 0) ? (inputs.income * 12) * (1 - Math.pow(1 + inputs.incomedynamic, inputs.period)) / (-inputs.incomedynamic) : inputs.income * 12 * inputs.period;
-    //helper.rentAvailableForSaving = (inputs.income - inputs.rent) * inputs.period * 12;
     helper.rentAnnualReplacement = (inputs.income - inputs.rent) * (12 + (13 / 2) * inputs.equityinterest);
     helper.rentAvailableForSavingValue = (inputs.equityinterest === 0) ? helper.rentAnnualReplacement : helper.rentAnnualReplacement * (Math.pow(1 + inputs.equityinterest, inputs.period) - 1) / inputs.equityinterest;
 
 
-    /*
+    /**
      3.B DYNAMIC COMPUTATIONS RENT
      */
 
@@ -977,7 +976,7 @@ exports.buyrent = function(inputs) {
     helper.buyAnnualLoanPayment = inputs.debtpay * 12;
 
 
-    /*
+    /**
      3.C DYNAMIC COMPUTATIONS BUY
      */
     for (i = 1; i <= inputs.period; i++) {
@@ -990,7 +989,6 @@ exports.buyrent = function(inputs) {
       dynBuy[6][i - 1] = finance.annualResidualLinear(dynBuy[3][i - 1], 12, inputs.debtinterest, inputs.debtpay);       // residual end
       dynBuy[7][i - 1] = dynBuy[4][i - 1] + dynBuy[5][i - 1];                                                             // loan payment
       dynBuy[8][i - 1] = (inputs.income * 12) * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - (inputs.maintenance * 12) * Math.pow(1 + inputs.dynamics * inputs.costdynamic, i - 1) - dynBuy[7][i - 1];                                  // annual surplus income
-      //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + ((inputs.income - inputs.maintenance) * (13/2) - ((dynBuy[7][i-1]/12) * 11 / 2)) * inputs.equityinterest;    // interest
       temp1 = 0;
       temp2 = 0;
       temp3 = dynBuy[7][i - 1];
@@ -1007,14 +1005,10 @@ exports.buyrent = function(inputs) {
           temp1 -= 0;
         }
       }
-      //dynBuy[9][i-1] = (dynBuy[8][i-1] >= 0) ? dynBuy[1][i-1] * inputs.equityinterest + temp2 : temp2;
-      //dynBuy[9][i-1] = dynBuy[1][i-1] * inputs.equityinterest + temp2;
       dynBuy[9][i - 1] = ((dynBuy[8][i - 1] + dynBuy[7][i - 1]) >= 0) ? dynBuy[1][i - 1] * inputs.equityinterest + temp2 : temp2;
       dynBuy[10][i - 1] = inputs.price * (inputs.dynamics) * (Math.pow(1 + inputs.valuedynamic, i) - Math.pow(1 + inputs.valuedynamic, i - 1));  //
       dynBuy[11][i - 1] = dynBuy[1][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1];   // money wealth end
-      // other vals for table display
       dynBuy[12][i - 1] = dynBuy[2][i - 1] + dynBuy[5][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1] + dynBuy[10][i - 1];   // total wealth eop
-
     }
 
 
@@ -1032,7 +1026,6 @@ exports.buyrent = function(inputs) {
     helper.buyInterestLoan = _.reduce(dynBuy[4], helpers.add, 0);
     helper.buyIncomeSurplus = _.reduce(dynBuy[8], helpers.add, 0);
     helper.buyPropertyIncrease = _.reduce(dynBuy[10], helpers.add, 0);
-    //helper.buyMaintenance = inputs.maintenance * 12 * inputs.period;
     helper.buyMaintenance = (inputs.dynamics && inputs.costdynamic !== 0) ? inputs.maintenance * 12 * (1 - Math.pow(1 + inputs.costdynamic, inputs.period)) / (-inputs.costdynamic) : inputs.maintenance * 12 * inputs.period;
     helper.buyRepay = _.reduce(dynBuy[5], helpers.add, 0);
     helper.buyResidual = -helper.buyLoan + helper.buyRepay;
@@ -1043,7 +1036,7 @@ exports.buyrent = function(inputs) {
 
     /** ******** 4. CONSTRUCT RESULT DATA OBJECT ******** */
     result.id = data[0].id;
-    /*
+    /**
      6.A FIRST RESULT CONTAINER
      */
     if (helper.buyFinalWealth > helper.rentFinalWealth) {
@@ -1053,42 +1046,25 @@ exports.buyrent = function(inputs) {
     }
 
 
-    //result._1.finalsavings = _.extend(localElems['finalsavings'],  {"value": helper.finalsavings});
 
-    result._1.rentFinalWealth = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalwealth'}), {"value": helper.rentFinalWealth});
-    //result._1.rentFinalWealth   = _.extend(localElems['rentfinalwealth'], {"value": helper.rentFinalWealth});
-    result._1.rentEquity      = _.extend(_.findWhere(data[0].results_1,{name: 'rentequity'}),  {"value": inputs.equity});
-    //result._1.rentEquity        = _.extend(localElems['rentequity'], {"value": inputs.equity});
-    result._1.rentFinalIncome      = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalincome'}),  {"value": helper.rentFinalIncome});
-    //result._1.rentFinalIncome   = _.extend(localElems['rentfinalincome'], {"value": helper.rentFinalIncome});
-    result._1.rentFinalCost      = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalcost'}),  {"value": -helper.rentFinalCost});
-    //result._1.rentFinalCost     = _.extend(localElems['rentfinalcost'], {"value": -helper.rentFinalCost});
+    result._1.rentFinalWealth   = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalwealth'}), {"value": helper.rentFinalWealth});
+    result._1.rentEquity        = _.extend(_.findWhere(data[0].results_1,{name: 'rentequity'}),  {"value": inputs.equity});
+    result._1.rentFinalIncome   = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalincome'}),  {"value": helper.rentFinalIncome});
+    result._1.rentFinalCost     = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalcost'}),  {"value": -helper.rentFinalCost});
     result._1.rentFinalInterest = _.extend(_.findWhere(data[0].results_1,{name: 'rentfinalinterest'}),  {"value": helper.rentFinalInterest});
-    //result._1.rentFinalInterest = _.extend(localElems['rentfinalinterest'], {"value": helper.rentFinalInterest});
-    result._1.buyFinalWealth = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalwealth'}),  {"value": helper.buyFinalWealth});
-    //result._1.buyFinalWealth    = _.extend(localElems['buyfinalwealth'], {"value": helper.buyFinalWealth});
-    result._1.buyEquity = _.extend(_.findWhere(data[0].results_1,{name: 'buyequity'}),  {"value": inputs.equity});
-    //result._1.buyEquity         = _.extend(localElems['buyequity'], {"value": inputs.equity});
-    result._1.buyPrice = _.extend(_.findWhere(data[0].results_1,{name: 'buyprice'}),  {"value": -helper.buyprice});
-    //result._1.buyPrice          = _.extend(localElems['buyprice'], {"value": -helper.buyprice});
-    result._1.buyLoan  = _.extend(_.findWhere(data[0].results_1,{name: 'buyloan'}),  {"value": helper.buyLoan});
-    //result._1.buyLoan           = _.extend(localElems['buyloan'], {"value": helper.buyLoan});
-    result._1.buyFinalIncome  = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalincome'}),  {"value": helper.rentFinalIncome});
-    //result._1.buyFinalIncome    = _.extend(localElems['buyfinalincome'], {"value": helper.rentFinalIncome});
-    result._1.buyInterestSave  = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestsave'}),  {"value": helper.buyInterestSave});
-    //result._1.buyInterestSave   = _.extend(localElems['buyinterestsave'], {"value": helper.buyInterestSave});
-    result._1.buyInterestLoan  = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestloan'}),  {"value": -helper.buyInterestLoan});
-    //result._1.buyInterestLoan   = _.extend(localElems['buyinterestloan'], {"value": -helper.buyInterestLoan});
-    result._1.buyMaintenance  = _.extend(_.findWhere(data[0].results_1,{name: 'buymaintenance'}),  {"value": -helper.buyMaintenance});
-    //result._1.buyMaintenance    = _.extend(localElems['buymaintenance'], {"value": -helper.buyMaintenance});
-    result._1.buyRepay  = _.extend(_.findWhere(data[0].results_1,{name: 'buyrepay'}),  {"value": -helper.buyRepay});
-    //result._1.buyRepay          = _.extend(localElems['buyrepay'], {"value": -helper.buyRepay});
-    result._1.buyResidual  = _.extend(_.findWhere(data[0].results_1,{name: 'buyresidual'}),  {"value": helper.buyResidual});
-    //result._1.buyResidual       = _.extend(localElems['buyresidual'], {"value": helper.buyResidual});
-    result._1.buyPropValue  = _.extend(_.findWhere(data[0].results_1,{name: 'buypropvalue'}),  {"value": inputs.price + helper.buyPropertyIncrease});
-    //result._1.buyPropValue      = _.extend(localElems['buypropvalue'], {"value": inputs.price + helper.buyPropertyIncrease});
+    result._1.buyFinalWealth    = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalwealth'}),  {"value": helper.buyFinalWealth});
+    result._1.buyEquity         = _.extend(_.findWhere(data[0].results_1,{name: 'buyequity'}),  {"value": inputs.equity});
+    result._1.buyPrice          = _.extend(_.findWhere(data[0].results_1,{name: 'buyprice'}),  {"value": -helper.buyprice});
+    result._1.buyLoan           = _.extend(_.findWhere(data[0].results_1,{name: 'buyloan'}),  {"value": helper.buyLoan});
+    result._1.buyFinalIncome    = _.extend(_.findWhere(data[0].results_1,{name: 'buyfinalincome'}),  {"value": helper.rentFinalIncome});
+    result._1.buyInterestSave   = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestsave'}),  {"value": helper.buyInterestSave});
+    result._1.buyInterestLoan   = _.extend(_.findWhere(data[0].results_1,{name: 'buyinterestloan'}),  {"value": -helper.buyInterestLoan});
+    result._1.buyMaintenance    = _.extend(_.findWhere(data[0].results_1,{name: 'buymaintenance'}),  {"value": -helper.buyMaintenance});
+    result._1.buyRepay          = _.extend(_.findWhere(data[0].results_1,{name: 'buyrepay'}),  {"value": -helper.buyRepay});
+    result._1.buyResidual       = _.extend(_.findWhere(data[0].results_1,{name: 'buyresidual'}),  {"value": helper.buyResidual});
+    result._1.buyPropValue      = _.extend(_.findWhere(data[0].results_1,{name: 'buypropvalue'}),  {"value": inputs.price + helper.buyPropertyIncrease});
 
-    /*
+    /**
      6.B SECOND RESULT CONTAINER
      */
     // second result container
@@ -1097,7 +1073,7 @@ exports.buyrent = function(inputs) {
     result._2.body = dynT;
 
 
-    /*
+    /**
      6.C THIRD RESULT CONTAINER
      */
     // second result container
@@ -1105,7 +1081,7 @@ exports.buyrent = function(inputs) {
     result._3.header = ['Jahr', 'Geldvermögen Anfang', 'Vermögen Anfang', 'Restschuld Anfang', 'Zins Darlehen', 'Tilgung Darlehen', 'Restschuld Ende', 'Zahlung Darlehen', 'Überschuss Einkommen', 'Zinsertrag', 'Wertanstieg Immobilie', 'Vermögen Ende', 'Vermögen Ende'];
     result._3.body = dynBuyT;
 
-    /*
+    /**
      6.D FIRST CHART
      */
     var labels1 = [];

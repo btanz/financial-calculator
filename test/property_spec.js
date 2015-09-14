@@ -601,6 +601,8 @@ describe("Property calculators correct", function() {
       property.buyrent(data[8]).then(function(results){
         var values = {};
         _.each(results._1, function(el, ind, list){ values[ind]= Math.round(el.value * ROUND_PRECISION) / ROUND_PRECISION;});
+        console.log(values);
+        console.log(expectations[8]);
         assert(_.isMatch(values, expectations[8]));
         done();
       }).onReject(done);
