@@ -14,11 +14,10 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ****  I.A) BEFORE NEXT LAUNCH ****
 * IP anonymisierung (anonymizeIp)
-* impressum, inhaltlich verantwortlich etc
-* favicon
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* Steuernummer in Impressum, sobald da
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * mobile umbruch
 * feeback-field
