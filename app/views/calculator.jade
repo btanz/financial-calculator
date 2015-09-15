@@ -190,6 +190,24 @@ block content
         | {{/each}}
         | {{/if}}
 
+
+
+  //- main results sever connection error template
+  script(id='main-results-servererror-template', type='text/x-handlebars-template')
+     div.ibox.float-e-margins
+       div.ibox-title
+         h5
+           i.fa.fa-check-square-o.fa-lg.text-lightblue &nbsp
+           | Ergebnisse
+        div.ibox-content
+         h4.text-danger
+           i.fa.fa-frown-o.fa-lg &nbsp
+           | Hoppla
+         p Leider kann aktuell keine Verbindung zum Server hergestellt werden. Bitte versuchen Sie es später noch einmal.
+
+
+
+
   //- main results input template
   script(id='main-results-input-template', type='text/x-handlebars-template')
     div.ibox.float-e-margins

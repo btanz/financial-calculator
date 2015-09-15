@@ -75,7 +75,7 @@ app.controller = (function() {
         .done(function(data) {
 
 
-          // stop wait spinner
+          // stop wait spinner and remove overlay class
           app.spinner.stop();
           $('#wrapper').removeClass('overlay');
 
@@ -112,9 +112,11 @@ app.controller = (function() {
           }
         })
         .fail(function(e){
-          console.log('Leider ist ein Fehler aufgetreten');
-          console.log(e);
-          app.helpers.compileTemplate('#results-1','#main-results-error-template',{});
+          // stop wait spinner and remove overlay class
+          app.spinner.stop();
+          $('#wrapper').removeClass('overlay');
+
+          app.helpers.compileTemplate('#results-1','#main-results-servererror-template',{});
         });
 
 

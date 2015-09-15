@@ -17,8 +17,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * impressum, inhaltlich verantwortlich etc
 * icons navbar
 * navbar persistent
-* feeback-field
-* establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * functionality that tells user that server is currently unavailable (instead of throwing a calc error)
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * mobile umbruch
@@ -26,6 +24,8 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
+* feeback-field
+* establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables
 * rechtschreibprüfung
 * add debt-annuity
