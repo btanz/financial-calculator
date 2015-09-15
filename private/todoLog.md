@@ -15,8 +15,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ****  I.A) BEFORE NEXT LAUNCH ****
 * IP anonymisierung (anonymizeIp)
 * impressum, inhaltlich verantwortlich etc
-* icons navbar
-
+* favicon
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
