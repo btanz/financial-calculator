@@ -44,12 +44,12 @@
 }
 
 .nav > li > a {
-  font-weight: 400;
+  font-weight: 300;
 }
 
 /* IMAGE STYLES */
 .img-rectangle {
-  width: 126px;
+  width: 150px;
   height: 42px;
 }
 
