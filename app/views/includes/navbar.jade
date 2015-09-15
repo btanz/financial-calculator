@@ -44,7 +44,16 @@ nav(class='navbar-default navbar-static-side', role='navigation')
         if obj.category === category.id
           li.active
             a(href='#')
-              i.fa.fa-th-large
+              if category.id === 'boerse'
+                i.fa.fa-area-chart
+              else if category.id === 'deposits'
+                i.fa.fa-pie-chart
+              else if category.id === 'property'
+                i.fa.fa-university
+              else if category.id === 'debt'
+                i.fa.fa-credit-card
+              else
+                i.fa.fa-calculator
               span.nav-label= category.name
               span.fa.arrow
             ul.nav.nav-second-level
@@ -59,7 +68,16 @@ nav(class='navbar-default navbar-static-side', role='navigation')
         else
           li
             a(href='#')
-              i.fa.fa-th-large
+              if category.id === 'boerse'
+                i.fa.fa-area-chart
+              else if category.id === 'deposits'
+                i.fa.fa-pie-chart
+              else if category.id === 'property'
+                i.fa.fa-university
+              else if category.id === 'debt'
+                i.fa.fa-credit-card
+              else
+                i.fa.fa-calculator
               span.nav-label= category.name
               span.fa.arrow
             ul.nav.nav-second-level
