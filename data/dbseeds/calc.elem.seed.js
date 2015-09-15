@@ -4014,7 +4014,7 @@ function seeder() {
           },
           {
             id: 'a30360',
-            description: '30E / 360, ISDA Anleihenbasis'
+            description: '30 / 360, ISDA Anleihenbasis'
           },
           {
             id: 'act360',

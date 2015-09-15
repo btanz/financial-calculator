@@ -204,33 +204,36 @@ exports.dispo = function(inputs){
       return [{errorMessage: 'Das Enddatum kann nicht vor dem Anfangsdatum liegen.', errorInput: '', errorPrint: true}];
     }
 
-
-
-
     /** ******** 3. COMPUTATIONS ******** */
     factor = Math.min(inputs.principal, inputs.limit) * (inputs.dispointerest / 100) + Math.max(0,inputs.principal - inputs.limit) * (inputs.otherinterest / 100);
+
 
     if (inputs.periodchoice === "days"){
       switch(inputs.daycount){
         case "a30E360":
           amount = factor * inputs.days / 360;
           interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          return resultObj(amount, interest);
           break;
         case "a30360":
           amount = factor * inputs.days / 360;
           interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          return resultObj(amount, interest);
           break;
         case "act360":
           amount = factor * inputs.days / 360;
           interest = (amount / inputs.principal) * (360 / inputs.days) * 100;
+          return resultObj(amount, interest);
           break;
         case "act365":
           amount = factor * inputs.days / 365;
           interest = (amount / inputs.principal) * (365 / inputs.days) * 100;
+          return resultObj(amount, interest);
           break;
         case "actact":
           amount = factor * inputs.days / 365.25;
           interest = (amount / inputs.principal) * (365.25 / inputs.days) * 100;
+          return resultObj(amount, interest);
           break;
       }
     } else if (inputs.periodchoice === "dates"){
@@ -240,39 +243,51 @@ exports.dispo = function(inputs){
 
       switch(inputs.daycount){
         case "a30E360":
-          amount = factor * daycount._1.a30E360factor.value;
-          interest = (amount / inputs.principal) * (360 / daycount._1.a30E360interestdays.value) * 100;
+          return daycount.then(function(daycount){
+            amount = factor * daycount._1.a30E360factor.value;
+            interest = (amount / inputs.principal) * (360 / daycount._1.a30E360interestdays.value) * 100;
+            return resultObj(amount, interest);
+          });
           break;
         case "a30360":
-          amount = factor * daycount._1.a30360factor.value;
-          interest = (amount / inputs.principal) * (360 / daycount._1.a30360interestdays.value) * 100;
+          return daycount.then(function(daycount) {
+            amount = factor * daycount._1.a30360factor.value;
+            interest = (amount / inputs.principal) * (360 / daycount._1.a30360interestdays.value) * 100;
+            return resultObj(amount, interest);
+          });
           break;
         case "act360":
-          amount = factor * daycount._1.act360factor.value;
-          interest = (amount / inputs.principal) * (360 / daycount._1.act360interestdays.value) * 100;
+          return daycount.then(function(daycount) {
+            amount = factor * daycount._1.act360factor.value;
+            interest = (amount / inputs.principal) * (360 / daycount._1.act360interestdays.value) * 100;
+            return resultObj(amount, interest);
+          });
           break;
         case "act365":
-          amount = factor * daycount._1.act365factor.value;
-          interest = (amount / inputs.principal) * (365 / daycount._1.act365interestdays.value) * 100;
+          return daycount.then(function(daycount) {
+            amount = factor * daycount._1.act365factor.value;
+            interest = (amount / inputs.principal) * (365 / daycount._1.act365interestdays.value) * 100;
+            return resultObj(amount, interest);
+          });
           break;
         case "actact":
-          amount = factor * daycount._1.actactfactor.value;
-          interest = (amount / inputs.principal) * (1 / daycount._1.actactfactor.value) * 100;
+          return daycount.then(function(daycount) {
+            amount = factor * daycount._1.actactfactor.value;
+            interest = (amount / inputs.principal) * (1 / daycount._1.actactfactor.value) * 100;
+            return resultObj(amount, interest);
+          });
           break;
       }
     }
 
 
-
     /** ******** 4. CONSTRUCT RESULT OBJECT ******** */
-    result.id = data[0].id;
-    result._1.interestamount  = _.extend(_.findWhere(data[0].results_1,{name: 'interestamount'}), {"value": amount});
-    //result._1.interestamount  = _.extend(localElems.interestamount,  {"value": amount});
-    result._1.averageinterest  = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": interest});
-    //result._1.averageinterest = _.extend(localElems.averageinterest, {"value": interest});
-
-
-    return result;
+    function resultObj(amount, interest){
+      result.id = data[0].id;
+      result._1.interestamount  = _.extend(_.findWhere(data[0].results_1,{name: 'interestamount'}), {"value": amount});
+      result._1.averageinterest  = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": interest});
+      return result;
+    }
   }
 
   return Calc.findByCalcname('dispo')
