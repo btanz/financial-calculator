@@ -173,6 +173,7 @@ h5 {
 }
 .nav > li.active {
   border-left: 4px solid #2DA9E1;
+  /*border-left: 4px solid rgb(228, 38, 139);*/
   background: #333D47;
 }
 .nav.nav-second-level > li.active {
