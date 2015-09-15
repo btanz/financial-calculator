@@ -6514,7 +6514,7 @@ function seeder() {
         vtype: 'number',
         args: [0, 1000000000]
       },
-      {
+   /*   {
         name: 'followup',
         id: 'property-mortgage-followup',
         label: 'Anschlussfinanzierung berechnen?',
@@ -6532,7 +6532,7 @@ function seeder() {
             description: 'ja'
           }
         ]
-      },
+      },*/
       {
         name: 'followupinterest',
         id: 'property-mortgage-followupinterest',
