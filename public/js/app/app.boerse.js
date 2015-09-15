@@ -98,6 +98,8 @@ app.boerse = (function() {
     e.preventDefault();
     app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     positioncounter += 1;
+    // attach handlers to new element
+    $('.boerse-portfolio-assetclass').on('change', requestAssets);
     $('.boerse-portfolio-remove').on('click', removeAsset);
   }
 

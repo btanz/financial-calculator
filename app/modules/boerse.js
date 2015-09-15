@@ -363,7 +363,9 @@ exports.portfolio = function(inputs){
 
   /** construct quandl request object */
   var reqObj = {
-    column_index: '4',
+    column_index: '1',
+    // todo: set column index to 4 (close) again once quandl fixes the API
+    //column_index: '4',
     //transform: 'rdiff',
     transform: 'none',
     sort_order: 'desc',
