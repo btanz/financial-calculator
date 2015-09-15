@@ -40,15 +40,33 @@ nav(class='navbar-default navbar-static-side', role='navigation')
             | Blog
 
       each category in navElems
-        li
-          a(href='#')
-            i.fa.fa-th-large
-            span.nav-label= category.name
-            span.fa.arrow
-          ul.nav.nav-second-level
-            each item in category.values
-              li
-                a(href=item.url)= item.name
+        -console.log(obj.category);
+        if obj.category === category.id
+          li.active
+            a(href='#')
+              i.fa.fa-th-large
+              span.nav-label= category.name
+              span.fa.arrow
+            ul.nav.nav-second-level
+              each item in category.values
+                if obj.name === item.id
+                  li.active
+                    a(href=item.url)= item.name
+                else
+                  li
+                    a(href=item.url)= item.name
+
+        else
+          li
+            a(href='#')
+              i.fa.fa-th-large
+              span.nav-label= category.name
+              span.fa.arrow
+            ul.nav.nav-second-level
+              each item in category.values
+                li
+                  a(href=item.url)= item.name
+
 
       //li
         a(href='/')

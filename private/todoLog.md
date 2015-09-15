@@ -16,7 +16,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * IP anonymisierung (anonymizeIp)
 * impressum, inhaltlich verantwortlich etc
 * icons navbar
-* navbar persistent
 * make sure that results are also invalidated if newly added fields are changed (such as 'Tilgungsmonat' in Sindertilgungen in Hypothekenrechner')
 * mobile umbruch
 * colors

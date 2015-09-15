@@ -50,6 +50,7 @@ var Results1Schema = new Schema({
 var CalcSchema = new Schema({
   name: {type: String, required: true},
   id: {type: String, required: true},
+  category: String,
   designation: String,
   description: String,
   keywords: [String],

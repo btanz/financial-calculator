@@ -1,106 +1,131 @@
 {
   "1": {
     "name": "Börse",
+    "id": "boerse",
     "values": {
       "1": {
         "name": "Optionspreisrechner",
-        "url": "/optionspreisrechner"
+        "url": "/optionspreisrechner",
+        "id": "options"
       },
       "2": {
         "name": "Aktienrenditerechner",
-        "url": "/aktienrenditerechner"
+        "url": "/aktienrenditerechner",
+        "id": "equityreturn"
       },
       "3": {
         "name": "Währungsrechner",
-        "url": "/waehrungsrechner"
+        "url": "/waehrungsrechner",
+        "id": "fx"
       },
       "4": {
         "name": "Portfoliorechner",
-        "url": "/portfoliorechner"
+        "url": "/portfoliorechner",
+        "id": "portfolio"
       }
     }
   },
   "2": {
     "name": "Festgeld",
+    "id": "deposits",
     "values": {
       "1": {
         "name": "Sparrechner",
-        "url": "/sparrechner"
+        "url": "/sparrechner",
+        "id": "depsaving"
       },
       "2": {
         "name": "Zuwachssparrechner",
-        "url": "/zuwachssparrechner"
+        "url": "/zuwachssparrechner",
+        "id": "savingscheme"
       },
       "3": {
         "name": "Zinsrechner",
-        "url": "/zinsrechner"
+        "url": "/zinsrechner",
+        "id": "depinterest"
       },
       "4": {
         "name": "Festgeldrechner",
-        "url": "/festgeldrechner"
+        "url": "/festgeldrechner",
+        "id": "timedeposit"
       },
       "5": {
         "name": "Tagesgeldrechner",
-        "url": "/tagesgeldrechner"
+        "url": "/tagesgeldrechner",
+        "id": "overnight"
       },
       "6": {
         "name": "Vorschusszinsrechner",
-        "url": "/vorschusszinsrechner"
+        "url": "/vorschusszinsrechner",
+        "id": "interestpenalty"
       }
     }
   },
   "3": {
     "name": "Immobilien",
+    "id": "property",
     "values": {
       "1": {
         "name": "Immobilienrenditerechner",
-        "url": "/immobilienrenditerechner"
+        "url": "/immobilienrenditerechner",
+        "id": "propertyreturn"
       },
       "2": {
         "name": "Vergleichsrechner Kaufen-oder-Mieten",
-        "url": "/kaufen-oder-mieten"
+        "url": "/kaufen-oder-mieten",
+        "id": "propertybuyrent"
       },
       "3": {
         "name": "Mietrechner",
-        "url": "/mietrechner"
+        "url": "/mietrechner",
+        "id": "rent"
       },
       "4": {
         "name": "Grunderwerbssteuer-Rechner",
-        "url": "/grunderwerbssteuerrechner"
+        "url": "/grunderwerbssteuerrechner",
+        "id": "transfertax"
       },
       "5": {
         "name": "Bausparrechner",
-        "url": "/bausparrechner"
+        "url": "/bausparrechner",
+        "id": "homesave"
       },
       "6": {
         "name": "Immobilienpreisrechner",
-        "url": "/immobilienpreisrechner"
+        "url": "/immobilienpreisrechner",
+        "id": "propertyprice"
       },
       "7": {
         "name": "Hypothekenrechner",
-        "url": "/hypothekenrechner"
+        "url": "/hypothekenrechner",
+        "id": "mortgage"
       }
     }
   },
   "4": {
     "name": "Kredit & Finanzierung",
+    "id": "debt",
     "values": {
       "2": {
         "name": "Dispozinsrechner",
-        "url": "/dispozinsrechner"
+        "url": "/dispozinsrechner",
+        "id": "dispo"
       },
       "3": {
         "name": "Tilgungssurrogat-Rechner",
-        "url": "/tilgungssurrogatrechner"
+        "url": "/tilgungssurrogatrechner",
+        "id": "repaysurrogat"
       }
     }
   },
   "5": {
     "name": "Weitere Rechner",
+    "id": "misc",
     "values": {
       "1": {
         "name": "Zinstagerechner",
-        "url": "/zinstagerechner"
+        "url": "/zinstagerechner",
+        "id": "daycount"
       }
     }
   }
