@@ -1050,9 +1050,9 @@ exports.buyrent = function(inputs) {
      6.A FIRST RESULT CONTAINER
      */
     if (helper.buyFinalWealth > helper.rentFinalWealth) {
-      result.resultheadline = 'Der <strong>Kauf</strong> einer Immobilie ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100 + ' EUR.</strong>';
+      result.resultheadline = 'Der <strong>Kauf</strong> einer Immobilie ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.abs(Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100) + ' EUR.</strong>';
     } else {
-      result.resultheadline = 'Die <strong>Anmietung</strong> ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100 + ' EUR.</strong>';
+      result.resultheadline = 'Die <strong>Anmietung</strong> ist über den gewählten Analysezeitraum von ' + inputs.period + ' Jahren die finanziell bessere Alternative. Nach ' + inputs.period + ' Jahren entsteht ein <strong>Vermögensvorteil von ' + Math.abs(Math.round((helper.buyFinalWealth - helper.rentFinalWealth) * 100) / 100) + ' EUR.</strong>';
     }
 
 
