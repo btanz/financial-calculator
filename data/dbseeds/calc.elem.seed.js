@@ -997,7 +997,8 @@ function seeder() {
           },
           {
             id: 'USD ',
-            description: 'US Dollar - USD'
+            description: 'US Dollar - USD',
+            selected: true
           },
           {
             id: 'GBP ',
