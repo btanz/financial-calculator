@@ -7,7 +7,9 @@ exports.seedDB = function(){
   /** check whether DB.calcs is actually empty */
   Calc.find({}, function(err, calcs) {
     if (err) {
-      return next(err);
+      console.log(err);
+      return;
+      //return next(err);
     } else {
       if(calcs.length === 0){
         console.log('Seeding DB.calcs');
@@ -199,7 +201,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Options');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Options successfully seeded');
     }
@@ -1742,7 +1745,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.FX');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.FX successfully seeded');
     }
@@ -2020,7 +2024,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Equityreturn');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Equityreturn successfully seeded');
     }
@@ -2172,7 +2177,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Retire');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Retire successfully seeded');
     }
@@ -2390,7 +2396,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Propertyreturn');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Propertyreturn successfully seeded');
     }
@@ -2768,7 +2775,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Propertybuyrent');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Propertybuyrent successfully seeded');
     }
@@ -2917,7 +2925,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Depinterest');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Depinterest successfully seeded');
     }
@@ -3229,7 +3238,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Depsaving');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Depsaving successfully seeded');
     }
@@ -3633,7 +3643,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Annuity');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Annuity successfully seeded');
     }
@@ -3878,7 +3889,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Daycount');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Daycount successfully seeded');
     }
@@ -4068,7 +4080,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Dispo');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Dispo successfully seeded');
     }
@@ -4225,7 +4238,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Rent');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Rent successfully seeded');
     }
@@ -4383,7 +4397,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Transfertax');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Transfertax successfully seeded');
     }
@@ -4739,7 +4754,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Homesave');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Homesave successfully seeded');
     }
@@ -5027,7 +5043,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Propertyprice');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Propertyprice successfully seeded');
     }
@@ -5381,7 +5398,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Repaysurrogat');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Repaysurrogat successfully seeded');
     }
@@ -5652,7 +5670,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Timedeposit');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Timedeposit successfully seeded');
     }
@@ -6026,7 +6045,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Savingscheme');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Savingscheme successfully seeded');
     }
@@ -6172,7 +6192,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Interestpenalty');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Interestpenalty successfully seeded');
     }
@@ -6862,7 +6883,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Mortgage');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Mortgage successfully seeded');
     }
@@ -7338,7 +7360,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Overnight');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Overnight successfully seeded');
     }
@@ -7524,7 +7547,8 @@ function seeder() {
     if (err) {
       console.log(err);
       console.log('Seed Failed for Calc.Elem.Model.Portfolio');
-      return next(err);
+      return;
+      //return next(err);
     } else {
       console.log('Calc.Elem.Model.Portfolio successfully seeded');
     }
