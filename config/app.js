@@ -76,7 +76,8 @@ if(debug.enabled){
   var accessLogStream = FileStreamRotator.getStream({
     filename: logDirectory + '/sf-serverlog-%DATE%.log',
     frequency: 'daily',
-    verbose: false
+    verbose: false,
+    date_format: 'YYYYMMDD'
   });
 
   /** set up logger */
