@@ -5,5 +5,6 @@ var router = express.Router();
 var index = require('../controllers/index.controller');
 router.get('/', index.render);
 
+
 /** expose routes */
 module.exports = router;

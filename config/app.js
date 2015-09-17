@@ -88,11 +88,25 @@ app.use('/', index);
 app.use('/data', data);
 app.use('/', legal);
 
+
 /** robots txt route */
 app.get('/robots.txt', function (req, res) {
   res.type('text/plain');
   res.send("User-agent: *\nDisallow: ");
 });
+
+
+/** sitemap route */
+app.get('/sitemap.xml', function(req,res){
+
+  res.sendFile(__dirname + '/sitemap.xml', function(err){
+    if(err){
+      console.log(err);
+      res.status(err.status).end();
+    }
+  })
+});
+
 
 
 
