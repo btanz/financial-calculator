@@ -1738,7 +1738,7 @@ module.exports = [
   {id: 'WIKI.PSTB', description: 'Park Sterling Corporation '},
   {id: 'WIKI.PSUN', description: 'Pacific Sunwear of California'},
   {id: 'WIKI.PTEN', description: 'Patterson-UTI Energy'},
-  {id: 'WIKI.PTGI', description: 'PTGi Holding'}
+  {id: 'WIKI.PTGI', description: 'PTGi Holding'},
   {id: 'WIKI.PTLA', description: 'Portola Pharmaceuticals'},
   {id: 'WIKI.PTP', description: 'Platinum Underwriters Holdings'},
   {id: 'WIKI.PTRY', description: 'The Pantry'},
