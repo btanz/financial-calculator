@@ -40,7 +40,7 @@ function seeder() {
 
 
   /** seed indicators for Quandl WIKI */
-  qMeta.wiki.forEach(function(asset){
+ /* qMeta.wiki.forEach(function(asset){
     new Indicator({id: asset.id, description: asset.description.toUpperCase()}).save(function (err) {
       if (err) {
         console.log(err);
@@ -51,7 +51,7 @@ function seeder() {
       }
     })
 
-  });
+  });*/
 
 
 
