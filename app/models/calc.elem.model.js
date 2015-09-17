@@ -48,7 +48,7 @@ var Results1Schema = new Schema({
 
 /** CalcSchema is the Schema for the text content of calculators */
 var CalcSchema = new Schema({
-  name: {type: String, required: true, unique: true},
+  name: {type: String, required: true},
   id: {type: String, required: true},
   category: String,
   designation: String,
