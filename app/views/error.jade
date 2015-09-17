@@ -1,6 +1,20 @@
-extends layout
-
-block content
-  h1= message
-  h2= error.status
-  pre #{error.stack}
+doctype html
+html(lang='de')
+  head
+    //- meta tags
+    meta(charset="utf-8")
+    meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='msapplication-tap-highlight', content='no')
+    meta(name='keywords', content='zinsrechner, finanzrechner, finanzierungsrechner, kreditrechner, finanzberechnungen, finanzberater software, finanzplaner software, finanzplanung software, finanzplanung online')
+    title SimplyFi
+    //- Import vendor css
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css')
+    link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css')
+    //- Import app css
+    link(rel='stylesheet' href='../css/app.landing.css')
+  body
+    h1= message
+    h2= status
+    pre #{error.stack}

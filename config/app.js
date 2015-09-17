@@ -139,8 +139,10 @@ if (debug.enabled) {
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
   res.status(err.status || 500);
+  console.log(err.status);
   res.render('error', {
     message: err.message,
+    status: err.status,
     error: {}
   });
 });
