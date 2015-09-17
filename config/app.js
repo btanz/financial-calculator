@@ -88,6 +88,12 @@ app.use('/', index);
 app.use('/data', data);
 app.use('/', legal);
 
+/** robots txt route */
+app.get('/robots.txt', function (req, res) {
+  res.type('text/plain');
+  res.send("User-agent: *\nDisallow: ");
+});
+
 
 
 /**
