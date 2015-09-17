@@ -8,12 +8,13 @@ meta(http-equiv='Content-Type', content='text/html; charset=UTF-8')
 meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no')
 meta(http-equiv='X-UA-Compatible', content='IE=edge')
 meta(name='msapplication-tap-highlight', content='no')
-- if (obj.keywords && obj.keywords.length > 0)
+
+- if (obj && obj.keywords && obj.keywords.length > 0)
     - var keywords = obj.keywords.join();
     meta(name='keywords', content=keywords)
-if (obj.description)
+if (obj && obj.description)
   meta(name='description', content=obj.description)
-if obj.designation
+if (obj && obj.designation)
   title= obj.designation + ' | SimplyFi'
 else
   title SimplyFi

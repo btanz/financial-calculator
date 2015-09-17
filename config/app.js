@@ -4,6 +4,7 @@
 
 /** A. Config dependencies */
 var config = require('./config');
+var debug = require('debug')('simplyfi:server');
 
 /** B. External dependencies */
 var mongoose = require('../config/mongoose');
@@ -114,7 +115,7 @@ app.get('/sitemap.xml', function(req,res){
  * 7. ERROR HANDLING
  */
 
-// catch 404 and forward to error handler
+/** catch 404 and forward to error handler */
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
@@ -123,9 +124,8 @@ app.use(function(req, res, next) {
 
 // error handlers
 
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
+/** development error handler that will print stacktrace */
+if (debug.enabled) {
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
