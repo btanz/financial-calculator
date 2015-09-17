@@ -1,4 +1,4 @@
-var debug = require('debug')('calculata_v2:server');
+var debug = require('debug')('simplyfi:server');
 
 // check whether app is started in debugging mode and include associated env config files
 if(debug.enabled){

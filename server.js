@@ -5,13 +5,14 @@
  */
 
 var app = require('./config/app');
-var debug = require('debug')('calculata_v2:server');
+var debug = require('debug')('simplyfi:server');
 var http = require('http');
+var config = require('./config/config');
 
 /**
- * Get port from environment and store in Express.
+ * Get port from environment (or own config or default) and store in Express.
  */
-var port = normalizePort(process.env.PORT || '80');
+var port = normalizePort(process.env.PORT || config.port || '8080');
 app.set('port', port);
 
 /**

@@ -8,5 +8,9 @@ module.exports = {
   db: 'mongodb://localhost/simplyfi',
 
   /** response compression */
-  compression: false
+  compression: false,
+
+  /** port where app is served */
+  port: '8080'
+
 };

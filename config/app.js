@@ -3,7 +3,6 @@
  */
 
 /** A. Config dependencies */
-
 var config = require('./config');
 
 /** B. External dependencies */

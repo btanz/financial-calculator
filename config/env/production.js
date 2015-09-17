@@ -17,5 +17,9 @@ module.exports = {
   db: "mongodb://" + dbSettings.USER + ":" + dbSettings.PASS + "@" + dbSettings.HOST + ":"+ dbSettings.PORT + "/"+ dbSettings.DATABASE,
 
   /** response compression */
-  compression: true
+  compression: true,
+
+  /** port where app is served */
+  port: '80'
+
 };
