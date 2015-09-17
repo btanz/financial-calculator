@@ -40,18 +40,19 @@ function seeder() {
 
 
   /** seed indicators for Quandl WIKI */
- /* qMeta.wiki.forEach(function(asset){
+  qMeta.wiki.forEach(function(asset){
     new Indicator({id: asset.id, description: asset.description.toUpperCase()}).save(function (err) {
       if (err) {
         console.log(err);
         console.log('Seed Failed for an equity indicator');
-        return next(err);
+        //return next(err);
+        return;
       } else {
         console.log('Equity indicator successfully seeded');
       }
     })
 
-  });*/
+  });
 
 
 
