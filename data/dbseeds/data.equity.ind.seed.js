@@ -1,6 +1,5 @@
 var qMeta = require(__dirname + '/../metadata/quandl/quandl');
 
-console.log(qMeta.fse[0]);
 
 exports.seedDB = function(){
   var Indicator = require('mongoose').model('Data.Equity.Ind');

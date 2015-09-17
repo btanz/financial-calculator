@@ -40,7 +40,6 @@ nav(class='navbar-default navbar-static-side', role='navigation')
             | Blog
 
       each category in navElems
-        -console.log(obj.category);
         if obj.category === category.id
           li.active
             a(href='#')
