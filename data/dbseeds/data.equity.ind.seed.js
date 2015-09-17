@@ -30,7 +30,8 @@ function seeder() {
       if (err) {
         console.log(err);
         console.log('Seed Failed for an equity indicator');
-        return next(err);
+        //return next(err);
+        return;
       } else {
         console.log('Equity indicator successfully seeded');
       }
