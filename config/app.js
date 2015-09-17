@@ -8,8 +8,10 @@ var debug = require('debug')('simplyfi:server');
 
 /** B. External dependencies */
 var mongoose = require('../config/mongoose');
+var FileStreamRotator = require('file-stream-rotator')
 var express = require('express');
 var path = require('path');
+var fs = require('fs')
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var compress = require('compression');
@@ -44,20 +46,49 @@ app.set('views', path.join(__dirname, '/../app/views'));
 app.set('view engine', 'jade');
 
 
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/images/favicon/favicon.ico'));
 app.use(favicon(path.join(__dirname, '/../public/images/favicon/favicon.ico')));
-app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '/../public')));
 
 
+/**
+ * 3. LOGGING
+ */
+
+if(debug.enabled){
+  /** log to command line only */
+  app.use(logger('dev'));
+} else {
+  /** log to command line AND daily files
+
+   /** set log directory */
+  var logDirectory = path.join(__dirname, '/../logs');
+
+  /** ensure that logDirectory exists */
+  fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
+
+  /** create a rotating write stream */
+  var accessLogStream = FileStreamRotator.getStream({
+    filename: logDirectory + '/sf-serverlog-%DATE%.log',
+    frequency: 'daily',
+    verbose: false
+  });
+
+  /** set up logger */
+  app.use(logger('combined', {stream: accessLogStream}));
+  app.use(logger('combined'));
+}
+
+
 
 
 /**
- * 3. DATABASE CONNECTION
+ * 4. DATABASE CONNECTION
  */
 
 /** establish connection */
@@ -68,7 +99,7 @@ seed.seedDB();
 
 
 /**
- * 4. APP-LEVEL LOCAL VARS
+ * 5. APP-LEVEL LOCAL VARS
  */
 app.locals.navElems = navElems;
 app.locals._ = require("underscore");
@@ -76,13 +107,13 @@ app.locals._ = require("underscore");
 
 
 /**
- * 5. MIDDLEWARE
+ * 6. MIDDLEWARE
  */
 
 
 
 /**
- * 6. ROUTES
+ * 7. ROUTES
  */
 app.use('/', routes);
 app.use('/', index);
@@ -112,7 +143,7 @@ app.get('/sitemap.xml', function(req,res){
 
 
 /**
- * 7. ERROR HANDLING
+ * 8. ERROR HANDLING
  */
 
 /** catch 404 and forward to error handler */
@@ -149,7 +180,7 @@ app.use(function(err, req, res, next) {
 
 
 /**
- * 8. EXPORT
+ * 9. EXPORT
  */
 
 module.exports = app;
