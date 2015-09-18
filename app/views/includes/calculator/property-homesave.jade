@@ -9,73 +9,75 @@ script(id='property-homesave-results-2-template', type='text/x-handlebars-templa
       h4
         i.fa.fa-arrow-right.fa-lg.text-nalightbluevy &nbsp
         | Ansparphase
-      table.table.table-striped
-        thead
-          tr
-            | {{#with obj.header1}}
-            th(style='text-align: left;padding:2px;') {{{this.[0]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[1]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[2]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[3]}}}
-            //th(style='text-align: right;padding:2px;') {{{this.[4]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[5]}}}
-            | {{/with}}
-        tbody
-          | {{#each obj.body}}
-          | {{#if this.[7]}}
-          // indicates annual value
-          tr
-            td(style='text-align: left;padding:2px;').annualval {{this.[0]}}{{this.[8]}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
-            //td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[5] this.digits}}
-          | {{else}}
-          tr
-            td(style='text-align: left;padding:2px;') {{this.[0]}}{{this.[8]}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
-            //td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
-          | {{/if}}
-          | {{/each}}
+      div.table-responsive
+        table.table.table-striped
+          thead
+            tr
+              | {{#with obj.header1}}
+              th(style='text-align: left;padding:2px;') {{{this.[0]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[1]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[2]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[3]}}}
+              //th(style='text-align: right;padding:2px;') {{{this.[4]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[5]}}}
+              | {{/with}}
+          tbody
+            | {{#each obj.body}}
+            | {{#if this.[7]}}
+            // indicates annual value
+            tr
+              td(style='text-align: left;padding:2px;').annualval {{this.[0]}}{{this.[8]}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
+              //td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[5] this.digits}}
+            | {{else}}
+            tr
+              td(style='text-align: left;padding:2px;') {{this.[0]}}{{this.[8]}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
+              //td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
+            | {{/if}}
+            | {{/each}}
       br
       | {{#if obj.header2}}
       h4
         i.fa.fa-arrow-left.fa-lg.text-lightblue &nbsp
         | Rückzahlungsphase
-      table.table.table-striped
-        thead
-          tr
-            | {{#with obj.header2}}
-            th(style='text-align: left;padding:2px;') {{{this.[0]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[1]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[2]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[3]}}}
-            //th(style='text-align: right;padding:2px;') {{{this.[4]}}}
-            th(style='text-align: right;padding:2px;') {{{this.[5]}}}
-            | {{/with}}
-        tbody
-          | {{#each obj.body2}}
-          | {{#if this.[7]}}
-          // indicates annual value
-          tr
-            td(style='text-align: left;padding:2px;').annualval {{this.[0]}}{{this.[8]}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
-            //td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
-            td(style='text-align: right;padding:2px;').annualval {{numFormat this.[5] this.digits}}
-          | {{else}}
-          tr
-            td(style='text-align: left;padding:2px;') {{this.[0]}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
-            //td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
-            td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
-          | {{/if}}
-          | {{/each}}
+      div.table-responsive
+        table.table.table-striped
+          thead
+            tr
+              | {{#with obj.header2}}
+              th(style='text-align: left;padding:2px;') {{{this.[0]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[1]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[2]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[3]}}}
+              //th(style='text-align: right;padding:2px;') {{{this.[4]}}}
+              th(style='text-align: right;padding:2px;') {{{this.[5]}}}
+              | {{/with}}
+          tbody
+            | {{#each obj.body2}}
+            | {{#if this.[7]}}
+            // indicates annual value
+            tr
+              td(style='text-align: left;padding:2px;').annualval {{this.[0]}}{{this.[8]}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[1] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[2] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[3] this.digits}}
+              //td(style='text-align: right;padding:2px;').annualval {{numFormat this.[4] this.digits}}
+              td(style='text-align: right;padding:2px;').annualval {{numFormat this.[5] this.digits}}
+            | {{else}}
+            tr
+              td(style='text-align: left;padding:2px;') {{this.[0]}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[1] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[2] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[3] this.digits}}
+              //td(style='text-align: right;padding:2px;') {{numFormat this.[4] this.digits}}
+              td(style='text-align: right;padding:2px;') {{numFormat this.[5] this.digits}}
+            | {{/if}}
+            | {{/each}}
       | {{/if}}
