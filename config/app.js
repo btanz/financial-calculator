@@ -67,7 +67,7 @@ if(debug.enabled){
   /** log to command line AND daily files
 
    /** set log directory */
-  var logDirectory = path.join(__dirname, '/../../logs');
+  var logDirectory = path.join(__dirname, '/../logs');
 
   /** ensure that logDirectory exists */
   fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory);
