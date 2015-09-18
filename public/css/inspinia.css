@@ -6,10 +6,10 @@
  *
  *    SIMPLYFI ADJUSTED VALUES MARKED WITH XXX
  *
- *    SIMPLYFI COLORS
+ *    OLD SIMPLYFI
  *    - dark blue/grey        #333D47
- *    - ligh blue             #2DA9E1
- *    - light blue (darker)   #2d8ec5
+ *    - ligh blue             #2DA9E1 NEW rgb(33,150,243)
+ *    - light blue (darker)   #2d8ec5 NEW rgb(30,136,229)
  *    - orange                #333D47
  *    - (signal) purple       #E6178B
  *    - background lightgr    #333D47
@@ -172,7 +172,7 @@ h5 {
   transition: all 0.5s;
 }
 .nav > li.active {
-  border-left: 4px solid #2DA9E1;
+  border-left: 4px solid rgb(33,150,243);
   /*border-left: 4px solid rgb(228, 38, 139);*/
   background: #333D47;
 }
@@ -362,7 +362,7 @@ body.canvas-menu .logo-element {
 }
 body.mini-navbar .nav-header {
   padding: 0;
-  background-color: #2DA9E1;
+  background-color: rgb(33,150,243);
 }
 body.canvas-menu .nav-header {
   padding: 33px 25px;
@@ -582,7 +582,7 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   min-width: 120px;
 }
 .btn-primary.btn-outline {
-  color: #2DA9E1;
+  color: rgb(33,150,243);
 }
 .btn-success.btn-outline {
   color: #1c84c6;
@@ -604,8 +604,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
   color: #fff;
 }
 .btn-primary {
-  background-color: #2DA9E1;
-  border-color: #2DA9E1;
+  background-color: rgb(33,150,243);
+  border-color: rgb(33,150,243);
   color: #FFFFFF;
 }
 .btn-primary:hover,
@@ -613,8 +613,8 @@ body.canvas-menu.mini-navbar nav.navbar-static-side {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  background-color: #2d8ec5;
-  border-color: #2d8ec5;
+  background-color: rgb(30,136,229);
+  border-color: rgb(30,136,229);
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -1772,7 +1772,7 @@ table.dataTable thead .sorting:after {
 }
 .form-control:focus,
 .single-line:focus {
-  border-color: #2DA9E1 !important;
+  border-color: rgb(33,150,243) !important;
 }
 .has-success .form-control {
   border-color: #1ab394;
@@ -3556,7 +3556,7 @@ table.table-mail tr td {
 }
 
 .text-lightblue{
-  color: #2DA9E1;
+  color: rgb(33,150,243);
 }
 
 /* COLORS */

@@ -27,7 +27,7 @@
 
   /*stroke: rgba(28,132,198,0.5);*/
   stroke: white;
-  fill: #2DA9E1;
+  fill: rgb(33,150,243);
   /*fill: rgba(28,132,198,0.5);*/
 
   stroke-width: 2px;
@@ -98,13 +98,13 @@
 
 .ct-series-b .ct-line {
   stroke-width: 2px;
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   /*stroke: rgba(28,132,198,0.7);*/
   /*stroke: rgba(26,179,148,0.2); */
   /* stroke: rgba(237,85,101,0.2); */
 }
 .ct-series-b .ct-point {
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   stroke-width: 8px;
 }
 
@@ -121,7 +121,7 @@
 
 .ct-series-b .ct-bar {
   stroke-width: 12px;
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   /*stroke: rgba(28,132,198,0.5);*/
   /*stroke: rgba(26,179,148,0.7);*/
   /*stroke: rgba(237,85,101,0.7);*/
@@ -152,7 +152,7 @@
 
 .ct-series-b .ct-bar-slim {
   stroke-width: 6px;
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   /*stroke: rgba(28,132,198,0.5);*/
 }
 
@@ -177,7 +177,7 @@
 
 .ct-series-b .ct-bar-thick {
   stroke-width: 18px;
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   /*stroke: rgba(28,132,198,0.5);*/
 }
 
@@ -202,7 +202,7 @@
 
 .ct-series-b .ct-bar-verythick {
   stroke-width: 30px;
-  stroke: #2DA9E1;
+  stroke: rgb(33,150,243);
   /*stroke: rgba(28,132,198,0.5);*/
 }
 
@@ -251,7 +251,7 @@
 }
 
 .ct-legend .ct-series-b::before {
-  background-color: #2DA9E1;
+  background-color: rgb(33,150,243);
   /*background-color: rgba(28,132,198,0.5);*/
 }
 
