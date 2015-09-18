@@ -38,11 +38,11 @@ a.red-link:hover {
   color: rgb(186, 2, 98);
 }
 a.blue-link {
-  color: #2DA9E1;
+  color: rgb(33,150,243);
   text-decoration: none;
 }
 a.blue-link:hover {
-  color: #2d8ec5;
+  color: rgb(30,136,229);
 }
 
 
@@ -79,12 +79,12 @@ h1 {
   width: 80px;
   height: 2px;
   margin: 60px auto 0;
-  border-bottom: 3px solid #2DA9E1;
+  border-bottom: 3px solid rgb(33,150,243);
 }
 
 h1.logo{
   text-indent: -99999px;
-  background: url('../images/logos/simplyfi_logo_darkback_02.png');
+  background: url('../images/logos/simplyfi_logo_darkback_03.png');
   /*background-size: 224px 63px;*/
   background-size: 162px 50px;
   background-repeat: no-repeat;
@@ -142,8 +142,7 @@ h1.logo{
 }
 
 .navbar-default .navbar-toggle .icon-bar{
-  /*background-color: rgb(228,49,139);*/
-  background-color: #2d8ec5;
+  background-color: rgb(33,150,243);
 }
 
 .navbar-default .navbar-toggle:hover{
@@ -184,7 +183,7 @@ h1.logo{
 .navbar-default .nav li a {
   /*color: #fff;*/
   /*color: rgb(228, 38, 139);*/
-  color: #2DA9E1;
+  color: rgb(33,150,243);
   font-family: 'Roboto', sans-serif;
   font-size: 18px;
   /*font-family: 'Open Sans', helvetica, arial, sans-serif;*/
@@ -203,10 +202,9 @@ h1.logo{
   border-top: 6px solid #1ab394;
 }
 .navbar-default .navbar-nav > li > a:hover {
-  /*color: #1ab394;*/
-  /*color: rgb(186, 2, 98);*/
-  color: #2d8ec5;
+  color: rgb(30,136,229);
 }
+
 .navbar-default .navbar-nav > .active > a:focus {
   background: transparent;
   color: #fff;
@@ -426,9 +424,7 @@ h1.logo{
   border-radius: 50px;
 }
 .social-icon a:hover {
-  /*background: #17a185;*/
-  background: #2DA9E1;
-
+  background: rgb(30,136,229);
 }
 .img-small {
   height: 88px;
@@ -497,10 +493,8 @@ li.pricing-title {
   color: #fff;
 }
 .btn-primary {
-  /*background-color: rgb(228,49,139);
-  border-color: rgb(228,49,139);*/
-  background-color: #2DA9E1;
-  border-color: #2DA9E1;
+  background-color: rgb(33,150,243);
+  border-color: rgb(33,150,243);
   color: #FFFFFF;
   font-size: 20px;
   padding: 10px 20px;
@@ -511,11 +505,8 @@ li.pricing-title {
 .btn-primary:active,
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
-  /*background-color: rgb(228, 38, 126);*/
-  /*background-color: rgb(186, 2, 98);
-  border-color: rgb(186, 2, 98);*/
-  background-color: #2d8ec5;
-  border-color: #2d8ec5;
+  border-color: rgb(30,136,229);
+  background-color: rgb(30,136,229);
   color: #FFFFFF;
 }
 .btn-primary:active,
@@ -601,8 +592,7 @@ fieldset[disabled] .btn-primary.active {
     color: inherit;
   }
   .navbar-default .nav li a {
-  /*color: rgb(228, 38, 139);*/
-    color: #2d8ec5;
+    color: rgb(33,150,243);
     font-weight: 300;
 
     /*color: #676a6c;*/
@@ -610,7 +600,7 @@ fieldset[disabled] .btn-primary.active {
   .navbar-default .nav li a:hover {
     /*color: rgb(186, 2, 98);*/
     /*color: #1ab394;*/
-    color: #2d8ec5;
+    color: rgb(30,136,229);
   }
   .navbar-wrapper .navbar {
     padding-top: 0;
