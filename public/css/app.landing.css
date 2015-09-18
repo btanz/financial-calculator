@@ -6,6 +6,7 @@
  *   Copyright 2014 Webapplayers.com
  *   Major changes for SimplyFi
  *
+ * SF COLORS: #2DA9E1 = RGB(45,169,225)
 */
 
 
@@ -121,7 +122,7 @@ h1.logo{
   width: 100%;
 }
 .header-back.one {
-  background: url('../images/main/landing-back-18-small.jpg') 50% 0 no-repeat;
+  background: url('../images/main/landing-back-18-mono-small.jpg') 50% 0 no-repeat;
 
 }
 .header-back.two {
@@ -334,6 +335,7 @@ h1.logo{
   /*color: rgb(228,49,139);*/
   /*color: rgb(63,128,205);*/
   color: white;
+  /*color: rgb(0, 0, 0);*/
   font-weight: 600;
   font-size: 45px;
   text-transform: uppercase;
@@ -646,6 +648,12 @@ fieldset[disabled] .btn-primary.active {
     margin-top: 120px;
   }
 }
+
+/* COLORS
+-------------------------------------------------- */
+
+
+
 /* MARGINS & PADDINGS
 -------------------------------------------------- */
 .p-xxs {
