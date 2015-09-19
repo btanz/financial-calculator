@@ -68,11 +68,10 @@ app.controller = (function() {
     });
 
 
-
     /**
      * Make AJAX-request to server
      */
-    $.getJSON(e.target.baseURI + '/inputs',inputs)
+    $.getJSON($(location).attr('pathname') + '/inputs',inputs)
         .done(function(data) {
 
 
