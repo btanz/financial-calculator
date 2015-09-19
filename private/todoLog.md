@@ -12,9 +12,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 ***** I. GLOBAL APP TASKS ******
 
-****  I.A) BEFORE NEXT LAUNCH ****
-* IP anonymisierung (anonymizeIp)
-
 
 ****  I.B) AFTER NEXT LAUNCH ****
 * Steuernummer in Impressum, sobald da

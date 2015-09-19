@@ -72,7 +72,7 @@ app.controller = (function() {
     /**
      * Make AJAX-request to server
      */
-    $.getJSON(e.currentTarget.baseURI + '/inputs',inputs)
+    $.getJSON(e.target.baseURI + '/inputs',inputs)
         .done(function(data) {
 
 
