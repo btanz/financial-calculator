@@ -4,9 +4,9 @@
     "id": "boerse",
     "values": {
       "1": {
-        "name": "Optionspreisrechner",
-        "url": "/optionspreisrechner",
-        "id": "options"
+        "name": "Portfoliorechner",
+        "url": "/portfoliorechner",
+        "id": "portfolio"
       },
       "2": {
         "name": "Aktienrenditerechner",
@@ -19,9 +19,9 @@
         "id": "fx"
       },
       "4": {
-        "name": "Portfoliorechner",
-        "url": "/portfoliorechner",
-        "id": "portfolio"
+        "name": "Optionspreisrechner",
+        "url": "/optionspreisrechner",
+        "id": "options"
       }
     }
   },
