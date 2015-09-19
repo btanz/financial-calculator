@@ -15,7 +15,7 @@ $( document ).ready(function() {
   });
 
   /** scroll down on click of carousel button */
-  $("#carousel-btn").click(function(e) {
+  $("#header-btn").click(function(e) {
     e.preventDefault();
     $('html, body').animate({
       scrollTop: $("#features").offset().top
