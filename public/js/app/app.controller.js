@@ -68,6 +68,7 @@ app.controller = (function() {
     });
 
 
+
     /**
      * Make AJAX-request to server
      */
