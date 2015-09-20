@@ -11,6 +11,10 @@ node_modules
 ##
 logs
 
+##
+private/*
+
+
 # if you remove the above rule, at least ignore the following:
 
 # User-specific stuff:
