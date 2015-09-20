@@ -146,6 +146,9 @@ app.property = (function() {
     } else {
       $('.specialrepayInput').children().remove();
     }
+    /** attach invalidation handler */
+    $('input, select').on('keyup change', app.helpers.clearAllResultsTemplates);
+
   }
 
 

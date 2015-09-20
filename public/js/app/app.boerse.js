@@ -170,6 +170,8 @@ app.boerse = (function() {
     } else {
       $('.dividendsInput').children().remove();
     }
+    /** add invalidation handler */
+    $('input, select').on('keyup change', app.helpers.clearAllResultsTemplates);
   }
 
 

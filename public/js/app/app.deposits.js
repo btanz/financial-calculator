@@ -209,6 +209,7 @@ app.deposits = (function() {
     } else {
       $('.interestInput').children().remove();
     }
+    $('input, select').on('keyup change', app.helpers.clearAllResultsTemplates);
   }
 
   function prepopulateSavingScheme(){
