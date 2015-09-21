@@ -101,6 +101,10 @@ app.controller = (function() {
               app.charts.create(data._chart2, '#results-12');
             }
 
+            // compile feedback template and add button event handler
+            app.helpers.compileTemplate('#feedback', '#main-results-feedback-template', data);
+            $('#btn-feedback').on('click', submitBtnFeedback);
+
             // initialize new tooltips
             $('[data-toggle="tooltip"]').tooltip();
 
@@ -131,6 +135,51 @@ app.controller = (function() {
 
 
   }
+
+
+  /**
+   * Handle feedback button submission
+   */
+  function submitBtnFeedback(e) {
+    e.preventDefault();
+    var message = {};
+    message.text = $('#feedback-text').val();
+    message.name = $('#feedback-name').val();
+    message.email = $('#feedback-email').val();
+
+    $.ajax({
+      url: '/helper/feedback',
+      type: 'GET',
+      data: message
+    })
+    .done(function(data){
+      $('#feedback-text, #feedback-name, #feedback-email, #btn-feedback').hide('slow',function(){
+        $('#feedback-content').append('<h3 hidden id="feedback-thanks" class="sf-green"><i class="fa fa-check fa-lg"></i> Wir haben Ihr Feedback erhalten. Vielen Dank!</h3>');
+        $('#feedback-thanks').show('slow',function(){
+          /* resize box */
+          var $container = $('.masonry-container');
+          $container.masonry({});
+        });
+
+      });
+
+    })
+    .fail(function(){
+
+      $('#feedback-text, #feedback-name, #feedback-email, #btn-feedback').hide('slow',function(){
+        $('#feedback-content').append('<p hidden id="feedback-error" class="sf-red"><i class="fa fa-times fa-lg"></i> Hoppla. Leider ist ein Fehler aufgetreten und Ihre Feedback konnte nicht übermittelt werden. Bitte versuchen Sie es später noch einmal.</p>');
+        $('#feedback-error').show('slow',function(){
+          /* resize box */
+          var $container = $('.masonry-container');
+          $container.masonry({});
+        });
+      });
+    })
+
+
+  }
+
+
 
   /**
    * Read selected value from a clicked dropdown toggle and write it to associated button

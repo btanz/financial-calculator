@@ -81,3 +81,24 @@
   z-index: 2000;
 }
 
+/* COLORS */
+.sf-green{
+  color: rgb(0, 150,136);
+}
+
+.sf-darkgreen{
+  color: rgb(0, 77,64);
+}
+
+.sf-lightgreen{
+  color: rgb(178, 223,219);
+}
+
+.sf-red{
+  color: rgb(255, 87, 34);
+}
+
+.sf-lightred{
+  color: rgb(255, 204, 188);
+}
+

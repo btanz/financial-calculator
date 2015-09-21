@@ -30,6 +30,7 @@ app.helpers = (function($) {
     clearResultsTemplate('#results-12');
     clearResultsTemplate('#results-3');
     clearResultsTemplate('#results-4');
+    clearResultsTemplate('#feedback');
   };
 
 

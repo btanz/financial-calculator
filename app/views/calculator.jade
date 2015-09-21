@@ -124,6 +124,9 @@ block content
 
       div.col-lg-6.item.item-masonry#results-1
 
+      //- write us your feedback container
+      div.col-lg-6.item.item-masonry#feedback
+
       div.col-lg-6.item.item-masonry#results-2
 
       div.col-lg-6.item.item-masonry#results-3
@@ -211,8 +214,29 @@ block content
 
 
 
+  //- main results feedback template
+  script(id='main-results-feedback-template', type='text/x-handlebars-template')
+    div.ibox.float-e-margins
+      div.ibox-title
+        h5
+          i.fa.fa-envelope.fa-lg.text-lightblue &nbsp
+          | Wir freuen uns über Feedback!
 
-  //- main results input template
+      div.ibox-content#feedback-content
+        p Konnten wir Ihnen mit diesem Rechner weiterhelfen? Haben Sie Verbesserungsvorschläge oder benötigen zusätzliche Funktionen? Wir arbeiten ständig an der Verbesserung der Produkte und freuen uns über Ihr Feedback!
+        form
+          div.form-group
+            textarea.form-control#feedback-text(rows='3', placeholder='Ihr Text', style='resize: none')
+          div.form-group
+            input#feedback-name(placeholder='Ihr Name', type='text', class="form-control")
+          div.form-group
+            input#feedback-email(placeholder='Ihre E-Mail-Adresse (optional)', type='email', class="form-control")
+            button.btn.btn-primary.m-t-sm#btn-feedback Absenden
+
+
+
+
+  //- main results input in progress template
   script(id='main-results-input-template', type='text/x-handlebars-template')
     div.ibox.float-e-margins
       div.ibox-title

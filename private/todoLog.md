@@ -16,8 +16,6 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ****  I.B) AFTER NEXT LAUNCH ****
 * IE e.currentTarget issue when at pc with IE 
 * Steuernummer in Impressum, sobald da
-* mobile umbruch
-* feeback-field
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables
 * rechtschreibprüfung

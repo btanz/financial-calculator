@@ -22,6 +22,7 @@ var bodyParser = require('body-parser');
 var routes = require('../app/routes/routes');
 var index = require('../app/routes/index.routes');
 var legal = require('../app/routes/legal.routes');
+var helper = require('../app/routes/helper.routes');
 var data = require('../app/routes/data/data');
 var navElems = require('./../data/static/navElems.json');
 var seed = require('../data/dbseeds/calc.seed');
@@ -120,6 +121,7 @@ app.use('/', routes);
 app.use('/', index);
 app.use('/data', data);
 app.use('/', legal);
+app.use('/helper',helper);
 
 
 /** robots txt route */
