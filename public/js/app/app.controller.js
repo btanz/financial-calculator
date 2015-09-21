@@ -117,6 +117,11 @@ app.controller = (function() {
           $('#wrapper').removeClass('overlay');
 
           app.helpers.compileTemplate('#results-1','#main-results-servererror-template',{});
+        })
+        .always(function(e){
+          /** re-set output containers given adjusted height */
+          var $container = $('.masonry-container');
+          $container.masonry({});
         });
 
 

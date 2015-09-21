@@ -29,109 +29,113 @@ block content
           a(href='/') Home again
 
   div.wrapper.wrapper-content
-    div.row
-      div.col-lg-6
-        div
-          div.ibox.float-e-margins
-            div.ibox-title
-              h5
-                i.fa.fa-edit.fa-lg.text-lightblue &nbsp
-                | Eingaben
+    div.row.masonry-container
+      div.col-lg-6.item.item-masonry
+        div.ibox.float-e-margins
+          div.ibox-title
+            h5
+              i.fa.fa-edit.fa-lg.text-lightblue &nbsp
+              | Eingaben
 
-            div.ibox-content
-              form
-                each input in obj.inputs
-                  - var rank = input.secondary ? 'm-l-lg' : ''
-                  - var hide = input.hide ? 'hide' : ''
-                  //- template for text input fields
-                  if input.type === 'text'
-                    if input.linetop
-                      div.hr-line-dashed
-                    div.form-group(class=rank, class=hide)
-                      label(for=input.id)
-                        | #{input.label} &nbsp
-                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                      if input.addon
-                        div.input-group
-                          input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-                          span.input-group-addon= input.addon
-                      else
-                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-
-                  //- template for number input fields
-                  if input.type === 'number'
-                    if input.linetop
-                      div.hr-line-dashed
-                    div.form-group(class=rank, class=hide)
-                      label(for=input.id)
-                        | #{input.label} &nbsp
-                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                      if input.addon
-                        div.input-group
-                          input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-                          span.input-group-addon= input.addon
-                      else
-                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
-
-                  //- alternative template for number-select input fields
-                  if input.type === 'numberselect'
-                    if input.linetop
-                      div.hr-line-dashed
-                    div.form-group(class=rank, class=hide)
-                      label(for=input.id)
-                        | #{input.label} &nbsp
-                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+          div.ibox-content
+            form
+              each input in obj.inputs
+                - var rank = input.secondary ? 'm-l-lg' : ''
+                - var hide = input.hide ? 'hide' : ''
+                //- template for text input fields
+                if input.type === 'text'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                    if input.addon
                       div.input-group
-                        input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
-                        div.input-group-btn
-                          button(id=input.idselect, value=input.selectedoption, data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
-                            span.caret
-                          ul.dropdown-menu.pull-right
-                            each option in input.options
-                              li
-                                a(href=option.id)= option.description
+                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+                        span.input-group-addon= input.addon
+                    else
+                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+
+                //- template for number input fields
+                if input.type === 'number'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                    if input.addon
+                      div.input-group
+                        input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+                        span.input-group-addon= input.addon
+                    else
+                      input(placeholder=input.placeholder, disabled=input.disabled==1, id=input.id, type=input.type, value=input.value, class="form-control")
+
+                //- alternative template for number-select input fields
+                if input.type === 'numberselect'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                    div.input-group
+                      input(placeholder=input.placeholder, disabled=input.disabled == 1, id=input.id, type=input.type, value=input.value, class="form-control")
+                      div.input-group-btn
+                        button(id=input.idselect, value=input.selectedoption, data-toggle='dropdown', class='btn btn-white dropdown-toggle', type='button') #{input.labelselect}
+                          span.caret
+                        ul.dropdown-menu.pull-right
+                          each option in input.options
+                            li
+                              a(href=option.id)= option.description
 
 
-                  //- template for select input fields
-                  if input.type === 'select'
-                    if input.linetop
-                      div.hr-line-dashed
-                    div.form-group(class=rank, class=hide)
-                      label(for=input.id)
-                        | #{input.label} &nbsp
-                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                      select(id=input.id, class="form-control")
-                        each option in input.options
-                          - var optgroup = (option.description === '_OPTGROUP')
-                            if optgroup
-                              optgroup(label=option.id, selected=option.selected)
-                            else
-                              option(value=option.id, selected=option.selected)= option.description
+                //- template for select input fields
+                if input.type === 'select'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                    select(id=input.id, class="form-control")
+                      each option in input.options
+                        - var optgroup = (option.description === '_OPTGROUP')
+                          if optgroup
+                            optgroup(label=option.id, selected=option.selected)
+                          else
+                            option(value=option.id, selected=option.selected)= option.description
 
-                  //- template for date input fields
-                  if input.type === 'date'
-                    if input.linetop
-                      div.hr-line-dashed
-                    div.form-group(class=rank, class=hide)
-                      label(for=input.id)
-                        | #{input.label} &nbsp
-                        i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
-                      div.input-group.date
-                        span.input-group-addon
-                          i.fa.fa-calendar
-                        input(type='text', id=input.id, value=input.value, class='form-control')
+                //- template for date input fields
+                if input.type === 'date'
+                  if input.linetop
+                    div.hr-line-dashed
+                  div.form-group(class=rank, class=hide)
+                    label(for=input.id)
+                      | #{input.label} &nbsp
+                      i(class='fa fa-question-circle fa-lg', data-toggle='tooltip', data-placement='top', title=input.tooltip)
+                    div.input-group.date
+                      span.input-group-addon
+                        i.fa.fa-calendar
+                      input(type='text', id=input.id, value=input.value, class='form-control')
 
-                button.btn.btn-primary.btn-block.m-t#btn-calculate Berechnen
+              button.btn.btn-primary.btn-block.m-t#btn-calculate Berechnen
 
-        div#results-2
-        div#results-3
-        div#results-4
+      div.col-lg-6.item.item-masonry#results-1
 
-      div.col-lg-6
-        div#results-1
-        div#results-11
-        div#results-12
-        div#results-13
+      div.col-lg-6.item.item-masonry#results-2
+
+      div.col-lg-6.item.item-masonry#results-3
+
+      div.col-lg-6.item.item-masonry#results-4
+
+      div.col-lg-6.item.item-masonry#results-11
+
+      div.col-lg-6.item.item-masonry#results-12
+
+      div.col-lg-6.item.item-masonry#results-13
+
 
 
 

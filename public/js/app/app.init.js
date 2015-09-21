@@ -6,6 +6,11 @@
 
 app.init = function(){
 
+  // initialize masonry
+  var $container = $('.masonry-container');
+  $container.masonry({});
+
+
 
   // initialize datepicker
   $('.input-group.date').datepicker({

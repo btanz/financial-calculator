@@ -1,6 +1,18 @@
 /*************************************/
 /* Individual Elements
 /*************************************/
+
+/* calculator output box width */
+.item-masonry{
+  width: 50%;
+}
+@media (max-width: 1200px) {
+  .item-masonry{
+    width: 100%;
+  }
+}
+
+
 .color-lightblue {
   color: #2DA9E1;
 }
