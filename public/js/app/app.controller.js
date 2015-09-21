@@ -147,6 +147,8 @@ app.controller = (function() {
     message.name = $('#feedback-name').val();
     message.email = $('#feedback-email').val();
 
+    console.log(message);
+
     $.ajax({
       url: '/helper/feedback',
       type: 'GET',
