@@ -10,6 +10,8 @@ exports.feedback = {
 
     var message = req.query.message;
 
+    console.log('the request message: ' + message);
+
     // setup e-mail data with unicode symbols
     var mailOptions = {
       from: 'webserveruser@simplyfi.de', // sender address
@@ -18,13 +20,16 @@ exports.feedback = {
       text: 'Name Absender: ' + message.name + '\n' + 'E-Mail Absender: ' + message.email + '\n' + 'Text der Nachricht: ' + '\n' + message.text // plaintext body
     };
 
+    console.log('*** THE TESTMAILER ***');
+    console.log(testmailer);
 
     // send mail
     testmailer.sendMail(mailOptions, function(error, info){
       if(error){
+        console.log(error);
         return console.log(error);
       }
-      //console.log('Message sent: ' + info.response);
+      console.log('Message sent: ' + info.response);
     });
     res.json({status: 'success'});
   }
