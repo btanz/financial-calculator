@@ -50,19 +50,19 @@ app.controller = (function() {
      */
 
     /** parse input fields */
-    $('input').each( function(){
+    $('#inputs input').each( function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
     });
 
     /** parse select fields */
-    $('select').each( function(){
+    $('#inputs select').each( function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
     /** parse button-numberselect fields */
-    $('button.dropdown-toggle').each(function(){
+    $('#inputs button.dropdown-toggle').each(function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).attr('value');
     });
