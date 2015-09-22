@@ -22,6 +22,10 @@ app.controller = (function() {
     /** calculate document once submit button is clicked */
     $('#btn-calculate').on('click', submitBtnCalculate);
 
+    /** generate pdf */
+    // todo: move this to place where it is only visible when calculation was performed
+    $('#btn-pdf').on('click', submitGeneratePdf);
+
     /** calculate document once onLoad such that users can see first results */
     $('#btn-calculate').trigger('click');
 
@@ -177,6 +181,30 @@ app.controller = (function() {
         });
       });
     })
+
+
+  }
+
+
+  /**
+   * Handle request for pdf
+   */
+  function submitGeneratePdf(e) {
+    e.preventDefault();
+    window.open($(location).attr('pathname') + '/pdf');
+    /*$.ajax({
+      url: $(location).attr('pathname') + '/pdf',
+      type: 'GET',
+      data: 'test'
+    })
+    .done(function(data){
+      console.log('request successful');
+
+    })
+    .fail(function(){
+      console.log('request failed');
+    });*/
+
 
 
   }

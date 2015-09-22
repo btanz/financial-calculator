@@ -1,5 +1,11 @@
+var fs = require('fs');
 var misc = require('../modules/misc');
-var pdf = require('../../lib/phantompdf');
+//var pdf = require('../../lib/phantompdf');
+var jade = require('jade');
+var path = require('path');
+var appDir = path.dirname(require.main.filename);
+
+var pdf = require('../../config/pdf');
 
 /** calculator-misc-daycount */
 exports.daycount = {
@@ -30,9 +36,6 @@ exports.daycount = {
 
   guide: function(req,res){
 
-
-    pdf.sayHello();
-
     var Calc = require('mongoose').model('Calc');
 
     Calc.findByCalcname('daycount')
@@ -42,6 +45,40 @@ exports.daycount = {
         .onReject(function(){
           console.log("An error occurred while rendering the misc-daycount guide.");
         });
+  },
+
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var app = require('../../config/app');
+
+
+    Calc.findByCalcname('daycount')
+        .then(function(data){
+
+
+          app.render('calc/pdf/inputs', {obj: data[0]}, function(err,html){
+            // todo: error handling
+            if(err){
+              console.log(err);
+            } else {
+
+              pdf(html, './businesscard.pdf', function(err, response) {
+                if (err) return console.log(err);
+                res.sendFile(response.filename);
+              });
+            }
+          });
+
+
+
+
+
+        })
+        .onReject(function(){
+          console.log("An error occurred while rendering the misc-daycount guide.");
+        });
+
   }
 
 };
