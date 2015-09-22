@@ -47,21 +47,25 @@ exports.daycount = {
         });
   },
 
+
   generatepdf: function(req,res){
 
     var Calc = require('mongoose').model('Calc');
     var app = require('../../config/app');
+    var inputObj = req.query;
+
 
 
     Calc.findByCalcname('daycount')
         .then(function(data){
 
 
-          app.render('calc/pdf/inputs', {obj: data[0]}, function(err,html){
+          app.render('calc/pdf/inputs', {obj: data[0], inputObj: inputObj}, function(err,html){
             // todo: error handling
             if(err){
               console.log(err);
             } else {
+              console.log(html);
 
               pdf(html, './businesscard.pdf', function(err, response) {
                 if (err) return console.log(err);

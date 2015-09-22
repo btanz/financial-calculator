@@ -16,8 +16,10 @@ body
     h4= obj.designation
     div.inputsbox
       h5 Eingaben
-      p Anfangsdatum
-      p Enddatum
+        each value,key in inputObj
+          p Hallo!
+          -console.log(value)
 
-    -console.log(obj)
+
+
 

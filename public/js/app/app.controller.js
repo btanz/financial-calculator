@@ -191,19 +191,34 @@ app.controller = (function() {
    */
   function submitGeneratePdf(e) {
     e.preventDefault();
-    window.open($(location).attr('pathname') + '/pdf');
-    /*$.ajax({
+
+    var inputs = {};
+
+    /**
+     * Parse and collect inputs
+     */
+
+    /** parse input fields */
+    $('#inputs input').each( function(){
+      var id = $(this).attr('id');
+      inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
+    });
+
+
+
+    $.ajax({
       url: $(location).attr('pathname') + '/pdf',
       type: 'GET',
-      data: 'test'
+      data: inputs
     })
     .done(function(data){
       console.log('request successful');
+      window.open($(location).attr('pathname') + '/pdf');
 
     })
     .fail(function(){
       console.log('request failed');
-    });*/
+    });
 
 
 
