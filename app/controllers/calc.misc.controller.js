@@ -1,4 +1,5 @@
 var misc = require('../modules/misc');
+var pdf = require('../../lib/phantompdf');
 
 /** calculator-misc-daycount */
 exports.daycount = {
@@ -28,6 +29,10 @@ exports.daycount = {
   },
 
   guide: function(req,res){
+
+
+    pdf.sayHello();
+
     var Calc = require('mongoose').model('Calc');
 
     Calc.findByCalcname('daycount')
