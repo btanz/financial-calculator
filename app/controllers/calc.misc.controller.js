@@ -56,7 +56,6 @@ exports.daycount = {
 
     var Calc = require('mongoose').model('Calc');
     var app = require('../../config/app');
-    var fileName = './' + new Date().getTime() + '.pdf';
     var inputObj = req.query;
     var inputPrintObj = {};
 
@@ -73,20 +72,7 @@ exports.daycount = {
 
           misc.daycount(inputObj)
               .then(function(results){
-
-                app.render('calc/pdf/layout', {obj: data[0], inputObj: inputPrintObj, outputObj: results._1, format: pdfFormat.format}, function(err,html){
-                  // todo: error handling
-                  if(err){
-                    console.log(err);
-                  } else {
-                    pdf.generate(html, fileName, function(err, response) {
-                      if (err) return console.log(err);
-                      res.sendFile(response.filename);
-                    });
-
-                  }
-                });
-
+                pdf.fullgenerate(res, app, data[0], inputPrintObj, results._1, pdfFormat.format);
 
               })
               .onReject(function(){
