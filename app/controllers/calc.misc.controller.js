@@ -3,8 +3,9 @@ var misc      = require('../modules/misc');
 var jade      = require('jade');
 var path      = require('path');
 var _         = require('underscore');
-var pdf       = require('../../config/pdf');
+var pdf       = require('simply-pdf');
 var pdfFormat = require('../modules/helper/pdfviewformat.helper.module');
+
 
 /** calculator-misc-daycount */
 exports.daycount = {
@@ -59,8 +60,6 @@ exports.daycount = {
     var inputObj = req.query;
     var inputPrintObj = {};
 
-
-
     Calc.findByCalcname('daycount')
         .then(function(data){
 
@@ -80,10 +79,11 @@ exports.daycount = {
                   if(err){
                     console.log(err);
                   } else {
-                    pdf(html, fileName, function(err, response) {
+                    pdf.generate(html, fileName, function(err, response) {
                       if (err) return console.log(err);
                       res.sendFile(response.filename);
                     });
+
                   }
                 });
 

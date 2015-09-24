@@ -15,7 +15,6 @@
     "debug": "~2.2.0",
     "express": "~4.12.4",
     "file-stream-rotator": "0.0.6",
-    "html-pdf": "^1.4.0",
     "jStat": "^1.3.0",
     "jade": "~1.9.2",
     "moment": "^2.10.3",
@@ -26,6 +25,7 @@
     "numeral": "^1.5.3",
     "request": "^2.57.0",
     "serve-favicon": "~2.2.1",
+    "simply-pdf": "file:lib/pdf",
     "underscore": "^1.8.3",
     "validator": "^3.40.0"
   },
