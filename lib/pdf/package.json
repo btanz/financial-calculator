@@ -1,6 +1,6 @@
 {
   "name": "simply-pdf",
-  "version": "0.1.49",
+  "version": "0.1.50",
   "description": "PDF file creator for SimplyFi",
   "main": "pdf.js",
   "scripts": {
