@@ -55,7 +55,6 @@ exports.daycount = {
   generatepdf: function(req,res){
 
     var Calc = require('mongoose').model('Calc');
-    var app = require('../../config/app');
     var inputObj = req.query;
     var inputPrintObj = {};
 
@@ -63,28 +62,21 @@ exports.daycount = {
         .then(function(data){
 
           /** map label to input element */
-          var test = data[0].inputs;
-
           _.each(inputObj, function(value, key){
-            inputPrintObj[_.find(test, function(item){return (item.name === key);}).label] = inputObj[key];
+            inputPrintObj[_.find(data[0].inputs, function(item){return (item.name === key);}).label] = inputObj[key];
           });
-
 
           misc.daycount(inputObj)
               .then(function(results){
-                pdf.fullgenerate(res, app, data[0], inputPrintObj, results._1, pdfFormat.format);
-
+                pdf.fullgenerate(res, data[0], inputPrintObj, results._1, pdfFormat.format);
               })
               .onReject(function(){
                 console.log('Error occurred');
               });
-
-
         })
         .onReject(function(){
           console.log("An error occurred while generating the misc-daycount pdf.");
         });
-
   }
 
 };

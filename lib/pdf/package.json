@@ -1,6 +1,6 @@
 {
   "name": "simply-pdf",
-  "version": "0.1.7",
+  "version": "0.1.49",
   "description": "PDF file creator for SimplyFi",
   "main": "pdf.js",
   "scripts": {
@@ -9,6 +9,7 @@
   "author": "Benjamin Tanz",
   "license": "ISC",
   "dependencies": {
-    "html-pdf": "^1.4.0"
+    "html-pdf": "^1.4.0",
+    "jade": "^1.11.0"
   }
 }
