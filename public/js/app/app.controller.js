@@ -193,33 +193,32 @@ app.controller = (function() {
     e.preventDefault();
 
     var inputs = {};
+    var queryString;
 
     /**
      * Parse and collect inputs
      */
 
-    /** parse input fields */
+    /** NEW parser for input fields
+    $('#inputs .form-group').each(function(){
+      //console.log($(this).find('label').text());
+      //console.log($(this).find('input').val());
+      inputs[$(this).find('label').text().trim()] = $(this).find('input').val();
+    });*/
+
+
+    /** parse input fields (legacy) */
     $('#inputs input').each( function(){
       var id = $(this).attr('id');
       inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
     });
 
 
+    /** assign parsed values to query string */
+    queryString = $.param(inputs);
 
-    $.ajax({
-      url: $(location).attr('pathname') + '/pdf',
-      type: 'GET',
-      data: inputs
-    })
-    .done(function(data){
-      console.log('request successful');
-      window.open($(location).attr('pathname') + '/pdf');
-
-    })
-    .fail(function(){
-      console.log('request failed');
-    });
-
+    /** perform request */
+    window.open($(location).attr('pathname') + '/pdf?' + queryString);
 
 
   }

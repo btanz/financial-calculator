@@ -91,7 +91,7 @@ p {
 
 .sf-url{
   float: right;
-  padding: 35px 30px 10px 10px;
+  padding: 50px 30px 10px 10px;
 }
 
 .sf-url p{
@@ -99,6 +99,12 @@ p {
 }
 
 .inputsbox{
+  /*border: 1px solid black;
+  border-radius: 5px;*/
+  background-color: #e0e0e0;
+}
+
+.outputsbox-1{
   /*border: 1px solid black;
   border-radius: 5px;*/
   background-color: #e0e0e0;

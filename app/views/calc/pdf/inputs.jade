@@ -14,11 +14,17 @@ body
       p www.simplyfi.de
   div.content
     h4= obj.designation
+
     div.inputsbox
-      h5 Eingaben
-        each value,key in inputObj
-          p Hallo!
-          -console.log(value)
+      h5(style='margin-bottom: 20px;') Eingaben
+      each value,key in inputObj
+        p= key + ': ' + value
+
+    div.outputsbox-1
+      h5(style='margin-bottom: 20px;') Ergebnisse
+      each value,key in outputObj
+        p= value.description + ': ' + value.value
+
 
 
 

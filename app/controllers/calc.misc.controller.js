@@ -52,6 +52,7 @@ exports.daycount = {
 
     var Calc = require('mongoose').model('Calc');
     var app = require('../../config/app');
+    var fileName = './' + new Date().getTime() + '.pdf';
     var inputObj = req.query;
 
 
@@ -59,21 +60,43 @@ exports.daycount = {
     Calc.findByCalcname('daycount')
         .then(function(data){
 
+          misc.daycount(inputObj)
+              .then(function(results){
 
+                app.render('calc/pdf/inputs', {obj: data[0], inputObj: inputObj, outputObj: results._1}, function(err,html){
+                  // todo: error handling
+                  if(err){
+                    console.log(err);
+                  } else {
+                    pdf(html, fileName, function(err, response) {
+                      if (err) return console.log(err);
+                      res.sendFile(response.filename);
+                    });
+                  }
+                });
+
+
+
+              })
+              .onReject(function(){
+                console.log('Error occurred');
+              });
+
+
+        /*
           app.render('calc/pdf/inputs', {obj: data[0], inputObj: inputObj}, function(err,html){
             // todo: error handling
             if(err){
               console.log(err);
             } else {
-              console.log(html);
 
-              pdf(html, './businesscard.pdf', function(err, response) {
+              pdf(html, fileName, function(err, response) {
                 if (err) return console.log(err);
                 res.sendFile(response.filename);
               });
             }
           });
-
+        */
 
 
 
