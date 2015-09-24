@@ -50,6 +50,7 @@ app.init = function(){
   }());
 
   // ******* HANDLEBARS HELPER ********
+  // note: this function also lives on the server tier as a jade helper
   Handlebars.registerHelper('numFormat', function(value,digits,type){
     if(type === "string"){
       return value.toString();

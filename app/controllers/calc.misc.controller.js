@@ -1,15 +1,15 @@
-var fs = require('fs');
-var misc = require('../modules/misc');
-//var pdf = require('../../lib/phantompdf');
-var jade = require('jade');
-var path = require('path');
-var appDir = path.dirname(require.main.filename);
-
-var pdf = require('../../config/pdf');
+var fs        = require('fs');
+var misc      = require('../modules/misc');
+var jade      = require('jade');
+var path      = require('path');
+var _         = require('underscore');
+var pdf       = require('../../config/pdf');
+var pdfFormat = require('../modules/helper/pdfviewformat.helper.module');
 
 /** calculator-misc-daycount */
 exports.daycount = {
 
+  /** render daycount on first load */
   render: function(req, res) {
     var Calc = require('mongoose').model('Calc');
 
@@ -22,6 +22,7 @@ exports.daycount = {
         });
   },
 
+  /** calculate daycount */
   calculate: function(req, res){
     var obj = req.query;
     misc.daycount(obj)
@@ -34,6 +35,7 @@ exports.daycount = {
         });
   },
 
+  /** render daycount guide */
   guide: function(req,res){
 
     var Calc = require('mongoose').model('Calc');
@@ -48,22 +50,32 @@ exports.daycount = {
   },
 
 
+  /** generate pdf for daycount */
   generatepdf: function(req,res){
 
     var Calc = require('mongoose').model('Calc');
     var app = require('../../config/app');
     var fileName = './' + new Date().getTime() + '.pdf';
     var inputObj = req.query;
+    var inputPrintObj = {};
 
 
 
     Calc.findByCalcname('daycount')
         .then(function(data){
 
+          /** map label to input element */
+          var test = data[0].inputs;
+
+          _.each(inputObj, function(value, key){
+            inputPrintObj[_.find(test, function(item){return (item.name === key);}).label] = inputObj[key];
+          });
+
+
           misc.daycount(inputObj)
               .then(function(results){
 
-                app.render('calc/pdf/inputs', {obj: data[0], inputObj: inputObj, outputObj: results._1}, function(err,html){
+                app.render('calc/pdf/layout', {obj: data[0], inputObj: inputPrintObj, outputObj: results._1, format: pdfFormat.format}, function(err,html){
                   // todo: error handling
                   if(err){
                     console.log(err);
@@ -76,34 +88,15 @@ exports.daycount = {
                 });
 
 
-
               })
               .onReject(function(){
                 console.log('Error occurred');
               });
 
 
-        /*
-          app.render('calc/pdf/inputs', {obj: data[0], inputObj: inputObj}, function(err,html){
-            // todo: error handling
-            if(err){
-              console.log(err);
-            } else {
-
-              pdf(html, fileName, function(err, response) {
-                if (err) return console.log(err);
-                res.sendFile(response.filename);
-              });
-            }
-          });
-        */
-
-
-
-
         })
         .onReject(function(){
-          console.log("An error occurred while rendering the misc-daycount guide.");
+          console.log("An error occurred while generating the misc-daycount pdf.");
         });
 
   }

@@ -21,6 +21,10 @@ var options = {
     right: "0cm",
     bottom: "0cm",
     left: "0cm"
+  },
+  "footer": {
+    "height": "18mm",
+    "contents": '<span style="font-size: 11px; position: absolute; top: 0; left: 75px; display: block;">Alle Angaben und Berechnungen ohne Gewähr.</span><span style="font-size: 11px; position: absolute; top: 0; left: 600px; display: block;">Seite {{page}} von {{pages}}</span>'
   }
   /*header: {
     height: "25mm",

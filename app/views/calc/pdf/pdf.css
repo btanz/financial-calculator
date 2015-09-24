@@ -58,6 +58,7 @@ h4,
 h5,
 .h5 {
   font-size: 14px;
+  margin-bottom: 0px;
 }
 h6,
 .h6 {
@@ -76,22 +77,23 @@ p {
 
 
 .header{
-  background-color: #d2d2d2;
+  /*background-color: #d2d2d2;*/
   margin: -10px;
 }
 
 .header-img{
-  padding: 20px 10px 10px 30px;
+  padding: 60px 10px 10px 80px;
 }
 
 .content{
-  padding: 15px 30px 20px 30px;
-  font-family: Arial, sans-serif;
+  padding: 15px 75px 50px 75px;
+  /*font-family: Arial, sans-serif;*/
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
 .sf-url{
   float: right;
-  padding: 50px 30px 10px 10px;
+  padding: 80px 84px 10px 10px;
 }
 
 .sf-url p{
@@ -101,12 +103,19 @@ p {
 .inputsbox{
   /*border: 1px solid black;
   border-radius: 5px;*/
-  background-color: #e0e0e0;
+  /*background-color: #e0e0e0;*/
 }
 
 .outputsbox-1{
   /*border: 1px solid black;
   border-radius: 5px;*/
-  background-color: #e0e0e0;
+  /*background-color: #e0e0e0;*/
 }
+
+table {
+  font-size: 12px;
+  margin-left: -3px;
+
+}
+
 
