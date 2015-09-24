@@ -1,6 +1,6 @@
 {
   "name": "simply-pdf",
-  "version": "0.1.50",
+  "version": "0.1.59",
   "description": "PDF file creator for SimplyFi",
   "main": "pdf.js",
   "scripts": {
@@ -10,6 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "html-pdf": "^1.4.0",
-    "jade": "^1.11.0"
+    "jade": "^1.11.0",
+    "numeral": "^1.5.3",
+    "underscore": "^1.8.3"
   }
 }

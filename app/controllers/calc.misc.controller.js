@@ -4,7 +4,6 @@ var jade      = require('jade');
 var path      = require('path');
 var _         = require('underscore');
 var pdf       = require('simply-pdf');
-var pdfFormat = require('../modules/helper/pdfviewformat.helper.module');
 
 
 /** calculator-misc-daycount */
@@ -56,23 +55,11 @@ exports.daycount = {
 
     var Calc = require('mongoose').model('Calc');
     var inputObj = req.query;
-    var inputPrintObj = {};
+
 
     Calc.findByCalcname('daycount')
         .then(function(data){
-
-          /** map label to input element */
-          _.each(inputObj, function(value, key){
-            inputPrintObj[_.find(data[0].inputs, function(item){return (item.name === key);}).label] = inputObj[key];
-          });
-
-          misc.daycount(inputObj)
-              .then(function(results){
-                pdf.fullgenerate(res, data[0], inputPrintObj, results._1, pdfFormat.format);
-              })
-              .onReject(function(){
-                console.log('Error occurred');
-              });
+          pdf.generate(res, misc.daycount, data[0], inputObj);
         })
         .onReject(function(){
           console.log("An error occurred while generating the misc-daycount pdf.");
