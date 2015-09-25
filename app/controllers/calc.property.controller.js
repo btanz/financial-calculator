@@ -1,4 +1,5 @@
-var property = require('../modules/property');
+var property  = require('../modules/property');
+var pdf       = require('simply-pdf');
 
 
 /** calculator-property-propertyreturn */
@@ -37,6 +38,23 @@ exports.propertyreturn = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the property-propertyreturn guide.");
+        });
+  },
+
+
+  /** generate pdf for propertyreturn */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('propertyreturn')
+        .then(function(data){
+          pdf.generate(res, property.propertyreturn, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.propertyreturn pdf.");
         });
   }
 
@@ -80,7 +98,25 @@ exports.buyrent = {
         .onReject(function(){
           console.log("An error occurred while rendering the property-propertybuyrent guide.");
         });
+  },
+
+
+  /** generate pdf for propertybuyrent */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('propertybuyrent')
+        .then(function(data){
+          pdf.generate(res, property.buyrent, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.propertybuyrent pdf.");
+        });
   }
+
 };
 
 
@@ -121,7 +157,25 @@ exports.rent = {
         .onReject(function(){
           console.log("An error occurred while rendering the property-rent guide.");
         });
+  },
+
+
+  /** generate pdf for propertyrent */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('rent')
+        .then(function(data){
+          pdf.generate(res, property.rent, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.rent pdf.");
+        });
   }
+
 
 };
 
@@ -164,7 +218,25 @@ exports.transfertax = {
         .onReject(function(){
           console.log("An error occurred while rendering the property-transfertax guide.");
         });
+  },
+
+
+  /** generate pdf for propertytax */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('transfertax')
+        .then(function(data){
+          pdf.generate(res, property.transfertax, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.transfertax pdf.");
+        });
   }
+
 };
 
 
@@ -204,6 +276,23 @@ exports.homesave = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the property-homesave guide.");
+        });
+  },
+
+
+  /** generate pdf for propertytax */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('homesave')
+        .then(function(data){
+          pdf.generate(res, property.homesave, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.homesave pdf.");
         });
   }
 
@@ -247,6 +336,23 @@ exports.propertyprice = {
         .onReject(function(){
           console.log("An error occurred while rendering the property-propertyprice guide.");
         });
+  },
+
+
+  /** generate pdf for propertytax */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('propertyprice')
+        .then(function(data){
+          pdf.generate(res, property.propertyprice, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.propertyprice pdf.");
+        });
   }
 
 };
@@ -288,6 +394,23 @@ exports.mortgage = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the property-mortgage guide.");
+        });
+  },
+
+
+  /** generate pdf for mortgage */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('mortgage')
+        .then(function(data){
+          pdf.generate(res, property.mortgage, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the property.mortgage pdf.");
         });
   }
 

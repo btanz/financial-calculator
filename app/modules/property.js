@@ -1380,6 +1380,7 @@ exports.mortgage = function(inputs){
     }
 
 
+
     /** notify that some special repayments could not be considered */
     for (i = 0; i < 30; i++){
       helper.ind = _.find(inputs, function(val, ind){return ind === ('specialrepaymonths' + i);});

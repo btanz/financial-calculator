@@ -1,5 +1,5 @@
-var calcElems = require('../../data/static/calcElems.json');
 var deposits = require('../modules/deposits');
+var pdf       = require('simply-pdf');
 
 /** calculator-deposits-depinterest */
 exports.depinterest = {
@@ -37,6 +37,23 @@ exports.depinterest = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-depinterest guide.");
+        });
+  },
+
+
+  /** generate pdf for propertyreturn */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('depinterest')
+        .then(function(data){
+          pdf.generate(res, deposits.interest, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.interest pdf.");
         });
   }
 
@@ -80,6 +97,23 @@ exports.depsaving = {
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-depsaving guide.");
         });
+  },
+
+
+  /** generate pdf for propertyreturn */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('depsaving')
+        .then(function(data){
+          pdf.generate(res, deposits.savings, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.savings pdf.");
+        });
   }
 
 };
@@ -122,6 +156,23 @@ exports.timedeposit = {
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-timedeposit guide.");
         });
+  },
+
+
+  /** generate pdf for timedeposit */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('timedeposit')
+        .then(function(data){
+          pdf.generate(res, deposits.timedeposit, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.timedeposit pdf.");
+        });
   }
 
 };
@@ -163,6 +214,23 @@ exports.savingscheme = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-savingscheme guide.");
+        });
+  },
+
+
+  /** generate pdf for propertyreturn */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('savingscheme')
+        .then(function(data){
+          pdf.generate(res, deposits.savingscheme, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.savingscheme pdf.");
         });
   }
 
@@ -207,6 +275,23 @@ exports.interestpenalty = {
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-interestpenalty guide.");
         });
+  },
+
+
+  /** generate pdf for interestpenalty */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('interestpenalty')
+        .then(function(data){
+          pdf.generate(res, deposits.interestpenalty, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.interestpenalty pdf.");
+        });
   }
 
 };
@@ -248,6 +333,23 @@ exports.overnightdeposit = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the deposits-overnight guide.");
+        });
+  },
+
+
+  /** generate pdf for timedeposit */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('overnight')
+        .then(function(data){
+          pdf.generate(res, deposits.overnight, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the deposits.overnight pdf.");
         });
   }
 

@@ -220,6 +220,12 @@ app.controller = (function() {
       inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
     });
 
+    /** parse button-numberselect fields */
+    $('#inputs button.dropdown-toggle').each(function(){
+      var id = $(this).attr('id');
+      inputs[id.split('-')[id.split('-').length-1]] = $(this).attr('value');
+    });
+
 
     /** assign parsed values to query string */
     queryString = $.param(inputs);

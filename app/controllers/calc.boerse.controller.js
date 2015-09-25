@@ -1,5 +1,5 @@
 var boerse = require('../modules/boerse');
-var calcElems = require('../../data/static/calcElems.json');
+var pdf  = require('simply-pdf');
 
 /** calculator-boerse-options */
 exports.options = {
@@ -38,7 +38,25 @@ exports.options = {
         .onReject(function(){
           console.log("An error occurred while rendering the boerse-options guide.");
         });
+  },
+
+
+  /** generate pdf for options */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('options')
+        .then(function(data){
+          pdf.generate(res, boerse.blackScholes, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the boerse.blackScholes pdf.");
+        });
   }
+
 };
 
 
@@ -78,6 +96,23 @@ exports.fx = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the boerse-fx guide.");
+        });
+  },
+
+
+  /** generate pdf for fx */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('fx')
+        .then(function(data){
+          pdf.generate(res, boerse.fxConvert, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the boerse.fxConvert pdf.");
         });
   }
 };
@@ -119,6 +154,23 @@ exports.equityreturn = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the boerse-equityreturn guide.");
+        });
+  },
+
+
+  /** generate pdf for equityreturn */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('equityreturn')
+        .then(function(data){
+          pdf.generate(res, boerse.equityReturn, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the boerse.equityReturn pdf.");
         });
   }
 
@@ -162,6 +214,23 @@ exports.portfolio = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the boerse-portfolio calculator.");
+        });
+  },
+
+
+  /** generate pdf for dispo */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('portfolio')
+        .then(function(data){
+          pdf.generate(res, boerse.portfolio, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the boerse.portfolio pdf.");
         });
   }
 

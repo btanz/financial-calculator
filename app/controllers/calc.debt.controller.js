@@ -39,6 +39,23 @@ exports.annuity = {
         .onReject(function(){
           console.log("An error occurred while rendering the debt-annuity guide.");
         });
+  },
+
+
+  /** generate pdf for debt.annuity */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('annuity')
+        .then(function(data){
+          pdf.generate(res, debt.annuity, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the debt.annuity pdf.");
+        });
   }
 
 };
@@ -139,6 +156,23 @@ exports.repaysurrogat = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the debt-repaysurrogat guide.");
+        });
+  },
+
+
+  /** generate pdf for dispo */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('repaysurrogat')
+        .then(function(data){
+          pdf.generate(res, debt.repaysurrogat, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the debt.repaysurrogat pdf.");
         });
   }
 
