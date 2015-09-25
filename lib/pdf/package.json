@@ -1,7 +1,7 @@
 {
   "name": "simply-pdf",
-  "version": "0.1.59",
-  "description": "PDF file creator for SimplyFi",
+  "version": "0.1.63",
+  "description": "PDF file creator for SimplyFi | A package that receives user input and calculation results data and outputs a formatted pdf.",
   "main": "pdf.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
