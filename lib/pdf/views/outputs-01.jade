@@ -6,7 +6,6 @@ div.outputsbox-1
   table(style='table-layout: fixed;')
     col(width='378px;')
     col(width='200px;')
-    -console.log(outputObj);
     each value,key in outputObj
       if value.importance == 'second'
         tr
@@ -14,5 +13,5 @@ div.outputsbox-1
           td= format(value) + ' ' + value.unit
       else
         tr
-          td(style='padding-top: 5px;')= value.description + ': '
-          td(style='padding-top: 5px;')= format(value) + ' ' + value.unit
+          td(style='padding-top: 0px;')= value.description + ': '
+          td(style='padding-top: 0px;')= format(value) + ' ' + value.unit
