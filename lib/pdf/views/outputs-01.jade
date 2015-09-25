@@ -4,14 +4,15 @@
 div.outputsbox-1
   h5 Ergebnisse
   table(style='table-layout: fixed;')
-    col(width='720px;')
+    col(width='378px;')
     col(width='200px;')
+    -console.log(outputObj);
     each value,key in outputObj
       if value.importance == 'second'
         tr
           td(style='padding-left: 20px;')= value.description + ': '
-          td= format(value)
+          td= format(value) + ' ' + value.unit
       else
         tr
           td(style='padding-top: 5px;')= value.description + ': '
-          td(style='padding-top: 5px;')= format(value)
+          td(style='padding-top: 5px;')= format(value) + ' ' + value.unit

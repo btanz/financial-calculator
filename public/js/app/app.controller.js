@@ -214,6 +214,13 @@ app.controller = (function() {
     });
 
 
+    /** parse select fields */
+    $('#inputs select').each( function(){
+      var id = $(this).attr('id');
+      inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
+    });
+
+
     /** assign parsed values to query string */
     queryString = $.param(inputs);
 

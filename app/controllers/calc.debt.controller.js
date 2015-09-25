@@ -1,4 +1,5 @@
 var debt = require('../modules/debt');
+var pdf  = require('simply-pdf');
 
 
 /** calculator-debt-annuity */
@@ -79,6 +80,23 @@ exports.dispo = {
         })
         .onReject(function(){
           console.log("An error occurred while rendering the debt-dispo guide.");
+        });
+  },
+
+
+  /** generate pdf for dispo */
+  generatepdf: function(req,res){
+
+    var Calc = require('mongoose').model('Calc');
+    var inputObj = req.query;
+
+
+    Calc.findByCalcname('dispo')
+        .then(function(data){
+          pdf.generate(res, debt.dispo, data[0], inputObj);
+        })
+        .onReject(function(){
+          console.log("An error occurred while generating the debt-dispo pdf.");
         });
   }
 

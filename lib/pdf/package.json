@@ -1,6 +1,6 @@
 {
   "name": "simply-pdf",
-  "version": "0.1.68",
+  "version": "0.1.72",
   "description": "PDF file creator for SimplyFi | A package that receives user input and calculation results data and outputs a formatted pdf.",
   "main": "pdf.js",
   "scripts": {

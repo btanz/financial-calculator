@@ -112,6 +112,7 @@ router.get('/annuitaetenrechner/guide',         debt.annuity.guide);
 router.get('/dispozinsrechner',                 debt.dispo.render);
 router.get('/dispozinsrechner/inputs',          debt.dispo.calculate);
 router.get('/dispozinsrechner/guide',           debt.dispo.guide);
+router.get('/dispozinsrechner/pdf',             debt.dispo.generatepdf);
 
 router.get('/tilgungssurrogatrechner',          debt.repaysurrogat.render);
 router.get('/tilgungssurrogatrechner/inputs',   debt.repaysurrogat.calculate);
