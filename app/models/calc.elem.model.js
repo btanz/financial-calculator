@@ -8,6 +8,7 @@ var InputsSchema = new Schema({
   name: {type: String, required: true},
   id: {type: String, required: true},
   label: String,
+  labelExtension: String,
   placeholder: String,
   addon: String,
   tooltip: String,

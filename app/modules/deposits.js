@@ -824,6 +824,7 @@ exports.savingscheme = function(inputs) {
     }
 
 
+
     errorMap = helpers.validate(inputs, data[0].inputs);
     if (errorMap.length !== 0) {
       return errorMap;

@@ -1313,12 +1313,20 @@ exports.mortgage = function(inputs){
     delete inputs.termperiods;
     delete inputs.repaymentfreetermperiods;
 
-    /** drop elements that are to be computed from input and expectedinputs object */
-    delete inputs[selectMap[0][inputs.select1]];
-    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[0][inputs.select1]}),1);
 
-    delete inputs[selectMap[1][inputs.select2]];
-    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[1][inputs.select2]}),1);
+    if(inputs.specialrepay === 'false'){
+      inputs.specialrepaypositions = 0;
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'specialrepaymonths'}),1);
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'specialrepayamount'}),1);
+
+    }
+
+    /** drop elements that are to be computed from input and expectedinputs object */
+    delete inputs[selectMap[0][inputs.selectOne]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[0][inputs.selectOne]}),1);
+
+    delete inputs[selectMap[1][inputs.selectTwo]];
+    data[0].inputs.splice(_.findIndex(data[0].inputs, {name: selectMap[1][inputs.selectTwo]}),1);
 
     /** run validation method */
     errorMap = helpers.validate(inputs, data[0].inputs);
@@ -1373,9 +1381,9 @@ exports.mortgage = function(inputs){
 
 
     /** constract array with special repayments */
-    if(inputs.select2 === 1){
+    if(inputs.selectTwo === 1){
       specialpays = f.basic.annualpayments(inputs.term * 12 + 1, inputs.annualrepay);
-    } else if (inputs.select2 === 2) {
+    } else if (inputs.selectTwo === 2) {
       specialpays = f.basic.annualpayments(300 * 12 + 1, inputs.annualrepay);
     }
 
@@ -1394,7 +1402,7 @@ exports.mortgage = function(inputs){
 
 
 
-    if(inputs.select2 === 1) { /** second selection is residual */
+    if(inputs.selectTwo === 1) { /** second selection is residual */
       /** compute schedule with Term, Paymentfrequency, Annuity, Principal and Interest given; RESIDUAL OPEN */
       dyn = f.annuity.schedule.call({
         mode: 1,
@@ -1415,7 +1423,7 @@ exports.mortgage = function(inputs){
         specialrepay: specialpays,
         interest: inputs.interest
       });
-    } else if (inputs.select2 === 2){ /** second selection is term */
+    } else if (inputs.selectTwo === 2){ /** second selection is term */
 
       dyn = f.annuity.schedule.call({
         mode: 2,
@@ -1478,8 +1486,8 @@ exports.mortgage = function(inputs){
     /**
      * 4.A FIRST RESULT CONTAINER
      */
-    result._1.value1           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[0][inputs.select1]}), {"value": inputs[selectMap[0][inputs.select1]]});
-    result._1.value2           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[1][inputs.select2]}), {"value": inputs[selectMap[1][inputs.select2]]});
+    result._1.value1           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[0][inputs.selectOne]}), {"value": inputs[selectMap[0][inputs.selectOne]]});
+    result._1.value2           = _.extend(_.findWhere(data[0].results_1,{name: selectMap[1][inputs.selectTwo]}), {"value": inputs[selectMap[1][inputs.selectTwo]]});
     result._1.totalrepay       = _.extend(_.findWhere(data[0].results_1,{name: 'totalrepay'}),  {"value": helper.totalrepay});
     result._1.totalreduction   = _.extend(_.findWhere(data[0].results_1,{name: 'totalreduction'}),  {"value": helper.totalreduction});
     result._1.totalinterest    = _.extend(_.findWhere(data[0].results_1,{name: 'totalinterest'}),  {"value": helper.totalinterest});
@@ -1499,21 +1507,21 @@ exports.mortgage = function(inputs){
 
 
     /** ******** 5. ATTACH INFORMATION MESSAGES ******** */
-    if (inputs.interest < 0  && inputs.select1 === 3) {  // case where interest is negativ
+    if (inputs.interest < 0  && inputs.selectOne === 3) {  // case where interest is negativ
       helpers.messages.set("Hinweis: Der berechnete Zinssatz ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
     }
-    if (inputs.initialinterest < 0  && inputs.select1 === 4) {  // case where initialinterest is negativ
+    if (inputs.initialinterest < 0  && inputs.selectOne === 4) {  // case where initialinterest is negativ
       helpers.messages.set("Hinweis: Die berechnete anfängliche Tilgung ist negativ. Dies kommt nur in Ausnahmefällen vor. Bitte prüfen Sie, ob alle Eingaben korrekt sind.",2);
     }
-    if (inputs.select2 === 2 && inputs.select1 === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
+    if (inputs.selectTwo === 2 && inputs.selectOne === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
       helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die Rate zu gering ist für die Rückzahlung des Darlehens. Erhöhen Sie die Rate und/oder das Zahlungsintervall der Rate.",undefined , true);
       return helpers.errors.errorMap;
     }
-    if (inputs.select2 === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
+    if (inputs.selectTwo === 2 && typeof inputs.principal === 'number' && typeof inputs.residual === 'number' && inputs.principal < inputs.residual){
       helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die Kreditsumme geringer ist als die Restschuld. Bitte erhöhen Sie die Kreditsumme bzw. die Rate oder verringern Sie die Restschuld.",undefined , true);
       return helpers.errors.errorMap;
     }
-    if (inputs.select2 === 2 && inputs.initialinterest < 0  && inputs.select1 === 4){
+    if (inputs.selectTwo === 2 && inputs.initialinterest < 0  && inputs.selectOne === 4){
       helpers.errors.set("Eine realistische Berechnung kann nicht durchgeführt werden, da die anfängliche Tilgung negativ und die Rate für die Rückzahlung des Darlehens zu gering ist. Erhöhen Sie die Rate bzw. das Zahlungsintervall der Rate.",undefined , true);
       return helpers.errors.errorMap;
     }

@@ -14,7 +14,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 
 
 ****  I.B) AFTER NEXT LAUNCH ****
-* IE e.currentTarget issue when at pc with IE 
+* server-side method for removing to-be-computed elements for use in pdf and calcs (instead of having to do it in each calc)
 * Steuernummer in Impressum, sobald da
 * establish grunt tasks for minification (uglifyjs) and removing DEBUG codegit
 * css classes for output tables

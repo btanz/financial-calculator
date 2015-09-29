@@ -5865,6 +5865,8 @@ function seeder() {
         vtype: 'number',
         args: [0,30],
         label: 'Zinssatz',
+        labelExtension: '. Jahr',
+        addon: '% p. a.',
         optional: false,
         array: 'true',
         arrayParent: 'term'
@@ -6220,8 +6222,8 @@ function seeder() {
     guidereferences: [],
     inputs: [
       {
-        name: 'select1',
-        id: 'property-mortgage-select1',
+        name: 'selectOne',
+        id: 'property-mortgage-selectOne',
         label: 'Was soll berechnet werden? - 1. Auswahl',
         tooltip: 'Für diesen Rechner sind zwei Berechnungsparameter auszuwählen, welche jeweils anhand der anderen Daten berechnet werden. In dieser 1. Auswahl können Sie auswählen, ob die Rate/Annuität, die Kreditsumme, der Zinssatz oder die anfängliche Tilgung berechnet werden soll. Die anfängliche Tilgung ist der prozentuale Anteil der Kreditsumme, welcher mit der ersten Tilgungsrate bezogen auf ein Jahr getilgt wird.',
         type: 'select',
@@ -6247,8 +6249,8 @@ function seeder() {
         ]
       },
       {
-        name: 'select2',
-        id: 'property-mortgage-select2',
+        name: 'selectTwo',
+        id: 'property-mortgage-selectTwo',
         label: 'Was soll berechnet werden? - 2. Auswahl',
         tooltip: 'In dieser 2. Auswahl für die zu berechnenden Parameter können Sie entscheiden, ob die Restschuld oder die Laufzeit berechnet werden soll. Der jeweils andere Werte sollte bekannt sein und wird für die Berechnung benötigt.',
         type: 'select',

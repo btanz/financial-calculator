@@ -210,20 +210,26 @@ app.controller = (function() {
     /** parse input fields (legacy) */
     $('#inputs input').each( function(){
       var id = $(this).attr('id');
-      inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
+      if(!$(this).prop('disabled') && !$(this).closest('.form-group').hasClass('hide')){
+        inputs[id.split('-')[id.split('-').length-1]] = $(this).val();
+      }
     });
 
 
     /** parse select fields */
     $('#inputs select').each( function(){
       var id = $(this).attr('id');
-      inputs[id.split('-')[id.split('-').length-1]] = $(this).find(":selected").val();
+      if(!$(this).prop('disabled')  && !$(this).closest('.form-group').hasClass('hide')) {
+        inputs[id.split('-')[id.split('-').length - 1]] = $(this).find(":selected").val();
+      }
     });
 
     /** parse button-numberselect fields */
     $('#inputs button.dropdown-toggle').each(function(){
       var id = $(this).attr('id');
-      inputs[id.split('-')[id.split('-').length-1]] = $(this).attr('value');
+      if(!$(this).prop('disabled') && !$(this).closest('.form-group').hasClass('hide')) {
+        inputs[id.split('-')[id.split('-').length - 1]] = $(this).attr('value');
+      }
     });
 
 
