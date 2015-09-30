@@ -3397,11 +3397,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -3454,11 +3454,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -3488,11 +3488,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ] 
       },
@@ -5221,11 +5221,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'Nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'Ja'
+            description: 'JA'
           }
         ]
       },
@@ -5534,17 +5534,17 @@ function seeder() {
         id: 'deposits-timedeposit-taxes',
         linetop: true,
         label: 'Steuern berücksichtigen?',
-        tooltip: 'Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.',
+        tooltip: 'Wählen Sie JA, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.',
         type: 'select',
         vtype: 'bool',
         options: [
           {
             id: 'false',
-            description: 'Nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'Ja'
+            description: 'JA'
           }
         ]
       },
@@ -5896,17 +5896,17 @@ function seeder() {
         id: 'deposits-savingscheme-taxes',
         linetop: true,
         label: 'Steuern berücksichtigen?',
-        tooltip: 'Wählen Sie ja, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.',
+        tooltip: 'Wählen Sie JA, um Steuerabzüge auf Kapitalerträge bei der Berechnung zu berücksichtigen.',
         type: 'select',
         vtype: 'bool',
         options: [
           {
             id: 'false',
-            description: 'Nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'Ja'
+            description: 'JA'
           }
         ]
       },
@@ -6296,11 +6296,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -6353,11 +6353,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -6475,11 +6475,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -6603,11 +6603,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'ja'
+            description: 'JA'
           }
         ]
       },
@@ -7440,11 +7440,11 @@ function seeder() {
         options: [
           {
             id: 'false',
-            description: 'Nein'
+            description: 'NEIN'
           },
           {
             id: 'true',
-            description: 'Ja'
+            description: 'JA'
           }
         ]
       },
@@ -7460,7 +7460,7 @@ function seeder() {
         vtype: 'date'
       },
       {
-        name: 'from',
+        name: 'to',
         id: 'boerse-portfolio-to',
         linetop: false,
         label: 'Zeitraum bis',
@@ -7474,6 +7474,7 @@ function seeder() {
         name: 'asset',
         id: 'boerse-portfolio-asset',
         label: 'Position',
+        nopdf: true,
         tooltip: 'Position',
         type: 'custom',
         vtype: 'string',

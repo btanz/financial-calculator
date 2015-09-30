@@ -229,7 +229,8 @@ exports.portfolio = {
         .then(function(data){
           pdf.generate(res, boerse.portfolio, data[0], inputObj);
         })
-        .onReject(function(){
+        .onReject(function(e){
+          console.log(e);
           console.log("An error occurred while generating the boerse.portfolio pdf.");
         });
   }

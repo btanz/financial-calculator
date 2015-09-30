@@ -11,6 +11,7 @@ var InputsSchema = new Schema({
   labelExtension: String,
   placeholder: String,
   addon: String,
+  nopdf: Boolean,
   tooltip: String,
   type: String,
   vtype: String,
