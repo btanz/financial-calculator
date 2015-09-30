@@ -933,32 +933,21 @@ exports.savingscheme = function(inputs) {
     /*
      5.A FIRST RESULT CONTAINER
      */
-    if (inputs.calcselect === 2) {
-      //result._1.value = _.extend(_.findWhere(data[0].results_1,{name: selectMap[inputs.select]}), {"value": helper.result});
+    if (inputs.calcselect === 2) { /** terminal value is to be computed */
       result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminalmain'}), {"value": helper.terminal});
-      //result._1.terminal = _.extend(localElems['terminalmain'], {"value": helper.terminal});
-      result._1.principal = _.extend(_.findWhere(data[0].results_1,{name: 'principal'}), {"value": helper.principal});
-      //result._1.principal = _.extend(localElems['principal'], {"value": inputs.principal || helper.principal});
+      result._1.principal = _.extend(_.findWhere(data[0].results_1,{name: 'principal'}), {"value": inputs.principal || helper.principal});
       result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}), {"value": helper.interest});
-      //result._1.interest = _.extend(localElems['interest'], {"value": helper.interest});
     } else {
       result._1.principal = _.extend(_.findWhere(data[0].results_1,{name: 'principalmain'}), {"value": inputs.principal || helper.principal});
-      //result._1.principal = _.extend(localElems['principalmain'], {"value": inputs.principal || helper.principal});
       result._1.interest = _.extend(_.findWhere(data[0].results_1,{name: 'interest'}), {"value": helper.interest});
-      //result._1.interest = _.extend(localElems['interest'], {"value": helper.interest});
       result._1.terminal = _.extend(_.findWhere(data[0].results_1,{name: 'terminal'}), {"value": helper.terminal});
-      //result._1.terminal = _.extend(localElems['terminal'], {"value": helper.terminal});
     }
     if (inputs.taxes) {
       result._1.taxes = _.extend(_.findWhere(data[0].results_1,{name: 'taxes'}), {"value": helper.taxtotal});
-      //result._1.taxes = _.extend(localElems['taxes'], {"value": helper.taxtotal})
     }
     result._1.averageinterest   = _.extend(_.findWhere(data[0].results_1,{name: 'averageinterest'}), {"value": helper.averageinterest * 100});
-    //result._1.averageinterest = _.extend(localElems['averageinterest'], {"value": helper.averageinterest * 100});
     result._1.linearinterest    = _.extend(_.findWhere(data[0].results_1,{name: 'linearinterest'}), {"value": helper.linearinterest * 100});
-    //result._1.linearinterest  = _.extend(localElems['linearinterest'], {"value": helper.linearinterest * 100});
     result._1.effectiveinterest = _.extend(_.findWhere(data[0].results_1,{name: 'effectiveinterest'}), {"value": helper.effectiveinterest * 100});
-    //result._1.effectiveinterest= _.extend(localElems['effectiveinterest'], {"value": helper.effectiveinterest * 100});
 
 
     /*
