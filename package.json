@@ -24,6 +24,7 @@
     "nodemailer": "^1.4.0",
     "numeral": "^1.5.3",
     "request": "^2.57.0",
+    "request-promise": "^0.4.3",
     "serve-favicon": "~2.2.1",
     "simply-pdf": "file:lib/pdf",
     "underscore": "^1.8.3",

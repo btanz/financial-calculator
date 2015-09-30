@@ -1,4 +1,4 @@
-var request = require('request');
+var rp = require('request-promise');
 var fx = require('money');
 var _ = require('underscore');
 var stats = require('jStat').jStat;
@@ -122,7 +122,7 @@ exports.blackScholes = function (inputs,cb) {
 
 // query exchange rates using the fixer.io API (ECB exchange rates)
 // todo: documentation
-exports.fxConvert = function (inputs,callback) {
+exports.fxConvert = function (inputs) {
 
   /** ******** 1. INIT AND ASSIGN ******** */
   var Calc = require('mongoose').model('Calc');
@@ -131,30 +131,22 @@ exports.fxConvert = function (inputs,callback) {
   var errorMap;
   var adjustment = 1, rate;
 
+  return Calc.findByCalcname('fx')
+      .then(function(data){
+        return compute(data);
+      })
+      .onReject(function(){
+        console.log("Database read error");
+        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
+        return helpers.errors.errorMap;
+      });
+
+
+
+
   function compute(data){
 
-    /* ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
-    errorMap = helpers.validate(inputs, data[0].inputs);
-
-    if (errorMap.length !== 0){
-      callback(errorMap);
-      return;
-    }
-
-
-    /* ******** 3. COMPUTATIONS ******** */
-    request('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2', function(error,response,body){
-      if (!error && response.statusCode == 200) {
-        var fxData = JSON.parse(body);
-        fx.rates = fxData.rates;
-        fx.base = fxData.base;
-        value = fx.convert(inputs.principal, {from: inputs.from, to: inputs.to});
-        returnResults(value);
-      } else {
-        return null;
-      }
-    });
-
+    /** ******** 1. HELPER FUNCTION ******** */
     returnResults = function(value){
       /* ******** 4. CONSTRUCT RESULT OBJECT ******** */
 
@@ -173,21 +165,35 @@ exports.fxConvert = function (inputs,callback) {
       result._2.header = [inputs.from, inputs.to, inputs.to, inputs.from];
       result._2.body = [];
       [1,2,3,4,5,10,15,20,25,50,100,250,500,1000,10000,100000].forEach(function(element, index){
-        result._2.body.push([(element/adjustment), (element/adjustment)*(value/inputs.principal), (element*adjustment), (element*adjustment)/(value/inputs.principal)]);
+       result._2.body.push([(element/adjustment), (element/adjustment)*(value/inputs.principal), (element*adjustment), (element*adjustment)/(value/inputs.principal)]);
       });
-    callback(null, result);
+
+      return result
+    };
+
+
+
+    /** ******** 2. INPUT ERROR CHECKING AND PREPARATIONS ******** */
+    errorMap = helpers.validate(inputs, data[0].inputs);
+
+    if (errorMap.length !== 0){
+      return errorMap;
     }
+
+    /** ******** 3. COMPUTATIONS ******** */
+    return rp('http://openexchangerates.org/api/latest.json?app_id=42c2d766a7314fcf83a86efc88f4b8a2')
+        .then(function(data){
+          var fxData = JSON.parse(data);
+          fx.rates = fxData.rates;
+          fx.base = fxData.base;
+          value = fx.convert(inputs.principal, {from: inputs.from, to: inputs.to});
+          return returnResults(value);
+        })
+        .catch(function(e){
+          console.log('An error occured requesting the exchange rates');
+          }
+       );
   }
-
-  Calc.findByCalcname('fx')
-      .then(compute)
-      .onReject(function(){
-        console.log("Database read error");
-        helpers.errors.set("Leider ist bei der Berechnung ein Fehler aufgetreten.",undefined , true);
-        return helpers.errors.errorMap;
-      });
-
-
 };
 
 

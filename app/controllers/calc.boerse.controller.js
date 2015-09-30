@@ -77,14 +77,16 @@ exports.fx = {
 
   calculate: function(req,res) {
     var obj = req.query;
-    boerse.fxConvert(obj, function (err, results) {
-      if (results) {
-        res.json(results);
-      }
-      if (err) {
-        res.json(err)
-      }
-    });
+
+    boerse.fxConvert(obj)
+        .then(function(results){
+          res.json(results);
+        })
+        .onReject(function(){
+          console.log('Error occurred');
+          res.json({});
+        });
+
   },
 
   guide: function(req,res){
