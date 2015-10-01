@@ -23,7 +23,6 @@ app.controller = (function() {
     $('#btn-calculate').on('click', submitBtnCalculate);
 
     /** generate pdf */
-    // todo: move this to place where it is only visible when calculation was performed
     $('#btn-pdf').on('click', submitGeneratePdf);
 
     /** calculate document once onLoad such that users can see first results */
@@ -130,6 +129,8 @@ app.controller = (function() {
           /** re-set output containers given adjusted height */
           var $container = $('.masonry-container');
           $container.masonry({});
+          /** attach event handlers for generated panels */
+          $('#btn-pdf').on('click', submitGeneratePdf);
         });
 
 
@@ -194,6 +195,7 @@ app.controller = (function() {
 
     var inputs = {};
     var queryString;
+
 
     /**
      * Parse and collect inputs
