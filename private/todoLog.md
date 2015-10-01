@@ -34,6 +34,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * useful print previews
 * excel file generator
 * frontend validation
+* phantom-js: don't shut down phantom @ every pdf creation (http://www.feedhenry.com/server-side-pdf-generation-node-js/)
 * search for calculators / tasks on the landing page
 * modals for zoom -> popups for results etc
 * more effient frontent-code for showing and hiding inputs
@@ -80,6 +81,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 ***** III. NICE-TO-HAVE TASKS ******
 * yuidoc-conform documentation
 * single var per function style
+
 
 
 ***** IV. CALCULATORS TO BE ADDED ******
