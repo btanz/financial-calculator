@@ -10,8 +10,8 @@ div.outputsbox-1
       if value.importance == 'second'
         tr
           td(style='padding-left: 20px;')= value.description + ': '
-          td= format(value) + ' ' + value.unit
+          td(style='text-align: right;')= format(value) + ' ' + value.unit
       else
         tr
           td(style='padding-top: 0px;')= value.description + ': '
-          td(style='padding-top: 0px;')= format(value) + ' ' + value.unit
+          td(style='padding-top: 0px; text-align: right;')= format(value) + ' ' + value.unit

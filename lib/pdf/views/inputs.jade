@@ -11,9 +11,9 @@ div.inputsbox
       tr
         td= value.description + ': '
         if value.label == undefined || value.label == 'Datum'
-          td(style='padding-top: 0px;')= value.value
+          td(style='padding-top: 0px; text-align: right')= value.value
         else
-          td(style='padding-top: 0px;')= value.value + ' ' + value.label
+          td(style='padding-top: 0px; text-align: right')= value.value + ' ' + value.label
 
 
 
