@@ -1992,6 +1992,7 @@ function seeder() {
         id: 'boerse-equityreturn-dividendAmount',
         type: 'custom',
         vtype: 'number',
+        addon: 'EUR',
         args: [0, 1000000000],
         label: 'Dividendenbetrag',
         optional: false,

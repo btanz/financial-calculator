@@ -96,11 +96,13 @@ app.boerse = (function() {
 
   function addAsset(e){
     e.preventDefault();
+    app.helpers.clearAllResultsTemplates();
     app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position',  id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
     positioncounter += 1;
     // attach handlers to new element
     $('.boerse-portfolio-assetclass').on('change', requestAssets);
     $('.boerse-portfolio-remove').on('click', removeAsset);
+    $('input, select').on('keyup change', app.helpers.clearAllResultsTemplates);
   }
 
 
