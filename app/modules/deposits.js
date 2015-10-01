@@ -1137,6 +1137,18 @@ exports.overnight = function(inputs) {
       delete inputs.interest;
       data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'interest'}), 1);
       //delete _expectedInputs.interest;
+    } else {
+      delete inputs.specialinterestthreshold;
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'specialinterestthreshold'}), 1);
+      delete inputs.specialinterest;
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'specialinterest'}), 1);
+    }
+
+    if(inputs.taxes === 'false'){
+      delete inputs.taxrate;
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxrate'}), 1);
+      delete inputs.taxfree;
+      data[0].inputs.splice(_.findIndex(data[0].inputs, {name: 'taxfree'}), 1);
     }
 
     /** run validation method */

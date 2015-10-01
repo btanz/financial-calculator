@@ -25,6 +25,7 @@ The purpose of this file is to collect todos mainly based on feedback and experi
 * mocha testing for finance library
 * graphs
 * animationen
+* move validation and input preparation out to different method
 * improved rootfinding algorithm (use rserve?)
 * verlinkungen auf andere Rechner
 * Aktienrenditerechner sollte dividendenrendite können wegen SEO

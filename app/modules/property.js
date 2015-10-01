@@ -925,9 +925,9 @@ exports.buyrent = function(inputs) {
     inputs.equityinterest = inputs.equityinterest / 100;
     inputs.debtinterest = inputs.debtinterest / 100;
     inputs.rentdynamic = inputs.rentdynamic / 100;
-    inputs.incomedynamic = inputs.incomedynamic / 100;
-    inputs.valuedynamic = inputs.valuedynamic / 100;
-    inputs.costdynamic = inputs.costdynamic / 100;
+    inputs.incomedynamic = (inputs.incomedynamic / 100) || 0;
+    inputs.valuedynamic = (inputs.valuedynamic / 100) || 0;
+    inputs.costdynamic = (inputs.costdynamic / 100) || 0;
 
 
     /** ******** 3. COMPUTATIONS ******** */
@@ -997,9 +997,6 @@ exports.buyrent = function(inputs) {
       for (var j = 1; j <= 12; j++) {  // compute 'subannual' interest; this is necessary because the loan payments may end in a month between two years
         temp1 += inputs.income * Math.pow(1 + inputs.dynamics * inputs.incomedynamic, i - 1) - inputs.maintenance * Math.pow(1 + inputs.dynamics * inputs.costdynamic, i - 1);
         temp2 += temp1 >= 0 ? temp1 * (inputs.equityinterest / 12) : 0;
-        //temp2 += temp1 * (inputs.equityinterest / 12);
-        //console.log('i: ' + i + ', temp1: ' + temp1 + ', temp2: ' + temp2);
-        //console.log('temp 1: ' + temp1 + ', total annual repay: ' + temp3 + ', inputs.debtpay: ' + inputs.debtpay);
         if (temp3 >= inputs.debtpay) {
           temp1 -= inputs.debtpay;
           temp3 -= inputs.debtpay;
@@ -1011,7 +1008,6 @@ exports.buyrent = function(inputs) {
         }
       }
       dynBuy[9][i - 1] = ((dynBuy[8][i - 1] + dynBuy[7][i - 1]) >= 0) ? dynBuy[1][i - 1] * inputs.equityinterest + temp2 : temp2;
-      //console.log('Zinsertrag: ' + dynBuy[9][i - 1] + ', temp2: ' + temp2 + ', else: ' + (dynBuy[1][i - 1] * inputs.equityinterest + temp2) + ', bop money wealth: ' + dynBuy[1][i - 1]);
       dynBuy[10][i - 1] = inputs.price * (inputs.dynamics) * (Math.pow(1 + inputs.valuedynamic, i) - Math.pow(1 + inputs.valuedynamic, i - 1));  //
       dynBuy[11][i - 1] = dynBuy[1][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1];   // money wealth end
       dynBuy[12][i - 1] = dynBuy[2][i - 1] + dynBuy[5][i - 1] + dynBuy[8][i - 1] + dynBuy[9][i - 1] + dynBuy[10][i - 1];   // total wealth eop
@@ -1073,7 +1069,6 @@ exports.buyrent = function(inputs) {
     result._1.buyRepay          = _.extend(_.findWhere(data[0].results_1,{name: 'buyrepay'}),  {"value": -helper.buyRepay});
     result._1.buyResidual       = _.extend(_.findWhere(data[0].results_1,{name: 'buyresidual'}),  {"value": helper.buyResidual});
     result._1.buyPropValue      = _.extend(_.findWhere(data[0].results_1,{name: 'buypropvalue'}),  {"value": inputs.price + helper.buyPropertyIncrease});
-
     /**
      6.B SECOND RESULT CONTAINER
      */
