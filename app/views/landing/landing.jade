@@ -1,7 +1,6 @@
 //- This is the app's landing page
    Created by benjamintanz on 03.09.15.
 
-// Want to work on our code and build SaaS-Products for the financial sector? SimplyFi is looking for developers (JS, Node.js, Python, Scala | AWS DevOps, RESTful systems, MongoDB)
 
 
 doctype html
@@ -33,59 +32,50 @@ html(lang='de')
       nav.navbar.navbar-default.navbar-fixed-top(role='navigation')
         div.container
           div.navbar-header.page-scroll
-            button(type='button', class='navbar-toggle collapsed', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+            //-button(type='button', class='navbar-toggle collapsed', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
               span(class='sr-only') Navigation öffnen
               span(class='icon-bar sf-bar')
               span(class='icon-bar sf-bar')
               span(class='icon-bar sf-bar')
             a(class='navbar-brand', href='/')
               h1.logo SimplyFi
-          div#navbar.navbar-collapse.collapse
+          //-div#navbar.navbar-collapse.collapse
             ul.nav.navbar-nav.navbar-right
               li
                 a.page-scroll(href='#') Home
               li
                 a.page-scroll(href='#calcs') Rechner
-              //li
-                a.page-scroll(href='#') Blog
-
-
-    //div(id="inSlider", class="carousel slide carousel-fade", data-ride="carousel")
-      //-ol(class="carousel-indicators")
-        li(data-target="#inSlider", data-slide-to="0", class="active")
-      div(class="carousel-inner", role="listbox")
-        div(class="item active")
-          //-div(class="container")
-          div(class="container-fluid")
-            div(class="carousel-caption")
-              h1.m-b-xl.lightgrey Die PLattform für Finanzberechnungen
-              p
-                a(class='btn btn-lg btn-primary btn-sf', href='#features', role='button', id='carousel-btn') Mehr erfahren
-
-          div(class="header-back one")
 
     //- top image
     div(class="header-container")
       div(class="container-fluid")
         div(class="carousel-caption")
           h1.lightgrey Die Plattform für Finanzberechnungen
-          p
+          //-p
             a(class='btn btn-lg btn-primary', href='#features', role='button', id='header-btn') Mehr erfahren
 
-      div(class="header-back one")
+      //-div(class="header-back one")
+
 
 
     section(id='features' class='container services')
 
+
       div.row
         div.col-lg-12.text-center
-          div.blue-line(style='margin: 20px auto 0;')
+          //div.blue-line(style='margin: 20px auto 0;')
           h1 SimplyFi macht komplexe Finanzberechnungen zum Kinderspiel.
           div.space-30
-
-
       //- first marketing row
       div.row
+        div.col-sm-4
+          img(src='../images/icons/sf-icon-02.png', class='img-responsive img-tiny', style='margin: 0 auto;')
+          h2 Portfolios optimieren
+          p Stellen Sie ein nach der modernen Portfoliotheorie optimales Aktienportfolio zusammen oder prüfen Sie, ob ein bestimmtes Portfolio optimal ist.
+          p Mit dem Portfoliorechner können Sie optimale Wertpapierkombinationen bestimmen:
+          p
+            a(class='blue-link', href='/portfoliorechner', role='button') Portfoliorechner &raquo;
+
         div.col-sm-4
           img(src='../images/icons/sf-icon-04.png', class='img-responsive img-tiny', style='margin: 0 auto;')
           h2 Tilgungs- und Sparpläne erstellen
@@ -113,51 +103,11 @@ html(lang='de')
             a(class='blue-link', href='/immobilienrenditerechner', role='button') Immobilienrenditerechner &raquo;
           p
             a(class='blue-link', href='/aktienrenditerechner', role='button') Aktienrenditerechner &raquo;
-        div.col-sm-4
-          img(src='../images/icons/sf-icon-02.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          h2 Portfolios optimieren
-          p Stellen Sie ein nach der modernen Portfoliotheorie optimales Aktienportfolio zusammen oder prüfen Sie, ob ein bestimmtes Portfolio optimal ist.
-          p Mit dem Portfoliorechner können Sie optimale Wertpapierkombinationen bestimmen:
-          p
-            a(class='blue-link', href='/portfoliorechner', role='button') Portfoliorechner &raquo;
 
-
-      //- second marketing row
-      div.row
-        div.col-lg-12.text-center
-          div.blue-line
-          h1 In drei Schritten zu mehr Durchblick bei Finanzierungen und Geldanlagen.
-
-
-      //- third marketing row
-      div.row.features-block
-        div.col-sm-4
-          img(src='../images/icons/sf-icon-11.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-
-          h2 Rechner wählen
-          p Wählen Sie das für Ihren Zweck passende Berechnungstool aus den Kategorien Börse, Festgeld, Immobilien oder Kredit & Finanzierung.
-          p Eine Übersicht aller Berechnungstools finden Sie
-            a(href='#calcs', id='calcs-link')  hier
-            | .
-          p Sie haben kein passendes Tool gefunden? Schreiben Sie uns eine
-            a(href='mailto:kontakt@simplyfi.de')  E-Mail
-            |  mit Ihren Anforderungen. Wir arbeiten ständig an der Verbesserung von SimplyFi und freuen uns über Ihr Feedback.
-
-
-        div.col-sm-4
-          img(src='../images/icons/sf-icon-12.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          h2 Daten eingeben
-          p Geben Sie die Rahmendaten für Ihre Berechnung ein. Zum schnelleren Einstieg sind Beispielwerte bei jedem Rechner bereits vorgegeben.
-
-
-        div.col-sm-4
-          img(src='../images/icons/sf-icon-13.png', class='img-responsive img-tiny', style='margin: 0 auto;')
-          h2 Rechnung durchführen
-          p Mit einem Klick erstellen Sie Tilgungspläne, optimieren Aktienportfolios oder berechnen Effektivzinsen.
 
 
       //- fourth marketing row
-      div.row#calcs
+      div.row
         div.col-lg-12.text-center
           div.blue-line
           h1 Alle Berechnungstools im Überblick.
@@ -217,9 +167,39 @@ html(lang='de')
           p
             a(class='blue-link', href='/tilgungssurrogatrechner', role='button') Tilgungssurrogatrechner &raquo;
 
+      //- second marketing row
+      div.row
+        div.col-lg-12.text-center
+          div.blue-line
+          h1 In drei Schritten zu mehr Durchblick bei Finanzierungen und Geldanlagen.
 
 
+      //- third marketing row
       div.row.features-block
+        div.col-sm-4
+          img(src='../images/icons/sf-icon-11.png', class='img-responsive img-tiny', style='margin: 0 auto;')
+
+          h2 Rechner wählen
+          p Wählen Sie das für Ihren Zweck passende Berechnungstool aus den Kategorien Börse, Festgeld, Immobilien oder Kredit & Finanzierung.
+
+
+        div.col-sm-4
+          img(src='../images/icons/sf-icon-12.png', class='img-responsive img-tiny', style='margin: 0 auto;')
+          h2 Daten eingeben
+          p Geben Sie die Rahmendaten für Ihre Berechnung ein. Zum schnelleren Einstieg sind Beispielwerte bei jedem Rechner bereits vorgegeben.
+
+
+        div.col-sm-4
+          img(src='../images/icons/sf-icon-13.png', class='img-responsive img-tiny', style='margin: 0 auto;')
+          h2 Rechnung durchführen
+          p Mit einem Klick erstellen Sie Tilgungspläne, optimieren Aktienportfolios oder berechnen Effektivzinsen.
+
+
+
+
+
+
+      //-div.row.features-block
         div.col-lg-6.features-text
           h2 Jederzeit und überall verfügbar
           p Ob im Büro, zu Hause oder unterwegs, SimplyFi funktioniert auf allen Ihren Geräten.
@@ -234,8 +214,8 @@ html(lang='de')
         div.row.m-b-lg
           div.col-lg-12.text-center
             div.blue-line
-            h1 Kontaktieren Sie uns
-            p Wir freuen uns jederzeit auf Ihre Kontaktaufnahme.
+            h1 SimplyFi
+            p SimplyFi ist ein Projekt der
         div.row.m-b-lg
           div.col-lg-12.text-center
             address
@@ -247,7 +227,7 @@ html(lang='de')
                 | 80799 München
           //-div.col-lg-4
             p.text-color Text hier
-        div.row
+        //-div.row
           div.col-lg-12.text-center
             a(href='mailto:kontakt@simplyfi.de', class='btn btn-primary') Schreiben Sie uns eine E-Mail
             p.m-t-sm Oder folgen Sie uns auf Twitter, Facebook oder LinkedIN
@@ -264,7 +244,7 @@ html(lang='de')
         div.row
           div.col-lg-8.col-lg-offset-2.text-center.m-t-lg.m-b-lg
             p
-              | &copy; 2015 SimplyFi Analytics
+              | &copy; 2016 SimplyFi Analytics
             p
               a(href='/impressum') Impressum
               | &nbsp | &nbsp

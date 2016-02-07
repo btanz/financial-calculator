@@ -64,8 +64,9 @@ h1.logo{
 
 /* FIRST BACKGROUND IMAGE */
 .header-container{
-  height: 900px;
-  background-color: #777;
+  /*height: 900px; */  /* contained height with picture */
+  height: 200px;
+  background-color: #007db8;
   overflow: visible;
 }
 .header-back {
@@ -275,7 +276,8 @@ h1.logo{
 }
 .carousel-caption {
   position: absolute;
-  top: 500px;
+  /*top: 500px;*/
+  top: 100px;
   margin-left: auto;
   bottom: auto;
   margin-right: auto;
@@ -298,7 +300,7 @@ h1.logo{
   color: white;
   /*color: rgb(0, 0, 0);*/
   font-weight: 600;
-  font-size: 45px;
+  font-size: 35px;
   text-transform: uppercase;
   text-shadow: none;
   margin-top: 0px;
@@ -528,9 +530,19 @@ fieldset[disabled] .btn-primary.active {
 }
 
 
+@media (max-width: 1240px) {
+  .header-container{
+    height: 240px;
+  }
+}
+
 @media (max-width: 992px) {
   .carousel-image {
     display: none;
+  }
+
+  .header-container{
+    height: 240px;
   }
 }
 
@@ -539,7 +551,7 @@ fieldset[disabled] .btn-primary.active {
   .carousel-caption,
   .carousel-caption.blank {
     /*left: 5%;*/
-    top: 300px;
+    top: 60px;
   }
   .carousel-caption h1 {
     font-size: 22px;
@@ -547,8 +559,9 @@ fieldset[disabled] .btn-primary.active {
 
   /* FIRST BACKGROUND IMAGE */
   .header-container{
-    height: 600px;
+    height: 150px;
   }
+
   .header-back {
     height: 600px;
   }

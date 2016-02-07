@@ -8,10 +8,10 @@ var debug = require('debug')('simplyfi:server');
 
 /** B. External dependencies */
 var mongoose = require('../config/mongoose');
-var FileStreamRotator = require('file-stream-rotator')
+var FileStreamRotator = require('file-stream-rotator');
 var express = require('express');
 var path = require('path');
-var fs = require('fs')
+var fs = require('fs');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var compress = require('compression');
