@@ -7398,7 +7398,7 @@ function seeder() {
         label: 'Zielrendite',
         addon: '% p. a.',
         placeholder: 'Zielrendite',
-        value: '15.50',
+        value: '12.50',
         tooltip: 'Wählen Sie hier die Zielrendite für das Portfolio aus. Je höher Sie diese wählen, desto höher wird auch das Risiko des Portfolios sein. Der Rechner wird das Portfoliorisiko für diese Zielrendite minimieren.',
         type: 'number',
         vtype: 'number',
