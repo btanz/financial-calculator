@@ -1,13 +1,14 @@
 /**
  * PRODUCTION environment config
  */
+var keys = require('../../keys/keys');
 
 var dbSettings = {
-  "USER": "",
-  "PASS": "",
-  "HOST": "localhost",
-  "PORT": "27017",
-  "DATABASE": "simplyfi"
+  "USER": keys.dbUser,
+  "PASS": keys.dbPass,
+  "HOST": keys.dbHost,
+  "PORT": keys.dbPort,
+  "DATABASE": keys.dbDatabase
 };
 
 
