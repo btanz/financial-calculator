@@ -13,7 +13,10 @@ The application is hosted at http://www.simplyfi.de and has around 600 organic v
 Setting up excel sheets to perform financial calculations can be a daunting task. For example, a simple stock portfolio optimization requires an analyst to perform a whole range of steps, including loading stock data into Excel, calculating statistics of the stock time series and solving an optimization problem. This web application performs all these steps for stock portfolio optimization and other financial calculations. The application also provides visualizations of the results and a pdf-download feature that can be used to generate documents based on the calculations performed.
  
 ## Technology
-The application is written entirely in JavaScript/Node.js and uses MongoDB as a backend-datastore. It is deployed to an EC2 instance via Github. 
+The application is written entirely in JavaScript/Node.js and uses MongoDB as a backend-datastore. It is deployed to an EC2 instance via Github.
+ 
+## DATA
+The application uses Quandl as main datasource. Computations requiring data first retrieve the necessary data (depending on user input) from the Quandl API, perform consistency checks on the data, then run the appropriate financial calculations and finally send the results to the client.
 
 ## Application Structure
 * app/ - the main server side files, including Jade view templates, routes, controllers, modules for financial calculations and database models (Mongoose)
