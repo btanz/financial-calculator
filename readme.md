@@ -15,7 +15,7 @@ Setting up excel sheets to perform financial calculations can be a daunting task
 ## Technology
 The application is written entirely in JavaScript/Node.js and uses MongoDB as a backend-datastore. It is deployed to an EC2 instance via Github.
  
-## DATA
+## Data
 The application uses Quandl as main datasource. Computations requiring data first retrieve the necessary data (depending on user input) from the Quandl API, perform consistency checks on the data, then run the appropriate financial calculations and finally send the results to the client.
 
 ## Application Structure
