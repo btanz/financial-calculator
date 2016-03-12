@@ -4,12 +4,13 @@
 Financial Calculator is a web application prototype that can be used to perform various financial calculations on different datasources. 
 
 ![alt tag](https://github.com/btanz/financial-calculator/blob/master/public/images/app_pics/app01.jpg)
+*************
 ![alt tag](https://github.com/btanz/financial-calculator/blob/master/public/images/app_pics/app02.jpg)
 
 The application is hosted at http://www.simplyfi.de and has around 600 organic visitors per month (January 2016).
 
 ## Purpose
-Setting up excel sheets to perform financial calculations can be a daunting tasks. For example, a simple stock portfolio optimization requires an analyst to perform a whole range of steps, including loading stock data into Excel, calculating statistics of the stock time series and solving an optimization problem. This web application performs all these steps for stock portfolio optimization and other financial calculations. The application also provides visualizations of the results and a pdf-download feature that can be used to generate documents based on the calculations performed.
+Setting up excel sheets to perform financial calculations can be a daunting task. For example, a simple stock portfolio optimization requires an analyst to perform a whole range of steps, including loading stock data into Excel, calculating statistics of the stock time series and solving an optimization problem. This web application performs all these steps for stock portfolio optimization and other financial calculations. The application also provides visualizations of the results and a pdf-download feature that can be used to generate documents based on the calculations performed.
  
 ## Technology
 The application is written entirely in JavaScript/Node.js and uses MongoDB as a backend-datastore. It is deployed to an EC2 instance via Github. 
