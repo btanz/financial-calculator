@@ -1,7 +1,7 @@
 # Financial Calculator
 
 ## Overview
-Financial Calculator is a web application prototype that can be used to perform various financial calculations on different datasources. 
+Financial Calculator is a web application prototype (in German) that can be used to perform various financial calculations on different datasources.   
 
 ![alt tag](https://github.com/btanz/financial-calculator/blob/master/public/images/app_pics/app01.jpg)
 *************
