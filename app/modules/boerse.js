@@ -14,7 +14,7 @@ var cumNormalHelper, cumNormalPrimeHelper;
 
 /* ************************ BEGIN BOERSE MODULE PUBLIC FUNCTIONS *****************************/
 
-/* BLACKSCHOLES function that computes value and other parameters of an option using black scholes
+/** BLACKSCHOLES function that computes value and other parameters of an option using black scholes
  *
  * ARGUMENTS
  *   object inputs with the following properties
@@ -200,7 +200,7 @@ exports.fxConvert = function (inputs) {
 
 // compute return from equity investment
 // todo: documentation
-// todo: sensible error messages and error checking for divindend dates
+// todo: error messages and error checking for divindend dates
 exports.equityReturn = function(inputs) {
 
   /** ******** 1. INIT AND ASSIGN ******** */
