@@ -81,9 +81,9 @@ app.boerse = (function() {
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.SAP_X"]').attr('selected', true);
     positioncounter += 1;
 
-    app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
-    $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.TKA_X"]').attr('selected', true);
-    positioncounter += 1;
+    //app.helpers.compileTemplate('.stockElems','#boerse-portfolio-stocksInput-template', {count: String(positioncounter + 1) + '. Position', id0: 'boerse-portfolio-assetclass' + positioncounter, id1: 'boerse-portfolio-stock' + positioncounter, id2: 'boerse-portfolio-remove' + positioncounter}, true);
+    //$('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.TKA_X"]').attr('selected', true);
+    //positioncounter += 1;
 
     app.helpers.compileTemplate('.addBtn','#boerse-portfolio-stocksAddButton-template', {}, true);
     $('#boerse-portfolio-stock' + positioncounter + ' option[value="FSE.DBK_X"]').attr('selected', true);
